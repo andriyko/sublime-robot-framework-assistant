@@ -66,10 +66,10 @@ This is an example of base default settings:
 ```
 {
 "libs_dir": "/Users/username/Library/Application Support/Sublime Text 3/Packages/RobotFrameworkAssistant/robot_data/libs",
-    "libs_manifest": "/Users/username/Library/Application Support/Sublime Text 3/Packages/RobotFrameworkAssistant/robot_data/libs_manifest.json",
-    "libs_update_url": "http://rfdocs.org/dataset/download?",
-    "show_library_before_version": true,
-    "show_version_in_autocomplete_box": true
+	"libs_manifest": "/Users/username/Library/Application Support/Sublime Text 3/Packages/RobotFrameworkAssistant/robot_data/libs_manifest.json",
+	"libs_update_url": "http://rfdocs.org/dataset/download?",
+	"show_library_before_version": true,
+	"show_version_in_autocomplete_box": true
 }
 ```
 
@@ -124,15 +124,15 @@ Some suggestions on Sublime Text environment settings. Put these lines into your
 
 ```
 {
-    "draw_white_space": "all",
-    "trim_trailing_white_space_on_save": true,
-    "ensure_newline_at_eof_on_save": true
+	"draw_white_space": "all",
+	"trim_trailing_white_space_on_save": true,
+	"ensure_newline_at_eof_on_save": true
 }
 ```
 
 Screenshots
 -----------
-<a href="http://imgur.com/g46Mq1P"><img src="http://i.imgur.com/g46Mq1Pl.png" title="Hosted by imgur.com"/></a>
+<a href="http://imgur.com/g46Mq1P"><img src="http://i.imgur.com/g46Mq1Pl.png" title="sublime-robot-framework-assistant screenshot"/></a>
 
 An example of autocomplete and auto-foramting, inline and external documentation etc.
-<a href="http://imgur.com/UDs43N1"><img src="http://i.imgur.com/UDs43N1l.gif" title="Hosted by imgur.com"/></a>
+<a href="http://imgur.com/UDs43N1"><img src="http://i.imgur.com/UDs43N1.gif" title="sublime-robot-framework-assistant screenshot"/></a>
