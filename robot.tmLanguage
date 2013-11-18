@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>comment</key>
+    <string>
+        Robot Framework syntax highlighting for .txt and .robot files.
+    </string>
+    <key>fileTypes</key>
+    <array>
+        <string>txt</string>
+        <string>robot</string>
+    </array>
+    <key>keyEquivalent</key>
+    <string>^~R</string>
+    <key>name</key>
+    <string>Robot Framework .txt .robot</string>
+    <key>patterns</key>
+    <array>
+        <dict>
+            <key>begin</key>
+            <string>(?i)^\*+\s*(settings?|metadata|(user )?keywords?|test ?cases?|variables?)</string>
+            <key>comment</key>
+            <string>start of a table</string>
+            <key>end</key>
+            <string>$</string>
+            <key>name</key>
+            <string>string.robot.header</string>
+        </dict>
+        <dict>
+            <key>begin</key>
+            <string>(?i)^\s*\[?Documentation\]?</string>
+            <key>end</key>
+            <string>^(?!\s*+\.\.\.)</string>
+            <key>name</key>
+            <string>comment</string>
+        </dict>
+        <dict>
+            <key>comment</key>
+            <string>testcase settings</string>
+            <key>match</key>
+            <string>(?i)\[(Arguments|Setup|Teardown|Precondition|Postcondition|Template|Return|Timeout)\]</string>
+            <key>name</key>
+            <string>storage.type.method.robot</string>
+        </dict>
+        <dict>
+            <key>begin</key>
+            <string>(?i)\[Tags\]</string>
+            <key>comment</key>
+            <string>test tags</string>
+            <key>end</key>
+            <string>^(?!\s*+\.\.\.)</string>
+            <key>name</key>
+            <string>storage.type.method.robot</string>
+            <key>patterns</key>
+            <array>
+                <dict>
+                    <key>match</key>
+                    <string>^\s*\.\.\.</string>
+                    <key>name</key>
+                    <string>comment</string>
+                </dict>
+            </array>
+        </dict>
+        <dict>
+            <key>match</key>
+            <string>\b([0-9]*(\.[0-9]+)?)\b</string>
+            <key>name</key>
+            <string>constant.numeric.robot</string>
+        </dict>
+        <dict>
+            <key>begin</key>
+            <string>((?&lt;!\\)|(?&lt;=\\\\))[$@%]\{</string>
+            <key>comment</key>
+            <string>${variables}. one backslash escapes the variable, two do not</string>
+            <key>end</key>
+            <string>\}</string>
+            <key>name</key>
+            <string>entity.name.class</string>
+            <key>patterns</key>
+            <array>
+                <dict>
+                    <key>include</key>
+                    <string>$self</string>
+                </dict>
+                <dict>
+                    <key>match</key>
+                    <string>.</string>
+                    <key>name</key>
+                    <string>entity.name.class</string>
+                </dict>
+            </array>
+        </dict>
+        <dict>
+            <key>begin</key>
+            <string>(^| {2,}|	|\| {1,})(?&lt;!\\)#</string>
+            <key>end</key>
+            <string>$</string>
+            <key>name</key>
+            <string>comment.robot</string>
+        </dict>
+        <dict>
+            <key>begin</key>
+            <string>(^[^ \t\*\n\|]+)|((?&lt;=^\|)\s+[^ \t\*\n\|]+)</string>
+            <key>end</key>
+            <string>(?=\s{2})|\t|$|\s+(?=\|)</string>
+            <key>name</key>
+            <string>keyword.control.robot</string>
+        </dict>
+        <dict>
+            <key>match</key>
+            <string>(?i)^\s*(Given|And|Then|When)</string>
+            <key>name</key>
+            <string>keyword.control.robot</string>
+        </dict>
+    </array>
+    <key>scopeName</key>
+    <string>text.robot</string>
+    <key>uuid</key>
+    <string>8a94694a-e593-4f5f-8ed3-047177e5b1b5</string>
+</dict>
+</plist>

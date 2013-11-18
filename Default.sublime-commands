@@ -1,0 +1,33 @@
+[
+    {
+        "caption": "Robot Framework Assistant: Download manifest",
+        "command": "robot_framework_download_manifest"
+    },
+    {
+        "caption": "Robot Framework Assistant: Show manifest",
+        "command": "robot_framework_show_manifest"
+    },
+    {
+        "caption": "Robot Framework Assistant: Download packages",
+        "command": "robot_framework_download_packages"
+    },
+    {
+        "caption": "Robot Framework Assistant: Validate packages",
+        "command": "robot_framework_validate_packages"
+    },
+    {
+        "caption": "Robot Framework Assistant: Show packages",
+        "command": "robot_framework_show_packages"
+    },
+    {
+        "caption": "Robot Framework Assistant: Reindex packages",
+        "command": "robot_framework_reindex_packages"
+    },
+    {
+        "caption": "Robot Framework Assistant: Manage",
+        "command": "open_file", "args":
+        {
+            "file": "${packages}/User/Robot Framework Assistant.sublime-settings"
+        }
+    }
+]

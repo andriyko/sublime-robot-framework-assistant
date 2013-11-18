@@ -1,9 +1,6 @@
 sublime-robot-framework-assistant
 =================================
 
-#Robot Framework Assistant for Sublime Text 
--------------------------------------------
-
 *Robot Framework Assistant* - is a plugin for [Sublime Text 2](http://www.sublimetext.com/2) / [Sublime Text3](http://www.sublimetext.com/3) that provides some conveniences for working with [Robot Framework](http://robotframework.org/) test files (.txt and .robot).
 
 You will get full advantage of this plugin with [http://rfdocs.org/](http://rfdocs.org/)

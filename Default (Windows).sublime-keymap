@@ -1,0 +1,4 @@
+[
+    { "keys": ["alt+enter"], "command": "robot_framework_open_keyword_doc" },
+    { "keys": ["ctrl+alt+enter"], "command": "robot_framework_fetch_keyword_doc" }
+]
