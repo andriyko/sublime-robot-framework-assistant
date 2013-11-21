@@ -54,6 +54,21 @@ Features
 * Autocomplete gives *Keyword* with its *arguments* formatted according to Robot Framework syntax;
 * Toggle Comments with `Cmd+/`.
 
+**Note:** Depending on your OS, you may have another key binding for autocomplete. For example in order to have autocomplete bound to `Ctrl+Space` on Linux, add these lines to User key bindings (`Preferences > Key Bindings - User`):
+
+```
+[
+	{ "keys": ["ctrl+space"], "command": "auto_complete" },
+	{ "keys": ["ctrl+space"], "command": "replace_completion_with_auto_complete", "context":
+	[
+	    { "key": "last_command", "operator": "equal", "operand": "insert_best_completion" },
+	    { "key": "auto_complete_visible", "operator": "equal", "operand": false },
+	    { "key": "setting.tab_completion", "operator": "equal", "operand": true }
+	]
+	}
+]
+```
+
 Usage
 -----
 Note: to invoke a *command pallete* use `Tools > Command Palette` menu item or use keys binding `Ctrl+Shift+P`. Next type **Robot Framework Assistant** to get list of commadns for this plugin.
