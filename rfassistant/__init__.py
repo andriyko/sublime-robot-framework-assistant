@@ -2,7 +2,11 @@
 # -*- coding: utf-8 -*-
 
 import os
-from .external import six
+
+try:
+    from external import six
+except ImportError:
+    from .external import six
 
 plugin_name = 'Robot Framework Assistant'
 plugin_version = '1.0.0'
