@@ -128,7 +128,7 @@ class RFKeyword(object):
             args = self._arguments.split(',')
             if len(args) == 1:
                 return '  ${{1:{0}\n}}'.format(args[0])
-            args = '\n'.join(['... ${{{0}:{1}}}'.format(args.index(arg)+1, arg.strip(),) for arg in args])
+            args = '\n'.join(['...  ${{{0}:{1}}}'.format(args.index(arg)+1, arg.strip(),) for arg in args])
             return '\n{0}\n'.format(args)
         return '\n'
 

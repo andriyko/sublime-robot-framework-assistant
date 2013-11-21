@@ -5,6 +5,9 @@ import os
 from .external import six
 
 plugin_name = 'Robot Framework Assistant'
+plugin_version = '1.0.0'
+py_version = '2' if six.PY2 else '3'
+user_agent = '{0}/{1}/{2}'.format(plugin_name, plugin_version, py_version)
 settings_filename = '{0}.sublime-settings'.format(plugin_name)
 no_manifest_file = lambda x: 'Failed to open manifest file. ' \
                              'Please download manifest first. No such file: {0}'.format(x)
