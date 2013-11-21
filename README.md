@@ -48,9 +48,9 @@ Features
 --------
 
 * Syntax highlighting/automatic detection/activation for Robot Framework '.txt' and '.robot' files;
-* `alt+enter` or `alt+click` to go to documentation of keyword at caret (opens browser);
-* `ctrl+alt+enter` or `ctrl+alt+click` to fecth *Keyword's* documentation into current view. The documentation is converted from HTML into Plain Text with formating preserved;
-* `ctrl+space` to auto complete keywords (can start with any part/word of keyword);
+* `Alt+Enter` or `Alt+Click` to go to documentation of keyword at caret (opens browser);
+* `Ctrl+Alt+Enter` or `Ctrl+Alt+Click` to fecth *Keyword's* documentation into current view. The documentation is converted from HTML into Plain Text with formating preserved;
+* `Ctrl+Space` to auto complete keywords (can start with any part/word of keyword);
 * Autocomplete gives *Keyword* with its *arguments* formatted according to Robot Framework syntax;
 * Toggle Comments with `Cmd+/`.
 
@@ -82,21 +82,21 @@ The snippet of such file:
 ```
 [
     {
-        "url": "http://rfdocs.org/media/libraries/archive/robot-2.7.7.zip",
+        "url": "http://rfdocs.org/media/libraries/archive/robot-2.7.7.zip", 
         "content": [
             {
-                "url": "http://rfdocs.org/media/libraries/json/robot-2.7.7/seleniumlibrary.json",
-                "file": "seleniumlibrary.json",
+                "url": "http://rfdocs.org/media/libraries/json/robot-2.7.7/seleniumlibrary.json", 
+                "file": "seleniumlibrary.json", 
                 "md5": "cf2f24292464146ca574e2916e07da1c"
-            },
+            }, 
             {
-                "url": "http://rfdocs.org/media/libraries/json/robot-2.7.7/string.json",
-                "file": "string.json",
+                "url": "http://rfdocs.org/media/libraries/json/robot-2.7.7/string.json", 
+                "file": "string.json", 
                 "md5": "769f75203581fbb81b02ded7e35f2e86"
             }
-        ],
+        ], 
         "name": "Robot 2.7.7"
-    }
+    } 
 ]
 ```
 

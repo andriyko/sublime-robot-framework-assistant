@@ -10,6 +10,10 @@ html2text: Turn HTML into equivalent Markdown-structured text.
 # Line #554 was changed to:
 # if tag == 'td': self.space = 2
 
+# Line #613 was changed because of error
+# NameError: global name 'xrange' is not defined
+# on Python3, where xrange is range
+
 __version__ = "3.200.3"
 __author__ = "Aaron Swartz (me@aaronsw.com)"
 __copyright__ = "(C) 2004-2008 Aaron Swartz. GNU GPL 3."
@@ -610,7 +614,7 @@ class HTML2Text(HTMLParser.HTMLParser):
                 if not self.list:
                     bq += "    "
                 #else: list content is already partially indented
-                for i in xrange(len(self.list)):
+                for i in range(len(self.list)):
                     bq += "    "
                 data = data.replace("\n", "\n"+bq)
 

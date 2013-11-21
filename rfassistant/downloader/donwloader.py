@@ -13,7 +13,7 @@ try:
     import urllib2 as url_request
 
     from rfassistant.downloader.cli_downloader import CliDownloader
-    from rfassistant import tmp_dir_path
+    from rfassistant import tmp_dir_path, user_agent
     from rfassistant.mixins import url2name
 
     url_request_http_error = url_request.HTTPError
@@ -23,7 +23,7 @@ except ImportError:
     import urllib.request as url_request
     import urllib.error as url_error
 
-    from ...rfassistant import tmp_dir_path
+    from ...rfassistant import tmp_dir_path, user_agent
     from ..downloader.cli_downloader import CliDownloader
     from ..mixins import url2name
 
@@ -53,6 +53,7 @@ class ManifestDownloader(threading.Thread):
             downloaded = False
             if 'ssl' in sys.modules:
                 request = url_request.Request(self.url)
+                request.add_header('User-Agent', user_agent)
                 http_file = url_request.urlopen(request, timeout=self.timeout)
                 self.txt = str_or_unicode(http_file.read(), 'utf-8')
                 downloaded = True
@@ -116,6 +117,7 @@ class PackageDownloader(threading.Thread):
             if 'ssl' in sys.modules:
                 url_request.install_opener(url_request.build_opener(url_request.ProxyHandler()))
                 request = url_request.Request(self.url)
+                request.add_header('User-Agent', user_agent)
                 response = url_request.urlopen(request, timeout=self.timeout)
                 output = open(finalLocation, 'wb')
                 output.write(response.read())
