@@ -30,7 +30,7 @@ The easiest way to install is to use [Package Control](http://wbond.net/sublime_
 
 ### Alternative installation methods
 
-Otherwise, open Sublime Text and click `Preferences -> Browse Packages` to open the packages directory. Then create a directory named **RobotFrameworkAssistant** containing the contents of this repository.
+Otherwise, open Sublime Text and click `Preferences -> Browse Packages` to open the packages directory. Then create a directory named **Robot Framework Assistant** containing the contents of this repository.
 
 #### From github
 
@@ -41,8 +41,7 @@ To get the contents of this repository:
 #### Manually
 
 [Download](https://github.com/andriyko/sublime-robot-framework-assistant/archive/master.zip)
-the plugin as a zip. Copy the **RobotFrameworkAssistant** directory to its location
-(see prior section).
+the plugin as a zip. Copy the content of the downloaded archive into **Robot Framework Assistant** directory (see previous section).
 
 Features
 --------
@@ -71,7 +70,7 @@ Features
 
 Usage
 -----
-Note: to invoke a *command pallete* use `Tools > Command Palette` menu item or use keys binding `Ctrl+Shift+P`. Next type **Robot Framework Assistant** to get list of commadns for this plugin.
+Note: to invoke a *command palette* use `Tools > Command Palette` menu item or use keys binding `Ctrl+Shift+P`. Next type **Robot Framework Assistant** to get list of commands for this plugin.
 
 ### The list of available commands
 
