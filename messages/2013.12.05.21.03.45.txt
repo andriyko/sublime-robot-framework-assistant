@@ -1,0 +1,4 @@
+Fixed issues
+------------
+
+Fixed issue #1: syntax highlight in Sublime Text 3 does not work if plugin was installed via Package Control

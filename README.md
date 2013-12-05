@@ -49,7 +49,7 @@ Features
 
 * Syntax highlighting/automatic detection/activation for Robot Framework '.txt' and '.robot' files;
 * `Alt+Enter` or `Alt+Click` to go to documentation of keyword at caret (opens browser);
-* `Ctrl+Alt+Enter` or `Ctrl+Alt+Click` to fecth *Keyword's* documentation into current view. The documentation is converted from HTML into Plain Text with formating preserved;
+* `Ctrl+Alt+Enter` or `Ctrl+Alt+Click` to fetch *Keyword's* documentation into current view. The documentation is converted from HTML into Plain Text with formatting preserved;
 * `Ctrl+Space` to auto complete keywords (can start with any part/word of keyword);
 * Autocomplete gives *Keyword* with its *arguments* formatted according to Robot Framework syntax;
 * Toggle Comments with `Cmd+/`.
