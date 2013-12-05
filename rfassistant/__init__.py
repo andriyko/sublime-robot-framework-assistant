@@ -10,6 +10,7 @@ except ImportError:
 
 plugin_name = 'Robot Framework Assistant'
 plugin_version = '1.0.0'
+syntax_file = 'robot.tmLanguage'
 py_version = '2' if six.PY2 else '3'
 user_agent = '{0}/{1}/{2}'.format(plugin_name, plugin_version, py_version)
 settings_filename = '{0}.sublime-settings'.format(plugin_name)
@@ -35,8 +36,6 @@ tmp_dir_path = os.path.join(robot_data_dir_path, 'tmp')
 mkdir_safe(tmp_dir_path, package_dir)
 
 if six.PY2:
-    robot_tm_language_path = os.path.join(package_dir, "robot.tmLanguage")
+    robot_tm_language_path = os.path.join(package_dir, syntax_file)
 else:
-    robot_tm_language_path = os.path.join(os.path.basename(os.path.dirname(package_dir)),
-                                      os.path.basename(package_dir),
-                                      "robot.tmLanguage")
+    robot_tm_language_path = "Packages/{0}/{1}".format(plugin_name, syntax_file)
