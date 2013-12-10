@@ -1,0 +1,4 @@
+Fixed issues
+------------
+
+Fixed issue #2: Incorrect paths in Main.sublime-menu

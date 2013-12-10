@@ -79,8 +79,8 @@ This is an example of base default settings:
 
 ```
 {
-"libs_dir": "/Users/username/Library/Application Support/Sublime Text 3/Packages/RobotFrameworkAssistant/robot_data/libs",
-	"libs_manifest": "/Users/username/Library/Application Support/Sublime Text 3/Packages/RobotFrameworkAssistant/robot_data/libs_manifest.json",
+"libs_dir": "/Users/username/Library/Application Support/Sublime Text 3/Packages/Robot Framework Assistant/robot_data/libs",
+	"libs_manifest": "/Users/username/Library/Application Support/Sublime Text 3/Packages/Robot Framework Assistant/robot_data/libs_manifest.json",
 	"libs_update_url": "http://rfdocs.org/dataset/download?",
 	"show_library_before_version": true,
 	"show_version_in_autocomplete_box": true

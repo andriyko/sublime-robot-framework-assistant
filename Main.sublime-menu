@@ -18,7 +18,7 @@
                             {
                                 "command": "open_file",
                                 "args": {
-                                    "file": "${packages}/RobotFrameworkAssistant/Default (OSX).sublime-keymap",
+                                    "file": "${packages}/Robot Framework Assistant/Default (OSX).sublime-keymap",
                                     "platform": "OSX"
                                 },
                                 "caption": "Key Bindings - Default"
@@ -26,7 +26,7 @@
                             {
                                 "command": "open_file",
                                 "args": {
-                                    "file": "${packages}/RobotFrameworkAssistant/Default (Linux).sublime-keymap",
+                                    "file": "${packages}/Robot Framework Assistant/Default (Linux).sublime-keymap",
                                     "platform": "Linux"
                                 },
                                 "caption": "Key Bindings - Default"
@@ -34,7 +34,7 @@
                             {
                                 "command": "open_file",
                                 "args": {
-                                    "file": "${packages}/RobotFrameworkAssistant/Default (Windows).sublime-keymap",
+                                    "file": "${packages}/Robot Framework Assistant/Default (Windows).sublime-keymap",
                                     "platform": "Windows"
                                 },
                                 "caption": "Key Bindings - Default"
@@ -67,7 +67,7 @@
                             {
                                 "command": "open_file",
                                 "args": {
-                                    "file": "${packages}/RobotFrameworkAssistant/Default (OSX).sublime-mousemap",
+                                    "file": "${packages}/Robot Framework Assistant/Default (OSX).sublime-mousemap",
                                     "platform": "OSX"
                                 },
                                 "caption": "Mouse Bindings - Default"
@@ -75,7 +75,7 @@
                             {
                                 "command": "open_file",
                                 "args": {
-                                    "file": "${packages}/RobotFrameworkAssistant/Default (Linux).sublime-mousemap",
+                                    "file": "${packages}/Robot Framework Assistant/Default (Linux).sublime-mousemap",
                                     "platform": "Linux"
                                 },
                                 "caption": "Mouse Bindings - Default"
@@ -83,7 +83,7 @@
                             {
                                 "command": "open_file",
                                 "args": {
-                                    "file": "${packages}/RobotFrameworkAssistant/Default (Windows).sublime-mousemap",
+                                    "file": "${packages}/Robot Framework Assistant/Default (Windows).sublime-mousemap",
                                     "platform": "Windows"
                                 },
                                 "caption": "Mouse Bindings - Default"
