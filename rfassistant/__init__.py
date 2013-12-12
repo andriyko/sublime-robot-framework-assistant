@@ -9,7 +9,7 @@ except ImportError:
     from .external import six
 
 plugin_name = 'Robot Framework Assistant'
-plugin_version = '1.0.0'
+plugin_version = '1.1.0'
 syntax_file = 'robot.tmLanguage'
 py_version = '2' if six.PY2 else '3'
 user_agent = '{0}/{1}/{2}'.format(plugin_name, plugin_version, py_version)
