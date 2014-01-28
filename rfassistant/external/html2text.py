@@ -393,7 +393,7 @@ class HTML2Text(HTMLParser.HTMLParser):
 
         if self.google_doc:
             # the attrs parameter is empty for a closing tag. in addition, we
-            # need the attributes of the parent nodes in order to get a
+            # need the attributes of the source nodes in order to get a
             # complete style description for the current element. we assume
             # that google docs export well formed html.
             parent_style = {}

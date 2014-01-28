@@ -1,0 +1,4 @@
+A lot of new features were introduced in this version.
+------------------------------------------------------
+
+Users have to reinstall plugin and clean up old settings.

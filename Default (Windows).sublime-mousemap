@@ -2,11 +2,11 @@
     {
       "button": "button1", "count": 1, "modifiers": ["alt"],
       "press_command": "drag_select",
-      "command": "robot_framework_open_keyword_doc"
+      "command": "robot_framework_go_to_item_source"
     },
     {
       "button": "button1", "count": 1, "modifiers": ["alt", "ctrl"],
       "press_command": "drag_select",
-      "command": "robot_framework_fetch_keyword_doc"
+      "command": "robot_framework_log_item"
     }
 ]

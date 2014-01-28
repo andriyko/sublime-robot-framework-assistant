@@ -1,0 +1,10 @@
+<snippet>
+        <content><![CDATA[
+*** Test Cases ***
+]]></content>
+        <!-- how to trigger the snippet -->
+        <tabTrigger>*t</tabTrigger>
+        <!-- scope to limit where the snippet will trigger -->
+        <scope>text.robot</scope>
+        <description>Robot Framework *** Test Cases *** table</description>
+</snippet>

@@ -1,0 +1,11 @@
+<snippet>
+        <content><![CDATA[
+:FOR  \${${1:index}}  IN RANGE  ${2:1}  ${3:11}
+\  ${4:Log}  \${${5:index}}
+]]></content>
+        <!-- to trigger the snippet -->
+        <tabTrigger>:f</tabTrigger>
+        <!-- scope to limit where the snippet will trigger -->
+        <scope>text.robot</scope>
+        <description>Robot Framework :FOR loop in range</description>
+</snippet>

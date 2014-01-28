@@ -1,0 +1,19 @@
+*** Settings ***
+Documentation   An example resource file
+
+*** Variables ***
+${HOME_PAGE}  https://github.com/andriyko/sublime-robot-framework-assistant
+${RFDOCS_PAGE}  http://rfdocs.org
+
+*** Keywords ***
+Verify Page Title
+    [Arguments]  ${link}  ${text}
+    [Documentation]  Verifies that page title contains expected text.
+    ${html}=  Evaluate  urllib.urlopen('${link}').read()
+    ...  modules=urllib
+    ${title}=  Evaluate  re.search('<title>(?P<title>.*)</title>', """${html}""", 26).group('title')
+    ...  modules=re
+    Should Contain
+    ...  ${title.decode('utf8')}
+    ...  ${text}
+    ...  msg=Wrong title!

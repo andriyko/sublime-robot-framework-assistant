@@ -1,0 +1,12 @@
+<snippet>
+        <content><![CDATA[
+:FOR  \${${1:index}}  IN  @{${2:lst}}
+\  ${3:Log}  \${${4:index}}
+]]></content>
+        <!-- to trigger the snippet -->
+        <tabTrigger>:f</tabTrigger>
+        <!-- scope to limit where the snippet will trigger -->
+        <scope>text.robot</scope>
+        <description>Robot Framework :FOR loop</description>
+</snippet>
+

@@ -1,40 +1,48 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+# Sublime imports
 import sublime
 
+# Python imports
 import os
 import re
 import sys
 import threading
 import zipfile
 
+# Plugin imports
 try:
-    import urllib2 as url_request
-
-    from rfassistant.downloader.cli_downloader import CliDownloader
-    from rfassistant import tmp_dir_path, user_agent
-    from rfassistant.mixins import url2name
-
-    url_request_http_error = url_request.HTTPError
-    url_request_url_error = url_request.URLError
-    str_or_unicode = unicode
+    from rfassistant import PY2
 except ImportError:
-    import urllib.request as url_request
-    import urllib.error as url_error
-
-    from ...rfassistant import tmp_dir_path, user_agent
-    from ..downloader.cli_downloader import CliDownloader
-    from ..mixins import url2name
-
-    url_request_http_error = url_error.HTTPError
-    url_request_url_error = url_error.URLError
-    str_or_unicode = str
+    from ....rfassistant import PY2
 
 try:
     import ssl
 except ImportError:
     pass
+
+if PY2:
+    import urllib2 as url_request
+
+    from rfassistant.rfdocs.downloader.cli_downloader import CliDownloader
+    from rfassistant import rfdocs_tmp_dir_path, user_agent
+    from rfassistant.mixins import url2name
+
+    url_request_http_error = url_request.HTTPError
+    url_request_url_error = url_request.URLError
+    str_or_unicode = unicode
+else:
+    import urllib.request as url_request
+    import urllib.error as url_error
+
+    from ....rfassistant import rfdocs_tmp_dir_path, user_agent
+    from .cli_downloader import CliDownloader
+    from ...mixins import url2name
+
+    url_request_http_error = url_error.HTTPError
+    url_request_url_error = url_error.URLError
+    str_or_unicode = str
 
 
 class ManifestDownloader(threading.Thread):
@@ -95,8 +103,8 @@ class PackageDownloader(threading.Thread):
         threading.Thread.__init__(self)
 
     def run(self):
-        if not os.path.exists(tmp_dir_path):
-            os.makedirs(tmp_dir_path)
+        if not os.path.exists(rfdocs_tmp_dir_path):
+            os.makedirs(rfdocs_tmp_dir_path)
         self.download_data()
 
     def is_safe_name(self):
@@ -113,7 +121,7 @@ class PackageDownloader(threading.Thread):
             return False
         finalLocation = None
         try:
-            finalLocation = os.path.join(tmp_dir_path, url2name(self.url))
+            finalLocation = os.path.join(rfdocs_tmp_dir_path, url2name(self.url))
             if 'ssl' in sys.modules:
                 url_request.install_opener(url_request.build_opener(url_request.ProxyHandler()))
                 request = url_request.Request(self.url)

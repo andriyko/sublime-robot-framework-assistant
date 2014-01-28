@@ -1,33 +1,60 @@
 [
     {
-        "caption": "Robot Framework Assistant: Download manifest",
+        "caption": "Robot Framework Assistant: rfdocs - Download manifest",
         "command": "robot_framework_download_manifest"
     },
     {
-        "caption": "Robot Framework Assistant: Show manifest",
+        "caption": "Robot Framework Assistant: rfdocs - Show manifest",
         "command": "robot_framework_show_manifest"
     },
     {
-        "caption": "Robot Framework Assistant: Download packages",
+        "caption": "Robot Framework Assistant: rfdocs - Download packages",
         "command": "robot_framework_download_packages"
     },
     {
-        "caption": "Robot Framework Assistant: Validate packages",
+        "caption": "Robot Framework Assistant: rfdocs - Validate packages",
         "command": "robot_framework_validate_packages"
     },
     {
-        "caption": "Robot Framework Assistant: Show packages",
+        "caption": "Robot Framework Assistant: rfdocs - Show packages",
         "command": "robot_framework_show_packages"
     },
     {
-        "caption": "Robot Framework Assistant: Reindex packages",
-        "command": "robot_framework_reindex_packages"
+        "caption": "Robot Framework Assistant: Scan Python Libraries",
+        "command": "robot_framework_scan_python_libs"
     },
     {
-        "caption": "Robot Framework Assistant: Manage",
+        "caption": "Robot Framework Assistant: Scan Text Resources",
+        "command": "robot_framework_scan_resource_files"
+    },
+    {
+        "caption": "Robot Framework Assistant: Scan Python Libraries and Text Resources",
+        "command": "robot_framework_scan_python_libs_and_resource_files"
+    },
+    {
+        "caption": "Robot Framework Assistant: Scan current file",
+        "command": "robot_framework_scan_current_file"
+    },
+    {
+        "caption": "Robot Framework Assistant: Reindex packages",
+        "command": "robot_framework_recollect_data"
+    },
+    {
+        "caption": "Robot Framework Assistant: Settings",
         "command": "open_file", "args":
         {
             "file": "${packages}/User/Robot Framework Assistant.sublime-settings"
         }
+    },
+    {
+        "caption": "Robot Framework Assistant: Scanners",
+        "command": "open_file", "args":
+        {
+            "file": "${packages}/Robot Framework Assistant/scanners.json"
+        }
+    },
+    {
+        "caption": "Robot Framework Assistant: Help",
+        "command": "robot_framework_show_plugin_home_page"
     }
 ]

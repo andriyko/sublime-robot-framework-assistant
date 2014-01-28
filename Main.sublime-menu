@@ -1,122 +1,212 @@
 [
     {
+        "caption":"Robot Framework",
+        "id": "rfa",
+        "children": [
+            {
+                "caption": "Reindex data",
+                "command": "robot_framework_recollect_data"
+            },
+            {
+                "caption": "Scan",
+                "children":
+                    [
+                        {
+                            "caption": "All",
+                            "command": "robot_framework_scan_python_libs_and_resource_files"
+                        },
+                        {
+                            "caption": "Python libraries",
+                            "command": "robot_framework_scan_python_libs"
+                        },
+                        {
+                            "caption": "Text resources",
+                            "command": "robot_framework_scan_resource_files"
+                        },
+                        {
+                            "caption": "Current file",
+                            "command": "robot_framework_scan_current_file"
+                        }
+                    ]
+            },
+            {
+                "caption": "rfdocs.org",
+                "children":
+                    [
+                        {
+                            "caption": "Download manifest",
+                            "command": "robot_framework_download_manifest"
+                        },
+                        {
+                            "caption": "Show manifest",
+                            "command": "robot_framework_show_manifest"
+                        },
+                        {
+                            "caption": "Download packages",
+                            "command": "robot_framework_download_packages"
+                        },
+                        {
+                            "caption": "Validate packages",
+                            "command": "robot_framework_validate_packages"
+                        },
+                        {
+                            "caption": "Show packages",
+                            "command": "robot_framework_show_packages"
+                        }
+                    ]
+            },
+            {
+                "caption": "Show data directories",
+                "command": "open_dir",
+                "args":
+                {
+                    "dir": "${packages}/Robot Framework Assistant/robot_data"
+                }
+            },
+            {
+                "caption": "Scanners",
+                "command": "open_file",
+                "args":
+                {
+                    "file": "${packages}/Robot Framework Assistant/scanners.json"
+                }
+            },
+            {
+                "caption": "Settings",
+                "command": "open_file",
+                "args":
+                {
+                    "file": "${packages}/User/Robot Framework Assistant.sublime-settings"
+                }
+            },
+            {
+                "caption": "Help",
+                "command": "open_url",
+                "args":
+                {
+                    "url": "https://github.com/andriyko/sublime-robot-framework-assistant"
+                }
+            }
+        ]
+    },
+    {
         "caption": "Preferences",
         "mnemonic": "n",
         "id": "preferences",
         "children":
-        [
-            {
-                "caption": "Package Settings",
-                "mnemonic": "P",
-                "id": "package-settings",
-                "children":
-                [
-                    {
-                        "caption": "Robot Framework Assistant",
-                        "children":
+            [
+                {
+                    "caption": "Package Settings",
+                    "mnemonic": "P",
+                    "id": "package-settings",
+                    "children":
                         [
                             {
-                                "command": "open_file",
-                                "args": {
-                                    "file": "${packages}/Robot Framework Assistant/Default (OSX).sublime-keymap",
-                                    "platform": "OSX"
-                                },
-                                "caption": "Key Bindings - Default"
-                            },
-                            {
-                                "command": "open_file",
-                                "args": {
-                                    "file": "${packages}/Robot Framework Assistant/Default (Linux).sublime-keymap",
-                                    "platform": "Linux"
-                                },
-                                "caption": "Key Bindings - Default"
-                            },
-                            {
-                                "command": "open_file",
-                                "args": {
-                                    "file": "${packages}/Robot Framework Assistant/Default (Windows).sublime-keymap",
-                                    "platform": "Windows"
-                                },
-                                "caption": "Key Bindings - Default"
-                            },
-                            {
-                                "command": "open_file",
-                                "args": {
-                                    "file": "${packages}/User/Default (OSX).sublime-keymap",
-                                    "platform": "OSX"
-                                },
-                                "caption": "Key Bindings - User"
-                            },
-                            {
-                                "command": "open_file",
-                                "args": {
-                                    "file": "${packages}/User/Default (Linux).sublime-keymap",
-                                    "platform": "Linux"
-                                },
-                                "caption": "Key Bindings - User"
-                            },
-                            {
-                                "command": "open_file",
-                                "args": {
-                                    "file": "${packages}/User/Default (Windows).sublime-keymap",
-                                    "platform": "Windows"
-                                },
-                                "caption": "Key Bindings - User"
-                            },
-                            { "caption": "-" },
-                            {
-                                "command": "open_file",
-                                "args": {
-                                    "file": "${packages}/Robot Framework Assistant/Default (OSX).sublime-mousemap",
-                                    "platform": "OSX"
-                                },
-                                "caption": "Mouse Bindings - Default"
-                            },
-                            {
-                                "command": "open_file",
-                                "args": {
-                                    "file": "${packages}/Robot Framework Assistant/Default (Linux).sublime-mousemap",
-                                    "platform": "Linux"
-                                },
-                                "caption": "Mouse Bindings - Default"
-                            },
-                            {
-                                "command": "open_file",
-                                "args": {
-                                    "file": "${packages}/Robot Framework Assistant/Default (Windows).sublime-mousemap",
-                                    "platform": "Windows"
-                                },
-                                "caption": "Mouse Bindings - Default"
-                            },
-                            {
-                                "command": "open_file",
-                                "args": {
-                                    "file": "${packages}/User/Default (OSX).sublime-mousemap",
-                                    "platform": "OSX"
-                                },
-                                "caption": "Mouse Bindings - User"
-                            },
-                            {
-                                "command": "open_file",
-                                "args": {
-                                    "file": "${packages}/User/Default (Linux).sublime-mousemap",
-                                    "platform": "Linux"
-                                },
-                                "caption": "Mouse Bindings - User"
-                            },
-                            {
-                                "command": "open_file",
-                                "args": {
-                                    "file": "${packages}/User/Default (Windows).sublime-mousemap",
-                                    "platform": "Windows"
-                                },
-                                "caption": "Mouse Bindings - User"
-                            },
-                            { "caption": "-" }
+                                "caption": "Robot Framework Assistant",
+                                "children":
+                                    [
+                                        {
+                                            "command": "open_file",
+                                            "args": {
+                                                "file": "${packages}/Robot Framework Assistant/Default (OSX).sublime-keymap",
+                                                "platform": "OSX"
+                                            },
+                                            "caption": "Key Bindings - Default"
+                                        },
+                                        {
+                                            "command": "open_file",
+                                            "args": {
+                                                "file": "${packages}/Robot Framework Assistant/Default (Linux).sublime-keymap",
+                                                "platform": "Linux"
+                                            },
+                                            "caption": "Key Bindings - Default"
+                                        },
+                                        {
+                                            "command": "open_file",
+                                            "args": {
+                                                "file": "${packages}/Robot Framework Assistant/Default (Windows).sublime-keymap",
+                                                "platform": "Windows"
+                                            },
+                                            "caption": "Key Bindings - Default"
+                                        },
+                                        {
+                                            "command": "open_file",
+                                            "args": {
+                                                "file": "${packages}/User/Default (OSX).sublime-keymap",
+                                                "platform": "OSX"
+                                            },
+                                            "caption": "Key Bindings - User"
+                                        },
+                                        {
+                                            "command": "open_file",
+                                            "args": {
+                                                "file": "${packages}/User/Default (Linux).sublime-keymap",
+                                                "platform": "Linux"
+                                            },
+                                            "caption": "Key Bindings - User"
+                                        },
+                                        {
+                                            "command": "open_file",
+                                            "args": {
+                                                "file": "${packages}/User/Default (Windows).sublime-keymap",
+                                                "platform": "Windows"
+                                            },
+                                            "caption": "Key Bindings - User"
+                                        },
+                                        { "caption": "-" },
+                                        {
+                                            "command": "open_file",
+                                            "args": {
+                                                "file": "${packages}/Robot Framework Assistant/Default (OSX).sublime-mousemap",
+                                                "platform": "OSX"
+                                            },
+                                            "caption": "Mouse Bindings - Default"
+                                        },
+                                        {
+                                            "command": "open_file",
+                                            "args": {
+                                                "file": "${packages}/Robot Framework Assistant/Default (Linux).sublime-mousemap",
+                                                "platform": "Linux"
+                                            },
+                                            "caption": "Mouse Bindings - Default"
+                                        },
+                                        {
+                                            "command": "open_file",
+                                            "args": {
+                                                "file": "${packages}/Robot Framework Assistant/Default (Windows).sublime-mousemap",
+                                                "platform": "Windows"
+                                            },
+                                            "caption": "Mouse Bindings - Default"
+                                        },
+                                        {
+                                            "command": "open_file",
+                                            "args": {
+                                                "file": "${packages}/User/Default (OSX).sublime-mousemap",
+                                                "platform": "OSX"
+                                            },
+                                            "caption": "Mouse Bindings - User"
+                                        },
+                                        {
+                                            "command": "open_file",
+                                            "args": {
+                                                "file": "${packages}/User/Default (Linux).sublime-mousemap",
+                                                "platform": "Linux"
+                                            },
+                                            "caption": "Mouse Bindings - User"
+                                        },
+                                        {
+                                            "command": "open_file",
+                                            "args": {
+                                                "file": "${packages}/User/Default (Windows).sublime-mousemap",
+                                                "platform": "Windows"
+                                            },
+                                            "caption": "Mouse Bindings - User"
+                                        },
+                                        { "caption": "-" }
+                                    ]
+                            }
                         ]
-                    }
-                ]
-            }
-        ]
+                }
+            ]
     }
 ]

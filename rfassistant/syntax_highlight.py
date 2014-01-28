@@ -1,13 +1,20 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+# Sublime imports
 import sublime
 import sublime_plugin
 
+# Plugin imports
 try:
+    from rfassistant import PY2
+except ImportError:
+    from ..rfassistant import PY2
+
+if PY2:
     from rfassistant import robot_tm_language_path
     from mixins import is_robot_or_txt_file
-except ImportError:
+else:
     from ..rfassistant import robot_tm_language_path
     from .mixins import is_robot_or_txt_file
 

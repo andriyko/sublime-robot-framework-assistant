@@ -1,0 +1,33 @@
+*** Settings ***
+Resource    resources/resource1.txt
+
+*** Variables ***
+${ASTERISK}  *
+@{PAGES}  ${HOME_PAGE}  ${RFDOCS_PAGE}
+
+*** Keywords ***
+Print Welcome Message
+    [Documentation]  Prints welcome message.
+    [Arguments]  ${link}
+    ${msg}=  Catenate
+    ...  SEPARATOR=\n
+    ...  Please visit this page
+    ...  ${ASTERISK*25}
+    ...  ${link}
+    ...  ${ASTERISK*25}
+    Log  ${msg}
+
+*** Test Cases ***
+Print Welcome Messages
+    :FOR  ${page}  IN  @{PAGES}
+    \  Print Welcome Message  ${page}
+
+Verify Home Page Title
+    Verify Page Title
+    ...  ${HOME_PAGE}
+    ...  sublime-robot-framework-assistant
+
+Verify RFDocs Page Title
+    Verify Page Title
+    ...  ${RFDOCS_PAGE}
+    ...  Robot Framework Documentation

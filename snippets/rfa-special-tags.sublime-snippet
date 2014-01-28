@@ -1,0 +1,11 @@
+<snippet>
+        <content><![CDATA[
+[Tags]
+]]></content>
+        <!-- to trigger the snippet -->
+        <tabTrigger>:</tabTrigger>
+        <!-- scope to limit where the snippet will trigger -->
+        <scope>text.robot</scope>
+        <description>Robot Framework [Tags]</description>
+</snippet>
+

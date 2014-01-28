@@ -1,0 +1,10 @@
+<snippet>
+        <content><![CDATA[
+*** Metadata ***
+]]></content>
+        <!-- how to trigger the snippet -->
+        <tabTrigger>*m</tabTrigger>
+        <!-- scope to limit where the snippet will trigger -->
+        <scope>text.robot</scope>
+        <description>Robot Framework *** Metadata *** table</description>
+</snippet>

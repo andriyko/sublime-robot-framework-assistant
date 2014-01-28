@@ -1,51 +1,53 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+# Sublime imports
 import sublime
 import sublime_plugin
 
+# Python imports
 import ast
 import json
 import os
 import shutil
 
+# Plugin imports
 try:
-    from rfassistant.external import six
-    from rfassistant import settings_filename, no_manifest_file, \
-        libs_manifest_path, libs_dir_path, libs_update_url_default
-    from rfassistant.downloader.donwloader import PackageDownloader, ManifestDownloader
-    from rfassistant.external.html2text import html2text
+    from rfassistant import PY2
 except ImportError:
-    from ...rfassistant.external import six
-    from ...rfassistant import settings_filename, no_manifest_file, \
-        libs_manifest_path, libs_dir_path, libs_update_url_default
-    from ..downloader.donwloader import PackageDownloader, ManifestDownloader
-    from ..external.html2text import html2text
+    from ....rfassistant import PY2
 
 try:
     import ssl
-except (ImportError):
+except ImportError:
     pass
+
+if PY2:
+    from rfassistant.utils import WriteToPanel
+    from rfassistant import no_manifest_file
+    from rfassistant.settings import settings
+    from rfassistant.rfdocs.downloader.donwloader import PackageDownloader, ManifestDownloader
+    from rfassistant.external.html2text import html2text
+else:
+    from ...utils import WriteToPanel
+    from ....rfassistant import no_manifest_file
+    from ...settings import settings
+    from ..downloader.donwloader import PackageDownloader, ManifestDownloader
+    from ...external.html2text import html2text
 
 
 class RobotFrameworkFetchKeywordIntoViewCommand(sublime_plugin.TextCommand):
     result = None
     url = None
 
-    def run(self, edit, url):
+    def run(self, edit, name, url):
+        self.name = name
         self.url = url
         self.status_name = 'rf_doc_fetcher'
         thread = ManifestDownloader(url, 5)
         thread.start()
         thread.join()
         self.handle_thread(edit, thread)
-
-    def _insert_text(self, edit, txt):
-        region = self.view.sel()[0]
-        line = self.view.line(region)
-        evaluated = ast.literal_eval(txt)
-        text_from_html = html2text(evaluated['documentation'])
-        self.view.insert(edit, line.begin(), "\n{0}\n".format(text_from_html))
 
     def handle_thread(self, edit, thread):
         self.view.set_status(self.status_name, 'Fetching data from URL: {0}'.format(self.url))
@@ -54,7 +56,11 @@ class RobotFrameworkFetchKeywordIntoViewCommand(sublime_plugin.TextCommand):
         self.view.erase_status(self.status_name)
         if not status:
             return sublime.error_message('Failed to fetch data from URL: {0}'.format(self.url))
-        self._insert_text(edit, txt)
+        evaluated = ast.literal_eval(txt)
+        text_from_html = html2text(evaluated['documentation'])
+        heading = "{0:{1}^80}".format(self.name, "-")
+        msg = '\n{heading}\n{body}\n{footer}'.format(heading=heading, body=text_from_html, footer='-'*80)
+        WriteToPanel(self.view)(msg)
         sublime.status_message('Fetched data from URL: {0}'.format(self.url))
 
 
@@ -68,7 +74,7 @@ class RobotFrameworkFetchManifestCommand(sublime_plugin.TextCommand):
         self.location = location
 
         threads = []
-        thread = ManifestDownloader(url, 5)
+        thread = ManifestDownloader(url, 15)
         threads.append(thread)
         thread.start()
         self.handle_threads(edit, threads)
@@ -119,7 +125,7 @@ class RobotFrameworkFetchPackageCommand(sublime_plugin.TextCommand):
         self.location = location
 
         threads = []
-        thread = PackageDownloader(url, location, 5)
+        thread = PackageDownloader(url, location, 15)
         threads.append(thread)
         thread.start()
         self.handle_threads(edit, threads)
@@ -158,53 +164,30 @@ class RobotFrameworkFetchPackageCommand(sublime_plugin.TextCommand):
 
 
 class RobotFrameworkDownloadManifestCommand(sublime_plugin.WindowCommand):
-    s = None
-    libs_update_url_placeholder = libs_update_url_default
-    libs_manifest_placeholder = libs_manifest_path
-    libs_dir_placeholder = libs_dir_path
-    show_version_in_autocomplete_box = False
 
     def run(self, *args, **kwargs):
-        self.s = sublime.load_settings(settings_filename)
-        update_url = self._get_prop_or_set_default('libs_update_url', self.libs_update_url_placeholder)
-        libs_manifest = self._get_prop_or_set_default('libs_manifest', self.libs_manifest_placeholder)
-        self.window.run_command("robot_framework_fetch_manifest", {"location": libs_manifest, "url": update_url})
-
-    def _get_prop_or_set_default(self, prop, placeholder):
-        val = self.s.get(prop)
-        if not val:
-            self.s.set(prop, placeholder)
-            sublime.save_settings(settings_filename)
-            val = self.s.get(prop)
-        return val
+        self.window.run_command("robot_framework_fetch_manifest",
+                                {
+                                    "location": settings.rfdocs_manifest,
+                                    "url": settings.rfdocs_update_url
+                                })
 
 
 class RobotFrameworkDownloadPackagesCommand(sublime_plugin.WindowCommand):
-    s = None
-
     def run(self, *args, **kwargs):
-        self.s = sublime.load_settings(settings_filename)
-        libs_manifest = self.s.get('libs_manifest')
-        if not os.path.exists(libs_manifest):
-            sublime.error_message(no_manifest_file(libs_manifest))
+        rfdocs_manifest = settings.rfdocs_manifest
+        if not os.path.exists(rfdocs_manifest):
+            sublime.error_message(no_manifest_file(rfdocs_manifest))
             return
-        libs_dir = self.s.get('libs_dir')
-        if os.path.exists(libs_dir):
-            shutil.rmtree(libs_dir)
-            os.makedirs(libs_dir)
+        rfdocs_dir = settings.rfdocs_dir
+        if os.path.exists(rfdocs_dir):
+            shutil.rmtree(rfdocs_dir)
+            os.makedirs(rfdocs_dir)
         else:
-            os.makedirs(libs_dir)
-        with open(libs_manifest, 'r') as f:
+            os.makedirs(rfdocs_dir)
+        with open(rfdocs_manifest, 'r') as f:
             content = json.load(f)
         for item in content:
             item_url = item['url']
             if item_url:
-                self.window.run_command("robot_framework_fetch_package", {"location": libs_dir, "url": item_url})
-
-    def _get_prop_or_set_default(self, prop, placeholder):
-        val = self.s.get(prop)
-        if not val:
-            self.s.set(prop, placeholder)
-            sublime.save_settings(settings_filename)
-            val = self.s.get(prop)
-        return val
+                self.window.run_command("robot_framework_fetch_package", {"location": rfdocs_dir, "url": item_url})
