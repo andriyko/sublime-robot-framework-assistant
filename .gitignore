@@ -13,6 +13,7 @@ robot_data/
 .*
 !/.gitignore
 !/.git/
+!.no-sublime-package
 
 # OS generated files #
 ######################
