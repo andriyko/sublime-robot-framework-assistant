@@ -80,6 +80,14 @@
                 }
             },
             {
+                "caption": "Report a bug",
+                "command": "open_url",
+                "args":
+                {
+                    "url": "https://github.com/andriyko/sublime-robot-framework-assistant/issues/new"
+                }
+            },
+            {
                 "caption": "Help",
                 "command": "open_url",
                 "args":
