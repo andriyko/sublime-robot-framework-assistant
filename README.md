@@ -173,6 +173,7 @@ An example of *scanners.json* file:
 }
 ```
 
+You can configure scanning of your own libraries in the same way as shown above. Or prepare customized scanner and put it under `user scanners` module.
 After changes made - either rescan and reindex data files or restart Sublime Text.
 
 Usage
