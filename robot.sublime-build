@@ -1,4 +1,7 @@
 {
-        "cmd": ["/usr/local/bin/pybot", "$file"],
-        "selector": "text.robot"
+    "cmd": ["/usr/local/bin/pybot", "$file"],
+    "selector": "text.robot",
+    "windows": {
+        "cmd": ["pybot.bat", "$file"]
+    }
 }
