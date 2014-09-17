@@ -80,6 +80,14 @@
                 }
             },
             {
+                "caption": "Edit Build Config",
+                "command": "open_file",
+                "args":
+                {
+                    "file": "${packages}/Robot Framework Assistant/robot.sublime-build"
+                }
+            },
+            {
                 "caption": "Key & Mouse Bindings",
                 "children":
                     [

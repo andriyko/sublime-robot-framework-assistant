@@ -47,6 +47,13 @@
         }
     },
     {
+        "caption": "Robot Framework Assistant: Build Config",
+        "command": "open_file", "args":
+        {
+            "file": "${packages}/Robot Framework Assistant/robot.sublime-build"
+        }
+    },
+    {
         "caption": "Robot Framework Assistant: Scanners",
         "command": "open_file", "args":
         {
