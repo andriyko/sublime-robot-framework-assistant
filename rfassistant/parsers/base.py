@@ -57,7 +57,7 @@ class ResourceAndTestCaseFileParserBase(ResourceAndTestCaseFileParserAbstract):
         return [
             {
                 "name": kw.name,
-                "arguments": ', '.join([val.rstrip('}').lstrip('${').lstrip('@{') for val in kw.args.value]),
+                "arguments": ', '.join([val.replace('}', '', 1).replace('${', '', 1).replace('@{', '', 1) for val in kw.args.value]),
                 'documentation': kw.doc.value
             }
             for kw in self.parsed.keywords
