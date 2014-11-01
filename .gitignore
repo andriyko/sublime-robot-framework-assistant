@@ -9,6 +9,9 @@ __pycache__/
 # Robot datafiles
 robot_data/
 
+# Do not override scanners file
+scanners.json
+
 # Directories/files that start with dot '.' but not .git* files
 .*
 !/.gitignore
