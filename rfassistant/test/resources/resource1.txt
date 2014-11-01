@@ -27,3 +27,9 @@ Example2 By Aaltat
     [Arguments]  ${arg1}=${EMPTY}  ${arg2}=${SPACE}
     Log  ${arg1}
     Log  ${arg2}
+
+Hello1 "${name}" User
+    Log  ${name}
+
+Hello2 ${name} User
+    Log  ${name}

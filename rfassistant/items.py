@@ -270,7 +270,8 @@ class RFKeyword(object):
         return self.source.type_
 
     def get_name_and_signature(self):
-        return '{0}{1}'.format(self.name, self.signature)
+        #TODO(`name` should be a lazy property, and `.replace()` should be done there)
+        return '%s%s' % (self.name.replace('$', '\$', 1).replace('{', '\{', 1).replace('}', '\}', 1), self.signature)
 
     def get_source_name(self):
         return self.source.name
