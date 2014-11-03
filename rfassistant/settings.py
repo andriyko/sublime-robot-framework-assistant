@@ -4,6 +4,8 @@
 # Sublime imports
 import sublime
 
+import shutil
+import os
 # Plugin imports
 try:
     from rfassistant import six
@@ -12,11 +14,11 @@ except ImportError:
 
 if six.PY2:
     from rfassistant import settings_filename, rfdocs_update_url, rfdocs_manifest_path, \
-        rfdocs_dir_path, scanner_config_path, python_libs_dir_path, resources_dir_path
+        rfdocs_dir_path, scanner_config_path, python_libs_dir_path, resources_dir_path, plugin_name
     from utils import Singleton
 else:
     from ..rfassistant import settings_filename, rfdocs_update_url, rfdocs_manifest_path, \
-        rfdocs_dir_path, scanner_config_path, python_libs_dir_path, resources_dir_path
+        rfdocs_dir_path, scanner_config_path, python_libs_dir_path, resources_dir_path, plugin_name
     from .utils import Singleton
 
 
@@ -34,9 +36,14 @@ class SettingsManager(six.with_metaclass(Singleton, object)):
                 self._settings.set(prop, value)
         self.save()
         # kind of hidden settings, that are needed permanently
+        self.scanner_config = os.path.join(
+            sublime.packages_path(),
+            'User', '{}.scanners'.format(plugin_name)
+        )
+        if not os.path.exists(self.scanner_config):
+            shutil.copy2(scanner_config_path, self.scanner_config)
         self.rfdocs_dir = rfdocs_dir_path
         self.rfdocs_manifest = rfdocs_manifest_path
-        self.scanner_config = scanner_config_path
         self.python_libs_dir = python_libs_dir_path
         self.resources_dir = resources_dir_path
 

@@ -17,7 +17,7 @@ def mkdir_safe(p, safeguard):
 
 
 plugin_name = 'Robot Framework Assistant'
-plugin_version = '1.2.0'
+plugin_version = '1.2.1'
 plugin_home = 'https://github.com/andriyko/sublime-robot-framework-assistant'
 py_version = '2' if PY2 else '3'
 user_agent = '{0}/{1}/{2}'.format(plugin_name, plugin_version, py_version)
@@ -57,7 +57,7 @@ mkdir_safe(rfdocs_dir_path, package_dir)
 rfdocs_tmp_dir_path = os.path.join(rfdocs_base_dir_path, 'tmp')
 mkdir_safe(rfdocs_tmp_dir_path, package_dir)
 
-scanner_config_path = os.path.join(package_dir, 'scanners.json')
+scanner_config_path = os.path.join(package_dir, 'scanners.example.json')
 
 user_scanners_dir_path = os.path.join(package_dir, 'user_scanners')
 

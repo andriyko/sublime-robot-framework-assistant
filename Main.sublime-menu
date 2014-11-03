@@ -68,7 +68,7 @@
                 "command": "open_file",
                 "args":
                 {
-                    "file": "${packages}/Robot Framework Assistant/scanners.json"
+                    "file": "${packages}/User/Robot Framework Assistant.scanners"
                 }
             },
             {
