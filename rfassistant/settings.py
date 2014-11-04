@@ -38,7 +38,7 @@ class SettingsManager(six.with_metaclass(Singleton, object)):
         # kind of hidden settings, that are needed permanently
         self.scanner_config = os.path.join(
             sublime.packages_path(),
-            'User', '{}.scanners'.format(plugin_name)
+            'User', '{0}.scanners'.format(plugin_name)
         )
         if not os.path.exists(self.scanner_config):
             shutil.copy2(scanner_config_path, self.scanner_config)
