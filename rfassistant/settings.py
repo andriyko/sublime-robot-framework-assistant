@@ -29,6 +29,11 @@ class SettingsManager(six.with_metaclass(Singleton, object)):
             'rfdocs_update_url': rfdocs_update_url,
             'show_version_in_autocomplete_box': True,
             'log_level': 'error',
+            'separator': {
+                'between_kw_and_args': '  ',
+                'between_args': '...  ',
+                'kw_and_args_one_line': False
+            },
             'python_interpreter': 'python'  # should be path to python interpreter with robot installed.
         }
         for prop, value in self._defaults.items():

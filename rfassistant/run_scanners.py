@@ -44,7 +44,7 @@ def run_pylib_scanner(scanner_conf_path, python_libs_dir):
         if not scanner['is_active']:
             continue
         parser_class = scanner['parser']
-        module_name, class_name = parser_class.rsplit(".", 1)
+        module_name, class_name = parser_class.rsplit('.', 1)
         module_path = os.path.join(python_libs_dir, *module_name.split('.'))
         if not os.path.exists(module_path):
             os.makedirs(module_path)

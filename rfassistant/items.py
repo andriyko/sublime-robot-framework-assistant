@@ -18,10 +18,12 @@ except ImportError:
     from ..rfassistant import PY2
 
 if PY2:
+    from rfassistant.settings import settings
     from mixins import is_robot_var, escape_robot_var, keyword_to_def_name
     from utils import WriteToPanel
     from urllib import quote as url_quote
 else:
+    from .settings import settings
     from .mixins import is_robot_var, escape_robot_var, keyword_to_def_name
     from .utils import WriteToPanel
     from urllib.parse import quote as url_quote
@@ -216,9 +218,13 @@ class RFKeyword(object):
             self.arguments = escape_robot_var(self.arguments)
             args = self.arguments.split(',')
             if len(args) == 1:
-                return '  ${{1:{0}\n}}'.format(args[0])
-            args = '\n'.join(['...  ${{{0}:{1}}}'.format(args.index(arg)+1, arg.strip(),) for arg in args])
-            return '\n{0}\n'.format(args)
+                return '{0}${{1:{1}\n}}'.format(settings.separator['between_kw_and_args'], args[0])
+            formatted_args = ['{0}${{{1}:{2}}}'.format(settings.separator['between_args'],
+                                                       args.index(arg)+1,
+                                                       arg.strip(),) for arg in args]
+            if settings.separator['kw_and_args_one_line']:
+                return '{0}\n'.format(''.join(formatted_args))
+            return '\n{0}\n'.format('\n'.join(formatted_args))
         return '\n'
 
     def _select_keyword_source_in_origin_file(self, view):
@@ -270,8 +276,8 @@ class RFKeyword(object):
         return self.source.type_
 
     def get_name_and_signature(self):
-        #TODO(`name` should be a lazy property, and `.replace()` should be done there)
-        return '%s%s' % (self.name.replace('$', '\$', 1).replace('{', '\{', 1).replace('}', '\}', 1), self.signature)
+        #TODO(`name` should be a lazy property, and escape/replace should be done there)
+        return '%s%s' % (escape_robot_var(self.name), self.signature)
 
     def get_source_name(self):
         return self.source.name

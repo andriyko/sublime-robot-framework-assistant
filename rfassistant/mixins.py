@@ -60,6 +60,10 @@ def insert_robot_var(var):
     return re.sub('([$@])', r'', var)
 
 
+def clean_robot_var(var, **kwargs):
+    return re.sub('([$@{}])', r'', var, **kwargs)
+
+
 def timeit(method):
 
     def timed(*args, **kwargs):

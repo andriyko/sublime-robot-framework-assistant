@@ -12,6 +12,17 @@ import os
 # robot imports
 from robot import parsing
 
+# Plugin imports
+try:
+    from rfassistant import PY2
+except ImportError:
+    from ..rfassistant import PY2
+
+if PY2:
+    from mixins import clean_robot_var
+else:
+    from .mixins import clean_robot_var
+
 
 class ResourceAndTestCaseFileParserAbstract(object):
     __metaclass__ = ABCMeta
@@ -56,8 +67,8 @@ class ResourceAndTestCaseFileParserBase(ResourceAndTestCaseFileParserAbstract):
     def get_keywords(self):
         return [
             {
-                "name": kw.name,
-                "arguments": ', '.join([val.replace('}', '', 1).replace('${', '', 1).replace('@{', '', 1) for val in kw.args.value]),
+                'name': kw.name,
+                'arguments': ', '.join([clean_robot_var(val) for val in kw.args.value]),
                 'documentation': kw.doc.value
             }
             for kw in self.parsed.keywords

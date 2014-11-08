@@ -99,7 +99,7 @@ class WriteToPanel(six.with_metaclass(Singleton, object)):
 
     def _st3_write_to_panel(self, text):
         self.output_view.set_read_only(False)
-        self.output_view.run_command("append", {"characters": text})
+        self.output_view.run_command('append', {'characters': text})
         self.output_view.set_read_only(True)
 
     def __call__(self, text):
@@ -107,7 +107,7 @@ class WriteToPanel(six.with_metaclass(Singleton, object)):
             self._st2_write_to_panel(text)
         else:
             self._st3_write_to_panel(text)
-        self.window.run_command("show_panel", {"panel": 'output.{0}'.format(self.panel_name)})
+        self.window.run_command('show_panel', {'panel': 'output.{0}'.format(self.panel_name)})
 
 
 class StaticDataReader(object):
