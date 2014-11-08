@@ -94,6 +94,8 @@ def run_resource_scanner(scanner_conf_path, resources_dir, settings):
             associated_file_extensions=settings['associated_file_extensions']
         )
         for resource in resources:
+            if not resource:
+                continue
             target = '{0}.json'.format(os.path.join(module_path,
                                                     resource['resource']))
             index = 0

@@ -2,14 +2,20 @@
 # -*- coding: utf-8 -*-
 
 # No sublime imports here.
-# This module should be used with system python interpreter (outside of Sublime's python interpreter).
+# This module should be used with system python interpreter
+# (outside of Sublime's python interpreter).
+from __future__ import print_function
 
 from abc import ABCMeta, abstractmethod
 import os
+import sys
 
-from ..parsers.standard import PythonLibParserStandard, ResourceFileParserStandard, TestCaseFileParserStandard
+from ..parsers.standard import PythonLibParserStandard, \
+    ResourceFileParserStandard, TestCaseFileParserStandard
 from rfassistant.mixins import is_robot_language_file
 
+# robot imports
+from robot import errors as robot_errors
 
 def get_resource_files(dir_name):
     for root, dirs, files in os.walk(dir_name):
@@ -40,13 +46,25 @@ class ResourceFilesScannerBase(ScannerAbstract):
             if os.path.isdir(path):
                 for f in get_resource_files(path):
                     if is_robot_language_file(f, extensions):
-                        parser = ResourceFileParserStandard(f)
-                        yield parser.get_data()
+                        try:
+                            parser = ResourceFileParserStandard(f)
+                            yield parser.get_data()
+                        except robot_errors.DataError as err:
+                            print('Failed to parse file: {0}. '
+                                  'Error was: {1}'.format(f, err),
+                                  file=sys.stderr)
+                            yield None
             if os.path.isfile(path):
-                parser = ResourceFileParserStandard(path)
-                yield parser.get_data()
+                try:
+                    parser = ResourceFileParserStandard(path)
+                    yield parser.get_data()
+                except robot_errors.DataError as err:
+                    print('Failed to parse file: {0}. '
+                          'Error was: {1}'.format(path, err), file=sys.stderr)
+                    yield None
         else:
-            raise IOError('Failed to scan resources. No such file or directory: {0}'.format(path))
+            raise IOError('Failed to scan resources. '
+                          'No such file or directory: {0}'.format(path))
 
 
 class TestCaseFilesScannerBase(ScannerAbstract):
@@ -81,7 +99,8 @@ class PythonLibsScannerBase(ScannerAbstract):
     @classmethod
     def handle_no_package_or_libraries(cls, lib):
         """
-        Handle scanner configuration with empty 'package' option or emtpy 'libraries' option.
+        Handle scanner configuration with empty
+        'package' option or emtpy 'libraries' option.
 
         If 'libraries' option is not defined, fromlist is '*'.
 
@@ -92,8 +111,10 @@ class PythonLibsScannerBase(ScannerAbstract):
             module = __import__(lib, fromlist=cls.__asterisk)
         except ImportError:
             return
-        library_class = getattr(module, lib, None)  # is library implemented as python class?
-        library = library_class if library_class else module  # now library is either class or module
+        # is library implemented as python class?
+        library_class = getattr(module, lib, None)
+        # now library is either class or module
+        library = library_class if library_class else module
         parser = PythonLibParserStandard(library)
         yield cls.produce_result(parser)
 
@@ -104,7 +125,8 @@ class PythonLibsScannerBase(ScannerAbstract):
 
         if not any([package, libraries]):
             raise RuntimeError('Invalid scanner configuration. '
-                               'Need at least one option, either \'package\' or \'libraries\' to be defined.')
+                               'Need at least one option, either '
+                               '\'package\' or \'libraries\' to be defined.')
 
         if not package and libraries:
             # cases like
@@ -126,7 +148,9 @@ class PythonLibsScannerBase(ScannerAbstract):
                 return
             for library in libraries:
                 library_module = getattr(module, library)
-                library_class = getattr(library_module, library, None)  # is library implemented as python class?
-                library = library_class if library_class else library_module  # now library is either class or module
+                # is library implemented as python class?
+                library_class = getattr(library_module, library, None)
+                # now library is either class or module
+                library = library_class if library_class else library_module
                 parser = PythonLibParserStandard(library)
                 yield cls.produce_result(parser)
