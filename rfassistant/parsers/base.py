@@ -12,16 +12,7 @@ import os
 # robot imports
 from robot import parsing
 
-# Plugin imports
-try:
-    from rfassistant import PY2
-except ImportError:
-    from ..rfassistant import PY2
-
-if PY2:
-    from mixins import clean_robot_var
-else:
-    from .mixins import clean_robot_var
+from rfassistant.mixins import clean_robot_var
 
 
 class ResourceAndTestCaseFileParserAbstract(object):

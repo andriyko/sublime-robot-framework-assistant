@@ -8,7 +8,7 @@ from abc import ABCMeta, abstractmethod
 import os
 
 from ..parsers.standard import PythonLibParserStandard, ResourceFileParserStandard, TestCaseFileParserStandard
-from rfassistant.mixins import is_robot_or_txt_file
+from rfassistant.mixins import is_robot_language_file
 
 
 def get_resource_files(dir_name):
@@ -37,7 +37,7 @@ class ResourceFilesScannerBase(ScannerAbstract):
         if os.path.exists(path):
             if os.path.isdir(path):
                 for f in get_resource_files(path):
-                    if is_robot_or_txt_file(f):
+                    if is_robot_language_file(f, ['.txt', '.robot']):
                         parser = ResourceFileParserStandard(f)
                         yield parser.get_data()
             if os.path.isfile(path):

@@ -12,11 +12,13 @@ except ImportError:
     from ..rfassistant import PY2
 
 if PY2:
+    from rfassistant.settings import settings
     from rfassistant import robot_tm_language_path
     from mixins import is_robot_or_txt_file
 else:
+    from .settings import settings
     from ..rfassistant import robot_tm_language_path
-    from .mixins import is_robot_or_txt_file
+    from .mixins import is_robot_language_file
 
 views_to_center = {}
 detect_robot_regex = '\*+\s*(settings?|metadata|(user )?keywords?|test ?cases?|variables?)'
@@ -26,7 +28,7 @@ class AutoSyntaxHighlight(sublime_plugin.EventListener):
     def autodetect(self, view):
         view_file_name = view.file_name()
         if all([view_file_name is not None,
-                is_robot_or_txt_file(view_file_name),
+                is_robot_language_file(view_file_name, settings.associated_file_extensions),
                 view.find(detect_robot_regex, 0, sublime.IGNORECASE) is not None]):
             view.set_syntax_file(robot_tm_language_path)
 

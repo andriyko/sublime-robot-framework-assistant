@@ -27,7 +27,7 @@ else:
     from ..rfassistant import console_logging as logging
     from .settings import settings
     from .items import RFGlobalVars, RFKeywordSource, RFVariable, RFKeyword
-    from .mixins import is_json_file, is_robot_or_txt_file, is_robot_format, insert_robot_var, is_robot_var
+    from .mixins import is_json_file, is_robot_language_file, is_robot_format, insert_robot_var, is_robot_var
     from .utils import Singleton, StaticDataReader, CachedData
     from .get_text import get_text_under_cursor, select_item_and_do_action
 
@@ -425,7 +425,7 @@ class RFDataCollector(sublime_plugin.EventListener):
     def on_query_completions(self, view, prefix, operand):
         completions = []
         name_of_source = None
-        if not is_robot_or_txt_file(view.file_name()):
+        if not is_robot_language_file(view.file_name(), settings.associated_file_extensions):
             return completions, sublime.INHIBIT_EXPLICIT_COMPLETIONS
             # ignore 'prefix' argument, instead get text under cursor using custom method
         text_under_cursor = get_text_under_cursor(view)
