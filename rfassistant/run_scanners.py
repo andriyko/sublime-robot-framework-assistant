@@ -53,14 +53,17 @@ def run_pylib_scanner(scanner_conf_path, python_libs_dir):
             scanner_class = getattr(__user_scanners__, class_name)
         else:
             scanner_class = getattr(__scanners__, class_name)
-        libs = scanner_class.scan(*scanner['libraries'], package=scanner['package'])
+        libs = scanner_class.scan(*scanner['libraries'],
+                                  package=scanner['package'])
         for lib in libs:
             if isinstance(lib, types.GeneratorType):
                 for nested_lib in lib:
-                    with open('{0}.json'.format(os.path.join(module_path, nested_lib['library'])), 'w') as f:
+                    with open('{0}.json'.format(os.path.join(
+                            module_path, nested_lib['library'])), 'w') as f:
                         json.dump(nested_lib, f, indent=4)
             else:
-                with open('{0}.json'.format(os.path.join(module_path, lib['library'])), 'w') as f:
+                with open('{0}.json'.format(os.path.join(
+                        module_path, lib['library'])), 'w') as f:
                     json.dump(lib, f, indent=4)
 
 
@@ -91,8 +94,20 @@ def run_resource_scanner(scanner_conf_path, resources_dir, settings):
             associated_file_extensions=settings['associated_file_extensions']
         )
         for resource in resources:
-            with open('{0}.json'.format(os.path.join(module_path, resource['resource'])), 'w') as f:
-                        json.dump(resource, f, indent=4)
+            target = '{0}.json'.format(os.path.join(module_path,
+                                                    resource['resource']))
+            index = 0
+            while os.path.exists(target):
+                _dir, _fname = os.path.split(target)
+                target = os.path.join(
+                    _dir, 'CONFLICTEDNAME__{0}__{1}'.format(index, _fname)
+                )
+                index += 1
+                # avoid infinite loop within some !unpredictable! conditions
+                if index > 10:
+                    break
+            with open(target, 'w') as f:
+                json.dump(resource, f, indent=4)
 
 
 def run_testcase_scanner(scanner_conf_path, file_to_scan):
