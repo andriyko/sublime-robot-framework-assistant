@@ -16,8 +16,10 @@ except ImportError:
     from ..rfassistant.external import six
 
 if six.PY2:
+    from rfassistant.settings import settings
     from urlparse import urlsplit
 else:
+    from .settings import settings
     from urllib.parse import urlsplit
     from functools import reduce
 
@@ -111,7 +113,7 @@ def is_robot_file(filename):
 
 
 def is_robot_or_txt_file(filename):
-    return os.path.splitext(filename)[1].lower() in ['.robot', '.txt'] if filename else False
+    return os.path.splitext(filename)[1].lower() in settings.associated_file_extensions if filename else False
 
 
 def is_robot_format(view):

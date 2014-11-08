@@ -29,6 +29,7 @@ class SettingsManager(six.with_metaclass(Singleton, object)):
             'rfdocs_update_url': rfdocs_update_url,
             'show_version_in_autocomplete_box': True,
             'log_level': 'error',
+            'associated_file_extensions': ['.txt', '.robot'],
             'separator': {
                 'between_kw_and_args': '  ',
                 'between_args': '...  ',

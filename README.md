@@ -94,8 +94,13 @@ Configuration
 
 ```
 {
+	"associated_file_extensions":
+	[
+		".txt",
+		".robot"
+	],
 	"log_level": "error",
-	"python_interpreter": "/Users/andriyko/.virtualenvs/robotframework/bin/python",
+	"python_interpreter": "python",
 	"rfdocs_update_url": "http://rfdocs.org/dataset/download?",
 	"separator":
 	{
