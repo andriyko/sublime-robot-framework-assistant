@@ -2,7 +2,8 @@
 # -*- coding: utf-8 -*-
 
 # No sublime imports here.
-# This module should to be used with system python interpreter (outside of Sublime's python interpreter).
+# This module should to be used with system python interpreter
+# (outside of Sublime's python interpreter).
 
 # Python imports
 import json
@@ -63,7 +64,7 @@ def run_pylib_scanner(scanner_conf_path, python_libs_dir):
                     json.dump(lib, f, indent=4)
 
 
-def run_resource_scanner(scanner_conf_path, resources_dir):
+def run_resource_scanner(scanner_conf_path, resources_dir, settings):
     _prepare_directory(resources_dir)
 
     scanner_conf = _get_scanner_conf(scanner_conf_path)
@@ -85,7 +86,10 @@ def run_resource_scanner(scanner_conf_path, resources_dir):
             scanner_class = getattr(__user_scanners__, class_name)
         else:
             scanner_class = getattr(__scanners__, class_name)
-        resources = scanner_class.scan(path=scanner['path'])
+        resources = scanner_class.scan(
+            path=scanner['path'],
+            associated_file_extensions=settings['associated_file_extensions']
+        )
         for resource in resources:
             with open('{0}.json'.format(os.path.join(module_path, resource['resource'])), 'w') as f:
                         json.dump(resource, f, indent=4)
@@ -113,6 +117,6 @@ if __name__ == '__main__':
     if scanner_type == 'pylib':
         run_pylib_scanner(sys.argv[2], sys.argv[3])
     elif scanner_type == 'resource':
-        run_resource_scanner(sys.argv[2], sys.argv[3])
+        run_resource_scanner(sys.argv[2], sys.argv[3], json.loads(sys.argv[4]))
     elif scanner_type == 'testcase':
         run_testcase_scanner(sys.argv[2], sys.argv[3])

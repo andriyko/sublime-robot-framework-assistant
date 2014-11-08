@@ -34,10 +34,12 @@ class ResourceFilesScannerBase(ScannerAbstract):
     @classmethod
     def scan(cls, *args, **kwargs):
         path = kwargs.get('path')
+        extensions = kwargs.get('associated_file_extensions',
+                                ['.txt', '.robot'])
         if os.path.exists(path):
             if os.path.isdir(path):
                 for f in get_resource_files(path):
-                    if is_robot_language_file(f, ['.txt', '.robot']):
+                    if is_robot_language_file(f, extensions):
                         parser = ResourceFileParserStandard(f)
                         yield parser.get_data()
             if os.path.isfile(path):

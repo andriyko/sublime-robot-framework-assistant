@@ -68,6 +68,9 @@ class SettingsManager(six.with_metaclass(Singleton, object)):
     def __getattr__(self, name):
         return self.get(name)
 
+    def to_dict(self):
+        return dict((name, self.get(name)) for name in self._defaults.keys())
+
 settings = SettingsManager()
 
 if six.PY2:

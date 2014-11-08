@@ -6,6 +6,7 @@ import sublime
 import sublime_plugin
 
 # Python imports
+import json
 import subprocess
 import os
 # Plugin imports
@@ -26,6 +27,11 @@ else:
 logger = logging.getLogger(__name__)
 
 
+def get_settings_dict():
+    # return json.dumps(settings.to_dict())
+    return settings.to_dict()
+
+
 def get_python_interpreter(s):
     python_interpreter = s.python_interpreter
     if not os.path.exists(python_interpreter):
@@ -44,7 +50,8 @@ class RobotFrameworkScanPythonLibsCommand(sublime_plugin.WindowCommand):
 
         logger.debug('Python interpreter: {0}'.format(python_interpreter))
         process = subprocess.Popen(
-            [python_interpreter, '-m', 'rfassistant.run_scanners', 'pylib', scanner_config, python_libs_dir_path],
+            [python_interpreter, '-m', 'rfassistant.run_scanners', 'pylib',
+             scanner_config, python_libs_dir_path, json.dumps(get_settings_dict())],
             cwd=r'%s' % package_dir,
             stdout=subprocess.PIPE, stderr=subprocess.PIPE
         )
@@ -64,7 +71,8 @@ class RobotFrameworkScanResourceFilesCommand(sublime_plugin.WindowCommand):
 
         logger.debug('Python interpreter: {0}'.format(python_interpreter))
         process = subprocess.Popen(
-            [python_interpreter, '-m', 'rfassistant.run_scanners', 'resource', scanner_config, resources_dir],
+            [python_interpreter, '-m', 'rfassistant.run_scanners', 'resource',
+             scanner_config, resources_dir, json.dumps(get_settings_dict())],
             cwd=r'%s' % package_dir,
             stdout=subprocess.PIPE, stderr=subprocess.PIPE
         )
@@ -86,7 +94,8 @@ class RobotFrameworkScanPythonLibsAndResourceFilesCommand(sublime_plugin.WindowC
         logger.debug('Python interpreter: {0}'.format(python_interpreter))
 
         process = subprocess.Popen(
-            [python_interpreter, '-m', 'rfassistant.run_scanners', 'pylib', scanner_config, python_libs_dir_path],
+            [python_interpreter, '-m', 'rfassistant.run_scanners', 'pylib',
+             scanner_config, python_libs_dir_path, json.dumps(get_settings_dict())],
             cwd=r'%s' % package_dir,
             stdout=subprocess.PIPE, stderr=subprocess.PIPE
         )
@@ -95,7 +104,8 @@ class RobotFrameworkScanPythonLibsAndResourceFilesCommand(sublime_plugin.WindowC
         logger.error(stderr)
 
         process = subprocess.Popen(
-            [python_interpreter, '-m', 'rfassistant.run_scanners', 'resource', scanner_config, resources_dir],
+            [python_interpreter, '-m', 'rfassistant.run_scanners', 'resource',
+             scanner_config, resources_dir, json.dumps(get_settings_dict())],
             cwd=r'%s' % package_dir,
             stdout=subprocess.PIPE, stderr=subprocess.PIPE
         )
@@ -113,7 +123,8 @@ class RobotFrameworkScanTestCaseFilesCommand(sublime_plugin.TextCommand):
 
         logger.debug('Python interpreter: {0}'.format(python_interpreter))
         process = subprocess.Popen(
-            [python_interpreter, '-m', 'rfassistant.run_scanners', 'testcase', scanner_config, file_to_read],
+            [python_interpreter, '-m', 'rfassistant.run_scanners', 'testcase',
+             scanner_config, file_to_read, json.dumps(get_settings_dict())],
             cwd=r'%s' % package_dir,
             stdout=subprocess.PIPE, stderr=subprocess.PIPE
         )
