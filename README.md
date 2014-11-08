@@ -95,10 +95,54 @@ Configuration
 ```
 {
 	"log_level": "error",
-	"python_interpreter": "/Users/username/.virtualenvs/robotframework/bin/python",
+	"python_interpreter": "/Users/andriyko/.virtualenvs/robotframework/bin/python",
 	"rfdocs_update_url": "http://rfdocs.org/dataset/download?",
+	"separator":
+	{
+		"between_args": "...  ",
+		"between_kw_and_args": "  ",
+		"kw_and_args_one_line": false
+	},
 	"show_version_in_autocomplete_box": true
 }
+```
+By defaults autocomplete formats keyword and arguments as below:
+
+```
+Call Method
+...  object
+...  method_name
+...  *args
+```
+To have keyword and arguments all in one line change `separator` options:
+
+```
+"separator":
+{
+    "between_args": "    ",
+	"between_kw_and_args": "    ",
+	"kw_and_args_one_line": true
+}
+```
+results to
+
+```
+Call Method    object    method_name    *args
+```
+or
+
+```
+"separator":
+{
+    "between_args": " | ",
+	"between_kw_and_args": "  ",
+	"kw_and_args_one_line": true
+}
+```
+gives:
+
+```
+Call Method | object | method_name | *args
 ```
 
 Ensure that `python_interpreter` option is correct:
@@ -134,7 +178,7 @@ Second is equivalent to:
 
 `testcase_scanner` - defines parser to use for currently opened '.txt' or '.robot' file.
 
-An example of *scanners.json* file:
+An example of scanners configuration:
 
 ```
 {
