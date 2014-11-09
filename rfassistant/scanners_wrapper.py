@@ -2,13 +2,14 @@
 # -*- coding: utf-8 -*-
 
 # No sublime imports here.
-# This module should be used with system python interpreter (outside of Sublime's python interpreter).
+# This module should be used with system python interpreter
+# (outside of Sublime's python interpreter).
 
 # Python imports
 import os
 
 # Plugin imports
-from mixins import is_python_file
+from rfassistant.mixins import is_python_file
 
 
 def get_modules(dirname):
@@ -16,7 +17,9 @@ def get_modules(dirname):
     for f in os.listdir(dirname):
         path = os.path.join(dirname, f)
         basename = os.path.splitext(os.path.basename(path))[0]
-        if all([os.path.isfile(path), is_python_file(path), not basename.startswith('_')]):
+        if all([os.path.isfile(path),
+                is_python_file(path),
+                not basename.startswith('_')]):
             modules.add(basename)
     return modules
 
@@ -40,7 +43,9 @@ class ScannersWrapper(object):
 
     def _is_class_scanner(self, obj):
         return any(
-            [getattr(obj, attr, False) for attr in ('is_pylib_scanner', 'is_resource_scanner', 'is_testcase_scanner')]
+            [getattr(obj, attr, False) for attr in ('is_pylib_scanner',
+                                                    'is_resource_scanner',
+                                                    'is_testcase_scanner')]
         )
 
     def _get_attrs(self, obj):

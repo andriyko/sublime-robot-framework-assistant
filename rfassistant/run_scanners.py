@@ -98,16 +98,14 @@ def run_resource_scanner(scanner_conf_path, resources_dir, settings):
                 continue
             target = '{0}.json'.format(os.path.join(module_path,
                                                     resource['resource']))
-            index = 0
-            while os.path.exists(target):
-                _dir, _fname = os.path.split(target)
+            _dir, _fname = os.path.split(target)
+            parts = os.path.split(resource['path'])[0].split(os.sep)
+            new_parts = []
+            while os.path.exists(target) and parts:
+                new_parts.append(parts.pop())
                 target = os.path.join(
-                    _dir, 'CONFLICTEDNAME__{0}__{1}'.format(index, _fname)
+                    _dir, '{0}.{1}'.format('.'.join(new_parts), _fname)
                 )
-                index += 1
-                # avoid infinite loop within some !unpredictable! conditions
-                if index > 10:
-                    break
             with open(target, 'w') as f:
                 json.dump(resource, f, indent=4)
 
