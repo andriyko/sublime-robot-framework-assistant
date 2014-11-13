@@ -108,6 +108,20 @@
                                 }
                             },
                             {
+                                "caption": "Library",
+                                "command": "insert_snippet",
+                                "args": {
+                                    "name": "Packages/Robot Framework Assistant/snippets/rfa-special-library.sublime-snippet"
+                                }
+                            },
+                            {
+                                "caption": "Resource",
+                                "command": "insert_snippet",
+                                "args": {
+                                    "name": "Packages/Robot Framework Assistant/snippets/rfa-special-resource.sublime-snippet"
+                                }
+                            },
+                            {
                                 "caption": "[Timeout]",
                                 "command": "insert_snippet",
                                 "args": {
