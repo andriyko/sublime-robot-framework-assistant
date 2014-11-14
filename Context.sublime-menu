@@ -122,6 +122,20 @@
                                 }
                             },
                             {
+                                "caption": "Test Template",
+                                "command": "insert_snippet",
+                                "args": {
+                                    "name": "Packages/Robot Framework Assistant/snippets/rfa-special-test-template.sublime-snippet"
+                                }
+                            },
+                            {
+                                "caption": "Variables",
+                                "command": "insert_snippet",
+                                "args": {
+                                    "name": "Packages/Robot Framework Assistant/snippets/rfa-special-variables.sublime-snippet"
+                                }
+                            },
+                            {
                                 "caption": "[Timeout]",
                                 "command": "insert_snippet",
                                 "args": {
