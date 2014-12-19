@@ -14,7 +14,7 @@ except ImportError:
 if PY2:
     from rfassistant.settings import settings
     from rfassistant import robot_tm_language_path
-    from mixins import is_robot_or_txt_file
+    from mixins import is_robot_language_file
 else:
     from .settings import settings
     from ..rfassistant import robot_tm_language_path

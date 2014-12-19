@@ -20,7 +20,7 @@ if six.PY2:
     import console_logging as logging
     from rfassistant.settings import settings
     from rfassistant.items import RFGlobalVars, RFKeywordSource, RFVariable, RFKeyword
-    from mixins import is_json_file, is_robot_or_txt_file, is_robot_format, insert_robot_var, is_robot_var
+    from mixins import is_json_file, is_robot_language_file, is_robot_format, insert_robot_var, is_robot_var
     from utils import Singleton, StaticDataReader, CachedData
     from get_text import get_text_under_cursor, select_item_and_do_action
 else:
