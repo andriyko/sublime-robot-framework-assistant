@@ -1,0 +1,4 @@
+{
+    "cmd": ["rflint", "$file"],
+    "selector": "text.robot",
+}
