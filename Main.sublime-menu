@@ -122,6 +122,14 @@
                     ]
             },
             {
+                "caption": "Edit rflint Config",
+                "command": "open_file",
+                "args":
+                {
+                    "file": "${packages}/Robot Framework Assistant/rflint.sublime-build"
+                }
+            },
+            {
                 "caption": "Key & Mouse Bindings",
                 "children":
                     [
