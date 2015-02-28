@@ -63,5 +63,24 @@
     {
         "caption": "Robot Framework Assistant: Help",
         "command": "robot_framework_show_plugin_home_page"
+    },
+    {
+        "caption": "Robot Framework Assistant: rflint Open Tab",
+        "command": "robot_framework_rflint_open_tab"
+    },
+    {
+        "caption": "Robot Framework Assistant: rflint Git Staged And Changed Files",
+        "command": "robot_framework_rflint_git_staged_changed_files"
+    },
+    {
+        "caption": "Robot Framework Assistant: rflint Git Staged Changed And Untracked Files",
+        "command": "robot_framework_rflint_git_staged_changed_untracked_files"
+    },
+    {
+        "caption": "Robot Framework Assistant: rflint Settings",
+        "command": "open_file", "args":
+        {
+            "file": "${packages}/User/Robot Framework Assistant Rflint.sublime-settings"
+        }
     }
 ]
