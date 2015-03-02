@@ -88,6 +88,40 @@
                 }
             },
             {
+                "caption": "Rflint",
+                "children":
+                    [
+                        {
+                            "caption": "Lint open tab",
+                            "command": "robot_framework_rflint_open_tab"
+
+                        },
+                        {
+                        "caption": "Git",
+                        "children":
+                            [
+                                {
+                                    "caption": "Lint staged and changed files",
+                                    "command": "robot_framework_rflint_git_staged_changed_files"
+                                },
+                                {
+                                    "caption": "Lint staged, changed and untracked files",
+                                    "command": "robot_framework_rflint_git_staged_changed_untracked_files"
+                                }
+                            ]
+                        },
+                        {
+                            "caption": "Rflint Settings",
+                            "command": "open_file",
+                            "args":
+                            {
+                                "file": "${packages}/User/Robot Framework Assistant Rflint.sublime-settings"
+                            }
+
+                        }
+                    ]
+            },
+            {
                 "caption": "Edit rflint Config",
                 "command": "open_file",
                 "args":

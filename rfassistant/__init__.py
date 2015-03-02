@@ -70,6 +70,8 @@ mkdir_safe(resources_dir_path, package_dir)
 variables_dir_path = os.path.join(robot_data_dir_path, 'variables')
 mkdir_safe(variables_dir_path, package_dir)
 
+rflint_setting_filename = '{0} Rflint.sublime-settings'.format(plugin_name)
+
 if PY2:
     robot_tm_language_path = os.path.join(package_dir, syntax_file)
 else:
