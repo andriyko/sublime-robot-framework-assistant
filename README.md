@@ -25,6 +25,7 @@ Optionally, can work with [http://rfdocs.org/](http://rfdocs.org/).
         - [Show manifest](#show-manifest)
         - [Show packages](#show-packages)
         - [Validate packages](#validate-packages)
+- [Rflint](#rflint)
 - [Screenshots](#screenshots)
 
 Installation
@@ -61,7 +62,7 @@ Features
 * `:f` and then `TAB` to insert *:FOR* loop template;
 * `*k`, `*s`, `*v` and then `TAB` to insert tables hedings templates (*\*\*\* Keywords \*\*\**, *\*\*\* Settings \*\*\**, *\*\*\* Variables \*\*\**)
 * Toggle comments with `Cmd+/`;
-* `Cmd+B` to run *pybot* with current file; 
+* `Cmd+B` to run *pybot* with current file;
 * Separate `Robot Framework` menu in Sublime Text main menu.
 * `Robot Framework` context menu which allows to run *pybot* with current file, scan libraries/resources, insert snippets etc.
 
@@ -222,12 +223,12 @@ After changes made - either rescan and reindex data files or restart Sublime Tex
 
 Usage
 -----
-There are several ways to execute certain command: 
+There are several ways to execute certain command:
 
 * *command palette* (`Tools > Command Palette` menu item or use keys binding `Ctrl+Shift+P`, type **Robot Framework Assistant**);
 * `Robot Framework` main menu;
 * `Robot Framework` menu item from context menu (right mouse click).
- 
+
 
 ### Settings
 Edit main settings.
@@ -262,6 +263,31 @@ Opens directory that contains files (*.json*) downloaded from rfdocs.org.
 ##### Validate packages
 Compares data from manifest file to actual downloaded and extracted data (ensures that *zip* files were unpacked without errors).
 
+Rflint
+------------
+It is also possible to run [rflint](https://github.com/boakley/robotframework-lint) directly from Sublime Text. For details about installation and configuration of the rflint see the [rflint wiki](https://github.com/boakley/robotframework-lint/wiki) and the rflint [readme file](https://github.com/boakley/robotframework-lint/blob/master/README.md).
+
+This plugin provides to different ways to use rflint:
+
+* There git integration which as two different options.
+    * Run rflint against changed and staged files in the git working space.
+    * Run rflint against the changed, staged and new files in the git working space.
+* It is possible to run rflint against the currently opened file.
+
+### Rflint specific configuration
+To install rflint, please refer to the rflint [readme file](https://github.com/boakley/robotframework-lint/blob/master/README.md).
+
+#### Git integration
+To be able to use the git integration, git must be available from the command line. In windows it is not enough to be able run git from the Git Bash, it must be able to run git from the command prompt.
+
+Also user must configure the path to the git repository (folder where the .git folder is located). To open the configuration file, select: `Robot Framework > Rflint > Rflint Settings` or use the command palette (`Ctrl + p` and type: `rflint settings`) to open the rflint settings file.
+
+In the file configure a path to your git repository where the robot framework test date is version controlled. Example:
+```
+{
+    "git_repo": "/path/to/git_repo"
+}
+```
 
 Screenshots
 -----------
