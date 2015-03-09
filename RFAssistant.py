@@ -27,6 +27,10 @@ if PY2:
         RobotFrameworkLogItemCommand, RobotFrameworkRecollectDataCommand, RobotFrameworkGoToItemSourceCommand, \
         RobotFrameworkScanCurrentFileCommand
     from rfassistant.syntax_highlight import AutoSyntaxHighlight
+    from rfassistant.rflint.rflint_git import RobotFrameworkRflintGitStagedChangedFilesCommand, \
+        RobotFrameworkRflintGitStagedChangedUntrackedFilesCommand
+    from rfassistant.rflint.rflint_open_tab import RobotFrameworkRflintOpenTabCommand
+
 else:
     from .rfassistant import dynamic_data_file_path
     from .rfassistant.rfdocs.commands.show_command import RobotFrameworkShowManifestCommand, RobotFrameworkShowPackagesCommand
@@ -41,6 +45,9 @@ else:
         RobotFrameworkLogItemCommand, RobotFrameworkRecollectDataCommand, RobotFrameworkGoToItemSourceCommand, \
         RobotFrameworkScanCurrentFileCommand
     from .rfassistant.syntax_highlight import AutoSyntaxHighlight
+    from .rfassistant.rflint.rflint_git import RobotFrameworkRflintGitStagedChangedFilesCommand, \
+        RobotFrameworkRflintGitStagedChangedUntrackedFilesCommand
+    from .rfassistant.rflint.rflint_open_tab import RobotFrameworkRflintOpenTabCommand
 
 
 class RobotFrameworkAssistantInitializer(sublime_plugin.WindowCommand):
