@@ -54,13 +54,6 @@
         }
     },
     {
-        "caption": "Robot Framework Assistant: rflint Config",
-        "command": "open_file", "args":
-        {
-            "file": "${packages}/Robot Framework Assistant/rflint.sublime-build"
-        }
-    },
-    {
         "caption": "Robot Framework Assistant: Scanners",
         "command": "open_file", "args":
         {
