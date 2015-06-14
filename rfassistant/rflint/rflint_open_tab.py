@@ -1,5 +1,5 @@
-import sublime
-import sublime_plugin
+import sublime  # noqa
+import sublime_plugin  # noqa
 
 # Plugin imports
 try:

@@ -2,7 +2,8 @@
 # -*- coding: utf-8 -*-
 
 # No sublime imports here.
-# This module should be used with system python interpreter (outside of Sublime's python interpreter).
+# This module should be used with system python interpreter
+# (outside of Sublime's python interpreter).
 
 # Python imports
 import json

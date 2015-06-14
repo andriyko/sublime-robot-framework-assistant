@@ -28,7 +28,7 @@ except NameError:
     str = str
     unicode = str
     bytes = bytes
-    basestring = (str,bytes)
+    basestring = (str, bytes)
 else:
     # 'unicode' exists, must be Python 2
     str = str
@@ -40,8 +40,9 @@ else:
 def is_robot_var(string):
     if not isinstance(string, basestring):
         return False
-    length = len(string)
-    return length > 3 and string[0] in ['$', '@', ] and string.rfind('{') == 1 and string.find('}') == length - 1
+    l = len(string)
+    r = l > 3 and string[0] in ['$', '@', ] and string.rfind('{') == 1 and string.find('}') == l - 1
+    return r
 
 
 def is_scalar_var(string):

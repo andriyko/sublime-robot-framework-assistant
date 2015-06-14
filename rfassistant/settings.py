@@ -35,7 +35,8 @@ class SettingsManager(six.with_metaclass(Singleton, object)):
                 'between_args': '...  ',
                 'kw_and_args_one_line': False
             },
-            'python_interpreter': 'python'  # should be path to python interpreter with robot installed.
+            # should be path to python interpreter with robot installed.
+            'python_interpreter': 'python'
         }
         for prop, value in self._defaults.items():
             if not self._settings.has(prop):

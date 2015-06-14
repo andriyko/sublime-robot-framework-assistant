@@ -75,14 +75,17 @@ class RobotFrameworkValidatePackagesCommand(sublime_plugin.WindowCommand):
                         md5_is_correct = self.calc_md5(file_path) == file_md5
                         if not md5_is_correct:
                             validation_failed = True
-                        result[dir_name].append({file_name: "correct md5" if md5_is_correct else "wrong md5"})
+                        result[dir_name].append(
+                            {file_name: "correct md5" if md5_is_correct else "wrong md5"}
+                        )
                     else:
                         validation_failed = True
                         result[dir_name].append({file_name: "No such file: {0}".format(file_path)})
             else:
                 validation_failed = True
                 result[dir_name] = 'No such directory: {0}'.format(full_dir_path)
-        result['validation_result'] = "Validation failed" if validation_failed else "Validation passed"
+        result['validation_result'] = "Validation failed" if \
+            validation_failed else "Validation passed"
         json_res = json.dumps(result, indent=4)
         self.window.new_file()
         self.window.run_command("rfa_insert_into_view", {"json_res": json_res})

@@ -2,7 +2,8 @@
 # -*- coding: utf-8 -*-
 
 # No sublime imports here.
-# This module should be used with system python interpreter (outside of Sublime's python interpreter).
+# This module should be used with system python interpreter
+# (outside of Sublime's python interpreter).
 
 
 from abc import ABCMeta, abstractmethod
@@ -143,13 +144,6 @@ class PythonLibParserBase(PythonLibParserAbstract):
     def _get_class_keywords(self):
         keywords = []
         library_path = self.get_library_path()
-        # 'get_keyword_names' - isn't reliable
-        # if hasattr(self.library, 'get_keyword_names'):
-        #     class_members = [
-        #         (func_name, getattr(self.library, func_name)) for func_name in self.library().get_keyword_names()
-        #     ]
-        # else:
-        #     class_members = inspect.getmembers(self.library, predicate=inspect.ismethod)
         class_members = inspect.getmembers(self.library, predicate=inspect.ismethod)
         for member in class_members:
             func_name, func_obj = member[0], member[1]
@@ -160,7 +154,8 @@ class PythonLibParserBase(PythonLibParserAbstract):
             func_signature = inspect.getargspec(func_obj)
             # handle _defaults correctly
             if func_signature.defaults:
-                defaults = dict(zip(reversed(func_signature.args), reversed(func_signature.defaults)))
+                defaults = dict(zip(reversed(func_signature.args),
+                                    reversed(func_signature.defaults)))
                 # exclude args that are already in _defaults
                 _args = [arg for arg in func_signature.args if arg not in defaults]
                 # exclude `self`
@@ -169,7 +164,8 @@ class PythonLibParserBase(PythonLibParserAbstract):
                     args.append('{0}={1}'.format(k, v))
             else:
                 # exclude `self`
-                args = func_signature.args[1:] if func_signature.args[0] == 'self' else func_signature.args
+                args = func_signature.args[1:] if func_signature.args[0] == 'self' \
+                    else func_signature.args
             if func_signature.varargs:
                 args.append('*%s' % func_signature.varargs)
             name = self._def_name_to_keyword(func_name)
@@ -190,7 +186,9 @@ class PythonLibParserBase(PythonLibParserAbstract):
         library_path = self.get_library_path()
         the_all_attribute = getattr(self.library, '__all__', [])
         if the_all_attribute:
-            module_members = [(func_name, getattr(self.library, func_name)) for func_name in the_all_attribute]
+            module_members = [
+                (func_name, getattr(self.library, func_name)) for func_name in the_all_attribute
+            ]
         else:
             module_members = inspect.getmembers(self.library, predicate=inspect.isfunction)
         for member in module_members:
@@ -202,7 +200,8 @@ class PythonLibParserBase(PythonLibParserAbstract):
             func_signature = inspect.getargspec(func_obj)
             # handle _defaults correctly
             if func_signature.defaults:
-                defaults = dict(zip(reversed(func_signature.args), reversed(func_signature.defaults)))
+                defaults = dict(zip(reversed(func_signature.args),
+                                    reversed(func_signature.defaults)))
                 # exclude args that are already in _defaults
                 args = [arg for arg in func_signature.args if arg not in defaults]
                 for k, v in defaults.iteritems():
@@ -231,7 +230,8 @@ class PythonLibParserBase(PythonLibParserAbstract):
         return str(self.library)
 
     def get_library_version(self):
-        _get_version = lambda obj: getattr(obj, '__version__', None) or getattr(obj, 'get_version', lambda: None)()
+        _get_version = lambda obj: getattr(obj, '__version__', None) or getattr(obj, 'get_version',
+                                                                                lambda: None)()
         if self._library_is_class():
             return _get_version(inspect.getmodule(self.library))
         elif self._library_is_module():

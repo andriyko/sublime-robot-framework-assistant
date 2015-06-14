@@ -17,7 +17,7 @@ def mkdir_safe(p, safeguard):
 
 
 plugin_name = 'Robot Framework Assistant'
-plugin_version = '1.2.1'
+__version__ = VERSION = plugin_version = '1.2.2'
 plugin_home = 'https://github.com/andriyko/sublime-robot-framework-assistant'
 py_version = '2' if PY2 else '3'
 user_agent = '{0}/{1}/{2}'.format(plugin_name, plugin_version, py_version)
@@ -28,7 +28,8 @@ no_manifest_file = lambda x: 'Failed to open manifest file. ' \
                              'Please download manifest first. No such file: {0}'.format(x)
 no_libs_dir = lambda x: 'Failed to open libraries directory. ' \
                         'Please download packages first. No such file or directory: {0}'.format(x)
-no_python_path = lambda x: 'Could not add path to system.path. No such file or directory: {0}'.format(x)
+no_python_path = lambda x: 'Could not add path to system.path. ' \
+                           'No such file or directory: {0}'.format(x)
 
 no_python_interpreter = lambda x: \
     'Could not use Python interpreter. No such file or directory: {0}. ' \
@@ -44,7 +45,7 @@ mkdir_safe(current_tmp_dir_path, robot_data_dir_path)
 
 dynamic_data_file_path = os.path.join(current_tmp_dir_path, 'current_data.json')
 
-rfdocs_update_url = "http://rfdocs.org/dataset/download?"
+rfdocs_update_url = "http://127.0.0.1:8000/api/v1/"
 
 rfdocs_base_dir_path = os.path.join(robot_data_dir_path, 'rfdocs')
 mkdir_safe(rfdocs_base_dir_path, package_dir)

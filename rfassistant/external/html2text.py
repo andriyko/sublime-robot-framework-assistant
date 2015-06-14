@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# flake8: noqa
 """
 html2text: Turn HTML into equivalent Markdown-structured text.
 """
