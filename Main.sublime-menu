@@ -46,10 +46,6 @@
                             "command": "robot_framework_download_packages"
                         },
                         {
-                            "caption": "Validate packages",
-                            "command": "robot_framework_validate_packages"
-                        },
-                        {
                             "caption": "Show packages",
                             "command": "robot_framework_show_packages"
                         }

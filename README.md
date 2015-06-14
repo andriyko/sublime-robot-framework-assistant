@@ -24,7 +24,6 @@ Optionally, can work with [http://rfdocs.org/](http://rfdocs.org/).
         - [Download Packages](#download-packages)
         - [Show manifest](#show-manifest)
         - [Show packages](#show-packages)
-        - [Validate packages](#validate-packages)
 - [Rflint](#rflint)
 - [Screenshots](#screenshots)
 
@@ -259,9 +258,6 @@ Shows manifest file that is currently used when downloading packages(libraries).
 
 ##### Show packages
 Opens directory that contains files (*.json*) downloaded from rfdocs.org.
-
-##### Validate packages
-Compares data from manifest file to actual downloaded and extracted data (ensures that *zip* files were unpacked without errors).
 
 Rflint
 ------------
