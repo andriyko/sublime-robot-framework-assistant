@@ -17,20 +17,15 @@ try:
 except ImportError:
     from ....rfassistant import PY2
 
-try:
-    import ssl
-except ImportError:
-    pass
-
 if PY2:
-    from rfassistant.utils import WriteToPanel
     from rfassistant import no_manifest_file
+    from rfassistant.utils import WriteToPanel
     from rfassistant.settings import settings
     from rfassistant.rfdocs.downloader.donwloader import PackageDownloader, ManifestDownloader
     from rfassistant.external.html2text import html2text
 else:
-    from ...utils import WriteToPanel
     from ....rfassistant import no_manifest_file
+    from ...utils import WriteToPanel
     from ...settings import settings
     from ..downloader.donwloader import PackageDownloader, ManifestDownloader
     from ...external.html2text import html2text
@@ -59,7 +54,8 @@ class RobotFrameworkFetchKeywordIntoViewCommand(sublime_plugin.TextCommand):
         evaluated = ast.literal_eval(txt)
         text_from_html = html2text(evaluated['documentation'])
         heading = "{0:{1}^80}".format(self.name, "-")
-        msg = '\n{heading}\n{body}\n{footer}'.format(heading=heading, body=text_from_html, footer='-'*80)
+        msg = '\n{heading}\n{body}\n{footer}'.format(heading=heading, body=text_from_html,
+                                                     footer='-'*80)
         WriteToPanel(self.view)(msg)
         sublime.status_message('Fetched data from URL: {0}'.format(self.url))
 
@@ -105,7 +101,8 @@ class RobotFrameworkFetchManifestCommand(sublime_plugin.TextCommand):
                 d = 1
             i += d
             self.view.set_status(status_name,
-                                 'Downloading file from {0} [{1}={2}] '.format(self.url, ' ' * before, ' ' * after))
+                                 'Downloading file from '
+                                 '{0} [{1}={2}] '.format(self.url, ' ' * before, ' ' * after))
             sublime.set_timeout(lambda: self.handle_threads(edit, threads, offset, i, d), 100)
             return
         self.view.erase_status(status_name)
@@ -120,12 +117,13 @@ class RobotFrameworkFetchPackageCommand(sublime_plugin.TextCommand):
     url = None
     location = None
 
-    def run(self, edit, url, location=None):
+    def run(self, edit, url, location, slug):
         self.url = url
         self.location = location
+        self.slug = slug
 
         threads = []
-        thread = PackageDownloader(url, location, 15)
+        thread = PackageDownloader(url, location, slug, 15)
         threads.append(thread)
         thread.start()
         self.handle_threads(edit, threads)
@@ -154,7 +152,8 @@ class RobotFrameworkFetchPackageCommand(sublime_plugin.TextCommand):
                 d = 1
             i += d
             self.view.set_status(status_name,
-                                 'Downloading file from {0} [{1}={2}] '.format(self.url, ' ' * before, ' ' * after))
+                                 'Downloading file from '
+                                 '{0} [{1}={2}] '.format(self.url, ' ' * before, ' ' * after))
             sublime.set_timeout(lambda: self.handle_threads(edit, threads, offset, i, d), 100)
             return
 
@@ -187,7 +186,10 @@ class RobotFrameworkDownloadPackagesCommand(sublime_plugin.WindowCommand):
             os.makedirs(rfdocs_dir)
         with open(rfdocs_manifest, 'r') as f:
             content = json.load(f)
-        for item in content:
+        for item in content['results']:
             item_url = item['url']
+            item_slug = item['slug']
             if item_url:
-                self.window.run_command("robot_framework_fetch_package", {"location": rfdocs_dir, "url": item_url})
+                self.window.run_command("robot_framework_fetch_package",
+                                        {"location": rfdocs_dir, "slug": item_slug,
+                                         "url": item_url})

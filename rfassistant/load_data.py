@@ -20,14 +20,16 @@ if six.PY2:
     import console_logging as logging
     from rfassistant.settings import settings
     from rfassistant.items import RFGlobalVars, RFKeywordSource, RFVariable, RFKeyword
-    from mixins import is_json_file, is_robot_language_file, is_robot_format, insert_robot_var, is_robot_var
+    from mixins import (is_json_file, is_robot_language_file, is_robot_format, insert_robot_var,
+                        is_robot_var)
     from utils import Singleton, StaticDataReader, CachedData
     from get_text import get_text_under_cursor, select_item_and_do_action
 else:
     from ..rfassistant import console_logging as logging
     from .settings import settings
     from .items import RFGlobalVars, RFKeywordSource, RFVariable, RFKeyword
-    from .mixins import is_json_file, is_robot_language_file, is_robot_format, insert_robot_var, is_robot_var
+    from .mixins import (is_json_file, is_robot_language_file, is_robot_format, insert_robot_var,
+                         is_robot_var)
     from .utils import Singleton, StaticDataReader, CachedData
     from .get_text import get_text_under_cursor, select_item_and_do_action
 
@@ -80,7 +82,8 @@ class DynamicAutoCompleteListsAndDefinitionsAggregator(six.with_metaclass(Single
         # get autocomplete data for vars
     def get_vars_autocomplete_list(self, word):
         return [
-            (var.name + '\t' + str(var.source or var.type_), '{0}'.format(insert_robot_var(var.name)))
+            (var.name + '\t' + str(var.source or var.type_),
+             '{0}'.format(insert_robot_var(var.name)))
             for var in self.autocomplete_variables if word.lower() in var.name.lower()
         ]
 
@@ -110,7 +113,8 @@ class StaticAutoCompleteListsAndDefinitionsAggregator(six.with_metaclass(Singlet
         allowed_methods = ('get_source', 'get_source_name')
         if method not in allowed_methods:
             raise ValueError(
-                'Invalid method for autocomplete: {0}. Must be one from: {1}'.format(method, ', '.join(allowed_methods))
+                'Invalid method for autocomplete: {0}. '
+                'Must be one from: {1}'.format(method, ', '.join(allowed_methods))
             )
         self._autocomplete_method = method
 
@@ -129,10 +133,12 @@ class StaticAutoCompleteListsAndDefinitionsAggregator(six.with_metaclass(Singlet
         self.clear_definitions()
 
     def has_autocomplete(self):
-        return any([self.autocomplete_keywords, self.autocomplete_sources, self.autocomplete_variables])
+        return any([self.autocomplete_keywords, self.autocomplete_sources,
+                    self.autocomplete_variables])
 
     def has_definitions(self):
-        return any([self.definitions_keywords, self.definitions_sources, self.definitions_variables])
+        return any([self.definitions_keywords, self.definitions_sources,
+                    self.definitions_variables])
 
     def has_data(self):
         return all([self.has_autocomplete(), self.has_definitions()])
@@ -193,7 +199,8 @@ class StaticAutoCompleteListsAndDefinitionsAggregator(six.with_metaclass(Singlet
     # get autocomplete data for vars
     def get_vars_autocomplete_list(self, word):
         return [
-            (var.name + '\t' + str(var.source or var.type_), '{0}'.format(insert_robot_var(var.name)))
+            (var.name + '\t' + str(var.source or var.type_),
+             '{0}'.format(insert_robot_var(var.name)))
             for var in self.autocomplete_variables if word.lower() in var.name.lower()
         ]
 
@@ -253,8 +260,8 @@ class RFDynamicDataCollectorThread(threading.Thread):
 
     def _get_keyword_source_from_data(self, data):
         _get = lambda key: data.get(key, None)
-        return RFKeywordSource(library=_get('library'), version=_get('version'), resource=_get('resource'),
-                               path=_get('path'), url=_get('url'), noauth_url=_get('noauth_url'))
+        return RFKeywordSource(library=_get('library'), version=_get('version'),
+                               resource=_get('resource'), path=_get('path'), url=_get('url'))
 
     def _get_keywords_from_data(self, data):
         for kw in data['keywords']:
@@ -310,13 +317,16 @@ class RFStaticDataCollectorThread(threading.Thread):
 
     def _get_keyword_source_from_data(self, data):
         _get = lambda key: data.get(key, None)
-        # 'path' is also optional for rfdocs source type.
-        return RFKeywordSource(library=_get('library'), version=_get('version'), resource=_get('resource'),
-                               path=_get('path'), url=_get('url'), noauth_url=_get('noauth_url'))
+        # "name" if from rfdocs.org, otherwise "library"
+        library = _get('library') or _get('name')
+        version = _get('version') or _get('name')
+        # 'path' is optional for rfdocs.org source type
+        return RFKeywordSource(library=library, version=version, resource=_get('resource'),
+                               path=_get('path'), url=_get('url'), source_url=_get('source_url'))
 
     def _get_keywords_from_data(self, source, data):
         for kw in data['keywords']:
-            #documentation  and kw_path are optional for rfdocs
+            # documentation  and kw_path are optional for rfdocs
             yield RFKeyword(source, name=kw['name'], arguments=kw['arguments'],
                             documentation=kw.get('documentation', None), path=kw.get('path', None))
 
@@ -343,9 +353,9 @@ class RFStaticDataCollectorThread(threading.Thread):
                 json_files = self._get_json_files(d, folder)
                 for file_name in json_files:
                     sublime.set_timeout(
-                        lambda: self.view.set_status(self.status_name,
-                                                     'Loading data from: {0}'.format(os.path.basename(file_name))), 100
-                    )
+                        lambda: self.view.set_status(
+                            self.status_name, 'Loading data from: '
+                                              '{0}'.format(os.path.basename(file_name))), 100)
                     data = StaticDataReader.get_data(file_name)
                     self.collect_data_lists(data)
 
@@ -379,7 +389,8 @@ class RFDataCollector(sublime_plugin.EventListener):
         self.autocomplete_dynamic_owner.clear_autocomplete()
         if self._collector_thread is not None:
             self._collector_thread.stop()
-            self._collector_thread = RFDynamicDataCollectorThread(self, file_with_data, timeout_seconds=30)
+            self._collector_thread = RFDynamicDataCollectorThread(self, file_with_data,
+                                                                  timeout_seconds=30)
             self._collector_thread.start()
 
     def collect_data(self):
@@ -394,7 +405,8 @@ class RFDataCollector(sublime_plugin.EventListener):
             self._collector_thread.stop()
         self._collector_thread = \
             RFStaticDataCollectorThread(self,
-                                        data_lookup_dirs=[rfdocs_dir, python_libs_dir, resources_dir],
+                                        data_lookup_dirs=[rfdocs_dir, python_libs_dir,
+                                                          resources_dir],
                                         timeout_seconds=30)
         self._collector_thread.start()
 
@@ -435,8 +447,10 @@ class RFDataCollector(sublime_plugin.EventListener):
         if len(result) == 2:
             name_of_source = result[0]
             text_under_cursor = result[1]
-        completions = self.autocomplete_owner.get_autocomplete_list(text_under_cursor, name_of_source=name_of_source)
-        completions_dynamic = self.autocomplete_dynamic_owner.get_autocomplete_list(text_under_cursor)
+        completions = self.autocomplete_owner.get_autocomplete_list(text_under_cursor,
+                                                                    name_of_source=name_of_source)
+        completions_dynamic = self.autocomplete_dynamic_owner.get_autocomplete_list(
+            text_under_cursor)
         completions.extend(completions_dynamic)
 
         # The event listeners works for every file in scope(for all opened .txt and .robot files)
@@ -474,9 +488,8 @@ class RobotFrameworkOpenItemDocCommand(RobotFrameworkBaseRunCommand):
     def go_to_item_thread(self, word, name_of_source=None):
         sources = self.autocomplete_owner.get_sources_definitions_list(word)
         filtered_items = \
-            self.autocomplete_owner.get_filtered_keywords_definitions_list(word,
-                                                                           name_of_source=name_of_source,
-                                                                           filter_by_attrs=('external_url',))
+            self.autocomplete_owner.get_filtered_keywords_definitions_list(
+                word, name_of_source=name_of_source, filter_by_attrs=('external_url',))
         filtered_items.extend(sources)
         GoToItemThread(self.view, self.view.file_name(),
                        filtered_items,
@@ -488,10 +501,9 @@ class RobotFrameworkLogItemCommand(RobotFrameworkBaseRunCommand):
         if is_robot_var(word):
             filtered_items = self.autocomplete_owner.get_vars_definitions_list(word)
         else:
-            filtered_items = self.autocomplete_owner.\
-                get_filtered_keywords_definitions_list(word,
-                                                       name_of_source=name_of_source,
-                                                       filter_by_attrs=('rfdocs_url', 'documentation',))
+            filtered_items = self.autocomplete_owner.get_filtered_keywords_definitions_list(
+                word, name_of_source=name_of_source,
+                filter_by_attrs=('rfdocs_url', 'documentation'))
         GoToItemThread(self.view, self.view.file_name(),
                        filtered_items,
                        select_item_and_do_action, 'show_doc_in_editor').start()
@@ -505,9 +517,8 @@ class RobotFrameworkGoToItemSourceCommand(RobotFrameworkBaseRunCommand):
             # try to get sources(keywords parents - either python libraries or resources)
             sources = self.autocomplete_owner.get_sources_definitions_list(word)
             filtered_items = \
-                self.autocomplete_owner.get_filtered_keywords_definitions_list(word,
-                                                                               name_of_source=name_of_source,
-                                                                               filter_by_attrs=('path',))
+                self.autocomplete_owner.get_filtered_keywords_definitions_list(
+                    word, name_of_source=name_of_source, filter_by_attrs=('path',))
             filtered_items.extend(sources)
         GoToItemThread(self.view, self.view.file_name(),
                        filtered_items,

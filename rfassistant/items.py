@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 
 # Sublime imports
-import sublime
-import sublime_plugin
+import sublime  # noqa
+import sublime_plugin  # noqa
 
 # Python imports
 from collections import namedtuple
@@ -29,7 +29,8 @@ else:
     from urllib.parse import quote as url_quote
 
 ALLOW_UNPROMPTED_GO_TO = True
-ITEM_TYPE = namedtuple('ITEM_TYPE', 'RESOURCE LIBRARY RFDOCS BUILTIN')('resource', 'library', 'rfdocs', 'builtin')
+ITEM_TYPE = namedtuple('ITEM_TYPE', 'RESOURCE LIBRARY RFDOCS BUILTIN')('resource', 'library',
+                                                                       'rfdocs', 'builtin')
 
 
 class RFGlobalVars(object):
@@ -143,7 +144,8 @@ class RFVariable(object):
 
 
 class RFKeywordSource(object):
-    def __init__(self, library=None, version=None, resource=None, path=None, url=None, noauth_url=None):
+    def __init__(self, library=None, version=None, resource=None, path=None, url=None,
+                 source_url=None):
         """
         Represents source of the keyword, either Library(local python library),
         Resource(local resource file) or library from rfdocs.org.
@@ -153,7 +155,7 @@ class RFKeywordSource(object):
         self.resource = resource
         self.path = path
         self.url = url
-        self.noauth_url = noauth_url
+        self.source_url = source_url
 
     @property
     def name(self):
@@ -161,7 +163,7 @@ class RFKeywordSource(object):
 
     @property
     def type_(self):
-        if any([self.url, self.noauth_url]):
+        if self.url:
             return ITEM_TYPE.RFDOCS
         if self.resource:
             return ITEM_TYPE.RESOURCE
@@ -169,11 +171,11 @@ class RFKeywordSource(object):
 
     @property
     def rfdocs_url(self):
-        return '{0}/doc'.format(self.noauth_url)
+        return '{0}/?field=documentation'.format(self.url)
 
     @property
     def external_url(self):
-        return self.url
+        return self.source_url
 
     def __str__(self):
         if self.type_ == ITEM_TYPE.RFDOCS:
@@ -195,7 +197,8 @@ class RFKeywordSource(object):
         webbrowser.open(self.external_url)
 
     def show_doc_in_editor(self, view):
-        return sublime.status_message('This action is not supported for local resource: {0}'.format(self.name))
+        return sublime.status_message('This action is not supported for '
+                                      'local resource: {0}'.format(self.name))
 
     def goto_source(self, view):
         if self.path and not os.path.exists(self.path):
@@ -262,10 +265,10 @@ class RFKeyword(object):
 
     @property
     def rfdocs_url(self):
-        if not self.source.noauth_url:
+        if not self.source.url:
             return None  # for local library/resource
         quoted_name = url_quote(self.name)
-        return '{0}{1}/doc'.format(self.source.noauth_url, quoted_name)
+        return '{0}{1}/?field=documentation'.format(self.source.url, quoted_name)
 
     @property
     def external_url(self):
@@ -283,7 +286,6 @@ class RFKeyword(object):
         return self.source.type_
 
     def get_name_and_signature(self):
-        #TODO(`name` should be a lazy property, and escape/replace should be done there)
         return '%s%s' % (escape_robot_var(self.name), self.signature)
 
     def get_source_name(self):
@@ -308,10 +310,12 @@ class RFKeyword(object):
 
     def show_doc_in_editor(self, view):
         if self.type_ == ITEM_TYPE.RFDOCS:
-            view.run_command('robot_framework_fetch_keyword_into_view', {'name': self.name, 'url': self.rfdocs_url})
+            view.run_command('robot_framework_fetch_keyword_into_view',
+                             {'name': self.name, 'url': self.rfdocs_url})
         else:
             heading = "{0:{1}^80}".format(self.name, "-")
-            msg = '\n{heading}\n{body}\n{footer}'.format(heading=heading, body=self.documentation, footer='-'*80)
+            msg = '\n{heading}\n{body}\n{footer}'.format(heading=heading, body=self.documentation,
+                                                         footer='-'*80)
             WriteToPanel(view)(msg)
 
     def goto_source(self, view):
@@ -319,7 +323,8 @@ class RFKeyword(object):
         if path and not os.path.exists(path):
             return sublime.error_message('Failed to open file: {0}'.format(path))
         keywords_file_view = view.window().open_file(path)
-        sublime.set_timeout(lambda: self._select_keyword_source_in_origin_file(keywords_file_view), 1000)
+        sublime.set_timeout(lambda: self._select_keyword_source_in_origin_file(keywords_file_view),
+                            1000)
 
     def allow_unprompted_go_to(self):
         return ALLOW_UNPROMPTED_GO_TO

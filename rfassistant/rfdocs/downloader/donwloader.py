@@ -5,11 +5,10 @@
 import sublime
 
 # Python imports
+import json
 import os
 import re
-import sys
 import threading
-import zipfile
 
 # Plugin imports
 try:
@@ -17,17 +16,9 @@ try:
 except ImportError:
     from ....rfassistant import PY2
 
-try:
-    import ssl
-except ImportError:
-    pass
-
 if PY2:
     import urllib2 as url_request
-
-    from rfassistant.rfdocs.downloader.cli_downloader import CliDownloader
-    from rfassistant import rfdocs_tmp_dir_path, user_agent
-    from rfassistant.mixins import url2name
+    from rfassistant import user_agent, mkdir_safe, package_dir
 
     url_request_http_error = url_request.HTTPError
     url_request_url_error = url_request.URLError
@@ -35,14 +26,35 @@ if PY2:
 else:
     import urllib.request as url_request
     import urllib.error as url_error
-
-    from ....rfassistant import rfdocs_tmp_dir_path, user_agent
-    from .cli_downloader import CliDownloader
-    from ...mixins import url2name
+    from ....rfassistant import user_agent, mkdir_safe, package_dir
 
     url_request_http_error = url_error.HTTPError
     url_request_url_error = url_error.URLError
     str_or_unicode = str
+
+
+def is_safe_name(name):
+    regex = '[\x00-\x1F\x7F-\xFF]'
+    if any([name[0] == '/', name.find('..') != -1, name.find('~') != -1,
+            re.search(regex, name) is not None]):
+        sublime.error_message('{0}: Unsafe name. Aborted.'.format(__name__))
+        return False
+    return True
+
+
+class Requestor(object):
+    headers = {'User-Agent': user_agent, 'Accept': 'application/json; indent=2',
+               'Content-Type': 'application/json'}
+
+    def __init__(self, url, timeout, headers={}):
+        self.url = url
+        self.timeout = timeout
+        self.headers.update(headers)
+
+    def get_response(self):
+        request = url_request.Request(self.url, headers=self.headers)
+        response = url_request.urlopen(request, timeout=self.timeout)
+        return response
 
 
 class ManifestDownloader(threading.Thread):
@@ -58,34 +70,11 @@ class ManifestDownloader(threading.Thread):
 
     def download_data(self):
         try:
-            downloaded = False
-            if 'ssl' in sys.modules:
-                request = url_request.Request(self.url)
-                request.add_header('User-Agent', user_agent)
-                http_file = url_request.urlopen(request, timeout=self.timeout)
-                self.txt = str_or_unicode(http_file.read(), 'utf-8')
-                downloaded = True
-            else:
-                clidownload = CliDownloader()
-                if clidownload.find_binary('wget'):
-                    command = [clidownload.find_binary('wget'),
-                               '--connect-timeout={0}'.format(self.timeout), self.url, '-qO-']
-                    self.txt = str_or_unicode(clidownload.execute(command), 'utf-8')
-                    downloaded = True
-                elif clidownload.find_binary('curl'):
-                    command = [clidownload.find_binary('curl'),
-                               '--connect-timeout', str(self.timeout), '-L', '-sS', self.url]
-                    self.txt = str_or_unicode(clidownload.execute(command), 'utf-8')
-                    downloaded = True
-
-            if not downloaded:
-                sublime.error_message('Unable to download {0} due to no ssl module available '
-                                      'and no capable program found. Please install curl or wget.'.format(self.url))
-                return False
-            else:
-                self.result = True
-
+            response = Requestor(self.url, self.timeout).get_response()
+            self.txt = str_or_unicode(response.read(), 'utf-8')
+            self.result = True
         except (url_request_http_error, url_request_url_error) as e:
+            self.result = False
             err = '{0}: Error contacting server: {1}'.format(__name__, e.reason)
             sublime.error_message(err)
 
@@ -94,83 +83,67 @@ class ManifestDownloader(threading.Thread):
             self._Thread__stop()
 
 
-class PackageDownloader(threading.Thread):
-    def __init__(self, url, location, timeout):
+class LibraryDownloader(threading.Thread):
+    def __init__(self, url, location, slug, timeout):
         self.url = url
+        self.slug = slug
         self.location = location
         self.timeout = int(timeout)
         self.result = None
         threading.Thread.__init__(self)
 
     def run(self):
-        if not os.path.exists(rfdocs_tmp_dir_path):
-            os.makedirs(rfdocs_tmp_dir_path)
         self.download_data()
 
-    def is_safe_name(self):
-        name = url2name(self.url)
-        regex = '[\x00-\x1F\x7F-\xFF]'
-        if name[0] == '/' or name.find('..') != -1 or name.find('~') != -1 or re.search(regex, name) is not None:
-            sublime.error_message('{0}: Unable to extract package due to unsafe archive filename.'.format(__name__))
+    def download_data(self):
+        if not is_safe_name(self.slug):
             return False
-        return True
+        item_location = os.path.join(self.location, '{}.json'.format(self.slug))
+        try:
+            response = Requestor(self.url, self.timeout).get_response()
+            with open(item_location, 'w') as f:
+                f.write(response.read().decode("utf-8"))
+            self.result = True
+            return
+        except (url_request_http_error, url_request_url_error) as e:
+            self.result = False
+            err = '{0}: Error contacting server: {0}'.format(__name__, e.reason)
+            sublime.error_message(err)
+
+    def stop(self):
+        if self.isAlive():
+            self._Thread__stop()
+
+
+class PackageDownloader(threading.Thread):
+    def __init__(self, url, location, slug, timeout):
+        self.url = url
+        self.slug = slug
+        self.location = location
+        self.timeout = int(timeout)
+        self.result = None
+        threading.Thread.__init__(self)
+
+    def run(self):
+        self.download_data()
 
     def download_data(self):
-        downloaded = False
-        if not self.is_safe_name():
+        if not is_safe_name(self.slug):
             return False
-        finalLocation = None
+        package_location = os.path.join(self.location, self.slug)
         try:
-            finalLocation = os.path.join(rfdocs_tmp_dir_path, url2name(self.url))
-            if 'ssl' in sys.modules:
-                url_request.install_opener(url_request.build_opener(url_request.ProxyHandler()))
-                request = url_request.Request(self.url)
-                request.add_header('User-Agent', user_agent)
-                response = url_request.urlopen(request, timeout=self.timeout)
-                output = open(finalLocation, 'wb')
-                output.write(response.read())
-                output.close()
-                downloaded = True
-            else:
-                clidownload = CliDownloader()
-                if clidownload.find_binary('wget'):
-                    command = [clidownload.find_binary('wget'),
-                               '--connect-timeout={0}'.format(self.timeout), '-O', finalLocation, self.url]
-                    clidownload.execute(command)
-                    downloaded = True
-                elif clidownload.find_binary('curl'):
-                    command = [clidownload.find_binary('curl'),
-                               '--connect-timeout', str(self.timeout), '-L', self.url, '-o', finalLocation]
-                    clidownload.execute(command)
-                    downloaded = True
-
-            if not downloaded:
-                sublime.error_message('Unable to download {0} due to no ssl module available and no capable'
-                                      ' program found. Please install curl or wget.'.format(self.url))
-                return False
-
-            else:
-                pkg = zipfile.ZipFile(finalLocation, 'r')
-
-                for path in pkg.namelist():
-                    if path[0] == '/' or path.find('..') != -1 or path.find('~') != -1:
-                        sublime.error_message('{0}: Unable to extract package due to unsafe '
-                                              'filename on one or more files.'.format(__name__))
-                        return False
-                pkg.extractall(self.location)
-                pkg.close()
-                if os.path.exists(finalLocation):
-                    os.remove(finalLocation)
-                self.result = True
+            response = Requestor(self.url, self.timeout).get_response()
+            mkdir_safe(package_location, package_dir)
+            for item in json.loads(response.read().decode("utf-8"))['versions']:
+                LibraryDownloader(item['url'], package_location, item['name'], self.timeout).run()
+            self.result = True
             return
-
         except (url_request_http_error, url_request_url_error) as e:
+            self.result = False
             err = '{0}: Error contacting server: {0}'.format(__name__, e.reason)
-        finally:
-            if finalLocation is not None and os.path.exists(finalLocation):
-                os.remove(finalLocation)
-        sublime.error_message(err)
-        self.result = False
+            sublime.error_message(err)
+            if package_location is not None and os.path.exists(package_location):
+                os.remove(package_location)
 
     def stop(self):
         if self.isAlive():

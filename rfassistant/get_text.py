@@ -29,7 +29,8 @@ def get_text_at_pos(line, col):
     # now look forward or until the end
     i = col  # previous included line[col]
     while i < length:
-        if line[i] == '\t' or (line[i] == ' ' and len(line) > i and (line[i + 1] == ' ' or line[i + 1] == '|')):
+        if line[i] == '\t' or \
+                (line[i] == ' ' and len(line) > i and (line[i + 1] == ' ' or line[i + 1] == '|')):
             break
         i += 1
     end = i

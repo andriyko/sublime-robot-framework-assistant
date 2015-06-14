@@ -27,7 +27,8 @@ class CliDownloader():
         raise BinaryNotFoundError('The binary {0} could not be located'.format(name))
 
     def execute(self, args):
-        proc = subprocess.Popen(args, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        proc = subprocess.Popen(args, stdin=subprocess.PIPE, stdout=subprocess.PIPE,
+                                stderr=subprocess.STDOUT)
         output = proc.stdout.read()
         returncode = proc.wait()
         if returncode != 0:

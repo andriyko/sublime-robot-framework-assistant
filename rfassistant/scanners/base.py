@@ -10,12 +10,13 @@ from abc import ABCMeta, abstractmethod
 import os
 import sys
 
-from ..parsers.standard import PythonLibParserStandard, \
-    ResourceFileParserStandard, TestCaseFileParserStandard
+from rfassistant.parsers.standard import (PythonLibParserStandard, ResourceFileParserStandard,
+                                          TestCaseFileParserStandard)
 from rfassistant.mixins import is_robot_language_file
 
 # robot imports
 from robot import errors as robot_errors
+
 
 def get_resource_files(dir_name):
     for root, dirs, files in os.walk(dir_name):
@@ -25,6 +26,7 @@ def get_resource_files(dir_name):
 
 class ScannerAbstract(object):
     __metaclass__ = ABCMeta
+
     @abstractmethod
     def scan(cls):
         raise NotImplementedError
