@@ -45,7 +45,7 @@ mkdir_safe(current_tmp_dir_path, robot_data_dir_path)
 
 dynamic_data_file_path = os.path.join(current_tmp_dir_path, 'current_data.json')
 
-rfdocs_update_url = "http://127.0.0.1:8000/api/v1/"
+rfdocs_update_url = "http://rfdocs.org/api/v1/"
 
 rfdocs_base_dir_path = os.path.join(robot_data_dir_path, 'rfdocs')
 mkdir_safe(rfdocs_base_dir_path, package_dir)
