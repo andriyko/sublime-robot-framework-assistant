@@ -1,0 +1,29 @@
+{
+  "file_name": "simple_resource.robot",
+  "file_path": "REPLACE_PATHsimple_resource.robot",
+  "keywords": [
+    {
+      "My Kw 1": {
+        "args": [
+          "${arg1}=${False}",
+          "${arg2}=${True}"
+        ],
+        "doc": "Some documentation",
+        "tags": [
+          "some_tag",
+          "other_tag"
+        ],
+        "keyword_variables": [
+          "${some_return_value}",
+          "${other_return_value}"
+        ]
+      }
+    }
+  ],
+  "library": [
+    "Selenium2Library"
+  ],
+  "resource": [
+    "REPLACE_PATHsimple_resrouce2.robot",
+  ]
+}
