@@ -4,7 +4,7 @@ Documentation     foobar
 Resource          simple_resrouce2.robot
 
 *** Variable ***
-${ARG}            1
+${VAR1}            1
 
 *** Keywords ***
 My Kw 1
@@ -17,7 +17,8 @@ My Kw 1
     [Return]    ${False}
 
 My Kw 2
-    [Arguments]    ${arg2}=${False}    ${arg2}=${True}
+    [Arguments]    ${arg2}=${False}    ${arg4}
+    [Tags]    tag1
     [Documentation]    Some documentation.
     ...    In multi line
     Log    ${arg2}
