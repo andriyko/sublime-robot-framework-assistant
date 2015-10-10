@@ -1,5 +1,4 @@
 from os import path
-from collections import defaultdict
 
 
 def get_variables():
@@ -14,13 +13,13 @@ def create_simple_resource(resource_dir):
     result = {}
     result['file_name'] = 'simple_resource.robot'
     result['file_path'] = path.join(resource_dir, 'simple_resource.robot')
-    result['library'] = ['Selenium2Library']
+    result['libraries'] = ['Selenium2Library']
+    result['resources'] = [path.join(resource_dir, 'simple_resrouce2.robot')]
     # My Kw 1
     kw = {}
     kw['arguments'] = get_args(arg1='False', arg2='True')
     kw['documentation'] = 'Some documentation'
     kw['tags'] = ['some_tag', 'other_tag']
-    kw['variables'] = ['${some_return_value}', '${other_return_value}']
     kws = {}
     kws['My Kw 1'] = kw
     # My Kw 2
@@ -28,7 +27,6 @@ def create_simple_resource(resource_dir):
     kw['arguments'] = get_args(arg2='False', arg4='True')
     kw['documentation'] = 'Some documentation.\nIn multi line'
     kw['tags'] = ['tag1']
-    kw['variables'] = []
     kws = {}
     kws['My Kw 2'] = kw
     result['keywords'] = kws

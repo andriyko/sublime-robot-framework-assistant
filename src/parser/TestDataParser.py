@@ -1,9 +1,6 @@
 from robot import parsing
 from robot.libdocpkg.robotbuilder import LibraryDocBuilder
-import base64
 from os import path
-from collections import defaultdict
-import json
 
 
 class TestDataParser():
@@ -15,10 +12,12 @@ class TestDataParser():
     def parse_resource(self, file_path):
         model = parsing.ResourceFile(file_path).populate()
         data = {}
-        data['keyword'] = self._get_keywords(model)
-        data['variable'] = self._get_global_variables(model)
-        data['imports'] = self._get_imports(model)
-        data['name'] = path.basename(file_path)
+        data['file_name'] = path.basename(file_path)
+        data['file_path'] = path.normpath(file_path)
+        data['keywords'] = self._get_keywords(model)
+        data['variables'] = self._get_global_variables(model)
+        data['resources'] = self._get_imports(model, 'resource')
+        data['libraries'] = self._get_imports(model, 'library')
         return data
 
     def parse_suite(self, file_path):
@@ -43,8 +42,7 @@ class TestDataParser():
             kw_data[kw.name] = tmp
         return kw_data
 
-    def _get_imports(self, model):
-        data = {}
+    def _get_imports(self, model, setting_type):
         lib = []
         res = []
         for setting in model.setting_table.imports:
@@ -52,9 +50,10 @@ class TestDataParser():
                 lib.append(self._format_library(setting))
             else:
                 res.append(self._format_resource(setting))
-        data['library'] = lib
-        data['resource'] = res
-        return data
+        if setting_type.lower() is 'library':
+            return lib
+        else:
+            return res
 
     def _format_library(self, setting):
         data = {}

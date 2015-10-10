@@ -7,6 +7,8 @@ Variables         variable_files/suite_parser_vars.py
 Parser Should Be Able To Parse Resource File
     ${result} =    Parse Resource
     ...    ${CURDIR}${/}..${/}resource${/}test_data${/}simple_resource.robot
+    Log    ${SIMPLE_RESOURCE}
+    Log    ${result}
     Dictionaries Should Be Equal
     ...    ${result}
     ...    ${SIMPLE_RESOURCE}
