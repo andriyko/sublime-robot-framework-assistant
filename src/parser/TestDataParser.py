@@ -1,6 +1,7 @@
 from robot import parsing
 from robot.libdocpkg.robotbuilder import LibraryDocBuilder
 from os import path
+from converter import white_space
 
 
 class TestDataParser():
@@ -9,15 +10,20 @@ class TestDataParser():
     Class will return the the test data as in json format.
     """
     # Public
+    def __init__(self):
+        self.file_path = None
+
     def parse_resource(self, file_path):
+        self.file_path = file_path
         model = parsing.ResourceFile(file_path).populate()
         data = {}
         data['file_name'] = path.basename(file_path)
         data['file_path'] = path.normpath(file_path)
         data['keywords'] = self._get_keywords(model)
         data['variables'] = self._get_global_variables(model)
-        data['resources'] = self._get_imports(model, 'resource')
-        data['libraries'] = self._get_imports(model, 'library')
+        lib, res = self._get_imports(model)
+        data['resources'] = res
+        data['libraries'] = lib
         return data
 
     def parse_suite(self, file_path):
@@ -38,11 +44,11 @@ class TestDataParser():
             tmp['keyword_arguments'] = kw.args.value
             tmp['documentation'] = kw.doc.value
             tmp['tags'] = kw.tags.value
-            tmp['keyword_variables'] = self._get_kw_variables(kw)
-            kw_data[kw.name] = tmp
+            tmp['keyword_name'] = kw.name
+            kw_data[white_space.strip_and_lower(kw.name)] = tmp
         return kw_data
 
-    def _get_imports(self, model, setting_type):
+    def _get_imports(self, model):
         lib = []
         res = []
         for setting in model.setting_table.imports:
@@ -50,10 +56,7 @@ class TestDataParser():
                 lib.append(self._format_library(setting))
             else:
                 res.append(self._format_resource(setting))
-        if setting_type.lower() is 'library':
-            return lib
-        else:
-            return res
+        return lib, res
 
     def _format_library(self, setting):
         data = {}
@@ -62,9 +65,11 @@ class TestDataParser():
         return data
 
     def _format_resource(self, setting):
-        data = {}
-        data['resource_name'] = setting.name
-        return data
+        if path.isfile(setting.name):
+            return setting.name
+        else:
+            c_dir = path.dirname(self.file_path)
+            return path.normpath(path.join(c_dir, setting.name))
 
     def _get_global_variables(self, model):
         var_data = []
@@ -72,18 +77,14 @@ class TestDataParser():
             var_data.append(var.name)
         return var_data
 
-    def _get_kw_variables(self, kw):
-        data = {}
-        assigned_variables = []
-        keyword_arguments = []
-        for step in kw.steps:
-            assigned_variables.append(step.assign)
-            keyword_arguments.append(step.args)
-        data['assigned_variables'] = assigned_variables
-        data['keyword_arguments'] = keyword_arguments
-        return data
-
 if __name__ == '__main__':
+    l1 = [1, 2, 3]
+    l2 = [0, 4, 6]
+    la = []
+    la += l1
+    la += l2
+    print la
+    """
     f_path = 'D:\\workspace\\robotframework-dataparser\\test\\resource\\test_data\\simple_resource.robot'
     x = DataParser()
     tmp = x.parse_data(f_path)
@@ -99,7 +100,6 @@ if __name__ == '__main__':
     for kw in model.keyword_table.keywords:
         print kw.name
 
-    """
     model = parsing.ResourceFile(f_path).populate()
     print 'Name: {0}'.format(model.name)
     print 'Kw settings:'
@@ -126,3 +126,4 @@ if __name__ == '__main__':
     # for kw in lib.keywords:
     #     print kw.name
     #     print kw.args
+

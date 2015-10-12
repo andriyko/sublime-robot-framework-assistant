@@ -11,8 +11,8 @@ My Kw 1
     [Arguments]    ${arg1}=${False}    ${arg2}=${True}
     [Tags]    some_tag    other_tag
     [Documentation]    Some documentation
-    ${some_return_value} =    Set Variable     123
-    ${other_return_value} =    Set Variable     ${EMPTY}
+    ${other_return_value1}    ${some_return_value1} =    Set Variable     123
+    ${other_return_value2} =    Set Variable     ${EMPTY}
     Log    ${arg1}
     [Return]    ${False}
 
