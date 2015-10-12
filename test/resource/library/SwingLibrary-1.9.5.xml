@@ -1,0 +1,2451 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<keywordspec generated="20151006 16:01:38" format="ROBOT" type="library" name="SwingLibrary">
+<version>1.9.5</version>
+<scope>global</scope>
+<namedargs>yes</namedargs>
+<doc>SwingLibrary is a Robot Framework test library for testing Java Swing user interfaces.
+
+It uses a tool called [http://java.net/projects/jemmy/|Jemmy] internally to operate on Swing components.
+= Getting Started =
+First, the SwingLibrary needs to be taken into use in the settings table:
+| *Settings * | *Value* |
+| Library | SwingLibrary |
+The tested application can be started with keyword `Start Application`, using the name of the main application class as an argument:
+| `Start Application` | com.acme.TheApplication |
+| `Select Window`     | TheApplication Window   |
+| `Push Button`       | AcmeButton              |
+When the tests are executed, both the SwingLibrary and the application and all its dependencies need to be available in the CLASSPATH. Robot Framework needs to be started with `jybot` start script when using the SwingLibrary. In Windows, this can be done like:
+| set CLASSPATH=swinglibrary-&lt;version&gt;.jar;myApp.jar
+| jybot my_test.txt
+and in *nix like this:
+| CLASSPATH=swinglibrary-&lt;version&gt;.jar:myApp.jar jybot my_test.txt
+= Contexts =
+Keywords that operate on a component always search for the component in some context, which has to explicitly set. Allowed contexts are windows, dialogs, internal frames, and tabbed panes. After a context has been selected, all subsequent keywords search for components in that context until a new context is selected. Keywords that can be used to select a context are `Select Window`, `Select Dialog` and `Select Context`. For example:
+| `Select Window` | My App |
+| `Select From Main Menu` | File|Exit |
+| `Select Dialog` | Confirm |
+| `Push Button`   | No      |
+| `Select Window` | My App  |
+= Locating components =
+Most of the keywords that operate on a visible component take an argument named `identifier`, which is used to locate the element. The first matching element is operated on, according to these rules:
+- If the `identifier` is a number, it is used as a zero-based index for the particular component type in the current context. Using indices is, however, fragile and is strongly discouraged.
+- If the `identifier` matches to internal name of a component (set using `setName` method in Java code), that component is chosen.
+- For components that have visible text (e.g. buttons), `identifier` is also matched against that.
+- Text field keywords also support accessing awt-text fields by prefixing the identifier with awt=.
+Keyword `List Components in Context` lists all components and their names and indices in a given context.
+= Running keywords in separate threads =
+Some actions may cause dialogs or other components to pop up and the keyword would then not return until
+the new dialog is closed. In these situations the keyword should be executed in a separate thread,
+`Run Keyword In Separate Thread` that test execution can continue.
+= Logging =
+Starting from version 1.8.0, the internal logging of Jemmy is available on Robot logs, when using DEBUG log level.</doc>
+<kw name="Add Table Cell Selection">
+<arguments>
+<arg>identifier</arg>
+<arg>row</arg>
+<arg>cellIdentifier</arg>
+</arguments>
+<doc>Selects a cell in a table and adds it to the selection.
+Does not clear earlier selections.
+
+Example:
+| Select Table Cell | _myTable_ | _0_ | _2_       | # Selects cell from first row and third column |
+| Select Table Cell | _myTable_ | _1_ | _Keyword_ | # Selects cell from second row and column with header 'Keyword' |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="All Checkboxes Should Be Checked">
+<arguments>
+</arguments>
+<doc>Fails if any checkbox in current context is not checked.
+
+Example:
+| Select Context | _My Checkbox Panel_ |
+| All Checkboxes Should Be Checked | |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="All Checkboxes Should Be Unchecked">
+<arguments>
+</arguments>
+<doc>Fails if any checkbox in current context is checked.
+
+Example:
+| Select Context | _My Checkbox Panel_ |
+| All Checkboxes Should Be Unchecked | |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Button Should Be Disabled">
+<arguments>
+<arg>identifier</arg>
+</arguments>
+<doc>Fails if button is enabled
+
+Example:
+| Button Should Be Disabled | _OK_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Button Should Be Enabled">
+<arguments>
+<arg>identifier</arg>
+</arguments>
+<doc>Fails if button is disabled
+
+Example:
+| Button Should Be Enabled | _OK_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Button Should Exist">
+<arguments>
+<arg>identifier</arg>
+</arguments>
+<doc>Fails if button does not exist within current context.
+
+Example:
+| Button Should Exist | _OK_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Button Should Not Exist">
+<arguments>
+<arg>identifier</arg>
+</arguments>
+<doc>Fails if button exists within current context.
+You might want to set the waiting timeout with the keyword `Set Jemmy Timeout`.
+
+Example:
+| Set Jemmy Timeouts      | _1_  |
+| Button Should Not Exist | _OK_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Call Component Method">
+<arguments>
+<arg>identifier</arg>
+<arg>method</arg>
+<arg>*args</arg>
+</arguments>
+<doc>Calls a method from specified component.
+
+Arguments are automatically converted if possible to type expected by the method.
+
+Example:
+| Call Component Method | buttonId | setToolTipText | new tooltip text |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Cancel File Chooser">
+<arguments>
+</arguments>
+<doc>Cancels and closes file chooser.
+Expects the file chooser to be open.
+
+Example:
+| Push Button         | _Open File_ |
+| Cancel File Chooser |             |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Check All Checkboxes">
+<arguments>
+</arguments>
+<doc>Checks all checkboxes in current context.
+
+Example:
+| Select Context | _My Checkbox Panel_ |
+| Check All Checkboxes | |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Check Box Should Be Checked">
+<arguments>
+<arg>identifier</arg>
+</arguments>
+<doc>Fails if checkbox is not checked.
+
+Example:
+| Check Box Should Be Checked | _My Checkbox_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Check Box Should Be Disabled">
+<arguments>
+<arg>identifier</arg>
+</arguments>
+<doc>Fails if checkbox is enabled.
+
+Example:
+| Check Box Should Be Disabled | _My Checkbox_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Check Box Should Be Enabled">
+<arguments>
+<arg>identifier</arg>
+</arguments>
+<doc>Fails if checkbox is disabled.
+
+Example:
+| Check Box Should Be Enabled | _My Checkbox_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Check Box Should Be Unchecked">
+<arguments>
+<arg>identifier</arg>
+</arguments>
+<doc>Fails if checkbox is checked.
+
+Example:
+| Check Box Should Be Unchecked | _My Checkbox_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Check Box Should Not Be Checked">
+<arguments>
+<arg>identifier</arg>
+</arguments>
+<doc>Alias for `Check Box Should Be Unchecked` keyword.</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Check Check Box">
+<arguments>
+<arg>identifier</arg>
+</arguments>
+<doc>Uses current context to search for a checkbox and when found, checks it.
+
+Example:
+| Check Checkbox | _My Checkbox_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Choose From File Chooser">
+<arguments>
+<arg>fileName=</arg>
+</arguments>
+<doc>Chooses from a filechooser by pushing the approve button.
+An optional file name can be provided, which is inserted to the file name textfield.
+Expects the file chooser to be open.
+
+Example:
+| Push Button | _Open File_    |
+| Choose From File Chooser | _/tmp/elements.xml_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Clear Selection From List">
+<arguments>
+<arg>identifier</arg>
+</arguments>
+<doc>Clears selection from list.
+
+Example:
+| Clear Selection From List | _myList_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Clear Table Cell">
+<arguments>
+<arg>identifier</arg>
+<arg>row</arg>
+<arg>columnIdentifier</arg>
+</arguments>
+<doc>Clears table cell contents.
+
+Example:
+| Clear Table Cell Value | _myTable_ | _1_ | _2_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Clear Table Selection">
+<arguments>
+<arg>identifier</arg>
+</arguments>
+<doc>Clears selection from a table.
+
+Example:
+| Clear Table Selection | _myTable_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Clear Text Field">
+<arguments>
+<arg>identifier</arg>
+</arguments>
+<doc>Clears contents of text component (e.g. text field, password field, text area).
+
+It is possible to interact with AWT text components by prefixing the identifier with awt=
+
+Example:
+| Clear Textfield | _nameTextField_ |
+| Clear Textfield | awt=street_address |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Clear Tree Selection">
+<arguments>
+<arg>identifier</arg>
+</arguments>
+<doc>Clears selections from a tree.
+
+Example:
+| Clear Tree Selection | _myTree_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Click Hyper Link">
+<arguments>
+<arg>identifier</arg>
+<arg>linkText</arg>
+</arguments>
+<doc>Clicks on a hyperlink in a JEditorPane.
+Fails if the link is not found.
+
+Example:
+| Click Hyperlink | _myEditor_ | _Network Elements_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Click On Component">
+<arguments>
+<arg>identifier</arg>
+<arg>times=1</arg>
+</arguments>
+<doc>Clicks on a component.
+The number of clicks can be given as second argument.
+
+Example:
+| Click On Component | _myComponent_ |   | |
+| Click On Component | _myComponent_ | 2 | # double click |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Click On List Item">
+<arguments>
+<arg>identifier</arg>
+<arg>listItemIdentifier</arg>
+<arg>clickCount=1</arg>
+</arguments>
+<doc>Clicks on a list item.
+
+Examples:
+| Click On List Item | _myList_ | _myItem_ |
+| Click On List Item | _myList_ | _0_      | 
+
+An optional _click count_ parameter can be provided for example if a double click is required.
+Default click count is one:
+| Click On List Item | _myList_ | _myItem_ | _2_ | # doubleclicks on item |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Click On Table Cell">
+<arguments>
+<arg>identifier</arg>
+<arg>row</arg>
+<arg>column</arg>
+<arg>clickCountString=1</arg>
+<arg>buttonString=BUTTON1_MASK</arg>
+<arg>*keyModifierStrings</arg>
+</arguments>
+<doc>Clicks on a cell in a table, optionally using click count, a specific mouse button and keyboard modifiers.
+
+The codes used for mouse button and key modifiers are the field names from java.awt.event.InputEvent.For example BUTTON1_MASK, CTRL_MASK, ALT_MASK, ALT_GRAPH_MASK, SHIFT_MASK, and META_MASK.
+
+Note! Some keys have more convinient case insensitive aliases that can be used: LEFT BUTTON, RIGHT BUTTON, SHIFT, CTRL, ALT, META
+
+Examples:
+| Click On Table Cell | _myTable_ | _0_ | _2_ | # Double clicks with mouse button 2 on the cell in the first row and third column... |
+| ... | _2_ | _RIGHT BUTTON_ | _ALT_ | # ... while holding down the ALT key |
+| Click On Table Cell | _myTable_ | _1_ | _Header_ | # Single click on the cell in the second row and column with header 'Header'... |
+| ... | _1_ | _BUTTON1_MASK_ | _CTRL_MASK_ | _SHIFT_MASK_ | # ... while holding down the CTRL and SHIFT keys |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Click On Tree Node">
+<arguments>
+<arg>identifier</arg>
+<arg>nodeIdentifier</arg>
+<arg>clickCount=1</arg>
+</arguments>
+<doc>Clicks on a tree node.
+
+Examples:
+| Click On Tree Node | _myTree_ | _Root|Folder_ |
+| Click On Tree Node | _myTree_ | _0_      | 
+
+An optional _click count_ parameter can be provided for example if a double click is required.
+Default click count is one:
+| Click On Tree Node | _myTree_ | _Root|Folder_ | _2_ | # doubleclicks on node |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Click Table Header">
+<arguments>
+<arg>identifier</arg>
+<arg>columnIdentifier</arg>
+</arguments>
+<doc>Clicks on table header of the given column.
+
+Column can be identified either by index or by column title. Indexes start at 0
+Examples:
+| Click Table Header | myTable | 2 | # Click the third column |
+| Click Table Header | myTable | amount | # Click the column that has title 'amount' |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Close All Dialogs">
+<arguments>
+</arguments>
+<doc>Closes all the dialogs that are open.</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Close Dialog">
+<arguments>
+<arg>identifier</arg>
+</arguments>
+<doc>Closes a dialog.
+
+*N.B.* Regular expression can be used to close the dialog by prefixing the identifier with 'regexp='.
+Please see more about regexp usage at `Select Dialog` keyword.
+
+Example:
+| Close Dialog | _About_ |
+| Close Dialog  | _regexp=^A.*_ | Closes a dialog starting with 'A' |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Close Internal Frame">
+<arguments>
+<arg>identifier</arg>
+</arguments>
+<doc>Closes internal frame.
+
+Example:
+Example:
+| Close Internal Frame  | _My Internal Frame_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Close Window">
+<arguments>
+<arg>identifier</arg>
+</arguments>
+<doc>Closes a window.
+
+*N.B.* Regular expression can be used to close the window by prefixing the identifier with 'regexp='.
+Please learn more about java reqular expressions at http://java.sun.com/docs/books/tutorial/essential/regex/ 
+ and patterns http://java.sun.com/javase/7/docs/api/java/util/regex/Pattern.html 
+
+Example:
+| Close Window | _Help_ |
+| Close Window | _regexp=^H.*_ | Closes a window starting with letter H. |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Collapse All Tree Nodes">
+<arguments>
+<arg>identifier</arg>
+</arguments>
+<doc>Collapses all nodes in a tree.
+
+Example:
+| Collapse All Tree Nodes | _myTree_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Collapse Tree Node">
+<arguments>
+<arg>identifier</arg>
+<arg>nodeIdentifier</arg>
+</arguments>
+<doc>Collapses a node in a tree.
+
+See `Expand Tree Node` for information about `nodeIdentifier`Examples:
+| Collapse Tree Node | _myTree_ | _Root|Folder_ |
+| Collapse Tree Node | _myTree_ | _3_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Combo Box Should Be Disabled">
+<arguments>
+<arg>identifier</arg>
+</arguments>
+<doc>Fails if combobox is enabled
+
+Example:
+| Combobox Should Be Disabled | _OK_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Combo Box Should Be Enabled">
+<arguments>
+<arg>identifier</arg>
+</arguments>
+<doc>Fails if combobox is disabled
+
+Example:
+| Combobox Should Be Enabled | _OK_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Component Should Be Visible">
+<arguments>
+<arg>identifier</arg>
+</arguments>
+<doc>Checks that component is visible.
+Even if one pixel of the component is visible, this keyword will pass.
+
+Example:
+| Component Should Be Visible | _myComponent_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Component Should Exist">
+<arguments>
+<arg>identifier</arg>
+</arguments>
+<doc>Fails if component does not exist within current context.
+You might want to set the waiting timeout with the keyword `Set Jemmy Timeout`
+
+Example:
+| Component Should Not Exist | _myPanel_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Component Should Not Be Visible">
+<arguments>
+<arg>identifier</arg>
+</arguments>
+<doc>Checks that component is not visible.
+Fails if even one pixel of the component is visible.
+
+Example:
+| Component Should Not Be Visible | _myComponent_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Component Should Not Exist">
+<arguments>
+<arg>identifier</arg>
+</arguments>
+<doc>Fails if component exists within current context.
+You might want to set the waiting timeout with the keyword `Set Jemmy Timeout`
+
+Example:
+| Component Should Not Exist | _myPanel_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="De Iconify Internal Frame">
+<arguments>
+<arg>identifier</arg>
+</arguments>
+<doc>De-iconifies internal frame.
+
+Example:
+| Close Internal Frame  | _My Internal Frame_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Decrease Spinner Value">
+<arguments>
+<arg>identifier</arg>
+<arg>times=1</arg>
+</arguments>
+<doc>Scrolls spinner button down.
+The number of notches to scroll can be given as a second argument.
+
+Example:
+| Decrease Spinner Value | _mySpinner_ |   | # scrolls spinner button down a notch |
+| Decrease Spinner Value | _mySpinner_ | 4 | # scrolls spinner button down four notches |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Dialog Should Be Open">
+<arguments>
+<arg>identifier</arg>
+</arguments>
+<doc>Fails if the dialog is not open.
+
+Example:
+| Dialog Should Be Open | _About_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Dialog Should Not Be Open">
+<arguments>
+<arg>identifier</arg>
+</arguments>
+<doc>Fails if the dialog is open.
+You might want to set the waiting timeout with the keyword `Set Jemmy Timeout`.
+
+Example:
+| Set Jemmy Timeouts | _2_ |
+| Dialog Should Not Be Open | _About_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Expand All Tree Nodes">
+<arguments>
+<arg>identifier</arg>
+</arguments>
+<doc>Expands all nodes in a tree.
+
+Example:
+| Expand All Tree Nodes | _myTree_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Expand Tree Node">
+<arguments>
+<arg>identifier</arg>
+<arg>nodeIdentifier</arg>
+</arguments>
+<doc>Expands a node in a tree.
+
+`nodeIdentifier` can be either tree path (i.e visible labels of nodes to be expanded), or index of the expanded node element. Nested structures can onle be expanded using the tree path syntax. Examples:
+| Expand Tree Node | _myTree_ | _Root|Folder_ |
+| Expand Tree Node | _myTree_ | _3_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Find Table Row">
+<arguments>
+<arg>identifier</arg>
+<arg>text</arg>
+<arg>columnIdentifier=</arg>
+</arguments>
+<doc>Finds the first row index that has a cell  that contains the given _text_.
+This is useful when we want to operate on cells which location can change.
+
+Example:
+| ${row}= | Find Table Row | _myTable_ | _Some Value_ |
+| Select From Table Cell Popup Menu | _myTable_ | _${row}_ | _2_ | _Activate_ |
+| ${row}= | Find Table Row | _myTable_ | _Some Value_ | _Some Column_ | # Searches the _'Some Value'_ from the specified  _'Some Column'_  |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Focus To Component">
+<arguments>
+<arg>identifier</arg>
+</arguments>
+<doc>Sets focus to the component.
+Useful for example when sending keyboard events to a component.
+
+Example:
+| Focus To Component     | _myTextField_ |           | |
+| Send Keyboard Event    | VK_C          | CTRL_MASK | # paste from clipboard |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Get Button Text">
+<arguments>
+<arg>identifier</arg>
+</arguments>
+<doc>Uses current context to search for a button and when found, returns the text it is labeled with.
+
+Example:
+| ${buttonText}=  | Get Button Text | _myButton_    |
+| Should Be Equal | _My Button_     | _${buttonText}_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Get Combobox Values">
+<arguments>
+<arg>identifier</arg>
+</arguments>
+<doc>Returns a list containing all the values of a combobox.
+
+*N.B* This keyword will return the values contained by _javax.swing.ComboBoxModel_,
+this is not necessarily what is displayed on the GUI.
+
+Example:
+| _${comboboxValues}=_ | Get Combobox Values | _myCombobox_ |
+| Should Contain  | _${expectedValue}_ | _${comboboxValues}_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Get Current Context">
+<arguments>
+</arguments>
+<doc>Returns the component name in current context or title if window or dialog is selected.
+
+Example:
+| ${context}= | Get Current Context | # Sets the identifier of the current context to a variable |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Get Internal Frames In Context">
+<arguments>
+</arguments>
+<doc>Returns all frames that are open in the current context.
+
+Returns empty list if the context is not selected.
+Example:
+| Select Main Window |
+| ${frames}= | Get Internal Frames In Context |
+| Should Contain | ${frames} | Test Internal Frame |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Get Label Content">
+<arguments>
+<arg>identifier</arg>
+</arguments>
+<doc>Returns the text displayed on a label.
+Assumes that the label exists in the current context.
+
+Example:
+| ${labelText}=   | Get Label Content | _addressLabel_    |
+| Should Be Equal | _Address:_        | _${labelText}_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Get List Item Count">
+<arguments>
+<arg>identifier</arg>
+</arguments>
+<doc>Returns the number of items contained in list.
+
+Example:
+| ${listItemCount}=    | Get List Item Count | _myList_      |
+| Should Be Equal As Integers | _2_ | _${listItemCount}_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Get List Values">
+<arguments>
+<arg>identifier</arg>
+</arguments>
+<doc>Returns all values from a list.
+
+Example:
+| ${values}= | Get List Values | _myList_ |
+| Should Be Equal | ${values} | one, two, three |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Get Main Menu Item Name">
+<arguments>
+<arg>index</arg>
+</arguments>
+<doc>Selects an item from the menu of the window that was opened first and returns it's name.
+
+Example:
+| ${mainMenuItemName}= | Get Main Menu Item Name | _0_                   |
+| Should Be Equal      | _File_                  | _${mainMenuItemName}_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Get Main Menu Item Names">
+<arguments>
+</arguments>
+<doc>Selects all items from the menu of the window that was opened first and returns their names.
+
+Example:
+| @{mainMenuItemNames}= | Get Main Menu Item Names ||
+| Should Contain | _@{mainMenuItemNames}_ | _File_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Get Menu Item Names">
+<arguments>
+<arg>menuPath</arg>
+</arguments>
+<doc>Gets names of menu items.
+
+Returns empty list if menu item has no children
+Example:
+| @{menus} | Get Menu Item Names | _Tools|Testing_ |
+| Should Contain | ${menus} | _Test Tool_ |
+| @{empty} | Get Menu Item Names | _Tools|empty_ |
+| Should Be Empty | ${empty} |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Get Menu Items From Popup Menu">
+<arguments>
+<arg>identifier</arg>
+<arg>menuPath</arg>
+</arguments>
+<doc>Gets item names from the components context popup menu.
+Does a right click on the component and retrieves the specified menu items from the popup menu.
+
+Example:
+| @{items}= | Get Menu Items From Popup Menu | _myComponent_ | _Actions_ |
+| Should Contain | ${items} | _Do something_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Get Selected Item From Combo Box">
+<arguments>
+<arg>identifier</arg>
+</arguments>
+<doc>Returns an item from a combobox.
+
+Example:
+| ${selectedItem}= | Get Selected Item From Combobox | _myComboBox_      |
+| Should Be Equal  | _item three_                    | _${selectedItem}_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Get Selected Item From Dropdown Menu">
+<arguments>
+<arg>identifier</arg>
+</arguments>
+<doc>Alias for `Get Selected Item From Combobox` keyword.</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Get Selected Tab Label">
+<arguments>
+</arguments>
+<doc>Returns the label of the tab that is currenctly selected.
+Expects that only one tab pane exists in the current context.
+If you need to operate on a different tab pane use `Select Tab Pane` keyword first.
+
+Example:
+| ${currentTab}= | Get Selected Tab Label |
+| Should Be Equal | _Customer Information_ | ${currentTab} |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Get Selected Table Cell Value">
+<arguments>
+<arg>identifier</arg>
+<arg>source=auto</arg>
+</arguments>
+<doc>Returns selected cell's value from a table.
+
+Optional parameter _source_ allows to override text extraction strategy. Available values are _auto_ (default, will try to get text from cell component first and then from table model) and _model_ (will only try to get text from table model).
+
+Example:
+| ${cellValue}=   | Get Selected Table Cell Value   | _myTable_      |
+| Should Be Equal | _tuesday_                       | _${cellValue}_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Get Selected Value From List">
+<arguments>
+<arg>identifier</arg>
+</arguments>
+<doc>Returns the item that's currently selected in the list.
+
+Example:
+| ${listItem}=    | Get Selected Value From List | _myList_      |
+| Should Be Equal | _Expected Item_              | _${listItem}_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Get Selected Window Title">
+<arguments>
+</arguments>
+<doc>Returns the title of the selected window.
+Assumes current context is window.
+
+Example:
+| ${title}=     | Get Selected Window Title |            |
+| Should Be Equal | _Help Contents_           | _${title}_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Get Slider Value">
+<arguments>
+<arg>identifier</arg>
+</arguments>
+<doc>Uses current context to search for a slider and when found, returns its current value.
+
+Example:
+| ${sliderValue}=  | Get Slider Value | _mySlider_    |
+| Should Be Equal As Integers | _12_     | _${sliderValue}_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Get Spinner Value">
+<arguments>
+<arg>identifier</arg>
+</arguments>
+<doc>Uses current context to search for a spinner button and when found, returns its current value.
+
+Example:
+| ${spinnerValue}=  | Get Spinner Value | _mySpinner_    |
+| Should Be Equal As Integers | _12_     | _${spinnerValue}_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Get Table Cell Property">
+<arguments>
+<arg>identifier</arg>
+<arg>row</arg>
+<arg>columnIdentifier</arg>
+<arg>propertyName</arg>
+</arguments>
+<doc>Returns the property of the table cell.
+
+Example:
+| _${background}=_ | Get Table Cell Property | _myTable_ | _1_ | _2_ | _background_ |
+| Should Be Equal As Integers | _255_ | _${background.getRed()}_ | | | |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Get Table Cell Value">
+<arguments>
+<arg>identifier</arg>
+<arg>row</arg>
+<arg>columnIdentifier</arg>
+<arg>source=auto</arg>
+</arguments>
+<doc>Returns cell's value from a table.
+
+Starting from SwingLibrary 1.1.4, value from cell rendered with check box is string true/false.
+Optional parameter _source_ allows to override text extraction strategy. Available values are _auto_ (default, will try to get text from cell component first and then from table model) and _model_ (will only try to get text from table model).
+
+Example:
+| ${cellValue}=   | Get Table Cell Value | _myTable_ | _0_            | _2_ |
+| Should Be Equal | _tuesday_            |           | _${cellValue}_ |     |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Get Table Column Count">
+<arguments>
+<arg>identifier</arg>
+</arguments>
+<doc>Returns the number of columns from a table.
+
+Example:
+| ${columnCount}= | Get Table Column Count | _myTable_ |
+| Should Be Equal As Integers | _4_ | _${columnCount}_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Get Table Column Values">
+<arguments>
+<arg>identifier</arg>
+<arg>columnIdentifier</arg>
+</arguments>
+<doc>Returns a list containing all the values of a table column.
+
+Example:
+| _${columnValues}=_ | Get Table Column Values | _myTable_ | _columnTwo_ |
+| Should Contain  | _${expectedValue}_ | _${columnValues}_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Get Table Headers">
+<arguments>
+<arg>identifier</arg>
+</arguments>
+<doc>Returns table's header names.
+
+Example:
+| @{headers}= | Get Table Headers | _myTable_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Get Table Row Count">
+<arguments>
+<arg>identifier</arg>
+</arguments>
+<doc>Returns the number of rows from a table.
+
+Example:
+| ${rowCount}= | Get Table Row Count | _myTable_ |
+| Should Be Equal As Integers | _4_ | _${rowCount}_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Get Table Row Values">
+<arguments>
+<arg>identifier</arg>
+<arg>row</arg>
+</arguments>
+<doc>Returns a list containing all the values of a table row.
+
+Example:
+| _${rowValues}=_ | Get Table Row Values | _myTable_ | _2_ |
+| Should Contain  | _${expectedValue}_ | _${rowValues}_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Get Table Values">
+<arguments>
+<arg>identifier</arg>
+</arguments>
+<doc>Returns a list of table rows containing all the values of a table.
+
+Example:
+| _${tableValues}=_ | Get Table Values | _myTable_ | _rowThree_ |
+| Should Be Equal  | _${expectedValue}_ | _${tableValues[1][2]}_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Get Text Field Value">
+<arguments>
+<arg>identifier</arg>
+</arguments>
+<doc>Returns the value of a text component (e.g. text field, password field, text area).
+
+It is possible to interact with AWT text components by prefixing the identifier with awt=
+
+Example:
+| ${textFieldValue}= | Get Textfield Value | _nameTextField_       |
+| Should Be Equal    | _John Doe_          | _${textFieldValue}_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Get Tooltip Text">
+<arguments>
+<arg>identifier</arg>
+</arguments>
+<doc>Returns the component's tooltip text.
+
+Example:
+| ${tooltip}= | Get Tooltip Text | _saveButton_ |
+| Should Be Equal    | _Save_ | _${tooltip}_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Get Tree Node Child Names">
+<arguments>
+<arg>identifier</arg>
+<arg>nodeIdentifier</arg>
+</arguments>
+<doc>Returns a list with all the child node names of the specified node.
+
+Example:
+| ${expectedElements}= | Create List | _someElement_ | _otherElement_ |
+| ${actualElements}=   | Get Tree Node Child Names | _myTree_ | _Element Folder_ |
+| Lists Should Be Equal | _${expectedElements}_ | _${actualElements}_ | # This keyword comes from Collections library |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Get Tree Node Count">
+<arguments>
+<arg>identifier</arg>
+</arguments>
+<doc>Returns the count of all visible nodes.
+
+Example:
+| ${nodeCount}= | Get Tree Node Count | _myTree_ |
+| Should Be Equal As Integers | _3_ | _${nodeCount}_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Get Tree Node Index">
+<arguments>
+<arg>identifier</arg>
+<arg>nodePath</arg>
+</arguments>
+<doc>Returns the node index.
+NodePath must be a string of form _path|to|node_.
+
+Example:
+| ${nodeIndex}= | Get Tree Node Index | _myTree_ | _Root|Folder|ElementX_ |
+| Should Be Equal As Integers | _4_ | _${nodeIndex}_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Get Tree Node Label">
+<arguments>
+<arg>identifier</arg>
+<arg>nodeIndex</arg>
+</arguments>
+<doc>Returns the node name.
+NodeIndex must be a number and it is counted from visible nodes (index starts from 0).
+
+Example:
+| ${nodeLabel}= | Get Tree Node Label | _myTree_ | _3_ |
+| Should Be Equal | _Element1_ | _${nodeLabel}_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Iconify Internal Frame">
+<arguments>
+<arg>identifier</arg>
+</arguments>
+<doc>Iconifies internal frame.
+
+Example:
+| Close Internal Frame  | _My Internal Frame_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Increase Spinner Value">
+<arguments>
+<arg>identifier</arg>
+<arg>times=1</arg>
+</arguments>
+<doc>Scrolls spinner button up.
+The number of notches to scroll can be given as a second argument.
+
+Example:
+| Increase Spinner Value | _mySpinner_ |   | # scrolls spinner button up a notch |
+| Increase Spinner Value | _mySpinner_ | 4 | # scrolls spinner button up four notches |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Insert Into Text Field">
+<arguments>
+<arg>identifier</arg>
+<arg>text</arg>
+</arguments>
+<doc>Inserts text into a text component (e.g. text field, password field, text area).
+
+It is possible to interact with AWT text components by prefixing the identifier with awt=
+
+Example:
+| Insert Into Textfield | _nameTextField_ | _John Doe_ |
+| Insert Into Textfield | awt=street_address | Karaportti 3 |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Internal Frame Should Be Open">
+<arguments>
+<arg>identifier</arg>
+</arguments>
+<doc>Fails if the internal frame is *not* open.
+
+Example:
+| Internal Frame Should Be Open | _My Internal Frame_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Internal Frame Should Exist">
+<arguments>
+<arg>identifier</arg>
+</arguments>
+<doc>Fails if the internal frame doesn't exist in the current context.
+
+Example:
+| Internal Frame Should Exist | _My Internal Frame_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Internal Frame Should Not Be Open">
+<arguments>
+<arg>identifier</arg>
+</arguments>
+<doc>Fails if the internal frame *is* open.
+
+Example:
+| Internal Frame Should Not Be Open | _My Internal Frame_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Internal Frame Should Not Exist">
+<arguments>
+<arg>identifier</arg>
+</arguments>
+<doc>Fails if the internal frame exists in the current context.
+
+Example:
+| Internal Frame Should Not Exist | _My Internal Frame_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Label Should Exist">
+<arguments>
+<arg>identifier</arg>
+</arguments>
+<doc>Fails if label does not exist within current context.
+
+Example:
+| Label Should Exist | _myLabel_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Label Should Not Exist">
+<arguments>
+<arg>identifier</arg>
+</arguments>
+<doc>Fails if label exists within current context.
+You might want to set the waiting timeout with the keyword `Set Jemmy Timeout`.
+
+Example:
+| Set Jemmy Timeouts     | _1_ |
+| Label Should Not Exist | _myLabel_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Label Text Should Be">
+<arguments>
+<arg>identifier</arg>
+<arg>expected</arg>
+</arguments>
+<doc>Checks the equality of given text and the text displayed on a label.
+Assumes that the label exists in the current context.
+
+Example:
+| Label Text Should Be | _addressLabel_ | _Address:_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Launch Application">
+<arguments>
+<arg>className</arg>
+<arg>*args</arg>
+</arguments>
+<doc>Launches application with the given arguments.
+
+Example:
+| Launch Application | _com.acme.myapplication.MyApp_ | _arg1_ | _arg2_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="List Component Methods">
+<arguments>
+<arg>identifier</arg>
+</arguments>
+<doc>List methods of components object.
+When working with custom compoments you may use this keyword to discover mtethods you can call with Call Component Method keyword.
+
+Example:
+| List Component Methods | _myComponent_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="List Components In Context">
+<arguments>
+<arg>formatted=</arg>
+</arguments>
+<doc>Prints components (their types and their internal names) from the selected context.
+
+By default returns the component names without formatting used in the printout. If given an argument, the return value will have the same formatting as the printout. The internal name is set with component's setName method: http://java.sun.com/j2se/1.4.2/docs/api/java/awt/Component.html#setName(java.lang.String).
+See keywords, `Select Window`, `Select Dialog` and `Select Context` for details about context.
+
+Example:
+| Select Main Window         |
+| List Components In Context |
+| List Components In Context | formatted |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="List Should Contain">
+<arguments>
+<arg>identifier</arg>
+<arg>value</arg>
+</arguments>
+<doc>Fails if value not in list.
+
+Example:
+| List Should Contain | _myList_ | item |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="List Should Not Contain">
+<arguments>
+<arg>identifier</arg>
+<arg>value</arg>
+</arguments>
+<doc>Fails if value is in list.
+
+Example:
+| List Should Not Contain | _myList_ | item |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="List Windows">
+<arguments>
+</arguments>
+<doc>Gets list of open window titles.
+
+Logs the window titles and names in parenthesis.
+
+Example:
+| List Windows |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Main Menu Item Should Be Checked">
+<arguments>
+<arg>menuPath</arg>
+</arguments>
+<doc>Fails if checkbox menu item is not checked in the opened window that was opened first.
+
+Example:
+| Main Menu Item Should Be Checked | _Tools|My Checkbox_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Main Menu Item Should Exist">
+<arguments>
+<arg>menuPath</arg>
+</arguments>
+<doc>Fails if menu item doesn't exist in the window that was opened first.
+Shortcut for:
+| Select Window    | _0_ |
+| Menu Item Should Exist | _Tools|Testing|MyTestTool_ |
+
+Example:
+| Main Menu Item Should Exist | _Tools|Testing|Test Tool_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Main Menu Item Should Not Be Checked">
+<arguments>
+<arg>menuPath</arg>
+</arguments>
+<doc>Fails if checkbox menu item is checked in the opened window that was opened first.
+
+Example:
+| Main Menu Item Should Not Be Checked | _Tools|My Checkbox_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Main Menu Item Should Not Exist">
+<arguments>
+<arg>menuPath</arg>
+</arguments>
+<doc>Fails if menu item exists in the window that was opened first.
+Shortcut for:
+| Select Window    | _0_ |
+| Menu Item Should Not Exist | _Tools|Testing|MyTestTool_ |
+
+Example:
+| Main Menu Item Should Not Exist | _Tools|Testing|Test Tool_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Maximize Internal Frame">
+<arguments>
+<arg>identifier</arg>
+</arguments>
+<doc>Maximizes internal frame.
+
+Example:
+| Close Internal Frame  | _My Internal Frame_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Menu Item Should Be Checked">
+<arguments>
+<arg>menuPath</arg>
+</arguments>
+<doc>Searches for an checkbox menu item from the menu of the currently selected window and fails if it is not checked.
+
+Example:
+| Menu Item Should Be Checked | _Tools|My Checkbox_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Menu Item Should Be Disabled">
+<arguments>
+<arg>menuPath</arg>
+</arguments>
+<doc>Alias for `Menu Item Should Not Be Enabled`</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Menu Item Should Be Enabled">
+<arguments>
+<arg>menuPath</arg>
+</arguments>
+<doc>Searches for an menu item from the menu of the currently selected window and fails if it is disabled.
+
+Example:
+| Select Window               | _My Application_           |
+| Menu Item Should Be Enabled | _Tools|Testing|MyTestTool_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Menu Item Should Exist">
+<arguments>
+<arg>menuPath</arg>
+</arguments>
+<doc>Fails if menu item doesn't exist.
+
+Example:
+| Menu Item Should Exist | _Tools|Testing|Test Tool_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Menu Item Should Not Be Checked">
+<arguments>
+<arg>menuPath</arg>
+</arguments>
+<doc>Searches for an checkbox menu item from the menu of the currently selected window and fails if it is checked.
+
+Example:
+| Menu Item Should Not Be Checked | _Tools|My Checkbox_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Menu Item Should Not Be Enabled">
+<arguments>
+<arg>menuPath</arg>
+</arguments>
+<doc>Searches for an menu item from the menu of the currently selected window and fails if it is enabled.
+
+Example:
+| Select Window                   | _My Application_           |
+| Menu Item Should Not Be Enabled | _Tools|Testing|MyTestTool_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Menu Item Should Not Exist">
+<arguments>
+<arg>menuPath</arg>
+</arguments>
+<doc>Fails if menu item exists.
+
+Example:
+| Menu Item Should Not Exist | _Tools|Testing|Test Tool_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Minimize Internal Frame">
+<arguments>
+<arg>identifier</arg>
+</arguments>
+<doc>Minimizes internal.
+
+Example:
+| Minimize Internal Frame  | _My Internal Frame_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Push Button">
+<arguments>
+<arg>identifier</arg>
+</arguments>
+<doc>Uses current context to search for a button and when found, pushes it.
+
+Example:
+| Push Button | _OK_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Push Radio Button">
+<arguments>
+<arg>identifier</arg>
+</arguments>
+<doc>Uses current context to search for a radiobutton and when found, pushes it.
+
+Example:
+| Select Radio Button | _My Radio Button_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Push Toggle Button">
+<arguments>
+<arg>identifier</arg>
+</arguments>
+<doc>Uses current context to search for a button and when found, pushes it.
+
+Example:
+| Push Toggle Button | _Activated_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Radio Button Should Be Disabled">
+<arguments>
+<arg>identifier</arg>
+</arguments>
+<doc>Fails if radiobutton is enabled.
+
+Example:
+| Radio Button Should Be Disabled | _My Radio Button_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Radio Button Should Be Enabled">
+<arguments>
+<arg>identifier</arg>
+</arguments>
+<doc>Fails if radiobutton is disabled.
+
+Example:
+| Radio Button Should Be Enabled | _My Radio Button_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Radio Button Should Be Selected">
+<arguments>
+<arg>identifier</arg>
+</arguments>
+<doc>Fails if radiobutton is not selected.
+
+Example:
+| Radio Button Should Be Selected | _My Radio Button_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Radio Button Should Not Be Selected">
+<arguments>
+<arg>identifier</arg>
+</arguments>
+<doc>Fails if radiobutton is selected.
+
+Example:
+| Radio Button Should Not Be Selected | _My Radio Button_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Right Click On Component">
+<arguments>
+<arg>identifier</arg>
+</arguments>
+<doc>Right clicks on a component.
+Example:
+| Right Click On Component | _myComponent_ |   | |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Run Keyword In Separate Thread">
+<arguments>
+<arg>keywordName</arg>
+<arg>*arguments</arg>
+</arguments>
+<doc>Executes the given keyword with the given arguments in a separate thread.
+Useful if the given keyword starts a process that stays running (e.g. opens a dialog) and doesn't return.
+Known limitations:
+- The return value of the keyword being run is ignored.
+- Exceptions thrown by the keyword are ignored, which implies that this keyword should not be used
+  in conjunction with keywords such `Label Text Should Be` or `Menu Item Should Be Enabled`.</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Scroll Component To View">
+<arguments>
+<arg>identifier</arg>
+</arguments>
+<doc>Scrolls component to view.
+
+Example:
+| Scroll Component To View | _myComponent_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Select All List Items">
+<arguments>
+<arg>identifier</arg>
+</arguments>
+<doc>Selects all list items.
+
+Example:
+| Select All List Items | _My List_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Select Context">
+<arguments>
+<arg>identifier</arg>
+</arguments>
+<doc>Selects a container as current context.
+Context has to be a window, dialog, internal frame or panel. Requires that a parent context has been selected beforehand using `Select Window` or `Select Dialog`.
+
+Example:
+| Select Window  | _Main Window_ | # Selects the 'parent context' |
+| Select Context | _myPanel_     | # Sets _'myPanel'_ as current context |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Select Dialog">
+<arguments>
+<arg>identifier</arg>
+</arguments>
+<doc>Selects a dialog as current context and sets focus to it.
+
+*N.B.* Regular expression can be used to select the dialog by prefixing the identifier with 'regexp='.
+Please learn more about java reqular expressions at http://java.sun.com/docs/books/tutorial/essential/regex/ 
+ and patterns http://java.sun.com/javase/7/docs/api/java/util/regex/Pattern.html 
+
+Example:
+| Select Dialog  | _About_ |
+| Select Dialog  | _regexp=^A.*_ | Selects a dialog starting with 'A' |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Select From Combo Box">
+<arguments>
+<arg>identifier</arg>
+<arg>comboItemIdentifier</arg>
+<arg>*verifySelection</arg>
+</arguments>
+<doc>Selects an item from a combobox.
+The item selection is verified by default and can be disabled using the optional _verifySelection_ parameter with any value.
+
+*N.B* If the _comboItemIdentifier_ is a numerical value it vill be interpreted as index.
+
+*N.B.* If the combobox changes its items on selection, disable the verification and optionally check the selection using the keyword `Get Selected Item From Combo Box`.
+
+Example:
+| Select From Combo Box | _myComboBox_ | _myItem_ | # Selects _'myItem'_ from combobox |
+| Select From Combo Box | _myComboBox_ | _0_      | # Selects the first item from combobox |
+| Select From Combo Box | _myComboBox_ | _myItem_ | _don't verify_ | # Selects _'myItem'_ from combobox and doesn't verify that myItem is selected |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Select From Dropdown Menu">
+<arguments>
+<arg>menuIdentifier</arg>
+<arg>menuItemIdentifier</arg>
+<arg>*verificationDisabled</arg>
+</arguments>
+<doc>Alias for `Select From Combobox` keyword.</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Select From List">
+<arguments>
+<arg>identifier</arg>
+<arg>listItemIdentifier</arg>
+<arg>*additionalItemIdentifiers</arg>
+</arguments>
+<doc>Selects an item from the list.
+
+Examples:
+| Select From List | _myList_ | _myItem_ | # selects 'myItem'                   |
+| Select From List | _myList_ | _0_      | # selects the first item in the list |
+
+| Select From List | _myList_ | _myItem_ | _2_ | # doubleclicks on item |
+Any number of list item identifiers can be provided to select multiple items at once:
+| Select From List | _myList_ | _myItem_ | _anotherItem_ | _yetAnother_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Select From Main Menu">
+<arguments>
+<arg>menuPath</arg>
+</arguments>
+<doc>Selects an item from the menu of the window that was opened first.
+Shortcut for:
+| Select Window    | _0_ |
+| Select From Menu | _Tools|Testing|MyTestTool_ |
+
+Example:
+| Select From Main Menu | _Tools|Testing|MyTestTool_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Select From Main Menu And Wait">
+<arguments>
+<arg>menuPath</arg>
+</arguments>
+<doc>Selects an item from the menu of the window that was opened first and waits for action to finish.
+Shortcut for:
+| Select Window             | _0_                        |
+| Select From Menu And Wait | _Tools|Testing|MyTestTool_ |
+
+This keyword will not work, for example, if the menu item opens a dialog.
+
+Example:
+| Select From Main Menu And Wait | _Tools|Testing|MyTestTool_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Select From Menu">
+<arguments>
+<arg>menuPath</arg>
+</arguments>
+<doc>Selects an item from the menu of the currently selected window.
+
+Example:
+| Select Window    | _My Application_           |
+| Select From Menu | _Tools|Testing|MyTestTool_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Select From Menu And Wait">
+<arguments>
+<arg>menuPath</arg>
+</arguments>
+<doc>Selects an item from the menu of the currently selected window and waits for action to finish.
+This keyword will not work, for example, if the menu item opens a dialog.
+
+Example:
+| Select Window             | _My Application_           |
+| Select From Menu And Wait | _Tools|Testing|MyTestTool_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Select From Popup Menu">
+<arguments>
+<arg>identifier</arg>
+<arg>menuPath</arg>
+</arguments>
+<doc>Selects an item from the components context popup menu.
+Does a right click on the component and selects the specified menu item from the popup menu.
+
+Example:
+| Select From Popup Menu | _myComponent_ | _Actions|Do something_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Select From Popup Menu On Selected Tree Nodes">
+<arguments>
+<arg>identifier</arg>
+<arg>menuPath</arg>
+</arguments>
+<doc>Invokes a menu action on all the selected tree nodes.
+Does not wait for a result.
+Separator for items is '|'.
+
+Examples:
+| Select Tree Node | _myTree_ | _Root|Folder1_ |
+| Select Tree Node | _myTree_ | _Root|Folder2_ |
+| Select From Popup Menu On Selected Tree Nodes | _myTree_ | _Remove_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Select From Table Cell Popup Menu">
+<arguments>
+<arg>identifier</arg>
+<arg>row</arg>
+<arg>columnIdentifier</arg>
+<arg>menuPath</arg>
+</arguments>
+<doc>Selects an item from a table cell popup.
+Separator for items is '|'.
+
+Example:
+| Select From Table Cell Popup Menu | _myTable_ | _1_ | _3_ | _Cell Actions|Clear Cell Value_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Select From Table Cell Popup Menu On Selected Cells">
+<arguments>
+<arg>identifier</arg>
+<arg>menuPath</arg>
+</arguments>
+<doc>Selects an item from a table cell popup on the table cells that are selected.
+Separator for items is '|'.
+
+Example:
+| Select From Table Cell Popup Menu On Selected Cells | _myTable_ | _Cell Actions|Clear Cell Value_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Select From Tree Node Popup Menu">
+<arguments>
+<arg>identifier</arg>
+<arg>nodeIdentifier</arg>
+<arg>menuPath</arg>
+</arguments>
+<doc>Selects an item from the tree node's popup menu.
+
+Example:
+| Select From Tree Node Popup Menu | _myTree_ | _Root|Folder_ | _New Folder_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Select From Tree Node Popup Menu In Separate Thread">
+<arguments>
+<arg>identifier</arg>
+<arg>nodeIdentifier</arg>
+<arg>menuPath</arg>
+</arguments>
+<doc>Selects an item from the tree node's popup menu and does not wait for a result.
+Needed if the action starts a process that stays running (e.g. opens a dialog) and the above keyword doesn't return.
+Separator for items is '|'.
+
+Example:
+| Select From Tree Node Popup Menu In Separate Thread | _myTree_ | _Root|Folder_ | _New Folder_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Select Main Window">
+<arguments>
+</arguments>
+<doc>Selects the window that was opened first as current context.
+
+Example:
+| Select Main Window |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Select Radio Button">
+<arguments>
+<arg>identifier</arg>
+</arguments>
+<doc>*DEPRECATED* Use keyword `Push Radio Button` instead.</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Select Tab">
+<arguments>
+<arg>tabIdentifier</arg>
+<arg>tabPaneIdentifier=</arg>
+</arguments>
+<doc>Selects a tab.
+The optional tab pane identifier can be provided, otherwise the first matching tab is selected.
+
+Example:
+| Select Tab | _Customer Information_ |
+| Select Tab | _Customer Information_ | _Customers_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Select Tab As Context">
+<arguments>
+<arg>tabIdentifier</arg>
+<arg>tabPaneIdentifier=</arg>
+</arguments>
+<doc>Selects a tab and sets it as the context.
+The optional tab pane identifier can be provided, otherwise the first matching tab is selected.
+
+Example:
+| Select Tab | _Customer Information_ |
+| Select Tab | _Customer Information_ | _Customers_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Select Tab Pane">
+<arguments>
+<arg>tabPaneIdentifier</arg>
+</arguments>
+<doc>Sets a tab pane as the current context.
+Useful if you have several tab panes in the window.
+
+Example:
+| Select Tab Pane | _Other Tab Pane_ |
+| Select Tab | _Customer Information_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Select Table Cell">
+<arguments>
+<arg>identifier</arg>
+<arg>row</arg>
+<arg>cellIdentifier</arg>
+</arguments>
+<doc>Selects a cell in a table.
+
+Example:
+| Select Table Cell | _myTable_ | _0_ | _2_       | # Selects cell from first row and third column |
+| Select Table Cell | _myTable_ | _1_ | _Keyword_ | # Selects cell from second row and column with header 'Keyword' |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Select Table Cell Area">
+<arguments>
+<arg>identifier</arg>
+<arg>startRow</arg>
+<arg>endRow</arg>
+<arg>startColumn</arg>
+<arg>endColumn</arg>
+</arguments>
+<doc>Selects a cell area in a table.
+Does not clear earlier selections.
+
+Example:
+| Select Table Cell Area | _myTable_ | _0_ | _2_ | _0_ | _2_ | # Selects cells from first to third row and first to third column |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Select Tree Node">
+<arguments>
+<arg>identifier</arg>
+<arg>nodeIdentifier</arg>
+<arg>*additionalNodeIdentifiers</arg>
+</arguments>
+<doc>Sets a node as selected in a tree.
+Does not clear earlier selections.
+If several nodes have the same path then *only the first* of those nodes is selected.
+
+Example:
+| Select Tree Node | _myTree_ | _Root|Folder_ |
+Any number of node identifiers can be provided to select multiple nodes at once:
+| Select Tree Node | _myTree_ | _Root|Folder_ | _Root|Folder2_ | _Root|Folder3_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Select Window">
+<arguments>
+<arg>identifier</arg>
+</arguments>
+<doc>Selects a window as current context and sets focus to it.
+
+*N.B.* Regular expression can be used to select the window by prefixing the identifier with 'regexp='.
+Please learn more about java reqular expressions at http://java.sun.com/docs/books/tutorial/essential/regex/ 
+ and patterns http://java.sun.com/javase/7/docs/api/java/util/regex/Pattern.html 
+
+Example:
+| Select Window | _Help_ |
+| Select Window | _regexp=^H.*_ | Selects a window starting with letter H. |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Send Keyboard Event">
+<arguments>
+<arg>keyCode</arg>
+<arg>*modifiers</arg>
+</arguments>
+<doc>Sends keystrokes to the currently selected component.
+Keystroke codes must be one of the constants in _java.awt.event.KeyEvent_ starting with _VK__.
+Constants from _java.awt.event.InputEvent_ can be used as optional modifiers.
+
+Example with textfield:
+| Focus To Component    | _myTextfield_        |                      |
+| Send Keyboard Event   | _VK_S_               |                      |
+| Send Keyboard Event   | _VK_O_               |                      |
+| Send Keyboard Event   | _VK_M_               |                      |
+| Send Keyboard Event   | _VK_E_               |                      |
+| Send Keyboard Event   | _VK_T_               | _SHIFT_MASK_         |
+| Send Keyboard Event   | _VK_E_               |                      |
+| Send Keyboard Event   | _VK_X_               |                      |
+| Send Keyboard Event   | _VK_T_               |                      |
+| ${textFieldContents}= | Get Text Field Value | _myTextfield_        |
+| Should Be Equal       | someText             | ${textFieldContents} |
+
+Example with table:
+| SelectTableCell               | _myTable_ | _0_          | _0_ |
+| Send Keyboard Event           | _VK_TAB_  |              |     |
+| Table Cell Should Be Selected | _myTable_ | _0_          | _1_ |
+| Send Keyboard Event           | _VK_TAB_  | _SHIFT_MASK_ |     |
+| Table Cell Should Be Selected | _myTable_ | _0_          | _0_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Set Jemmy Dispatch Model">
+<arguments>
+<arg>dispatch model</arg>
+</arguments>
+<doc>Sets the jemmy dispatching model.
+The event dispatching is explained in https://jemmy.java.net/tutorial.html#robot
+Possible models are QUEUE, QUEUE_SHORTCUT (default), ROBOT, ROBOT_SMOOTH.
+Returns the old dispatching model.
+
+Example:
+| Set Jemmy Dispatch Model | ROBOT |
+| ${old model}= | Set Jemmy Dispatch Model | ROBOT_SMOOTH |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Set Jemmy Timeout">
+<arguments>
+<arg>timeoutName</arg>
+<arg>timeoutInSeconds</arg>
+</arguments>
+<doc>Sets the jemmy timeout used for waiting a component to appear.
+Timeout names are listed here: http://jemmy.java.net/OperatorsEnvironment.html#timeouts
+Returns the old timeout setting value.
+
+Example:
+| Set Jemmy Timeout | DialogWaiter.WaitDialogTimeout | 3 |
+| ${oldSetting}= | Set Jemmy Timeout | DialogWaiter.WaitDialogTimeout | 3 |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Set Jemmy Timeouts">
+<arguments>
+<arg>timeoutInSeconds</arg>
+</arguments>
+<doc>Sets all relevant jemmy timeouts. 
+By default they are all set to 5 seconds.
+
+List of all the timeouts this keywords sets:
+| *Timeout Name* | *Description* |
+| DialogWaiter.WaitDialogTimeout | Time to wait dialog displayed |
+| FrameWaiter.WaitFrameTimeout | Time to wait frame displayed |
+| WindowWaiter.WaitWindowTimeout | Time to wait window displayed |
+| ComponentOperator.WaitComponentTimeout | Time to wait component displayed |
+| ComponentOperator.WaitComponentEnabledTimeout | Time to wait component enabled |
+| ComponentOperator.WaitStateTimeout | Used for example in combobox selection |
+| JComboboxOperator.WaitGetSelectedItemTimeout | Time to wait for combobox selected item fetching |
+| JComboBoxOperator.WaitListTimeout | Time to wait list opened | 
+| JMenuOperator.WaitPopupTimeout | Time to wait popup displayed |
+| JTreeOperator.WaitNodeExpandedTimeout | Time to wait node expanded |
+| JTreeOperator.WaitNextNodeTimeout | Time to wait next node displayed |
+| JTreeOperator.WaitNodeVisibleTimeout | Time to wait node visible |
+| JListOperator.WaitFindItemIndexTimeout | Time to wait for list item to appear |
+
+Example:
+| Set Jemmy Timeouts | 3 |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Set Slider Value">
+<arguments>
+<arg>identifier</arg>
+<arg>value</arg>
+</arguments>
+<doc>Sets the value for the slider found from the current context.
+
+Example:
+| Set Slider Value | _mySlider_  | _7_  |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Set Spinner Number Value">
+<arguments>
+<arg>identifier</arg>
+<arg>value</arg>
+</arguments>
+<doc>Sets the number value for the spinner found from the current context.
+
+Example:
+| Set Spinner Number Value | _mySpinner_  | _100_  |
+| Set Spinner Number Value | _mySpinner_  | _7.5_  |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Set Spinner String Value">
+<arguments>
+<arg>identifier</arg>
+<arg>value</arg>
+</arguments>
+<doc>Sets the string value for the spinner found from the current context.
+
+Example:
+| Set Spinner String Value | _mySpinner_  | _January_  |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Set System Property">
+<arguments>
+<arg>name</arg>
+<arg>value</arg>
+</arguments>
+<doc>Set system property `name` to `value`
+Equal commmand line usage `-Dname=value`.</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Set Table Cell Value">
+<arguments>
+<arg>identifier</arg>
+<arg>row</arg>
+<arg>columnIdentifier</arg>
+<arg>newValue</arg>
+</arguments>
+<doc>Sets cell value in a table.
+
+Example:
+| Set Table Cell Value | _1_ | _2_ | _New value_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Slider Should Exist">
+<arguments>
+<arg>identifier</arg>
+</arguments>
+<doc>Fails if slider does not exist within current context.
+
+Example:
+| Slider Should Exist | _mySlider_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Slider Should Not Exist">
+<arguments>
+<arg>identifier</arg>
+</arguments>
+<doc>Fails if slider exists within current context.
+
+Example:
+| Slider Should Not Exist | _mySlider_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Spinner Should Exist">
+<arguments>
+<arg>identifier</arg>
+</arguments>
+<doc>Fails if spinner does not exist within current context.
+
+Example:
+| Spinner Should Exist | _dateSpinner_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Spinner Should Not Exist">
+<arguments>
+<arg>identifier</arg>
+</arguments>
+<doc>Fails if spinner exists within current context.
+
+Example:
+| Spinner Should Not Exist | _dateSpinner_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Start Application">
+<arguments>
+<arg>className</arg>
+<arg>*args</arg>
+</arguments>
+<doc>Alias for `Launch Application` keyword</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Start Application In Separate Thread">
+<arguments>
+<arg>className</arg>
+<arg>*args</arg>
+</arguments>
+<doc>Launches application in a separate thread with the given arguments.
+This is useful if your application does something that blocks eg. opens up a dialog.
+
+Example:
+| Start Application In Separate Thread | _com.acme.myapplication.MyApp_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Table Cell Popup Menu Should Be Disabled">
+<arguments>
+<arg>identifier</arg>
+<arg>row</arg>
+<arg>columnIdentifier</arg>
+<arg>menuPath</arg>
+</arguments>
+<doc>Fails if the given table cell popup menu is enabled.
+Separator for items is '|'.
+
+Example:
+| Table Cell Popup Menu Should Be Disabled | _myTable_ | _1_ | _3_ | _Cell Actions|Clear Cell Value_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Table Cell Popup Menu Should Be Enabled">
+<arguments>
+<arg>identifier</arg>
+<arg>row</arg>
+<arg>columnIdentifier</arg>
+<arg>menuPath</arg>
+</arguments>
+<doc>Fails if the given table cell popup menu is disabled.
+Separator for items is '|'.
+
+Example:
+| Table Cell Popup Menu Should Be Enabled | _myTable_ | _1_ | _3_ | _Cell Actions|Clear Cell Value_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Table Cell Should Be Editable">
+<arguments>
+<arg>identifier</arg>
+<arg>row</arg>
+<arg>columnIdentifier</arg>
+</arguments>
+<doc>Fails if given table cell is not editable in a table.
+
+Example:
+| Table Cell Should Be Editable | _myTable_ | _0_ | _2_       |
+| Table Cell Should Be Editable | _myTable_ | _1_ | _Keyword_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Table Cell Should Be Selected">
+<arguments>
+<arg>identifier</arg>
+<arg>row</arg>
+<arg>columnIdentifier</arg>
+</arguments>
+<doc>Fails if given table cell is not selected in a table.
+
+Example:
+| Table Cell Should Be Selected | _myTable_ | _0_ | _2_       |
+| Table Cell Should Be Selected | _myTable_ | _1_ | _Keyword_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Table Cell Should Not Be Editable">
+<arguments>
+<arg>identifier</arg>
+<arg>row</arg>
+<arg>columnIdentifier</arg>
+</arguments>
+<doc>Fails if given table cell is editable in a table.
+
+Example:
+| Table Cell Should Not Be Editable | _myTable_ | _0_ | _2_       |
+| Table Cell Should Not Be Editable | _myTable_ | _1_ | _Keyword_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Table Cell Should Not Be Selected">
+<arguments>
+<arg>identifier</arg>
+<arg>row</arg>
+<arg>columnIdentifier</arg>
+</arguments>
+<doc>Fails if given table cell is selected in a table.
+
+Example:
+| Table Cell Should Be Selected | _myTable_ | _0_ | _2_       |
+| Table Cell Should Be Selected | _myTable_ | _1_ | _Keyword_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Text Field Should Be Disabled">
+<arguments>
+<arg>identifier</arg>
+</arguments>
+<doc>Fails if text component (e.g. text field, password field, text area) is enabled.
+
+It is possible to interact with AWT text components by prefixing the identifier with awt=
+
+Example:
+| Textfield Should Be Disabled | _nameTextField_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Text Field Should Be Enabled">
+<arguments>
+<arg>identifier</arg>
+</arguments>
+<doc>Fails if text component (e.g. text field, password field, text area) is disabled.
+
+It is possible to interact with AWT text components by prefixing the identifier with awt=
+
+Example:
+| Textfield Should Be Enabled | _nameTextField_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Toggle Button Should Be Selected">
+<arguments>
+<arg>identifier</arg>
+</arguments>
+<doc>Fails if togglebutton is not selected.
+
+Example:
+| Toggle Button Should Be Selected | _My Toggle Button_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Toggle Button Should Not Be Selected">
+<arguments>
+<arg>identifier</arg>
+</arguments>
+<doc>Fails if togglebutton is selected.
+
+Example:
+| Toggle Button Should Not Be Selected | _My Toggle Button_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Tree Node Popup Menu Item Should Be Disabled">
+<arguments>
+<arg>identifier</arg>
+<arg>nodeIdentifier</arg>
+<arg>menuPath</arg>
+</arguments>
+<doc>Fails if given popup menu item is enabled.
+
+Examples:
+| Tree Node Popup Menu Item Should Be Disabled | _myTree_ | _Root|Folder_ | _New Folder_ |
+| Tree Node Popup Menu Item Should Be Disabled | _0_      | _1_ | _New Folder_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Tree Node Popup Menu Item Should Be Enabled">
+<arguments>
+<arg>identifier</arg>
+<arg>nodeIdentifier</arg>
+<arg>menuPath</arg>
+</arguments>
+<doc>Fails if given popup menu item is disabled.
+
+Examples:
+| Tree Node Popup Menu Item Should Be Enabled | _myTree_ | _Root|Folder_ | _New Folder_ |
+| Tree Node Popup Menu Item Should Be Enabled | _0_ | _1_ | _New Folder_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Tree Node Should Be Collapsed">
+<arguments>
+<arg>identifier</arg>
+<arg>nodeIdentifier</arg>
+</arguments>
+<doc>Fails if the tree node is expanded.
+
+Example:
+| Tree Node Should Be Collapsed | _myTree_ | _Root|Folder_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Tree Node Should Be Expanded">
+<arguments>
+<arg>identifier</arg>
+<arg>nodeIdentifier</arg>
+</arguments>
+<doc>Fails if the tree node is collapsed.
+
+Example:
+| Tree Node Should Be Expanded | _myTree_ | _Root|Folder_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Tree Node Should Be Leaf">
+<arguments>
+<arg>identifier</arg>
+<arg>nodeIdentifier</arg>
+</arguments>
+<doc>Fails if the node has child nodes.
+You might want to set the waiting timeout with the keyword `Set Jemmy Timeout`
+
+Example:
+| Tree Node Should Be Leaf | _myTree_ | _Root|Folder_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Tree Node Should Be Selected">
+<arguments>
+<arg>identifier</arg>
+<arg>nodeIdentifier</arg>
+</arguments>
+<doc>Fails if the tree node is not selected.
+
+Example:
+| Tree Node Should Be Selected | _myTree_ | _Root|Folder_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Tree Node Should Be Visible">
+<arguments>
+<arg>identifier</arg>
+<arg>nodeIdentifier</arg>
+</arguments>
+<doc>Fails if the tree node is not visible.
+
+Example:
+| Tree Node Should Be Visible | _myTree_ | _Root|Folder_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Tree Node Should Exist">
+<arguments>
+<arg>identifier</arg>
+<arg>nodeIdentifier</arg>
+</arguments>
+<doc>Fails if the tree node does not exist.
+
+Example:
+| Tree Node Should Exist | _myTree_ | _Root|Folder_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Tree Node Should Not Be Leaf">
+<arguments>
+<arg>identifier</arg>
+<arg>nodeIdentifier</arg>
+</arguments>
+<doc>Fails if the node doesn't have child nodes.
+You might want to set the waiting timeout with the keyword `Set Jemmy Timeout`
+
+Example:
+| Tree Node Should Not Be Leaf | _myTree_ | _Root|Folder_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Tree Node Should Not Be Selected">
+<arguments>
+<arg>identifier</arg>
+<arg>nodeIdentifier</arg>
+</arguments>
+<doc>Fails if the tree node is selected.
+
+Example:
+| Tree Node Should Be Selected | _myTree_ | _Root|Folder_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Tree Node Should Not Be Visible">
+<arguments>
+<arg>identifier</arg>
+<arg>nodeIdentifier</arg>
+</arguments>
+<doc>Fails if the tree node is visible.
+
+Example:
+| Tree Node Should Not Be Visible | _myTree_ | _Root|Folder_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Tree Node Should Not Exist">
+<arguments>
+<arg>identifier</arg>
+<arg>nodeIdentifier</arg>
+</arguments>
+<doc>Fails if the tree node exists.
+
+Example:
+| Tree Node Should Not Exist | _myTree_ | _Root|Folder_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Type Into Combobox">
+<arguments>
+<arg>identifier</arg>
+<arg>text</arg>
+</arguments>
+<doc>Types text into a combobox.
+Example:
+| Type Into Combobox | _myCombobox_ | _someValue_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Type Into Table Cell">
+<arguments>
+<arg>identifier</arg>
+<arg>row</arg>
+<arg>columnIdentifier</arg>
+<arg>newValue</arg>
+</arguments>
+<doc>Types a string into a table cell.
+Uses real keyboard events, this is useful when processing need to be triggered by input events.
+
+Example:
+| Type Into Table Cell | _1_ | _2_ | _New value_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Type Into Text Field">
+<arguments>
+<arg>identifier</arg>
+<arg>text</arg>
+</arguments>
+<doc>Types text into a text component (e.g. text field, password field, text area).
+Same as `Insert Into Textfield` but sends real key events when setting text field contents.
+Useful if application expects real keyboard events instead of only setting the text of the textfield.
+
+It is possible to interact with AWT text components by prefixing the identifier with awt=
+
+Example:
+| Type Into Textfield | _nameTextField_ | _John Doe_ |
+| Type Into Textfield | awt=street_address | Karaportti 3 |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Uncheck All Checkboxes">
+<arguments>
+</arguments>
+<doc>Unchecks all checkboxes in current context.
+
+Example:
+| Select Context | _My Checkbox Panel_ |
+| Uncheck All Checkboxes | |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Uncheck Check Box">
+<arguments>
+<arg>identifier</arg>
+</arguments>
+<doc>Uses current context to search for a checkbox and when found, unchecks it.
+
+Example:
+| Uncheck Checkbox | _My Checkbox_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Unselect Tree Node">
+<arguments>
+<arg>identifier</arg>
+<arg>nodeIdentifier</arg>
+</arguments>
+<doc>Sets a tree node as unselected.
+
+Example:
+| Unselect Tree Node | _myTree_ | _Root|Folder_ |</doc>
+<tags>
+</tags>
+</kw>
+</keywordspec>

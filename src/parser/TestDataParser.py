@@ -27,7 +27,13 @@ class TestDataParser():
         return data
 
     def parse_suite(self, file_path):
-        pass
+        self.file_path = file_path
+        model = parsing.TestCaseFile(source=file_path).populate()
+        data = {}
+        data['file_name'] = path.basename(file_path)
+        data['file_path'] = path.normpath(file_path)
+        data['variables'] = self._get_global_variables(model)
+        return data
 
     def parse_variable_file(self, file_path):
         pass
