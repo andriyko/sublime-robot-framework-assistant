@@ -8,12 +8,17 @@ def get_variables():
     var['SIMPLE_RESOURCE'] = create_simple_resource(resource_dir)
     var['SIMPLE_TEST'] = create_simple_test(resource_dir)
     var['SIMPLE_VAR'] = create_simple_var(resource_dir)
+    var['BUILTIN_KW'] = get_builtin_var()
     return var
+
+
+def get_builtin_var():
+    pass
 
 
 def create_simple_var(resource_dir):
     result = {}
-    result['file_name'] = 'simple_test.robot'
+    result['file_name'] = 'simple_variable_file.py'
     result['file_path'] = path.join(resource_dir, result['file_name'])
     result['variables'] = ['${VARIABLE_FILE_1}', '${VARIABLE_FILE_2}']
     return result
@@ -26,6 +31,11 @@ def create_simple_test(resource_dir):
     result['libraries'] = [{'library_name': 'Selenium2Library',
                             'library_alias': None}]
     result['resources'] = [path.join(resource_dir, 'simple_resrouce2.robot')]
+    result['variable_files'] = [
+        [path.join(resource_dir, 'simple_variable_file.py'),
+            'arg11',
+            'arg22']
+        ]
     result['variables'] = ['${VAR2}']
     kws = {}
     kws['mykw1'] = my_kw_1()
@@ -40,6 +50,11 @@ def create_simple_resource(resource_dir):
     result['file_path'] = path.join(resource_dir, result['file_name'])
     result['libraries'] = [{'library_name': 'Selenium2Library',
                             'library_alias': None}]
+    result['variable_files'] = [
+        [path.join(resource_dir, 'simple_variable_file.py'),
+            'arg11',
+            'arg22']
+        ]
     result['resources'] = [path.join(resource_dir, 'simple_resrouce2.robot')]
     kws = {}
     kws['mykw1'] = my_kw_1()

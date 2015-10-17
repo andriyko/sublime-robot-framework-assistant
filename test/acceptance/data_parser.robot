@@ -19,8 +19,10 @@ Parser Should Be Able To Parse Test Suite
     ...    ${SIMPLE_TEST}
 
 Parser Should Be Able To Parse Variable File
+    ${list} =    Create List    arg11    arg22
     ${result} =    Parse Variable File
-    ...    ${CURDIR}${/}..${/}resource${/}test_data${/}simple_var.py
+    ...    ${CURDIR}${/}..${/}resource${/}test_data${/}simple_variable_file.py
+    ...    ${list}
     Dictionaries Should Be Equal
     ...    ${result}
     ...    ${SIMPLE_VAR}

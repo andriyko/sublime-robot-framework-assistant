@@ -1,5 +1,7 @@
 from robot import parsing
-from robot.libdocpkg.robotbuilder import LibraryDocBuilder
+from robot.variables.filesetter import VariableFileSetter
+from robot.variables.store import VariableStore
+from robot.variables.variables import Variables
 from os import path
 from converter import white_space
 
@@ -12,6 +14,8 @@ class TestDataParser():
     # Public
     def __init__(self):
         self.file_path = None
+        self.rf_variables = Variables()
+        self.rf_var_storage = VariableStore(self.rf_variables)
 
     def parse_resource(self, file_path):
         self.file_path = file_path
@@ -23,8 +27,17 @@ class TestDataParser():
         model = parsing.TestCaseFile(source=file_path).populate()
         return self._parse_robot_data(file_path, model)
 
-    def parse_variable_file(self, file_path):
-        pass
+    def parse_variable_file(self, file_path, args):
+        data = {}
+        data['file_name'] = path.basename(file_path)
+        data['file_path'] = path.normpath(file_path)
+        self.file_path = file_path
+        setter = VariableFileSetter(self.rf_var_storage)
+        var_list = []
+        for variable in setter.set(file_path, args):
+            var_list.append(variable[0])
+        data['variables'] = sorted(var_list)
+        return data
 
     def parse_library(self, file_path):
         pass
@@ -36,9 +49,10 @@ class TestDataParser():
         data['file_path'] = path.normpath(file_path)
         data['keywords'] = self._get_keywords(model)
         data['variables'] = self._get_global_variables(model)
-        lib, res = self._get_imports(model)
+        lib, res, v_files = self._get_imports(model)
         data['resources'] = res
         data['libraries'] = lib
+        data['variable_files'] = v_files
         return data
 
     def _get_keywords(self, model):
@@ -55,12 +69,15 @@ class TestDataParser():
     def _get_imports(self, model):
         lib = []
         res = []
+        var_files = []
         for setting in model.setting_table.imports:
             if setting.type == 'Library':
                 lib.append(self._format_library(setting))
-            else:
+            elif setting.type == 'Resource':
                 res.append(self._format_resource(setting))
-        return lib, res
+            elif setting.type == 'Variables':
+                var_files.append(self._format_variable_file(setting))
+        return lib, res, var_files
 
     def _format_library(self, setting):
         data = {}
@@ -75,59 +92,19 @@ class TestDataParser():
             c_dir = path.dirname(self.file_path)
             return path.normpath(path.join(c_dir, setting.name))
 
+    def _format_variable_file(self, setting):
+        data = []
+        if path.isfile(setting.name):
+            v_path = setting.name
+        else:
+            c_dir = path.dirname(self.file_path)
+            v_path = path.normpath(path.join(c_dir, setting.name))
+        data.append(v_path)
+        data += setting.args
+        return data
+
     def _get_global_variables(self, model):
         var_data = []
         for var in model.variable_table.variables:
             var_data.append(var.name)
         return var_data
-
-if __name__ == '__main__':
-    l1 = [1, 2, 3]
-    l2 = [0, 4, 6]
-    la = []
-    la += l1
-    la += l2
-    print la
-    """
-    f_path = 'D:\\workspace\\robotframework-dataparser\\test\\resource\\test_data\\simple_resource.robot'
-    x = DataParser()
-    tmp = x.parse_data(f_path)
-    print json.loads(tmp)
-    model = parsing.ResourceFile(f_path).populate()
-    for kw in model.keywords:
-        print kw.return_.value
-        print kw.tags.value
-        for s in kw.steps:
-            print '\tassign: {0}'.format(s.assign)
-            print '\tname: {0}'.format(s.name)
-            print '\targs: {0}'.format(s.args)
-    for kw in model.keyword_table.keywords:
-        print kw.name
-
-    model = parsing.ResourceFile(f_path).populate()
-    print 'Name: {0}'.format(model.name)
-    print 'Kw settings:'
-    for kw in model.keywords:
-        print '\tName: {0}'.format(kw.name)
-        print '\tArgs: {0}'.format(kw.args.value)
-        print '\tDocs: {0}'.format(kw.doc.value)
-    print 'Variables'
-    for var in model.variable_table.variables:
-        print '\tName: {0}'.format(var.name)
-    print 'Settings'
-    for setting in model.setting_table.imports:
-        print setting.name
-        print setting.args
-        print setting.alias
-        print setting.type
-
-    print model.directory
-    print base64.b16encode(path.join(model.directory, model.name))
-    """
-    # print 'Library Selenium2Library'
-    # x = LibraryDocBuilder()
-    # lib = x.build('Selenium2Library')
-    # for kw in lib.keywords:
-    #     print kw.name
-    #     print kw.args
-
