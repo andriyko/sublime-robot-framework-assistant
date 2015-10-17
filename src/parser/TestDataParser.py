@@ -16,6 +16,21 @@ class TestDataParser():
     def parse_resource(self, file_path):
         self.file_path = file_path
         model = parsing.ResourceFile(file_path).populate()
+        return self._parse_robot_data(file_path, model)
+
+    def parse_suite(self, file_path):
+        self.file_path = file_path
+        model = parsing.TestCaseFile(source=file_path).populate()
+        return self._parse_robot_data(file_path, model)
+
+    def parse_variable_file(self, file_path):
+        pass
+
+    def parse_library(self, file_path):
+        pass
+
+    # Private
+    def _parse_robot_data(self, file_path, model):
         data = {}
         data['file_name'] = path.basename(file_path)
         data['file_path'] = path.normpath(file_path)
@@ -25,23 +40,6 @@ class TestDataParser():
         data['resources'] = res
         data['libraries'] = lib
         return data
-
-    def parse_suite(self, file_path):
-        self.file_path = file_path
-        model = parsing.TestCaseFile(source=file_path).populate()
-        data = {}
-        data['file_name'] = path.basename(file_path)
-        data['file_path'] = path.normpath(file_path)
-        data['variables'] = self._get_global_variables(model)
-        return data
-
-    def parse_variable_file(self, file_path):
-        pass
-
-    def parse_library(self, file_path):
-        pass
-
-    # Private
 
     def _get_keywords(self, model):
         kw_data = {}
