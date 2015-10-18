@@ -2,6 +2,7 @@ from robot import parsing
 from robot.variables.filesetter import VariableFileSetter
 from robot.variables.store import VariableStore
 from robot.variables.variables import Variables
+from robot.libdocpkg.robotbuilder import LibraryDocBuilder
 from os import path
 from dataparser.converter import white_space
 
@@ -47,6 +48,17 @@ class TestDataParser():
             data['library_module'] = path.splitext(data['file_name'])
         else:
             data['library_module'] = library
+        kws = {}
+        libdoc = LibraryDocBuilder()
+        library = libdoc.build(library)
+        for keyword in library.keywords:
+            kw = {}
+            kw['keyword_name'] = keyword.name
+            kw['tags'] = keyword.tags
+            kw['keyword_arguments'] = keyword.args
+            kw['documentation'] = keyword.doc
+            kws[white_space.strip_and_lower(keyword.name)] = kw
+        data['keywords'] = kws
         return data
 
     # Private

@@ -8,12 +8,7 @@ def get_variables():
     var['SIMPLE_RESOURCE'] = create_simple_resource(resource_dir)
     var['SIMPLE_TEST'] = create_simple_test(resource_dir)
     var['SIMPLE_VAR'] = create_simple_var(resource_dir)
-    var['BUILTIN_KW'] = get_builtin_var()
     return var
-
-
-def get_builtin_var():
-    pass
 
 
 def create_simple_var(resource_dir):

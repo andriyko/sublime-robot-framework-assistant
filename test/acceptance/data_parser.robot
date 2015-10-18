@@ -26,24 +26,3 @@ Parser Should Be Able To Parse Variable File
     Dictionaries Should Be Equal
     ...    ${result}
     ...    ${SIMPLE_VAR}
-
-Parser Should Be Able To Parse Internal Library
-    ${result} =    Parse Library
-    ...    Screenshot
-    Dictionaries Should Be Equal
-    ...    ${result}
-    ...    ${SCREENSHOT_KW}
-
-Parser Should Be Able To Parse External Library From Python Path
-    ${result} =    Parse Library
-    ...    Selenium2Library
-    Dictionaries Should Be Equal
-    ...    ${result}
-    ...    ${SELENIUM2LIBRARY_KW}
-
-Parser Should Be Able To Parse External Library From File
-    ${result} =    Parse Library
-    ...    ${CURDIR}${/}..${/}resource${/}library${/}SwingLibrary-1.9.5.xml
-    Dictionaries Should Be Equal
-    ...    ${result}
-    ...    ${SWINGLIBRARY_KW}

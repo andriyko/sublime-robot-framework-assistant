@@ -1,5 +1,5 @@
 from os import path
-from robot.libdocpkg.robotbuilder import LibraryDocBuilder
+from suite_parser_vars import get_resource_path
 
 
 def get_variables():
@@ -13,14 +13,29 @@ def get_variables():
 def get_screenshot():
     data = {}
     data['library_module'] = 'Screenshot'
+    data['keywords'] = screenshot_keywords()
+    return data
 
-    l = LibraryDocBuilder()
-    libdoc = l.build('Screenshot')
+
+def screenshot_keywords():
     kws = {}
-    for kw in libdoc.keywords:
-        kw = {}
-        kw['keyword_name'] = kw.name
-        kw['keyword_arguments'] = kw.args
-        kw['documentation'] = kw.doc
-        #print kw.tags
-
+    kw = {}
+    kw['keyword_name'] = 'Set Screenshot Directory'
+    kw['tags'] = []
+    kw['documentation'] = 'Sets the directory where screenshots are saved.'
+    kw['keyword_arguments'] = ['path']
+    kws[kw['keyword_name'].lower().replace(' ', '')] = kw
+    kw = {}
+    kw['keyword_name'] = 'Take Screenshot'
+    kw['tags'] = []
+    kw['documentation'] = \
+        'Takes a screenshot in JPEG format and embeds it into the log file.'
+    kw['keyword_arguments'] = ['name=screenshot', 'width=800px']
+    kws[kw['keyword_name'].lower().replace(' ', '')] = kw
+    kw = {}
+    kw['keyword_name'] = 'Take Screenshot Without Embedding'
+    kw['tags'] = []
+    kw['documentation'] = 'Takes a screenshot and links it from the log file.'
+    kw['keyword_arguments'] = ['name=screenshot']
+    kws[kw['keyword_name'].lower().replace(' ', '')] = kw
+    return kws
