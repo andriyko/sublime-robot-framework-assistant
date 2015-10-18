@@ -1,5 +1,5 @@
 *** Settings ***
-Library           ../../src/parser/TestDataParser.py
+Library           ../../src/dataparser/parser/TestDataParser.py
 Library           Collections
 Variables         variable_files/suite_parser_vars.py
 
@@ -29,10 +29,10 @@ Parser Should Be Able To Parse Variable File
 
 Parser Should Be Able To Parse Internal Library
     ${result} =    Parse Library
-    ...    BuiltIn
+    ...    Screenshot
     Dictionaries Should Be Equal
     ...    ${result}
-    ...    ${BUILTIN_KW}
+    ...    ${SCREENSHOT_KW}
 
 Parser Should Be Able To Parse External Library From Python Path
     ${result} =    Parse Library

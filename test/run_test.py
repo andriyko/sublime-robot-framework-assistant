@@ -2,6 +2,7 @@ import env
 import os
 import sys
 import glob
+import unittest
 from robot import run
 
 
@@ -10,11 +11,11 @@ def acceptance_test(options):
     if len(options) == 0:
         _acceptance_all()
     else:
-        if '-s' not in options or '--suite' not in options:
+        if '-s' in options or '--suite' in options:
+            _acceptance_include(options[1:])
+        else:
             print 'Only "-s" or "--suite" supported'
             _exit(255)
-        else:
-            _acceptance_include(options[1:])
 
 
 def _acceptance_all():
@@ -41,7 +42,12 @@ def clean_results():
 
 
 def unit_test():
-    print 'TODO'
+    print 'Running unit test'
+    sys.path.insert(0, env.SRC_DIR)
+    suite = unittest.TestLoader().discover(
+        start_dir=env.UNIT_TEST_DIR,
+        pattern='test*.py')
+    return unittest.TextTestRunner(verbosity=2).run(suite)
 
 
 def _help():
@@ -56,5 +62,7 @@ if __name__ == '__main__':
     if '--help' in sys.argv or '-h' in sys.argv:
         _exit(_help())
     clean_results()
-    unit_test()
+    result = unit_test()
+    if result.failures == []:
+        print 'Unit test passed'
     acceptance_test(sys.argv[1:])

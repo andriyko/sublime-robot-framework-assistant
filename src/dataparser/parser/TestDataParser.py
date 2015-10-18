@@ -3,7 +3,7 @@ from robot.variables.filesetter import VariableFileSetter
 from robot.variables.store import VariableStore
 from robot.variables.variables import Variables
 from os import path
-from converter import white_space
+from dataparser.converter import white_space
 
 
 class TestDataParser():
@@ -39,8 +39,15 @@ class TestDataParser():
         data['variables'] = sorted(var_list)
         return data
 
-    def parse_library(self, file_path):
-        pass
+    def parse_library(self, library):
+        data = {}
+        if path.isfile(library):
+            data['file_name'] = path.basename(library)
+            data['file_path'] = path.normpath(library)
+            data['library_module'] = path.splitext(data['file_name'])
+        else:
+            data['library_module'] = library
+        return data
 
     # Private
     def _parse_robot_data(self, file_path, model):
