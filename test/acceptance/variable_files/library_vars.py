@@ -7,7 +7,21 @@ def get_variables():
     resource_dir = get_resource_path(root_dir)
     var = {}
     var['SCREENSHOT_KW'] = get_screenshot()
+    var['MYLIBRARY_KW'] = get_mylibrary(resource_dir)
     return var
+
+
+def get_mylibrary(resource_dir):
+    data = {}
+    data['library_module'] = 'MyLibrary'
+    data['file_path'] = path.normpath(path.join(
+        resource_dir,
+        '..',
+        'library',
+        'MyLibrary.py'))
+    data['file_name'] = path.basename(data['file_path'])
+    data['keywords'] = {'keyword1': 1, 'keyword2': 2}
+    return data
 
 
 def get_screenshot():

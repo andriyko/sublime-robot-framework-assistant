@@ -18,7 +18,14 @@ Parser Should Be Able To Parse External Library From Python Path
     ...    ${result}
     ...    ${SELENIUM2LIBRARY_KW}
 
-Parser Should Be Able To Parse External Library From File
+Parser Should Be Able To Parse External Library From Custom Location
+    ${result} =    Parse Library
+    ...    ${CURDIR}${/}..${/}resource${/}library${/}MyLibrary.py
+    Simple Library Results Verifier
+    ...    ${result}
+    ...    ${MYLIBRARY_KW}
+
+Parser Should Be Able To Parse External Library From XML File
     ${result} =    Parse Library
     ...    ${CURDIR}${/}..${/}resource${/}library${/}SwingLibrary-1.9.5.xml
     Verify Library Results
@@ -26,13 +33,13 @@ Parser Should Be Able To Parse External Library From File
     ...    ${SWINGLIBRARY_KW}
 
 *** Keywords ***
-Verify Library Results
+Simple Library Results Verifier
     [Arguments]    ${result}    ${expected}
     ${result_keys} =    Get Dictionary Keys    ${result}
-    ${screenshot_kw_keys} =    Get Dictionary Keys    ${SCREENSHOT_KW}
+    ${expected_kw_keys} =    Get Dictionary Keys    ${expected}
     Lists Should Be Equal
     ...    ${result_keys}
-    ...    ${screenshot_kw_keys}
+    ...    ${expected_kw_keys}
     ${result_kws} =    Get From Dictionary
     ...    ${result}
     ...    keywords
@@ -44,6 +51,13 @@ Verify Library Results
     Lists Should Be Equal
     ...    ${result_kws_keys}
     ...    ${expected_kws_keys}
+    [Return]    ${result_kws}    ${expected_kws}
+
+Verify Library Results
+    [Arguments]    ${result}    ${expected}
+    ${result_kws}    ${expected_kws} =    Simple Library Results Verifier
+    ...    ${result}
+    ...    ${expected}
     ${result_kws_values} =    Get Dictionary Values    ${result_kws}
     ${expected_kws_values} =    Get Dictionary Values    ${expected_kws}
     ${result_len} =    Get Length    ${result_kws_values}

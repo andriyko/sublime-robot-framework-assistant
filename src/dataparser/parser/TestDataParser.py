@@ -17,6 +17,7 @@ class TestDataParser():
         self.file_path = None
         self.rf_variables = Variables()
         self.rf_var_storage = VariableStore(self.rf_variables)
+        self.libdoc = LibraryDocBuilder()
 
     def parse_resource(self, file_path):
         self.file_path = file_path
@@ -45,12 +46,24 @@ class TestDataParser():
         if path.isfile(library):
             data['file_name'] = path.basename(library)
             data['file_path'] = path.normpath(library)
-            data['library_module'] = path.splitext(data['file_name'])
+            data['library_module'] = path.splitext(data['file_name'])[0]
+            if library.endswith('.xml'):
+                data['keywords'] = self._parse_xml_doc(library)
+                return data
+            elif library.endswith('.py'):
+                data['keywords'] = self._parse_python_lib(library)
+                return data
+            else:
+                raise ValueError('Unknown library')
         else:
             data['library_module'] = library
+            data['keywords'] = self._parse_python_lib(library)
+            return data
+
+    # Private
+    def _parse_python_lib(self, library):
         kws = {}
-        libdoc = LibraryDocBuilder()
-        library = libdoc.build(library)
+        library = self.libdoc.build(library)
         for keyword in library.keywords:
             kw = {}
             kw['keyword_name'] = keyword.name
@@ -58,10 +71,11 @@ class TestDataParser():
             kw['keyword_arguments'] = keyword.args
             kw['documentation'] = keyword.doc
             kws[white_space.strip_and_lower(keyword.name)] = kw
-        data['keywords'] = kws
-        return data
+        return kws
 
-    # Private
+    def _parse_xml_doc(self, library):
+        return
+
     def _parse_robot_data(self, file_path, model):
         data = {}
         data['file_name'] = path.basename(file_path)
