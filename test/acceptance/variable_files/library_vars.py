@@ -1,5 +1,6 @@
 from os import path
 from suite_parser_vars import get_resource_path
+import copy
 
 
 def get_variables():
@@ -8,6 +9,7 @@ def get_variables():
     var = {}
     var['SCREENSHOT_KW'] = get_screenshot()
     var['MYLIBRARY_KW'] = get_mylibrary(resource_dir)
+    var['MYLIBRARY_XML'] = get_mylibrary_xml(var['MYLIBRARY_KW'])
     return var
 
 
@@ -20,8 +22,28 @@ def get_mylibrary(resource_dir):
         'library',
         'MyLibrary.py'))
     data['file_name'] = path.basename(data['file_path'])
-    data['keywords'] = {'keyword1': 1, 'keyword2': 2}
+    kws = {}
+    kw = {}
+    kw['keyword_name'] = 'Keyword 2'
+    kw['keyword_arguments'] = ['arg2', 'arg3']
+    kw['documentation'] = 'kw 2 doc'
+    kw['tags'] = []
+    kws['keyword2'] = kw
+    kw = {}
+    kw['keyword_name'] = 'Keyword 1'
+    kw['keyword_arguments'] = ['arg1']
+    kw['documentation'] = 'kw 1 doc'
+    kw['tags'] = ['tag1', 'tag2']
+    kws['keyword1'] = kw
+    data['keywords'] = kws
     return data
+
+
+def get_mylibrary_xml(data):
+    n_data = copy.copy(data)
+    n_data['file_path'] = data['file_path'].replace('.py', '.xml')
+    n_data['file_name'] = data['file_name'].replace('.py', '.xml')
+    return n_data
 
 
 def get_screenshot():

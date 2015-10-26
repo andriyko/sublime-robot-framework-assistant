@@ -4,6 +4,7 @@ from robot.variables.store import VariableStore
 from robot.variables.variables import Variables
 from robot.libdocpkg.robotbuilder import LibraryDocBuilder
 from os import path
+import xml.etree.ElementTree as ET
 from dataparser.converter import white_space
 
 
@@ -67,14 +68,34 @@ class TestDataParser():
         for keyword in library.keywords:
             kw = {}
             kw['keyword_name'] = keyword.name
-            kw['tags'] = keyword.tags
+            kw['tags'] = list(keyword.tags._tags)
             kw['keyword_arguments'] = keyword.args
             kw['documentation'] = keyword.doc
             kws[white_space.strip_and_lower(keyword.name)] = kw
         return kws
 
     def _parse_xml_doc(self, library):
-        return
+        root = ET.parse(library).getroot()
+        if ('type', 'library') in root.items():
+            return self._parse_xml_lib(root)
+        else:
+            ValueError('XML file is not library: {}'.format(root.items()))
+
+    def _parse_xml_lib(self, root):
+        kws = {}
+        for element in root.findall('kw'):
+            kw = {}
+            kw['keyword_name'] = element.attrib['name']
+            kw['documentation'] = element.find('doc').text
+            tags = []
+            [tags.append(tag.text) for tag in element.findall('.//tags/tag')]
+            kw['tags'] = tags
+            arg = []
+            [arg.append(tag.text) for tag in element.findall('.//arguments/arg')]
+            kw['keyword_arguments'] = arg
+            kws[white_space.strip_and_lower(kw['keyword_name'])] = kw
+        return kws
+
 
     def _parse_robot_data(self, file_path, model):
         data = {}

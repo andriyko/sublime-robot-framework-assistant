@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<keywordspec generated="20151026 23:04:56" type="library" name="MyLibrary" format="ROBOT">
+<version></version>
+<scope>test case</scope>
+<namedargs>yes</namedargs>
+<doc>Documentation for test library `MyLibrary`.</doc>
+<kw name="Keyword 1">
+<arguments>
+<arg>arg1</arg>
+</arguments>
+<doc>kw 1 doc</doc>
+<tags>
+<tag>tag1</tag>
+<tag>tag2</tag>
+</tags>
+</kw>
+<kw name="Keyword 2">
+<arguments>
+<arg>arg2</arg>
+<arg>arg3</arg>
+</arguments>
+<doc>kw 2 doc</doc>
+<tags>
+</tags>
+</kw>
+</keywordspec>

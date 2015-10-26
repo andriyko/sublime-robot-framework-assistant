@@ -21,16 +21,16 @@ Parser Should Be Able To Parse External Library From Python Path
 Parser Should Be Able To Parse External Library From Custom Location
     ${result} =    Parse Library
     ...    ${CURDIR}${/}..${/}resource${/}library${/}MyLibrary.py
-    Simple Library Results Verifier
+    Dictionaries Should Be Equal
     ...    ${result}
     ...    ${MYLIBRARY_KW}
 
 Parser Should Be Able To Parse External Library From XML File
     ${result} =    Parse Library
-    ...    ${CURDIR}${/}..${/}resource${/}library${/}SwingLibrary-1.9.5.xml
-    Verify Library Results
+    ...    ${CURDIR}${/}..${/}resource${/}library${/}MyLibrary.xml
+    Dictionaries Should Be Equal
     ...    ${result}
-    ...    ${SWINGLIBRARY_KW}
+    ...    ${MYLIBRARY_XML}
 
 *** Keywords ***
 Simple Library Results Verifier
