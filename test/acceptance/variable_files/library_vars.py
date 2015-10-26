@@ -10,6 +10,11 @@ def get_variables():
     var['SCREENSHOT_KW'] = get_screenshot()
     var['MYLIBRARY_KW'] = get_mylibrary(resource_dir)
     var['MYLIBRARY_XML'] = get_mylibrary_xml(var['MYLIBRARY_KW'])
+    var['SELENIUM2LIBRARY_KEYS_LIST'] = ['keywords', 'library_module']
+    var['ADDCOOKIE_KEYS_LILST'] = ['keyword_name',
+                                   'keyword_arguments',
+                                   'documentation',
+                                   'tags']
     return var
 
 
