@@ -25,10 +25,11 @@ Parser Should Be Able To Parse External Library From Python Path
     ...    ${keywords}
     ...    addcookie
     ${one_kw_keys} =    Get Dictionary Keys    ${one_kw}
+    Sort List    ${one_kw_keys}
+    Sort List    ${ADDCOOKIE_KEYS_LILST}
     Lists Should Be Equal
     ...    ${one_kw_keys}
     ...    ${ADDCOOKIE_KEYS_LILST}
-
 
 Parser Should Be Able To Parse External Library From Custom Location
     ${result} =    Parse Library
@@ -43,6 +44,12 @@ Parser Should Be Able To Parse External Library From XML File
     Dictionaries Should Be Equal
     ...    ${result}
     ...    ${MYLIBRARY_XML}
+
+Parser Should Be Not Able To Parse Resource File From XML File
+    Run Keyword And Expect Error
+    ...    ValueError: Library did not contains keywords
+    ...    Parse Library
+    ...    ${CURDIR}${/}..${/}resource${/}library${/}simple_resource.xml
 
 *** Keywords ***
 Simple Library Results Verifier

@@ -50,15 +50,16 @@ class TestDataParser():
             data['library_module'] = path.splitext(data['file_name'])[0]
             if library.endswith('.xml'):
                 data['keywords'] = self._parse_xml_doc(library)
-                return data
             elif library.endswith('.py'):
                 data['keywords'] = self._parse_python_lib(library)
-                return data
             else:
                 raise ValueError('Unknown library')
         else:
             data['library_module'] = library
             data['keywords'] = self._parse_python_lib(library)
+        if data['keywords'] is None:
+            raise ValueError('Library did not contains keywords')
+        else:
             return data
 
     # Private
