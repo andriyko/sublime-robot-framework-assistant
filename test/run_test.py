@@ -63,6 +63,6 @@ if __name__ == '__main__':
         _exit(_help())
     clean_results()
     result = unit_test()
-    if result.failures == []:
+    if result.errors == 0:
         print 'Unit test passed'
     acceptance_test(sys.argv[1:])
