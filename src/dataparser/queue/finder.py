@@ -3,7 +3,7 @@ import fnmatch
 
 
 def finder(path, ext):
-    """Returns files from by extension"""
+    """Returns files from path by extension"""
     l = []
     if not ext.startswith('*.'):
         ext = '*.{0}'.format(ext)
