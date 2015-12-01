@@ -15,13 +15,13 @@ class ParsingQueue(object):
         if data not in self.queue:
             self.queue[data] = {'scanned': False}
 
-    def get(self):
-        """Get item from start of the queue"""
+    def pop(self):
+        """Pop item from start of the queue"""
         try:
             return self.queue.popitem(last=False)
         except KeyError:
             return {}
 
-    def update(self, data):
-        """Update status to True"""
+    def set(self, data):
+        """Set status to True"""
         self.queue[data] = {'scanned': True}

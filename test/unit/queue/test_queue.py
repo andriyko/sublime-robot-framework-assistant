@@ -39,13 +39,13 @@ class TestLibraryParsingQueue(unittest.TestCase):
         self.expected['BuiltIn'] = self.status
         self.expected['some_resource.robot'] = self.status
         self.assertEqual(
-            self.queue.get(),
+            self.queue.pop(),
             self.expected.popitem(last=False))
         self.assertEqual(
-            self.queue.get(),
+            self.queue.pop(),
             self.expected.popitem(last=False))
         self.assertEqual(
-            self.queue.get(),
+            self.queue.pop(),
             {})
 
     def test_udate(self):
@@ -54,17 +54,17 @@ class TestLibraryParsingQueue(unittest.TestCase):
         self.assertEqual(
             self.queue.queue,
             self.expected)
-        self.queue.update('BuiltIn')
+        self.queue.set('BuiltIn')
         status = {'scanned': True}
         self.expected['BuiltIn'] = status
         self.assertEqual(
             self.queue.queue,
             self.expected)
-        self.queue.update('BuiltIn')
+        self.queue.set('BuiltIn')
         self.assertEqual(
             self.queue.queue,
             self.expected)
-        self.queue.update('some_resource.robot')
+        self.queue.set('some_resource.robot')
         self.expected['some_resource.robot'] = status
         self.assertEqual(
             self.queue.queue,
