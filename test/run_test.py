@@ -3,6 +3,7 @@ import os
 import sys
 import glob
 import unittest
+import shutil
 from robot import run
 
 
@@ -34,9 +35,7 @@ def _acceptance_include(options):
 def clean_results():
     print 'Clean: {0}'.format(env.RESULTS_DIR)
     if os.path.exists(env.RESULTS_DIR):
-        os.chdir(env.RESULTS_DIR)
-        for f in glob.glob('*'):
-            os.unlink(f)
+        shutil.rmtree(env.RESULTS_DIR)
     else:
         os.mkdir(env.RESULTS_DIR)
 
