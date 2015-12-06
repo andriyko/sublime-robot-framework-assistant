@@ -19,9 +19,16 @@ class TestLibraryParsingQueue(unittest.TestCase):
         x.update(dict2)
         return x
 
-    def test_queue_invalid_rf_type(self):
+    def test_errors(self):
+        self.assertEqual(
+            self.queue.get(),
+            {})
+
         with self.assertRaises(ValueError):
             self.queue.add('BuiltIn', 'invalid')
+
+        with self.assertRaises(KeyError):
+            self.queue.set('NotHere')
 
     def test_queue(self):
         self.assertEqual(
