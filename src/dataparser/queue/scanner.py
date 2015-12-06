@@ -1,3 +1,4 @@
+import shutil
 from os import path, makedirs
 from robot.errors import DataError
 from finder import finder
@@ -31,8 +32,12 @@ class Scanner(object):
                 'Workspace must be folder: {0}'.format(str(workspace)))
         if not path.exists(db_path):
             makedirs(db_path)
+        else:
+            shutil.rmtree(db_path)
         for f in finder(workspace, ext):
-            self.queue.add(f)
+            self.queue.add(f, None)
+        # Some sort of while loop
+        # to read items from queue, scan and save to db_path
 
     def scan_resource(self, f):
         try:

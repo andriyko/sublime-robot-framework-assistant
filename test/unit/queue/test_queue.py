@@ -10,62 +10,63 @@ class TestLibraryParsingQueue(unittest.TestCase):
         self.queue = ParsingQueue()
         self.expected = OrderedDict()
         self.status = {'scanned': False}
+        self.lib = {'type': 'library'}
+        self.test = {'type': 'test_suite'}
+        self.resource = {'type': 'resource'}
 
-    def test_adding(self):
+    def _join_dict(self, dict1, dict2):
+        x = dict1.copy()
+        x.update(dict2)
+        return x
+
+    def test_queue_invalid_rf_type(self):
+        with self.assertRaises(ValueError):
+            self.queue.add('BuiltIn', 'invalid')
+
+    def test_queue(self):
         self.assertEqual(
             self.queue.queue,
             self.expected)
 
-        self.queue.add('BuiltIn')
-        self.expected['BuiltIn'] = self.status
+        self.queue.add('BuiltIn', 'library')
+        self.expected['BuiltIn'] = self._join_dict(
+            self.status, self.lib)
         self.assertEqual(
             self.queue.queue,
             self.expected)
 
-        self.queue.add('BuiltIn')
+        self.queue.add('BuiltIn', 'library')
         self.assertEqual(
             self.queue.queue,
             self.expected)
 
-        self.queue.add('some_resource.robot')
-        self.expected['some_resource.robot'] = self.status
+        self.queue.add('some_resource.robot', 'resource')
+        self.expected['some_resource.robot'] = self._join_dict(
+            self.status, self.resource)
         self.assertEqual(
             self.queue.queue,
             self.expected)
 
-    def test_get(self):
-        self.queue.add('BuiltIn')
-        self.queue.add('some_resource.robot')
-        self.expected['BuiltIn'] = self.status
-        self.expected['some_resource.robot'] = self.status
-        self.assertEqual(
-            self.queue.pop(),
-            self.expected.popitem(last=False))
-        self.assertEqual(
-            self.queue.pop(),
-            self.expected.popitem(last=False))
-        self.assertEqual(
-            self.queue.pop(),
-            {})
-
-    def test_udate(self):
-        self.queue.add('BuiltIn')
-        self.expected['BuiltIn'] = self.status
+        self.queue.add('Selenium2Library', 'library')
+        self.expected['Selenium2Library'] = self._join_dict(
+            self.status, self.lib)
         self.assertEqual(
             self.queue.queue,
             self.expected)
+
+        data = self.queue.get()
+        except_data = self.expected.items()[0]
+        self.expected.popitem(last=False)
+        except_data[1]['scanned'] = 'queued'
+        self.expected['BuiltIn'] = except_data[1]
+        self.assertEqual(data, except_data)
+        self.assertEqual(self.queue.queue, self.expected)
+
+        self.queue.add('BuiltIn', 'library')
+        self.assertEqual(self.queue.queue, self.expected)
+
         self.queue.set('BuiltIn')
-        status = {'scanned': True}
-        self.expected['BuiltIn'] = status
-        self.assertEqual(
-            self.queue.queue,
-            self.expected)
-        self.queue.set('BuiltIn')
-        self.assertEqual(
-            self.queue.queue,
-            self.expected)
-        self.queue.set('some_resource.robot')
-        self.expected['some_resource.robot'] = status
-        self.assertEqual(
-            self.queue.queue,
-            self.expected)
+        except_data = self.expected.items()[-1]
+        except_data[1]['scanned'] = True
+        self.expected['BuiltIn'] = except_data[1]
+        self.assertEqual(self.queue.queue, self.expected)

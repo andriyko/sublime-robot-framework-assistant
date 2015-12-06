@@ -5,23 +5,37 @@ class ParsingQueue(object):
     """This is queue for parsing test data and libraries"""
     def __init__(self):
         self.queue = OrderedDict({})
+        self.rf_types = ['library', 'test_suite', 'resource', None]
 
-    def add(self, data):
+    def add(self, data, rf_type):
         """Add item to the end of the queue.
 
-        Does not add duplicates in the queue"""
+        Does not add duplicates in the queue. ``rf_type``
+        defines the type of the added item. Possible values are:
+        `library`, `test_suite`, `resource` and None. rf_type=None is used
+        when it is not know is the file type resource or a test suite.
+        """
         # {'library_name': {'scanned': False}}
         # {'resource_name': {'scanned': False}}
+        if rf_type not in self.rf_types:
+            raise ValueError('Invalid rf_type: {0}'.format(rf_type))
         if data not in self.queue:
-            self.queue[data] = {'scanned': False}
+            self.queue[data] = {
+                'scanned': False,
+                'type': rf_type}
 
-    def pop(self):
-        """Pop item from start of the queue"""
+    def get(self):
+        """Get item from start of the queue"""
         try:
-            return self.queue.popitem(last=False)
+            data = self.queue.popitem(last=False)
+            data[1]['scanned'] = 'queued'
+            self.queue[data[0]] = data[1]
+            return data
         except KeyError:
             return {}
 
     def set(self, data):
-        """Set status to True"""
-        self.queue[data] = {'scanned': True}
+        """Set status to True and put item as last item in the queue"""
+        status = self.queue[data]
+        status['scanned'] = True
+        self.queue[data] = status
