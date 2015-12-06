@@ -1,7 +1,6 @@
 import env
 import os
 import sys
-import glob
 import unittest
 import shutil
 from robot import run
