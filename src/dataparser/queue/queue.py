@@ -15,8 +15,6 @@ class ParsingQueue(object):
         `library`, `test_suite`, `resource` and None. rf_type=None is used
         when it is not know is the file type resource or a test suite.
         """
-        # {'library_name': {'scanned': False}}
-        # {'resource_name': {'scanned': False}}
         if rf_type not in self.rf_types:
             raise ValueError('Invalid rf_type: {0}'.format(rf_type))
         if data not in self.queue:
