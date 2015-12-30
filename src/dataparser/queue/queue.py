@@ -1,4 +1,5 @@
 from collections import OrderedDict
+from copy import deepcopy
 
 
 class ParsingQueue(object):
@@ -26,8 +27,9 @@ class ParsingQueue(object):
         """Get item from start of the queue"""
         try:
             data = self.queue.popitem(last=False)
-            data[1]['scanned'] = 'queued'
-            self.queue[data[0]] = data[1]
+            tmp = deepcopy(data)
+            tmp[1]['scanned'] = 'queued'
+            self.queue[tmp[0]] = tmp[1]
             return data
         except KeyError:
             return {}

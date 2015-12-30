@@ -62,9 +62,10 @@ class TestLibraryParsingQueue(unittest.TestCase):
         self.add_resource()
         data = self.queue.get()
         except_data = self.expected.popitem(last=False)
+        except_data[1]['scanned'] = False
+        self.assertEqual(data, except_data)
         except_data[1]['scanned'] = 'queued'
         self.expected['BuiltIn'] = except_data[1]
-        self.assertEqual(data, except_data)
         self.assertEqual(self.queue.queue, self.expected)
         # Adding lib second time should not add item to the queue
         self.queue.add('BuiltIn', 'library')
@@ -79,6 +80,9 @@ class TestLibraryParsingQueue(unittest.TestCase):
         self.expected.popitem(last=False)
         except_data[1]['scanned'] = True
         self.expected['BuiltIn'] = except_data[1]
+        self.assertEqual(self.queue.queue, self.expected)
+        # Adding scanned item should not change the item
+        self.queue.add('BuiltIn', 'library')
         self.assertEqual(self.queue.queue, self.expected)
 
     def add_builtin(self):
