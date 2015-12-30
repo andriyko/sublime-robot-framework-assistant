@@ -17,6 +17,7 @@ class Scanner(object):
     """
     def __init__(self):
         self.queue = ParsingQueue()
+        self.rf_data_type = [None, 'test_suite', 'resource']
 
     def scan(self, workspace, ext, db_path):
         """Scan and create the database
@@ -34,19 +35,43 @@ class Scanner(object):
             makedirs(db_path)
         else:
             shutil.rmtree(db_path)
+            makedirs(db_path)
         for f in finder(workspace, ext):
             self.queue.add(f, None)
-        # Some sort of while loop
-        # to read items from queue, scan and save to db_path
+        while True:
+            item = self.get_item()
+            if not item:
+                return
+            else:
+                self.add_to_queue(item)
+                self.put_item_to_db(item)
 
-    def scan_resource(self, f):
+    def get_item(self):
+        item = self.queue.get()
+        if not item:
+            return item
+        elif not item[1]['scanned']:
+            return item
+        else:
+            return {}
+
+    def add_to_queue(self, item):
+        """Add resources and libraries to queue"""
+        pass
+
+    def put_item_to_db(self, item):
+        """Creates the json file to self.db_path"""
+        pass
+
+    def scan_all(self, item):
+        if item[1]['type'] in self.rf_data_type:
+            return self.scan_rf_data(item[0])
+        elif item[1]['type'] == 'library':
+            TestDataParser().parse_library(item[0])
+
+    def scan_rf_data(self, f):
+        """Scans test suite or resoruce file"""
         try:
             return TestDataParser().parse_resource(f)
         except DataError:
-            return {}
-
-    def scan_suite(self, f):
-        try:
             return TestDataParser().parse_suite(f)
-        except DataError:
-            return {}
