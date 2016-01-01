@@ -113,6 +113,37 @@ class TestScanner(unittest.TestCase):
         data = self.scanner.parse_all(item)
         self.assertNotEqual(data, None)
 
+    def test_add_imports_from_resource(self):
+        item = self.create_resource_item()
+        data = self.scanner.parse_all(item)
+        self.scanner.add_to_queue(data)
+        self.assertEqual(len(
+            self.scanner.queue.queue),
+            3
+            )
+
+    def test_scanning_same_resource_two_times_does_not_change_qyueue(self):
+        item = self.create_resource_item()
+        data = self.scanner.parse_all(item)
+        self.scanner.add_to_queue(data)
+        self.assertEqual(len(
+            self.scanner.queue.queue),
+            3
+            )
+        self.scanner.add_to_queue(data)
+        self.assertEqual(len(
+            self.scanner.queue.queue),
+            3
+            )
+
+    def create_resource_item(self):
+        resource = os.path.join(
+            env.RESOURCES_DIR,
+            'test_data',
+            'simple_resource.robot'
+            )
+        return (resource, {'scanned': False, 'type': 'resource'})
+
     def add_test_data(self):
         self.scanner.queue.add('BuiltIn', 'library')
         self.scanner.queue.add('some.robot', None)

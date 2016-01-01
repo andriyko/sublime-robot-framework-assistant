@@ -6,7 +6,13 @@ class ParsingQueue(object):
     """This is queue for parsing test data and libraries"""
     def __init__(self):
         self.queue = OrderedDict({})
-        self.rf_types = ['library', 'test_suite', 'resource', None]
+        self.rf_types = [
+            'library',
+            'test_suite',
+            'resource',
+            None,
+            'variable_file'
+            ]
 
     def add(self, data, rf_type):
         """Add item to the end of the queue.

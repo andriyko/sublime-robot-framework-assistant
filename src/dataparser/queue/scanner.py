@@ -38,6 +38,13 @@ class Scanner(object):
             makedirs(db_path)
         for f in finder(workspace, ext):
             self.queue.add(f, None)
+        #while True:
+        #    item = self.get_item()
+        #    if not item:
+        #        return
+        #    else:
+        #        self.add_to_queue(item)
+        #        self.put_item_to_db(item)
 
     def get_item(self):
         item = self.queue.get()
@@ -50,7 +57,12 @@ class Scanner(object):
 
     def add_to_queue(self, item):
         """Add resources and libraries to queue"""
-        pass
+        for lib in item['libraries']:
+            self.queue.add(lib['library_name'], 'library')
+        for var_file in item['variable_files']:
+            self.queue.add(var_file[0], 'variable_file')
+        for resource in item['resources']:
+            self.queue.add(resource, 'resource')
 
     def put_item_to_db(self, item):
         """Creates the json file to self.db_path"""
