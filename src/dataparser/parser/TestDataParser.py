@@ -32,7 +32,9 @@ class TestDataParser():
         model = parsing.TestCaseFile(source=file_path).populate()
         return self._parse_robot_data(file_path, model)
 
-    def parse_variable_file(self, file_path, args):
+    def parse_variable_file(self, file_path, args=None):
+        if not args:
+            args = []
         data = {}
         data['file_name'] = path.basename(file_path)
         data['file_path'] = path.normpath(file_path)
