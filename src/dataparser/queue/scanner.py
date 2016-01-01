@@ -1,5 +1,7 @@
 import shutil
 from os import path, makedirs
+from hashlib import md5
+import json
 from robot.errors import DataError
 from finder import finder
 from dataparser.parser.TestDataParser import TestDataParser
@@ -64,9 +66,12 @@ class Scanner(object):
         for resource in item['resources']:
             self.queue.add(resource, 'resource')
 
-    def put_item_to_db(self, item):
+    def put_item_to_db(self, item, db_path):
         """Creates the json file to self.db_path"""
-        pass
+        f_name = md5(item['file_path']).hexdigest() + '.json'
+        f = open(path.join(db_path, f_name), 'w')
+        f.write(json.dumps(item, indent=4))
+        f.close()
 
     def parse_all(self, item):
         if item[1]['type'] in self.rf_data_type:
