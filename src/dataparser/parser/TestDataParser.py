@@ -44,7 +44,13 @@ class TestDataParser():
         data['variables'] = sorted(var_list)
         return data
 
-    def parse_library(self, library):
+    def parse_library(self, library, *args):
+        """Parses RF library to dictionary
+
+        Uses internally libdoc modiles to parse the library.
+        Possible arguments to the library are provided in the
+        args parameter.
+        """
         data = {}
         if path.isfile(library):
             data['file_name'] = path.basename(library)
@@ -53,7 +59,7 @@ class TestDataParser():
             if library.endswith('.xml'):
                 data['keywords'] = self._parse_xml_doc(library)
             elif library.endswith('.py'):
-                data['keywords'] = self._parse_python_lib(library)
+                data['keywords'] = self._parse_python_lib(library, *args)
             else:
                 raise ValueError('Unknown library')
         else:
@@ -65,7 +71,8 @@ class TestDataParser():
             return data
 
     # Private
-    def _parse_python_lib(self, library):
+    def _parse_python_lib(self, library, *args):
+        library = self._lib_arg_formatter(library, *args)
         kws = {}
         library = self.libdoc.build(library)
         for keyword in library.keywords:
@@ -76,6 +83,14 @@ class TestDataParser():
             kw['documentation'] = keyword.doc
             kws[white_space.strip_and_lower(keyword.name)] = kw
         return kws
+
+    def _lib_arg_formatter(self, library, *args):
+        if args:
+            for item in args:
+                library = '{lib}::{item}'.format(lib=library, item=item)
+            return library
+        else:
+            return library
 
     def _parse_xml_doc(self, library):
         root = ET.parse(library).getroot()

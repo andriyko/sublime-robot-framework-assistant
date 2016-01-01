@@ -38,6 +38,15 @@ Parser Should Be Able To Parse External Library From Custom Location
     ...    ${result}
     ...    ${MYLIBRARY_KW}
 
+Parser Should Be Able To Parse External Library With Arguments From Custom Location
+    @{args} =   Create List    arg1    arg2
+    ${result} =    Parse Library
+    ...    ${CURDIR}${/}..${/}resource${/}library${/}OtherMyLibrary.py
+    ...    @{args}
+    Dictionaries Should Be Equal
+    ...    ${result}
+    ...    ${OTHERMYLIBRARY_KW}
+
 Parser Should Be Able To Parse External Library From XML File
     ${result} =    Parse Library
     ...    ${CURDIR}${/}..${/}resource${/}library${/}MyLibrary.xml
