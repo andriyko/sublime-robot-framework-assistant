@@ -75,6 +75,44 @@ class TestScanner(unittest.TestCase):
             len(os.listdir(self.db_dir)),
             2)
 
+    def test_parse_all_rf(self):
+        test_suite = os.path.join(
+            env.RESOURCES_DIR,
+            'test_data',
+            'simple_test.robot'
+            )
+        item = (test_suite, {'scanned': False, 'type': None})
+        data = self.scanner.parse_all(item)
+        self.assertNotEqual(data, None)
+        resource = os.path.join(
+            env.RESOURCES_DIR,
+            'test_data',
+            'simple_resource.robot'
+            )
+        item = (resource, {'scanned': False, 'type': 'resource'})
+        data = self.scanner.parse_all(item)
+        self.assertNotEqual(data, None)
+
+    def test_parse_all_library(self):
+        library = os.path.join(
+            env.RESOURCES_DIR,
+            'library',
+            'MyLibrary.py'
+            )
+        item = (library, {'scanned': False, 'type': 'library'})
+        data = self.scanner.parse_all(item)
+        self.assertNotEqual(data, None)
+
+    def test_parse_variable_file(self):
+        var = os.path.join(
+            env.RESOURCES_DIR,
+            'test_data',
+            'simple_variable_file.py'
+            )
+        item = (var, {'scanned': False, 'type': 'variable'})
+        data = self.scanner.parse_all(item)
+        self.assertNotEqual(data, None)
+
     def add_test_data(self):
         self.scanner.queue.add('BuiltIn', 'library')
         self.scanner.queue.add('some.robot', None)

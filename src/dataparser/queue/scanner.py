@@ -38,13 +38,6 @@ class Scanner(object):
             makedirs(db_path)
         for f in finder(workspace, ext):
             self.queue.add(f, None)
-        while True:
-            item = self.get_item()
-            if not item:
-                return
-            else:
-                self.add_to_queue(item)
-                self.put_item_to_db(item)
 
     def get_item(self):
         item = self.queue.get()
@@ -63,11 +56,16 @@ class Scanner(object):
         """Creates the json file to self.db_path"""
         pass
 
-    def scan_all(self, item):
+    def parse_all(self, item):
         if item[1]['type'] in self.rf_data_type:
             return self.scan_rf_data(item[0])
         elif item[1]['type'] == 'library':
-            TestDataParser().parse_library(item[0])
+            return TestDataParser().parse_library(item[0])
+        elif item[1]['type'] == 'variable':
+            return TestDataParser().parse_variable_file(item[0])
+        else:
+            raise ValueError('{0} is not Robot Framework data'.format(
+                item))
 
     def scan_rf_data(self, f):
         """Scans test suite or resoruce file"""
