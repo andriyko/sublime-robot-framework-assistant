@@ -41,9 +41,12 @@ def clean_results():
 def unit_test():
     print 'Running unit test'
     sys.path.insert(0, env.SRC_DIR)
+    sys.path.append(env.UNIT_TEST_DIR)
+    # suite = unittest.TestLoader().loadTestsFromName(
+    #      'scanner.test_scanner.TestScanner.test_db_created')
     suite = unittest.TestLoader().discover(
-        start_dir=env.UNIT_TEST_DIR,
-        pattern='test*.py')
+         start_dir=env.UNIT_TEST_DIR,
+         pattern='test*.py')
     return unittest.TextTestRunner(verbosity=2).run(suite)
 
 
