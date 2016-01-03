@@ -3,12 +3,11 @@ import os
 import sys
 import unittest
 import shutil
-from robot import run
+from robot import run as robot_run
 
 
 def acceptance_test(options):
-    print options
-    if len(options) == 0:
+    if not options:
         _acceptance_all()
     else:
         if '-s' in options or '--suite' in options:
@@ -19,16 +18,16 @@ def acceptance_test(options):
 
 
 def _acceptance_all():
-    run(env.ACCEPTANCE_TEST_DIR,
-        outputdir=env.RESULTS_DIR,
-        loglevel='trace')
+    robot_run(env.ACCEPTANCE_TEST_DIR,
+              outputdir=env.RESULTS_DIR,
+              loglevel='trace')
 
 
 def _acceptance_include(options):
-    run(env.ACCEPTANCE_TEST_DIR,
-        outputdir=env.RESULTS_DIR,
-        suite=options,
-        loglevel='trace')
+    robot_run(env.ACCEPTANCE_TEST_DIR,
+              outputdir=env.RESULTS_DIR,
+              suite=options,
+              loglevel='trace')
 
 
 def clean_results():
@@ -63,4 +62,6 @@ if __name__ == '__main__':
     result = unit_test()
     if result.errors == 0:
         print 'Unit test passed'
+    else:
+        print 'Unit test failed'
     acceptance_test(sys.argv[1:])
