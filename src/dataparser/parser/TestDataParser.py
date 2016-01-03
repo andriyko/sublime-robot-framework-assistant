@@ -3,6 +3,7 @@ from robot.variables.filesetter import VariableFileSetter
 from robot.variables.store import VariableStore
 from robot.variables.variables import Variables
 from robot.libdocpkg.robotbuilder import LibraryDocBuilder
+from robot.output import LOGGER as ROBOT_LOGGER
 from os import path
 import xml.etree.ElementTree as ET
 from dataparser.converter import white_space
@@ -71,6 +72,12 @@ class TestDataParser():
             raise ValueError('Library did not contains keywords')
         else:
             return data
+
+    def register_console_logger(self):
+        ROBOT_LOGGER.register_console_logger()
+
+    def unregister_console_logger(self):
+        ROBOT_LOGGER.unregister_console_logger()
 
     # Private
     def _parse_python_lib(self, library, *args):
