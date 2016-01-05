@@ -25,9 +25,9 @@ class ParsingQueue(object):
         if rf_type not in self.rf_types:
             raise ValueError('Invalid rf_type: {0}'.format(rf_type))
         if data not in self.queue:
-            self.queue[data] = {
-                'scanned': False,
-                'type': rf_type}
+            new = OrderedDict([(data, {'scanned': False, 'type': rf_type})])
+            old = self.queue
+            self.queue = OrderedDict(list(new.items()) + list(old.items()))
 
     def get(self):
         """Get item from start of the queue"""

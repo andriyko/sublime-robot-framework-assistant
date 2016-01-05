@@ -20,6 +20,10 @@ class TestLibraryParsingQueue(unittest.TestCase):
         x.update(dict2)
         return x
 
+    def update_expected(self, dict1):
+        old = self.expected
+        self.expected = OrderedDict(list(dict1.items()) + list(old.items()))
+
     def test_errors(self):
         queue = ParsingQueue()
         self.assertEqual(
@@ -65,7 +69,7 @@ class TestLibraryParsingQueue(unittest.TestCase):
         except_data[1]['scanned'] = False
         self.assertEqual(data, except_data)
         except_data[1]['scanned'] = 'queued'
-        self.expected['BuiltIn'] = except_data[1]
+        self.expected['resource.robot'] = except_data[1]
         self.assertEqual(self.queue.queue, self.expected)
         # Adding lib second time should not add item to the queue
         self.queue.add('BuiltIn', 'library')
@@ -76,26 +80,32 @@ class TestLibraryParsingQueue(unittest.TestCase):
         self.add_test_data()
         self.add_resource()
         except_data = self.queue.get()
-        self.queue.set('BuiltIn')
+        self.queue.set('resource.robot')
         self.expected.popitem(last=False)
         except_data[1]['scanned'] = True
-        self.expected['BuiltIn'] = except_data[1]
+        self.expected['resource.robot'] = except_data[1]
         self.assertEqual(self.queue.queue, self.expected)
         # Adding scanned item should not change the item
-        self.queue.add('BuiltIn', 'library')
+        self.queue.add('resource.robot', 'resource')
         self.assertEqual(self.queue.queue, self.expected)
 
     def add_builtin(self):
         self.queue.add('BuiltIn', 'library')
-        self.expected['BuiltIn'] = self._join_dict(
+        tmp = OrderedDict({})
+        tmp['BuiltIn'] = self._join_dict(
             self.not_scanned, self.lib)
+        self.update_expected(tmp)
 
     def add_test_data(self):
         self.queue.add('some.robot', None)
-        self.expected['some.robot'] = self._join_dict(
+        tmp = OrderedDict({})
+        tmp['some.robot'] = self._join_dict(
             self.not_scanned, self.none)
+        self.update_expected(tmp)
 
     def add_resource(self):
         self.queue.add('resource.robot', 'resource')
-        self.expected['resource.robot'] = self._join_dict(
+        tmp = OrderedDict({})
+        tmp['resource.robot'] = self._join_dict(
             self.not_scanned, self.resource)
+        self.update_expected(tmp)
