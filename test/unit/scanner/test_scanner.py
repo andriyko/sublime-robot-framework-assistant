@@ -55,7 +55,7 @@ class TestScanner(unittest.TestCase):
         key = os.path.join(self.workspace, 'simple_test.robot')
         self.assertEqual(
             self.scanner.queue.queue[key],
-            {'scanned': 'queued', 'type': None}
+            {'scanned': True, 'type': None}
             )
 
     def test_add_libraries_queue(self):
@@ -67,7 +67,7 @@ class TestScanner(unittest.TestCase):
     def test_get_item(self):
         self.add_test_data()
         data1 = self.scanner.get_item()
-        self.assertEqual(data1, self.builtin)
+        self.assertEqual(data1, self.resource)
         data2 = self.scanner.get_item()
         self.assertEqual(data2, self.some)
 
@@ -75,7 +75,7 @@ class TestScanner(unittest.TestCase):
         self.add_test_data()
         for index in range(3):
             data = self.scanner.get_item()
-        self.assertEqual(data, self.resource)
+        self.assertEqual(data, self.builtin)
         data = self.scanner.get_item()
         self.assertEqual(data, {})
 
@@ -123,7 +123,7 @@ class TestScanner(unittest.TestCase):
             'test_data',
             'simple_variable_file.py'
             )
-        item = (var, {'scanned': False, 'type': 'variable'})
+        item = (var, {'scanned': False, 'type': 'variable_file'})
         data = self.scanner.parse_all(item)
         self.assertNotEqual(data, None)
 
@@ -180,7 +180,6 @@ class TestScanner(unittest.TestCase):
         workspace = self.suite_folder()
         self.scanner.scan(workspace, 'robot', self.db_dir)
         files = os.listdir(self.db_dir)
-        print files
         builtin = '{0}-{1}.json'.format(
             'BuiltIn',
             hashlib.md5('BuiltIn').hexdigest())
@@ -198,6 +197,11 @@ class TestScanner(unittest.TestCase):
             'OperatingSystem',
             hashlib.md5('OperatingSystem').hexdigest())
         self.assertTrue(operatingsystem in files)
+        operatingsystem = '{0}-{1}.json'.format(
+            'Process',
+            hashlib.md5('Process').hexdigest())
+        self.assertTrue(operatingsystem in files)
+        self.assertEqual(len(files), 6)
 
     def suite_folder(self):
         return os.path.join(

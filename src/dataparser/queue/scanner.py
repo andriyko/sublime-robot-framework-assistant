@@ -53,6 +53,7 @@ class Scanner(object):
                 data = self.parse_all(item)
                 self.add_to_queue(data)
                 self.put_item_to_db(data, db_path)
+                self.queue.set(item[0])
 
     def get_item(self):
         item = self.queue.get()
@@ -63,14 +64,14 @@ class Scanner(object):
         else:
             return {}
 
-    def add_to_queue(self, item):
+    def add_to_queue(self, data):
         """Add resources and libraries to queue"""
-        if LIBRARIES in item:
-            self.add_libraries_queue(item[LIBRARIES])
-        if 'variable_files' in item:
-            self.add_var_files_queue(item['variable_files'])
-        if 'resources' in item:
-            self.add_resources_queue(item['resources'])
+        if LIBRARIES in data:
+            self.add_libraries_queue(data[LIBRARIES])
+        if 'variable_files' in data:
+            self.add_var_files_queue(data['variable_files'])
+        if 'resources' in data:
+            self.add_resources_queue(data['resources'])
 
     def put_item_to_db(self, item, db_path):
         """Creates the json file to self.db_path"""
@@ -93,7 +94,7 @@ class Scanner(object):
             return self.scan_rf_data(item[0])
         elif item[1]['type'] == LIBRARY:
             return self.parser.parse_library(item[0])
-        elif item[1]['type'] == 'variable':
+        elif item[1]['type'] == 'variable_file':
             return self.parser.parse_variable_file(item[0])
         else:
             raise ValueError('{0} is not Robot Framework data'.format(
