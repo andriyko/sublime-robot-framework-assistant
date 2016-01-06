@@ -43,8 +43,11 @@ def create_simple_resource(resource_dir):
     result = {}
     result['file_name'] = 'simple_resource.robot'
     result['file_path'] = path.join(resource_dir, result['file_name'])
-    result['libraries'] = [{'library_name': 'Selenium2Library',
-                            'library_alias': None}]
+    lib_path = path.abspath(path.join(resource_dir, '..', 'FooBar.py'))
+    result['libraries'] = [
+        {'library_name': 'Selenium2Library', 'library_alias': None},
+        {'library_name': lib_path, 'library_alias': None}
+        ]
     result['variable_files'] = [
         [path.join(resource_dir, 'simple_variable_file.py'),
             'arg11',

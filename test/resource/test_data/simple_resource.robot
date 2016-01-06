@@ -3,6 +3,7 @@ Library           Selenium2Library
 Documentation     foobar
 Resource          simple_resrouce2.robot
 Variables         simple_variable_file.py    arg11    arg22
+Library           ../FooBar.py
 
 *** Variable ***
 ${VAR1}            1

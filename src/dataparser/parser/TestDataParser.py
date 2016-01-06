@@ -129,7 +129,8 @@ class TestDataParser():
         data['file_path'] = path.normpath(file_path)
         data['keywords'] = self._get_keywords(model)
         data['variables'] = self._get_global_variables(model)
-        lib, res, v_files = self._get_imports(model)
+        lib, res, v_files = self._get_imports(
+            model, path. os.path.dirname(path.normpath(file_path)))
         data['resources'] = res
         data['libraries'] = lib
         data['variable_files'] = v_files
@@ -146,22 +147,25 @@ class TestDataParser():
             kw_data[white_space.strip_and_lower(kw.name)] = tmp
         return kw_data
 
-    def _get_imports(self, model):
+    def _get_imports(self, model, file_dir):
         lib = []
         res = []
         var_files = []
         for setting in model.setting_table.imports:
             if setting.type == 'Library':
-                lib.append(self._format_library(setting))
+                lib.append(self._format_library(setting, file_dir))
             elif setting.type == 'Resource':
                 res.append(self._format_resource(setting))
             elif setting.type == 'Variables':
                 var_files.append(self._format_variable_file(setting))
         return lib, res, var_files
 
-    def _format_library(self, setting):
+    def _format_library(self, setting, file_dir):
         data = {}
-        data['library_name'] = setting.name
+        lib_name = setting.name
+        if lib_name.endswith('.py') and not path.isfile(lib_name):
+            lib_name = path.abspath(path.join(file_dir, lib_name))
+        data['library_name'] = lib_name
         data['library_alias'] = setting.alias
         return data
 
