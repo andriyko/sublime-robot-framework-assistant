@@ -17,6 +17,9 @@ class TestScanner(unittest.TestCase):
             'scanner',
             'db_dir'
         )
+        self.real_suite = os.path.join(
+            env.TEST_DATA_DIR,
+            'real_suite')
         if os.path.exists(self.db_dir):
             while os.path.exists(self.db_dir):
                 shutil.rmtree(self.db_dir)
@@ -47,12 +50,17 @@ class TestScanner(unittest.TestCase):
 
     def test_queue_populated(self):
         self.scanner.scan(
-            self.workspace,
+            self.real_suite,
             'robot',
             self.db_dir
             )
-        self.assertGreater(len(self.scanner.queue.queue), 2)
-        key = os.path.join(self.workspace, 'simple_test.robot')
+        self.assertEqual(len(self.scanner.queue.queue), 6)
+        key = os.path.join(
+            self.real_suite,
+            'resource',
+            'reosurce2',
+            'real_suite_resource.robot'
+            )
         self.assertEqual(
             self.scanner.queue.queue[key],
             {'scanned': True, 'type': None}
@@ -81,13 +89,11 @@ class TestScanner(unittest.TestCase):
 
     def test_db_created(self):
         self.scanner.scan(
-            self.workspace,
+            self.real_suite,
             'robot',
             self.db_dir
             )
-        self.assertGreater(
-            len(os.listdir(self.db_dir)),
-            2)
+        self.assertEqual(len(os.listdir(self.db_dir)), 6)
 
     def test_parse_all_rf(self):
         test_suite = os.path.join(
@@ -133,7 +139,7 @@ class TestScanner(unittest.TestCase):
         self.scanner.add_to_queue(data)
         self.assertEqual(len(
             self.scanner.queue.queue),
-            3
+            4
             )
 
     def test_scanning_same_resource_two_times_does_not_change_queue(self):
@@ -142,12 +148,12 @@ class TestScanner(unittest.TestCase):
         self.scanner.add_to_queue(data)
         self.assertEqual(len(
             self.scanner.queue.queue),
-            3
+            4
             )
         self.scanner.add_to_queue(data)
         self.assertEqual(len(
             self.scanner.queue.queue),
-            3
+            4
             )
 
     def test_put_item_to_db(self):
