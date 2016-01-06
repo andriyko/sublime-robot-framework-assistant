@@ -190,5 +190,6 @@ class TestDataParser():
     def _get_global_variables(self, model):
         var_data = []
         for var in model.variable_table.variables:
-            var_data.append(var.name)
+            if var:
+                var_data.append(var.name)
         return var_data
