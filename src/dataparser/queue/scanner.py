@@ -95,6 +95,7 @@ class Scanner(object):
         elif item[1]['type'] == LIBRARY:
             return self.parser.parse_library(item[0])
         elif item[1]['type'] == 'variable_file':
+            print item
             return self.parser.parse_variable_file(item[0])
         else:
             raise ValueError('{0} is not Robot Framework data'.format(

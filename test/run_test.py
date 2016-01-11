@@ -43,7 +43,7 @@ def unit_test():
     sys.path.insert(0, env.SRC_DIR)
     sys.path.append(env.UNIT_TEST_DIR)
     # suite = unittest.TestLoader().loadTestsFromName(
-    #      'scanner.test_scanner.TestScanner.test_db_created')
+    #    'queue.test_queue.TestLibraryParsingQueue')
     suite = unittest.TestLoader().discover(
          start_dir=env.UNIT_TEST_DIR,
          pattern='test*.py')

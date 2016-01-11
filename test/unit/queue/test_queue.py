@@ -14,10 +14,12 @@ class TestLibraryParsingQueue(unittest.TestCase):
         self.test = {'type': 'test_suite'}
         self.none = {'type': None}
         self.resource = {'type': 'resource'}
+        self.no_args = {'args': None}
 
-    def _join_dict(self, dict1, dict2):
+    def _join_dict(self, dict1, dict2, dict3):
         x = dict1.copy()
         x.update(dict2)
+        x.update(dict3)
         return x
 
     def update_expected(self, dict1):
@@ -30,7 +32,7 @@ class TestLibraryParsingQueue(unittest.TestCase):
             queue.get(),
             {})
         with self.assertRaises(ValueError):
-            queue.add('BuiltIn', 'invalid')
+            queue.add('BuiltIn', 'invalid', None)
         with self.assertRaises(KeyError):
             queue.set('NotHere')
 
@@ -45,7 +47,7 @@ class TestLibraryParsingQueue(unittest.TestCase):
             self.queue.queue,
             self.expected)
         # Adding lib second time should not add item to the queue
-        self.queue.add('BuiltIn', 'library')
+        self.queue.add('BuiltIn', 'library', None)
         self.assertEqual(
             self.queue.queue,
             self.expected)
@@ -72,7 +74,7 @@ class TestLibraryParsingQueue(unittest.TestCase):
         self.expected['resource.robot'] = except_data[1]
         self.assertEqual(self.queue.queue, self.expected)
         # Adding lib second time should not add item to the queue
-        self.queue.add('BuiltIn', 'library')
+        self.queue.add('BuiltIn', 'library', None)
         self.assertEqual(self.queue.queue, self.expected)
 
     def test_mark_item_as_scanned(self):
@@ -86,26 +88,32 @@ class TestLibraryParsingQueue(unittest.TestCase):
         self.expected['resource.robot'] = except_data[1]
         self.assertEqual(self.queue.queue, self.expected)
         # Adding scanned item should not change the item
-        self.queue.add('resource.robot', 'resource')
+        self.queue.add('resource.robot', 'resource', None)
         self.assertEqual(self.queue.queue, self.expected)
 
+    def test_add_with_args(self):
+        self.queue.add('SomeLib', 'library', [1, 2, 3])
+        self.assertEqual(
+            self.queue.queue,
+            OrderedDict([('SomeLib', {'scanned': False, 'type': 'library', 'args': [1, 2, 3]})]))
+
     def add_builtin(self):
-        self.queue.add('BuiltIn', 'library')
         tmp = OrderedDict({})
         tmp['BuiltIn'] = self._join_dict(
-            self.not_scanned, self.lib)
+            self.not_scanned, self.lib, self.no_args)
         self.update_expected(tmp)
+        self.queue.add('BuiltIn', 'library', None)
 
     def add_test_data(self):
-        self.queue.add('some.robot', None)
         tmp = OrderedDict({})
         tmp['some.robot'] = self._join_dict(
-            self.not_scanned, self.none)
+            self.not_scanned, self.none, self.no_args)
         self.update_expected(tmp)
+        self.queue.add('some.robot', None, None)
 
     def add_resource(self):
-        self.queue.add('resource.robot', 'resource')
         tmp = OrderedDict({})
         tmp['resource.robot'] = self._join_dict(
-            self.not_scanned, self.resource)
+            self.not_scanned, self.resource, self.no_args)
         self.update_expected(tmp)
+        self.queue.add('resource.robot', 'resource', None)

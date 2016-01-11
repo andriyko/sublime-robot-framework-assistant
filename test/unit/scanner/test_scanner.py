@@ -1,6 +1,7 @@
 import unittest
 import env
 import os
+import sys
 import shutil
 import hashlib
 from time import sleep
@@ -208,6 +209,17 @@ class TestScanner(unittest.TestCase):
             hashlib.md5('Process').hexdigest())
         self.assertTrue(operatingsystem in files)
         self.assertEqual(len(files), 6)
+
+    def not_ready_test_tmp(self):
+        # Temporally change db filename to contain also plain text filename
+        db = 'C:\\tmp\\db_dir'
+        workspace = 'C:\\workspace\\system-test_second\\tests'
+        sys.path.append(os.path.join(
+            workspace,
+            'resources',
+            'page_objects'))
+        self.scanner.scan(workspace, 'robot', db)
+        raise ValueError('Try with system-test repo')
 
     def suite_folder(self):
         return os.path.join(

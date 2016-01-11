@@ -14,7 +14,7 @@ class ParsingQueue(object):
             'variable_file'
             ]
 
-    def add(self, data, rf_type):
+    def add(self, data, rf_type, arg):
         """Add item to the end of the queue.
 
         Does not add duplicates in the queue. ``rf_type``
@@ -25,7 +25,9 @@ class ParsingQueue(object):
         if rf_type not in self.rf_types:
             raise ValueError('Invalid rf_type: {0}'.format(rf_type))
         if data not in self.queue:
-            new = OrderedDict([(data, {'scanned': False, 'type': rf_type})])
+            new = OrderedDict([(
+                data,
+                {'scanned': False, 'type': rf_type, 'args': arg})])
             old = self.queue
             self.queue = OrderedDict(list(new.items()) + list(old.items()))
 
@@ -41,7 +43,7 @@ class ParsingQueue(object):
             return {}
 
     def set(self, data):
-        """Set status to True and put item as last item in the queue"""
+        """Set scanned to True and put item as last item in the queue"""
         status = self.queue[data]
         status['scanned'] = True
         self.queue[data] = status
