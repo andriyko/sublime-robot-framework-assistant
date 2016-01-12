@@ -24,7 +24,10 @@ def create_simple_test(resource_dir):
     result['file_name'] = 'simple_test.robot'
     result['file_path'] = path.join(resource_dir, result['file_name'])
     result['libraries'] = [{'library_name': 'Selenium2Library',
-                            'library_alias': None}]
+                            'library_alias': None,
+                            'library_arguments': ['timeout=5.0',
+                                                  'implicit_wait=0.0']
+                            }]
     result['resources'] = [path.join(resource_dir, 'simple_resrouce2.robot')]
     result['variable_files'] = [
         [path.join(resource_dir, 'simple_variable_file.py'),
@@ -45,8 +48,12 @@ def create_simple_resource(resource_dir):
     result['file_path'] = path.join(resource_dir, result['file_name'])
     lib_path = path.abspath(path.join(resource_dir, '..', 'FooBar.py'))
     result['libraries'] = [
-        {'library_name': 'Selenium2Library', 'library_alias': None},
-        {'library_name': lib_path, 'library_alias': None}
+        {'library_name': 'Selenium2Library',
+         'library_alias': None,
+         'library_arguments': ['timeout=5.0']},
+        {'library_name': lib_path,
+         'library_alias': None,
+         'library_arguments': []}
         ]
     result['variable_files'] = [
         [path.join(resource_dir, 'simple_variable_file.py'),

@@ -37,8 +37,6 @@ class TestDataParser():
         if not args:
             args = []
         data = {}
-        print file_path
-        print args
         data['file_name'] = path.basename(file_path)
         data['file_path'] = path.normpath(file_path)
         self.file_path = file_path
@@ -176,6 +174,7 @@ class TestDataParser():
             lib_name = path.abspath(path.join(file_dir, lib_name))
         data['library_name'] = lib_name
         data['library_alias'] = setting.alias
+        data['library_arguments'] = setting.args
         return data
 
     def _format_resource(self, setting):
