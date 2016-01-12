@@ -57,6 +57,13 @@ class TestDataParser():
         args parameter.
         """
         data = {}
+        if not args:
+            data['arguments'] = []
+        else:
+            arg_list = []
+            for arg in args:
+                arg_list.append(arg)
+            data['arguments'] = arg_list
         if path.isfile(library):
             data['file_name'] = path.basename(library)
             data['file_path'] = path.normpath(library)

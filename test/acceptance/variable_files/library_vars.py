@@ -11,7 +11,9 @@ def get_variables():
     var['MYLIBRARY_KW'] = get_mylibrary(resource_dir)
     var['OTHERMYLIBRARY_KW'] = get_othermylibrary(resource_dir)
     var['MYLIBRARY_XML'] = get_mylibrary_xml(var['MYLIBRARY_KW'])
-    var['SELENIUM2LIBRARY_KEYS_LIST'] = ['keywords', 'library_module']
+    var['SELENIUM2LIBRARY_KEYS_LIST'] = ['arguments',
+                                         'keywords',
+                                         'library_module']
     var['ADDCOOKIE_KEYS_LILST'] = ['keyword_name',
                                    'keyword_arguments',
                                    'documentation',
@@ -21,6 +23,7 @@ def get_variables():
 
 def get_mylibrary(resource_dir):
     data = {}
+    data['arguments'] = []
     data['library_module'] = 'MyLibrary'
     data['file_path'] = path.normpath(path.join(
         resource_dir,
@@ -54,6 +57,7 @@ def get_othermylibrary(resource_dir):
         'library',
         'OtherMyLibrary.py'))
     data['file_name'] = path.basename(data['file_path'])
+    data['arguments'] = ['arg1', 'arg2']
     return data
 
 
@@ -68,6 +72,7 @@ def get_screenshot():
     data = {}
     data['library_module'] = 'Screenshot'
     data['keywords'] = screenshot_keywords()
+    data['arguments'] = []
     return data
 
 
