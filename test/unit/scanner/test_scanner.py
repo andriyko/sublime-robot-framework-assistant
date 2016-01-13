@@ -236,13 +236,8 @@ class TestScanner(unittest.TestCase):
         self.assertEqual(len(files), 6)
 
     def not_ready_test_tmp(self):
-        # Temporally change db filename to contain also plain text filename
         db = 'C:\\tmp\\db_dir'
         workspace = 'C:\\workspace\\system-test_second\\tests'
-        sys.path.append(os.path.join(
-            workspace,
-            'resources',
-            'page_objects'))
         self.scanner.scan(workspace, 'robot', db)
         raise ValueError('Try with system-test repo')
 
@@ -267,7 +262,7 @@ class TestScanner(unittest.TestCase):
             'test_data',
             'simple_resrouce2.robot'
             )
-        return (resource, {'scanned': False, 'type': 'resource'})
+        return (resource, {'scanned': False, 'type': 'resource', 'args': None})
 
     def add_test_data(self):
         self.scanner.queue.add('BuiltIn', 'library', [])
