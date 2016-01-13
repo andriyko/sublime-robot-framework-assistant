@@ -8,12 +8,21 @@ def get_variables():
     var['SIMPLE_RESOURCE'] = create_simple_resource(resource_dir)
     var['SIMPLE_TEST'] = create_simple_test(resource_dir)
     var['SIMPLE_VAR'] = create_simple_var(resource_dir)
+    var['OTHER_SIMPLE_VAR'] = create_other_simple_var(resource_dir)
     return var
 
 
 def create_simple_var(resource_dir):
     result = {}
     result['file_name'] = 'simple_variable_file.py'
+    result['file_path'] = path.join(resource_dir, result['file_name'])
+    result['variables'] = ['${VARIABLE_FILE_1}', '${VARIABLE_FILE_2}']
+    return result
+
+
+def create_other_simple_var(resource_dir):
+    result = {}
+    result['file_name'] = 'other_simple_variable_file.py'
     result['file_path'] = path.join(resource_dir, result['file_name'])
     result['variables'] = ['${VARIABLE_FILE_1}', '${VARIABLE_FILE_2}']
     return result
