@@ -44,7 +44,7 @@ class Scanner(object):
             makedirs(db_path)
         self.add_builtin()
         for f in finder(workspace, ext):
-            self.queue.add(f, None)
+            self.queue.add(f, None, None)
         while True:
             item = self.get_item()
             if not item:
@@ -90,13 +90,13 @@ class Scanner(object):
         f.close()
 
     def parse_all(self, item):
-        if item[1]['type'] in self.rf_data_type:
+        data_type = item[1]['type']
+        if data_type in self.rf_data_type:
             return self.scan_rf_data(item[0])
-        elif item[1]['type'] == LIBRARY:
+        elif data_type == LIBRARY:
             return self.parser.parse_library(item[0])
-        elif item[1]['type'] == 'variable_file':
-            print item
-            return self.parser.parse_variable_file(item[0])
+        elif data_type == 'variable_file':
+            return self.parser.parse_variable_file(item[0], item[1]['args'])
         else:
             raise ValueError('{0} is not Robot Framework data'.format(
                 item))
@@ -113,15 +113,24 @@ class Scanner(object):
 
     def add_libraries_queue(self, libs):
         for lib in libs:
-            self.queue.add(lib['library_name'], LIBRARY)
+            self.queue.add(
+                lib['library_name'],
+                LIBRARY,
+                lib['library_arguments']
+                )
 
     def add_var_files_queue(self, var_files):
         for var_file in var_files:
-            self.queue.add(var_file[0], 'variable_file')
+            file_name = var_file.keys()[0]
+            self.queue.add(
+                file_name,
+                'variable_file',
+                var_file[file_name]['variable_file_arguments']
+            )
 
     def add_resources_queue(self, resources):
         for resource in resources:
-            self.queue.add(resource, 'resource')
+            self.queue.add(resource, 'resource', None)
 
     def add_builtin(self):
-        self.queue.add('BuiltIn', LIBRARY)
+        self.queue.add('BuiltIn', LIBRARY, [])

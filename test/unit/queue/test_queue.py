@@ -35,6 +35,8 @@ class TestLibraryParsingQueue(unittest.TestCase):
             queue.add('BuiltIn', 'invalid', None)
         with self.assertRaises(KeyError):
             queue.set('NotHere')
+        with self.assertRaises(TypeError):
+            queue.add('BuiltIn', 'library')
 
     def test_queue_creation(self):
         self.assertEqual(

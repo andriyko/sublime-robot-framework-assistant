@@ -27,12 +27,30 @@ class TestScanner(unittest.TestCase):
                 sleep(0.1)
             os.mkdir(self.db_dir)
         self.workspace = env.TEST_DATA_DIR
-        self.builtin = ('BuiltIn', {'scanned': False, 'type': 'library'})
-        self.some = ('some.robot', {'scanned': False, 'type': None})
+        self.builtin = (
+            'BuiltIn',
+            {
+                'scanned': False,
+                'type': 'library',
+                'args': []
+            }
+        )
+        self.some = (
+            'some.robot',
+            {
+                'scanned': False,
+                'type': None,
+                'args': []
+            }
+        )
         self.resource = (
             'resource.robot',
-            {'scanned': False, 'type': 'resource'}
-            )
+            {
+                'scanned': False,
+                'type': 'resource',
+                'args': []
+            }
+        )
 
     def test_errors(self):
         with self.assertRaises(EnvironmentError):
@@ -55,7 +73,7 @@ class TestScanner(unittest.TestCase):
             'robot',
             self.db_dir
             )
-        self.assertEqual(len(self.scanner.queue.queue), 6)
+        self.assertEqual(len(self.scanner.queue.queue), 7)
         key = os.path.join(
             self.real_suite,
             'resource',
@@ -64,12 +82,16 @@ class TestScanner(unittest.TestCase):
             )
         self.assertEqual(
             self.scanner.queue.queue[key],
-            {'scanned': True, 'type': None}
+            {'scanned': True, 'type': None, 'args': None}
             )
 
     def test_add_libraries_queue(self):
-        libs = [{'library_name': u'OperatingSystem', 'library_alias': None},
-                {'library_name': u'Process', 'library_alias': None}]
+        libs = [{'library_name': u'OperatingSystem',
+                 'library_alias': None,
+                 'library_arguments': None},
+                {'library_name': u'Process',
+                 'library_alias': None,
+                 'library_arguments': None}]
         self.scanner.add_libraries_queue(libs)
         self.assertEqual(len(self.scanner.queue.queue), 2)
 
@@ -94,7 +116,7 @@ class TestScanner(unittest.TestCase):
             'robot',
             self.db_dir
             )
-        self.assertEqual(len(os.listdir(self.db_dir)), 6)
+        self.assertEqual(len(os.listdir(self.db_dir)), 7)
 
     def test_parse_all_rf(self):
         test_suite = os.path.join(
@@ -130,7 +152,10 @@ class TestScanner(unittest.TestCase):
             'test_data',
             'simple_variable_file.py'
             )
-        item = (var, {'scanned': False, 'type': 'variable_file'})
+        item = (var, {
+            'scanned': False,
+            'type': 'variable_file',
+            'args': []})
         data = self.scanner.parse_all(item)
         self.assertNotEqual(data, None)
 
@@ -234,7 +259,7 @@ class TestScanner(unittest.TestCase):
             'test_data',
             'simple_resource.robot'
             )
-        return (resource, {'scanned': False, 'type': 'resource'})
+        return (resource, {'scanned': False, 'type': 'resource', 'args': None})
 
     def create_resource_item2(self):
         resource = os.path.join(
@@ -245,9 +270,9 @@ class TestScanner(unittest.TestCase):
         return (resource, {'scanned': False, 'type': 'resource'})
 
     def add_test_data(self):
-        self.scanner.queue.add('BuiltIn', 'library')
-        self.scanner.queue.add('some.robot', None)
-        self.scanner.queue.add('resource.robot', 'resource')
+        self.scanner.queue.add('BuiltIn', 'library', [])
+        self.scanner.queue.add('some.robot', None, [])
+        self.scanner.queue.add('resource.robot', 'resource', [])
 
     def f_name(self, data, db_dir):
         file_name = '{realname}-{md5}.json'.format(

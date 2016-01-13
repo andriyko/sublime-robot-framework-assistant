@@ -2,7 +2,7 @@
 Library           ../../libs/SuiteLib.py
 Library           Process
 Resource          ../reosurce2/real_suite_resource.robot
-Variables         ../var_file/variables.py
+Variables         ../var_file/variables.py    some_arg
 
 *** Variables ***
 ${REAL_SUITE_VAR}    2
