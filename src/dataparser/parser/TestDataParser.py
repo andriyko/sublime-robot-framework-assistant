@@ -185,14 +185,15 @@ class TestDataParser():
             return path.normpath(path.join(c_dir, setting.name))
 
     def _format_variable_file(self, setting):
-        data = []
+        data = {}
         if path.isfile(setting.name):
             v_path = setting.name
         else:
-            c_dir = path.dirname(self.file_path)
-            v_path = path.normpath(path.join(c_dir, setting.name))
-        data.append(v_path)
-        data += setting.args
+            v_path = path.normpath(path.join(
+                path.dirname(self.file_path), setting.name))
+        args = {}
+        args['variable_file_arguments'] = setting.args
+        data[v_path] = args
         return data
 
     def _get_global_variables(self, model):

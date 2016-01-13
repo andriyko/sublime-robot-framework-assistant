@@ -30,9 +30,8 @@ def create_simple_test(resource_dir):
                             }]
     result['resources'] = [path.join(resource_dir, 'simple_resrouce2.robot')]
     result['variable_files'] = [
-        [path.join(resource_dir, 'simple_variable_file.py'),
-            'arg11',
-            'arg22']
+        {path.join(resource_dir, 'simple_variable_file.py'):
+            {'variable_file_arguments': ['arg11', 'arg22']}}
         ]
     result['variables'] = ['${VAR2}']
     kws = {}
@@ -56,9 +55,8 @@ def create_simple_resource(resource_dir):
          'library_arguments': []}
         ]
     result['variable_files'] = [
-        [path.join(resource_dir, 'simple_variable_file.py'),
-            'arg11',
-            'arg22']
+        {path.join(resource_dir, 'simple_variable_file.py'):
+            {'variable_file_arguments': ['arg11', 'arg22']}}
         ]
     result['resources'] = [path.join(resource_dir, 'simple_resrouce2.robot')]
     kws = {}
