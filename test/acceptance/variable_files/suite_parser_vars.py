@@ -44,8 +44,8 @@ def create_simple_test(resource_dir):
         ]
     result['variables'] = ['${VAR2}']
     kws = {}
-    kws['mykw1'] = my_kw_1()
-    kws['mykw2'] = my_kw_2()
+    kws['my_kw_1'] = my_kw_1()
+    kws['my_kw_2'] = my_kw_2()
     result['keywords'] = kws
     return result
 
@@ -69,8 +69,8 @@ def create_simple_resource(resource_dir):
         ]
     result['resources'] = [path.join(resource_dir, 'simple_resrouce2.robot')]
     kws = {}
-    kws['mykw1'] = my_kw_1()
-    kws['mykw2'] = my_kw_2()
+    kws['my_kw_1'] = my_kw_1()
+    kws['my_kw_2'] = my_kw_2()
     result['keywords'] = kws
     result['variables'] = ['${VAR1}']
     return result

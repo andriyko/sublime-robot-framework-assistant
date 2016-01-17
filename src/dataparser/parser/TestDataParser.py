@@ -6,7 +6,10 @@ from robot.libdocpkg.robotbuilder import LibraryDocBuilder
 from robot.output import LOGGER as ROBOT_LOGGER
 from os import path
 import xml.etree.ElementTree as ET
-from dataparser.converter import white_space
+
+
+def strip_and_lower(text):
+    return text.lower().replace(' ', '_')
 
 
 class TestDataParser():
@@ -98,7 +101,7 @@ class TestDataParser():
             kw['tags'] = list(keyword.tags._tags)
             kw['keyword_arguments'] = keyword.args
             kw['documentation'] = keyword.doc
-            kws[white_space.strip_and_lower(keyword.name)] = kw
+            kws[strip_and_lower(keyword.name)] = kw
         return kws
 
     def _lib_arg_formatter(self, library, *args):
@@ -128,7 +131,7 @@ class TestDataParser():
             arg = []
             [arg.append(tag.text) for tag in element.findall('.//arguments/arg')]
             kw['keyword_arguments'] = arg
-            kws[white_space.strip_and_lower(kw['keyword_name'])] = kw
+            kws[strip_and_lower(kw['keyword_name'])] = kw
         return kws
 
     def _parse_robot_data(self, file_path, model):
@@ -152,7 +155,7 @@ class TestDataParser():
             tmp['documentation'] = kw.doc.value
             tmp['tags'] = kw.tags.value
             tmp['keyword_name'] = kw.name
-            kw_data[white_space.strip_and_lower(kw.name)] = tmp
+            kw_data[strip_and_lower(kw.name)] = tmp
         return kw_data
 
     def _get_imports(self, model, file_dir):

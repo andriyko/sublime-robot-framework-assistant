@@ -37,13 +37,13 @@ def get_mylibrary(resource_dir):
     kw['keyword_arguments'] = ['arg2', 'arg3']
     kw['documentation'] = 'kw 2 doc'
     kw['tags'] = []
-    kws['keyword2'] = kw
+    kws['keyword_2'] = kw
     kw = {}
     kw['keyword_name'] = 'Keyword 1'
     kw['keyword_arguments'] = ['arg1']
     kw['documentation'] = 'kw 1 doc'
     kw['tags'] = ['tag1', 'tag2']
-    kws['keyword1'] = kw
+    kws['keyword_1'] = kw
     data['keywords'] = kws
     return data
 
@@ -83,18 +83,18 @@ def screenshot_keywords():
     kw['tags'] = []
     kw['documentation'] = 'Sets the directory where screenshots are saved.'
     kw['keyword_arguments'] = ['path']
-    kws[kw['keyword_name'].lower().replace(' ', '')] = kw
+    kws[kw['keyword_name'].lower().replace(' ', '_')] = kw
     kw = {}
     kw['keyword_name'] = 'Take Screenshot'
     kw['tags'] = []
     kw['documentation'] = \
         'Takes a screenshot in JPEG format and embeds it into the log file.'
     kw['keyword_arguments'] = ['name=screenshot', 'width=800px']
-    kws[kw['keyword_name'].lower().replace(' ', '')] = kw
+    kws[kw['keyword_name'].lower().replace(' ', '_')] = kw
     kw = {}
     kw['keyword_name'] = 'Take Screenshot Without Embedding'
     kw['tags'] = []
     kw['documentation'] = 'Takes a screenshot and links it from the log file.'
     kw['keyword_arguments'] = ['name=screenshot']
-    kws[kw['keyword_name'].lower().replace(' ', '')] = kw
+    kws[kw['keyword_name'].lower().replace(' ', '_')] = kw
     return kws

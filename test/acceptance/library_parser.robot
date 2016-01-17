@@ -23,7 +23,7 @@ Parser Should Be Able To Parse External Library From Python Path
     ...    keywords
     ${one_kw} =    Get From Dictionary
     ...    ${keywords}
-    ...    addcookie
+    ...    add_cookie
     ${one_kw_keys} =    Get Dictionary Keys    ${one_kw}
     Sort List    ${one_kw_keys}
     Sort List    ${ADDCOOKIE_KEYS_LILST}
