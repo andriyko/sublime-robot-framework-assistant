@@ -55,7 +55,7 @@ class TestDataParser():
         args parameter.
         """
         data = {}
-        if not args:
+        if args == (None,)or not args:
             data['arguments'] = []
         else:
             arg_list = []
@@ -69,14 +69,15 @@ class TestDataParser():
             if library.endswith('.xml'):
                 data['keywords'] = self._parse_xml_doc(library)
             elif library.endswith('.py'):
-                data['keywords'] = self._parse_python_lib(library, *args)
+                data['keywords'] = self._parse_python_lib(
+                    library, *args)
             else:
                 raise ValueError('Unknown library')
         else:
             data['library_module'] = library
-            data['keywords'] = self._parse_python_lib(library)
+            data['keywords'] = self._parse_python_lib(library, *args)
         if data['keywords'] is None:
-            raise ValueError('Library did not contains keywords')
+            raise ValueError('Library did not contain keywords')
         else:
             return data
 
@@ -101,11 +102,11 @@ class TestDataParser():
         return kws
 
     def _lib_arg_formatter(self, library, *args):
-        if args:
-            for item in args:
-                library = '{lib}::{item}'.format(lib=library, item=item)
+        if args == (None,) or args == ([],) or not args:
             return library
         else:
+            for item in args:
+                library = '{lib}::{item}'.format(lib=library, item=item)
             return library
 
     def _parse_xml_doc(self, library):

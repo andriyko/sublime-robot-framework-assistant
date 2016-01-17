@@ -39,7 +39,7 @@ Parser Should Be Able To Parse External Library From Custom Location
     ...    ${MYLIBRARY_KW}
 
 Parser Should Be Able To Parse External Library With Arguments From Custom Location
-    @{args} =   Create List    arg1    arg2
+    @{args} =   Create List    arg111    arg222
     ${result} =    Parse Library
     ...    ${CURDIR}${/}..${/}resource${/}library${/}OtherMyLibrary.py
     ...    @{args}
@@ -56,7 +56,7 @@ Parser Should Be Able To Parse External Library From XML File
 
 Parser Should Be Not Able To Parse Resource File From XML File
     Run Keyword And Expect Error
-    ...    ValueError: Library did not contains keywords
+    ...    ValueError: Library did not contain keywords
     ...    Parse Library
     ...    ${CURDIR}${/}..${/}resource${/}library${/}simple_resource.xml
 

@@ -142,7 +142,7 @@ class TestScanner(unittest.TestCase):
             'library',
             'MyLibrary.py'
             )
-        item = (library, {'scanned': False, 'type': 'library'})
+        item = (library, {'scanned': False, 'type': 'library', 'args': None})
         data = self.scanner.parse_all(item)
         self.assertNotEqual(data, None)
 

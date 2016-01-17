@@ -1,5 +1,5 @@
 *** Settings ***
-Library           ../../libs/SuiteLib.py
+Library           ../../libs/SuiteLib.py    1
 
 
 *** Variables ***

@@ -57,7 +57,7 @@ def get_othermylibrary(resource_dir):
         'library',
         'OtherMyLibrary.py'))
     data['file_name'] = path.basename(data['file_path'])
-    data['arguments'] = ['arg1', 'arg2']
+    data['arguments'] = ['arg111', 'arg222']
     return data
 
 

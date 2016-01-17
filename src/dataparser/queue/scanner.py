@@ -94,7 +94,7 @@ class Scanner(object):
         if data_type in self.rf_data_type:
             return self.scan_rf_data(item[0])
         elif data_type == LIBRARY:
-            return self.parser.parse_library(item[0])
+            return self.parser.parse_library(item[0], item[1]['args'])
         elif data_type == 'variable_file':
             return self.parser.parse_variable_file(item[0], item[1]['args'])
         else:
