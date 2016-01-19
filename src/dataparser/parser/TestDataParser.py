@@ -50,15 +50,15 @@ class TestDataParser():
         data['variables'] = sorted(var_list)
         return data
 
-    def parse_library(self, library, *args):
+    def parse_library(self, library, args=None):
         """Parses RF library to dictionary
 
-        Uses internally libdoc modiles to parse the library.
+        Uses internally libdoc modules to parse the library.
         Possible arguments to the library are provided in the
         args parameter.
         """
         data = {}
-        if args == (None,)or not args:
+        if not args:
             data['arguments'] = []
         else:
             arg_list = []
@@ -73,12 +73,13 @@ class TestDataParser():
                 data['keywords'] = self._parse_xml_doc(library)
             elif library.endswith('.py'):
                 data['keywords'] = self._parse_python_lib(
-                    library, *args)
+                    library, data['arguments'])
             else:
                 raise ValueError('Unknown library')
         else:
             data['library_module'] = library
-            data['keywords'] = self._parse_python_lib(library, *args)
+            data['keywords'] = self._parse_python_lib(
+                library, data['arguments'])
         if data['keywords'] is None:
             raise ValueError('Library did not contain keywords')
         else:
@@ -91,8 +92,8 @@ class TestDataParser():
         ROBOT_LOGGER.unregister_console_logger()
 
     # Private
-    def _parse_python_lib(self, library, *args):
-        library = self._lib_arg_formatter(library, *args)
+    def _parse_python_lib(self, library, args):
+        library = self._lib_arg_formatter(library, args)
         kws = {}
         library = self.libdoc.build(library)
         for keyword in library.keywords:
@@ -104,8 +105,8 @@ class TestDataParser():
             kws[strip_and_lower(keyword.name)] = kw
         return kws
 
-    def _lib_arg_formatter(self, library, *args):
-        if args == (None,) or args == ([],) or not args:
+    def _lib_arg_formatter(self, library, args):
+        if not args:
             return library
         else:
             for item in args:

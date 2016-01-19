@@ -235,11 +235,24 @@ class TestScanner(unittest.TestCase):
         self.assertTrue(operatingsystem in files)
         self.assertEqual(len(files), 6)
 
-    def not_ready_test_tmp(self):
-        db = 'C:\\tmp\\db_dir'
-        workspace = 'C:\\workspace\\system-test_second\\tests'
-        self.scanner.scan(workspace, 'robot', db)
-        raise ValueError('Try with system-test repo')
+    def test_parse_real_suite(self):
+        workspace = os.path.join(
+            env.TEST_DATA_DIR,
+            'suite_tree')
+        self.scanner.scan(
+            workspace,
+            'robot',
+            self.db_dir)
+        files = os.listdir(self.db_dir)
+        builtin = '{0}-{1}.json'.format(
+            'BuiltIn',
+            hashlib.md5('BuiltIn').hexdigest())
+        self.assertTrue(builtin in files)
+        operatingsystem = '{0}-{1}.json'.format(
+            'OperatingSystem',
+            hashlib.md5('OperatingSystem').hexdigest())
+        self.assertTrue(operatingsystem in files)
+        self.assertEqual(len(files), 9)
 
     def suite_folder(self):
         return os.path.join(

@@ -42,7 +42,7 @@ Parser Should Be Able To Parse External Library With Arguments From Custom Locat
     @{args} =   Create List    arg111    arg222
     ${result} =    Parse Library
     ...    ${CURDIR}${/}..${/}resource${/}library${/}OtherMyLibrary.py
-    ...    @{args}
+    ...    ${args}
     Dictionaries Should Be Equal
     ...    ${result}
     ...    ${OTHERMYLIBRARY_KW}
