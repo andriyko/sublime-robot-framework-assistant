@@ -16,12 +16,6 @@ class TestLibraryParsingQueue(unittest.TestCase):
         self.resource = {'type': 'resource'}
         self.no_args = {'args': None}
 
-    def _join_dict(self, dict1, dict2, dict3):
-        x = dict1.copy()
-        x.update(dict2)
-        x.update(dict3)
-        return x
-
     def update_expected(self, dict1):
         old = self.expected
         self.expected = OrderedDict(list(dict1.items()) + list(old.items()))
@@ -97,25 +91,33 @@ class TestLibraryParsingQueue(unittest.TestCase):
         self.queue.add('SomeLib', 'library', [1, 2, 3])
         self.assertEqual(
             self.queue.queue,
-            OrderedDict([('SomeLib', {'scanned': False, 'type': 'library', 'args': [1, 2, 3]})]))
+            OrderedDict([(
+                'SomeLib',
+                {'scanned': False, 'type': 'library', 'args': [1, 2, 3]})]))
 
     def add_builtin(self):
         tmp = OrderedDict({})
-        tmp['BuiltIn'] = self._join_dict(
+        tmp['BuiltIn'] = self.join_dict(
             self.not_scanned, self.lib, self.no_args)
         self.update_expected(tmp)
         self.queue.add('BuiltIn', 'library', None)
 
     def add_test_data(self):
         tmp = OrderedDict({})
-        tmp['some.robot'] = self._join_dict(
+        tmp['some.robot'] = self.join_dict(
             self.not_scanned, self.none, self.no_args)
         self.update_expected(tmp)
         self.queue.add('some.robot', None, None)
 
     def add_resource(self):
         tmp = OrderedDict({})
-        tmp['resource.robot'] = self._join_dict(
+        tmp['resource.robot'] = self.join_dict(
             self.not_scanned, self.resource, self.no_args)
         self.update_expected(tmp)
         self.queue.add('resource.robot', 'resource', None)
+
+    def join_dict(self, dict1, dict2, dict3):
+        x = dict1.copy()
+        x.update(dict2)
+        x.update(dict3)
+        return x
