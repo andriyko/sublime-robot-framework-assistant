@@ -50,10 +50,14 @@ class Scanner(object):
             if not item:
                 return
             else:
-                data = self.parse_all(item)
-                self.add_to_queue(data)
-                self.put_item_to_db(data, db_path)
-                self.queue.set(item[0])
+                try:
+                    data = self.parse_all(item)
+                    self.add_to_queue(data)
+                    self.put_item_to_db(data, db_path)
+                except ValueError:
+                    print 'Error in: {0}'.format(item[0])
+                finally:
+                    self.queue.set(item[0])
 
     def get_item(self):
         item = self.queue.get()

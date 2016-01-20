@@ -4,6 +4,7 @@ from robot.variables.store import VariableStore
 from robot.variables.variables import Variables
 from robot.libdocpkg.robotbuilder import LibraryDocBuilder
 from robot.output import LOGGER as ROBOT_LOGGER
+from robot.utils.importer import DataError
 from os import path
 import xml.etree.ElementTree as ET
 
@@ -28,13 +29,21 @@ class TestDataParser():
 
     def parse_resource(self, file_path):
         self.file_path = file_path
-        model = parsing.ResourceFile(file_path).populate()
-        return self._parse_robot_data(file_path, model)
+        if path.exists(file_path):
+            model = parsing.ResourceFile(file_path).populate()
+            return self._parse_robot_data(file_path, model)
+        else:
+            raise ValueError(
+                'File does not exist: {0}'.format(file_path))
 
     def parse_suite(self, file_path):
         self.file_path = file_path
-        model = parsing.TestCaseFile(source=file_path).populate()
-        return self._parse_robot_data(file_path, model)
+        if path.exists(file_path):
+            model = parsing.TestCaseFile(source=file_path).populate()
+            return self._parse_robot_data(file_path, model)
+        else:
+            raise ValueError(
+                'File does not exist: {0}'.format(file_path))
 
     def parse_variable_file(self, file_path, args=None):
         if not args:
@@ -95,7 +104,11 @@ class TestDataParser():
     def _parse_python_lib(self, library, args):
         library = self._lib_arg_formatter(library, args)
         kws = {}
-        library = self.libdoc.build(library)
+        try:
+            library = self.libdoc.build(library)
+        except DataError:
+            raise ValueError(
+                'Library does not exist: {0}'.format(library))
         for keyword in library.keywords:
             kw = {}
             kw['keyword_name'] = keyword.name
