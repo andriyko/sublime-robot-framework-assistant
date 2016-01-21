@@ -1,0 +1,14 @@
+{
+    "file_name": "test_b.robot", 
+    "variables": [
+        "${TEST_B}"
+    ], 
+    "libraries": [], 
+    "variable_files": [], 
+    "keywords": {}, 
+    "file_path": "D:\\workspace\\robotframework-from-sublime\\test\\resource\\test_data\\suite_tree\\test_b.robot", 
+    "resources": [
+        "D:\\workspace\\robotframework-from-sublime\\test\\resource\\test_data\\suite_tree\\resource_b.robot", 
+        "D:\\workspace\\robotframework-from-sublime\\test\\resource\\test_data\\suite_tree\\common.robot"
+    ]
+}

@@ -1,0 +1,143 @@
+{
+    "keywords": {
+        "terminate_all_processes": {
+            "keyword_name": "Terminate All Processes", 
+            "keyword_arguments": [
+                "kill=False"
+            ], 
+            "documentation": "Terminates all still running processes started by this library.\n\nThis keyword can be used in suite teardown or elsewhere to make\nsure that all processes are stopped,\n\nBy default tries to terminate processes gracefully, but can be\nconfigured to forcefully kill them immediately. See `Terminate Process`\nthat this keyword uses internally for more details.", 
+            "tags": []
+        }, 
+        "get_process_object": {
+            "keyword_name": "Get Process Object", 
+            "keyword_arguments": [
+                "handle=None"
+            ], 
+            "documentation": "Return the underlying ``subprocess.Popen`` object.\n\nIf ``handle`` is not given, uses the current `active process`.", 
+            "tags": []
+        }, 
+        "get_process_result": {
+            "keyword_name": "Get Process Result", 
+            "keyword_arguments": [
+                "handle=None", 
+                "rc=False", 
+                "stdout=False", 
+                "stderr=False", 
+                "stdout_path=False", 
+                "stderr_path=False"
+            ], 
+            "documentation": "Returns the specified `result object` or some of its attributes.\n\nThe given ``handle`` specifies the process whose results should be\nreturned. If no ``handle`` is given, results of the current `active\nprocess` are returned. In either case, the process must have been\nfinishes before this keyword can be used. In practice this means\nthat processes started with `Start Process` must be finished either\nwith `Wait For Process` or `Terminate Process` before using this\nkeyword.\n\nIf no other arguments than the optional ``handle`` are given, a whole\n`result object` is returned. If one or more of the other arguments\nare given any true value, only the specified attributes of the\n`result object` are returned. These attributes are always returned\nin the same order as arguments are specified in the keyword signature.\nSee `Boolean arguments` section for more details about true and false\nvalues.\n\nExamples:\n| Run Process           | python             | -c            | print 'Hello, world!' | alias=myproc |\n| # Get result object   |                    |               |\n| ${result} =           | Get Process Result | myproc        |\n| Should Be Equal       | ${result.rc}       | ${0}          |\n| Should Be Equal       | ${result.stdout}   | Hello, world! |\n| Should Be Empty       | ${result.stderr}   |               |\n| # Get one attribute   |                    |               |\n| ${stdout} =           | Get Process Result | myproc        | stdout=true |\n| Should Be Equal       | ${stdout}          | Hello, world! |\n| # Multiple attributes |                    |               |\n| ${stdout}             | ${stderr} =        | Get Process Result |  myproc | stdout=yes | stderr=yes |\n| Should Be Equal       | ${stdout}          | Hello, world! |\n| Should Be Empty       | ${stderr}          |               |\n\nAlthough getting results of a previously executed process can be handy\nin general, the main use case for this keyword is returning results\nover the remote library interface. The remote interface does not\nsupport returning the whole result object, but individual attributes\ncan be returned without problems.\n\nNew in Robot Framework 2.8.2.", 
+            "tags": []
+        }, 
+        "is_process_running": {
+            "keyword_name": "Is Process Running", 
+            "keyword_arguments": [
+                "handle=None"
+            ], 
+            "documentation": "Checks is the process running or not.\n\nIf ``handle`` is not given, uses the current `active process`.\n\nReturns ``True`` if the process is still running and ``False`` otherwise.", 
+            "tags": []
+        }, 
+        "process_should_be_running": {
+            "keyword_name": "Process Should Be Running", 
+            "keyword_arguments": [
+                "handle=None", 
+                "error_message=Process is not running."
+            ], 
+            "documentation": "Verifies that the process is running.\n\nIf ``handle`` is not given, uses the current `active process`.\n\nFails if the process has stopped.", 
+            "tags": []
+        }, 
+        "process_should_be_stopped": {
+            "keyword_name": "Process Should Be Stopped", 
+            "keyword_arguments": [
+                "handle=None", 
+                "error_message=Process is running."
+            ], 
+            "documentation": "Verifies that the process is not running.\n\nIf ``handle`` is not given, uses the current `active process`.\n\nFails if the process is still running.", 
+            "tags": []
+        }, 
+        "get_process_id": {
+            "keyword_name": "Get Process Id", 
+            "keyword_arguments": [
+                "handle=None"
+            ], 
+            "documentation": "Returns the process ID (pid) of the process as an integer.\n\nIf ``handle`` is not given, uses the current `active process`.\n\nNotice that the pid is not the same as the handle returned by\n`Start Process` that is used internally by this library.", 
+            "tags": []
+        }, 
+        "split_command_line": {
+            "keyword_name": "Split Command Line", 
+            "keyword_arguments": [
+                "args", 
+                "escaping=False"
+            ], 
+            "documentation": "Splits command line string into a list of arguments.\n\nString is split from spaces, but argument surrounded in quotes may\ncontain spaces in them. If ``escaping`` is given a true value, then\nbackslash is treated as an escape character. It can escape unquoted\nspaces, quotes inside quotes, and so on, but it also requires using\ndouble backslashes when using Windows paths.\n\nExamples:\n| @{cmd} = | Split Command Line | --option \"value with spaces\" |\n| Should Be True | $cmd == ['--option', 'value with spaces'] |\n\nNew in Robot Framework 2.9.2.", 
+            "tags": []
+        }, 
+        "terminate_process": {
+            "keyword_name": "Terminate Process", 
+            "keyword_arguments": [
+                "handle=None", 
+                "kill=False"
+            ], 
+            "documentation": "Stops the process gracefully or forcefully.\n\nIf ``handle`` is not given, uses the current `active process`.\n\nBy default first tries to stop the process gracefully. If the process\ndoes not stop in 30 seconds, or ``kill`` argument is given a true value,\n(see `Boolean arguments`) kills the process forcefully. Stops also all\nthe child processes of the originally started process.\n\nWaits for the process to stop after terminating it. Returns a `result\nobject` containing information about the execution similarly as `Wait\nFor Process`.\n\nOn Unix-like machines graceful termination is done using ``TERM (15)``\nsignal and killing using ``KILL (9)``. Use `Send Signal To Process`\ninstead if you just want to send either of these signals without\nwaiting for the process to stop.\n\nOn Windows graceful termination is done using ``CTRL_BREAK_EVENT``\nevent and killing using Win32 API function ``TerminateProcess()``.\n\nExamples:\n| ${result} =                 | Terminate Process |     |\n| Should Be Equal As Integers | ${result.rc}      | -15 | # On Unixes |\n| Terminate Process           | myproc            | kill=true |\n\nLimitations:\n- Graceful termination is not supported on Windows by Jython nor by\n  Python versions prior to 2.7. Process is killed instead.\n- Stopping the whole process group is not supported by Jython at all\n  nor by Python versions prior to 2.7 on Windows.\n- On Windows forceful kill only stops the main process, not possible\n  child processes.\n\nAutomatically killing the process if termination fails as well as\nreturning a result object are new features in Robot Framework 2.8.2.\nTerminating also possible child processes, including using\n``CTRL_BREAK_EVENT`` on Windows, is new in Robot Framework 2.8.5.", 
+            "tags": []
+        }, 
+        "send_signal_to_process": {
+            "keyword_name": "Send Signal To Process", 
+            "keyword_arguments": [
+                "signal", 
+                "handle=None", 
+                "group=False"
+            ], 
+            "documentation": "Sends the given ``signal`` to the specified process.\n\nIf ``handle`` is not given, uses the current `active process`.\n\nSignal can be specified either as an integer as a signal name. In the\nlatter case it is possible to give the name both with or without ``SIG``\nprefix, but names are case-sensitive. For example, all the examples\nbelow send signal ``INT (2)``:\n\n| Send Signal To Process | 2      |        | # Send to active process |\n| Send Signal To Process | INT    |        |                          |\n| Send Signal To Process | SIGINT | myproc | # Send to named process  |\n\nThis keyword is only supported on Unix-like machines, not on Windows.\nWhat signals are supported depends on the system. For a list of\nexisting signals on your system, see the Unix man pages related to\nsignal handling (typically ``man signal`` or ``man 7 signal``).\n\nBy default sends the signal only to the parent process, not to possible\nchild processes started by it. Notice that when `running processes in\nshell`, the shell is the parent process and it depends on the system\ndoes the shell propagate the signal to the actual started process.\n\nTo send the signal to the whole process group, ``group`` argument can\nbe set to any true value (see `Boolean arguments`). This is not\nsupported by Jython, however.\n\nNew in Robot Framework 2.8.2. Support for ``group`` argument is new\nin Robot Framework 2.8.5.", 
+            "tags": []
+        }, 
+        "wait_for_process": {
+            "keyword_name": "Wait For Process", 
+            "keyword_arguments": [
+                "handle=None", 
+                "timeout=None", 
+                "on_timeout=continue"
+            ], 
+            "documentation": "Waits for the process to complete or to reach the given timeout.\n\nThe process to wait for must have been started earlier with\n`Start Process`. If ``handle`` is not given, uses the current\n`active process`.\n\n``timeout`` defines the maximum time to wait for the process. It can be\ngiven in\n[http://robotframework.org/robotframework/latest/RobotFrameworkUserGuide.html#time-format|\nvarious time formats] supported by Robot Framework, for example, ``42``,\n``42 s``, or ``1 minute 30 seconds``.\n\n``on_timeout`` defines what to do if the timeout occurs. Possible values\nand corresponding actions are explained in the table below. Notice\nthat reaching the timeout never fails the test.\n\n| = Value = |               = Action =               |\n| continue  | The process is left running (default). |\n| terminate | The process is gracefully terminated.  |\n| kill      | The process is forcefully stopped.     |\n\nSee `Terminate Process` keyword for more details how processes are\nterminated and killed.\n\nIf the process ends before the timeout or it is terminated or killed,\nthis keyword returns a `result object` containing information about\nthe execution. If the process is left running, Python ``None`` is\nreturned instead.\n\nExamples:\n| # Process ends cleanly      |                  |                  |\n| ${result} =                 | Wait For Process | example          |\n| Process Should Be Stopped   | example          |                  |\n| Should Be Equal As Integers | ${result.rc}     | 0                |\n| # Process does not end      |                  |                  |\n| ${result} =                 | Wait For Process | timeout=42 secs  |\n| Process Should Be Running   |                  |                  |\n| Should Be Equal             | ${result}        | ${NONE}          |\n| # Kill non-ending process   |                  |                  |\n| ${result} =                 | Wait For Process | timeout=1min 30s | on_timeout=kill |\n| Process Should Be Stopped   |                  |                  |\n| Should Be Equal As Integers | ${result.rc}     | -9               |\n\n``timeout`` and ``on_timeout`` are new in Robot Framework 2.8.2.", 
+            "tags": []
+        }, 
+        "switch_process": {
+            "keyword_name": "Switch Process", 
+            "keyword_arguments": [
+                "handle"
+            ], 
+            "documentation": "Makes the specified process the current `active process`.\n\nThe handle can be an identifier returned by `Start Process` or\nthe ``alias`` given to it explicitly.\n\nExample:\n| Start Process  | prog1    | alias=process1 |\n| Start Process  | prog2    | alias=process2 |\n| # currently active process is process2 |\n| Switch Process | process1 |\n| # now active process is process1 |", 
+            "tags": []
+        }, 
+        "run_process": {
+            "keyword_name": "Run Process", 
+            "keyword_arguments": [
+                "command", 
+                "*arguments", 
+                "**configuration"
+            ], 
+            "documentation": "Runs a process and waits for it to complete.\n\n``command`` and ``*arguments`` specify the command to execute and\narguments passed to it. See `Specifying command and arguments` for\nmore details.\n\n``**configuration`` contains additional configuration related to\nstarting processes and waiting for them to finish. See `Process\nconfiguration` for more details about configuration related to starting\nprocesses. Configuration related to waiting for processes consists of\n``timeout`` and ``on_timeout`` arguments that have same semantics as\nwith `Wait For Process` keyword. By default there is no timeout, and\nif timeout is defined the default action on timeout is ``terminate``.\n\nReturns a `result object` containing information about the execution.\n\nNote that possible equal signs in ``*arguments`` must be escaped\nwith a backslash (e.g. ``name\\=value``) to avoid them to be passed in\nas ``**configuration``.\n\nExamples:\n| ${result} = | Run Process | python | -c | print 'Hello, world!' |\n| Should Be Equal | ${result.stdout} | Hello, world! |\n| ${result} = | Run Process | ${command} | stderr=STDOUT | timeout=10s |\n| ${result} = | Run Process | ${command} | timeout=1min | on_timeout=continue |\n| ${result} = | Run Process | java -Dname\\=value Example | shell=True | cwd=${EXAMPLE} |\n\nThis keyword does not change the `active process`.\n\n``timeout`` and ``on_timeout`` arguments are new in Robot Framework\n2.8.4.", 
+            "tags": []
+        }, 
+        "join_command_line": {
+            "keyword_name": "Join Command Line", 
+            "keyword_arguments": [
+                "*args"
+            ], 
+            "documentation": "Joins arguments into one command line string.\n\nIn resulting command line string arguments are delimited with a space,\narguments containing spaces are surrounded with quotes, and possible\nquotes are escaped with a backslash.\n\nIf this keyword is given only one argument and that is a list like\nobject, then the values of that list are joined instead.\n\nExample:\n| ${cmd} = | Join Command Line | --option | value with spaces |\n| Should Be Equal | ${cmd} | --option \"value with spaces\" |\n\nNew in Robot Framework 2.9.2.", 
+            "tags": []
+        }, 
+        "start_process": {
+            "keyword_name": "Start Process", 
+            "keyword_arguments": [
+                "command", 
+                "*arguments", 
+                "**configuration"
+            ], 
+            "documentation": "Starts a new process on background.\n\nSee `Specifying command and arguments` and `Process configuration`\nfor more information about the arguments, and `Run Process` keyword\nfor related examples.\n\nMakes the started process new `active process`. Returns an identifier\nthat can be used as a handle to active the started process if needed.\n\nStarting from Robot Framework 2.8.5, processes are started so that\nthey create a new process group. This allows sending signals to and\nterminating also possible child processes. This is not supported by\nJython in general nor by Python versions prior to 2.7 on Windows.", 
+            "tags": []
+        }
+    }, 
+    "library_module": "Process", 
+    "arguments": []
+}

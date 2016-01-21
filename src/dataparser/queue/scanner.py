@@ -11,6 +11,20 @@ LIBRARIES = 'libraries'
 LIBRARY = 'library'
 
 
+def rf_table_name(f_path):
+    return '{realname}-{md5}.json'.format(
+                realname=path.basename(f_path),
+                md5=md5(f_path).hexdigest()
+            )
+
+
+def lib_table_name(library):
+    return '{realname}-{md5}.json'.format(
+                realname=library,
+                md5=md5(library).hexdigest()
+            )
+
+
 class Scanner(object):
     """Class to perform initial scanning of robot data.
 
@@ -80,15 +94,9 @@ class Scanner(object):
     def put_item_to_db(self, item, db_path):
         """Creates the json file to self.db_path"""
         if 'file_path' in item:
-            f_name = '{realname}-{md5}.json'.format(
-                realname=path.basename(item['file_path']),
-                md5=md5(item['file_path']).hexdigest()
-                )
+            f_name = rf_table_name(item['file_path'])
         elif 'library_module' in item:
-            f_name = '{realname}-{md5}.json'.format(
-                realname=item['library_module'],
-                md5=md5(item['library_module']).hexdigest()
-                )
+            f_name = lib_table_name(item['library_module'])
         f = open(path.join(db_path, f_name), 'w')
         f.write(json.dumps(item, indent=4))
         f.close()
