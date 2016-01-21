@@ -1,21 +1,66 @@
-from os import path
+import shutil
+from os import path, makedirs
 from json import load as json_load
 from collections import namedtuple
+from collections import OrderedDict
 from dataparser.queue.scanner import rf_table_name, lib_table_name
+from dataparser.queue.queue import ParsingQueue
 
 
 class Index(object):
     """Reads the database and returns index's of keywords and variables"""
 
     def __init__(self):
-        self.index_queue = []
+        self.queue = ParsingQueue()
 
-    def create_index(self, db_dir, f_name, index_dir):
-        table_name = rf_table_name(f_name)
-        data = self.read_table(path.join(db_dir, table_name))
-        keywords = self.get_keywords(data)
-        imports = self.get_imports(data)
-        variables = self.get_variables(data)
+    def create_index_for_table(self, db_dir, table_name, index_path):
+        if path.exists(index_path):
+            shutil.rmtree(index_path)
+        makedirs(index_path)
+        self.queue.queue = OrderedDict({})
+        self.queue.add(table_name, None, None)
+        keywords = []
+        variables = []
+        while True:
+            item = self.get_item_from_queue()
+            if not item:
+                break
+            t_name = item[0]
+            data = self.read_table(path.join(db_dir, t_name))
+            var = self.get_variables(data)
+            if var:
+                variables.extend(var)
+            kw = self.get_keywords(data)
+            if kw:
+                object_name = self.get_object_name(data)
+                kw_index = self.get_kw_for_index(
+                    kw, t_name,
+                    object_name)
+                keywords.extend(kw_index)
+            self.add_imports_to_queue(self.get_imports(data))
+            self.queue.set(t_name)
+        return {'keyword': keywords, 'variable': variables}
+
+    def add_imports_to_queue(self, imports):
+        for import_ in imports:
+            self.queue.add(import_, None, None)
+
+    def get_item_from_queue(self):
+        item = self.queue.get()
+        if not item:
+            return item
+        elif not item[1]['scanned']:
+            return item
+        else:
+            return {}
+
+    def get_object_name(self, data):
+        if 'file_name' in data:
+            return data['file_name']
+        elif 'library_module' in data:
+            return data['library_module']
+        else:
+            raise ValueError('Parsing error: {0}'.format(data))
 
     def get_imports(self, data):
         result = []

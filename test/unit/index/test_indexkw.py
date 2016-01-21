@@ -93,6 +93,9 @@ class TestIndexing(unittest.TestCase):
         data = self.get_s2l()
         self.assertEqual(self.index.get_variables(data), [])
 
+        data = self.get_common()
+        self.assertEqual(self.index.get_variables(data), [])
+
     def test_get_kw_for_index(self):
         KeywordRecord = namedtuple(
             'KeywordRecord',
@@ -112,31 +115,51 @@ class TestIndexing(unittest.TestCase):
         self.assertEqual(
             self.index.get_kw_for_index(kw_list, table_name, object_name), l)
 
-        kw_list = ['test_a_keyword']
-        table_name = 'test_a.robot-1852a118490abd2b0024027f490d5654.json'
-        object_name = 'test_a.robot'
-        l = [KeywordRecord(
-            keyword=kw_list[0],
-            object_name=object_name,
-            table_name=table_name)]
+        l, kw_list, object_name, table_name = self.get_test_a_kw_index(
+            KeywordRecord)
         self.assertEqual(
             self.index.get_kw_for_index(kw_list, table_name, object_name), l)
 
-        s2l_data = self.get_s2l()
-        kw_list = self.index.get_keywords(s2l_data)
-        object_name = 'Selenium2Library'
-        table_name = 'Selenium2Library-ac72a5ed5dae4edc06e58114b7c0ce92.json'
-        l = []
-        for kw in kw_list:
-            l.append(KeywordRecord(
-                keyword=kw, object_name=object_name, table_name=table_name))
+        l, kw_list, object_name, table_name = self.get_s2l_kw_index(
+            KeywordRecord)
         self.assertEqual(
             self.index.get_kw_for_index(kw_list, table_name, object_name), l)
+
+    def test_index_creation_test_a(self):
+        table_name = 'test_a.robot-1852a118490abd2b0024027f490d5654.json'
+        KeywordRecord = namedtuple(
+            'KeywordRecord',
+            'keyword object_name table_name')
+        kw_list = []
+        kw_list.extend(self.get_test_a_kw_index(KeywordRecord)[0])
+        kw_list.extend(self.get_common_kw_index(KeywordRecord)[0])
+        kw_list.extend(self.get_resource_a_kw_index(KeywordRecord)[0])
+        kw_list.extend(self.get_s2l_kw_index(KeywordRecord)[0])
+        kw_list.extend(self.get_os_kw_index(KeywordRecord)[0])
+        var_list = [u'${TEST_A}', u'${RESOURCE_A}']
+        t_index = {
+            'keyword': kw_list,
+            'variable': var_list}
+        r_index = self.index.create_index_for_table(
+                self.db_dir, table_name, self.index_dir)
+        self.assertEqual(len(r_index['variable']), len(t_index['variable']))
+        self.assertEqual(len(r_index['keyword']), len(t_index['keyword']))
+
+    def test_index_all_db(self):
+        raise ValueError('Not done')
 
     def get_resource_b(self):
         f = open(os.path.join(
                 self.db_dir,
                 'resource_b.robot-bc289af1f3ddcc4187b4a9785e075694.json'
+            )
+        )
+        return json.load(f)
+
+    def get_common(self):
+        f = open(os.path.join(
+                self.db_dir,
+                'common.robot-c7d61b0da98ae8ac905b9596256934f2.json'
             )
         )
         return json.load(f)
@@ -156,3 +179,63 @@ class TestIndexing(unittest.TestCase):
             )
         )
         return json.load(f)
+
+    def get_os(self):
+        f = open(os.path.join(
+                self.db_dir,
+                'OperatingSystem-3f475567566b93c16c76ae4f3daaca1a.json'
+            )
+        )
+        return json.load(f)
+
+    def get_s2l_kw_index(self, keywordrecord):
+        s2l_data = self.get_s2l()
+        kw_list = self.index.get_keywords(s2l_data)
+        object_name = 'Selenium2Library'
+        table_name = 'Selenium2Library-ac72a5ed5dae4edc06e58114b7c0ce92.json'
+        l = []
+        for kw in kw_list:
+            l.append(keywordrecord(
+                keyword=kw, object_name=object_name, table_name=table_name))
+        return l, kw_list, object_name, table_name
+
+    def get_os_kw_index(self, keywordrecord):
+        os_data = self.get_os()
+        kw_list = self.index.get_keywords(os_data)
+        object_name = 'OperatingSystem'
+        table_name = 'OperatingSystem-3f475567566b93c16c76ae4f3daaca1a.json'
+        l = []
+        for kw in kw_list:
+            l.append(keywordrecord(
+                keyword=kw, object_name=object_name, table_name=table_name))
+        return l, kw_list, object_name, table_name
+
+    def get_test_a_kw_index(self, keywordrecord):
+        kw_list = [u'test_a_keyword']
+        table_name = 'test_a.robot-1852a118490abd2b0024027f490d5654.json'
+        object_name = u'test_a.robot'
+        l = [keywordrecord(
+            keyword=kw_list[0],
+            object_name=object_name,
+            table_name=table_name)]
+        return l, kw_list, object_name, table_name
+
+    def get_resource_a_kw_index(self, keywordrecord):
+        kw_list = [u'resource_a_keyword_1', u'resource_a_keyword_2']
+        table_name = 'resource_a.robot-a8aeadbbe3564ef58fc8119b0cd766ec.json'
+        object_name = u'resource_a.robot'
+        l = []
+        for kw in kw_list:
+            l.append(keywordrecord(
+                keyword=kw, object_name=object_name, table_name=table_name))
+        return l, kw_list, object_name, table_name
+
+    def get_common_kw_index(self, keywordrecord):
+        kw_list = [u'common_keyword_2', u'common_keyword_1']
+        table_name = 'common.robot-c7d61b0da98ae8ac905b9596256934f2.json'
+        object_name = u'common.robot'
+        l = []
+        for kw in kw_list:
+            l.append(keywordrecord(
+                keyword=kw, object_name=object_name, table_name=table_name))
+        return l, kw_list, object_name, table_name
