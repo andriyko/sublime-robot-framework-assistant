@@ -1,6 +1,7 @@
 import shutil
-from os import path, makedirs
+from os import path, makedirs, listdir
 from json import load as json_load
+from json import dump as json_dump
 from collections import namedtuple
 from collections import OrderedDict
 from dataparser.queue.scanner import rf_table_name, lib_table_name
@@ -15,16 +16,21 @@ class Index(object):
 
     def index_all_tables(self, db_dir, index_path):
         """Index all tables found from db_dir"""
+        if path.exists(index_path):
+            shutil.rmtree(index_path)
         makedirs(index_path)
-        self.queue.queue = OrderedDict({})
+        for table in listdir(db_dir):
+            index_name = 'index-{0}'.format(table)
+            f = open(path.join(index_path, index_name), 'w')
+            data = self.create_index_for_table(db_dir, table)
+            json_dump(data, f)
+            f.close()
 
-    def create_index_for_table(self, db_dir, table_name, index_path):
+    def create_index_for_table(self, db_dir, table_name):
         """Creates index for a single table.
 
         Index contains all imported kw and variables"""
         self.queue.queue = OrderedDict({})
-        if path.exists(index_path):
-            shutil.rmtree(index_path)
         self.queue.add(table_name, None, None)
         keywords = []
         variables = []

@@ -140,8 +140,7 @@ class TestIndexing(unittest.TestCase):
         t_index = {
             'keyword': kw_list,
             'variable': var_list}
-        r_index = self.index.create_index_for_table(
-                self.db_dir, table_name, self.index_dir)
+        r_index = self.index.create_index_for_table(self.db_dir, table_name)
         self.assertEqual(r_index['variable'], t_index['variable'])
         self.assertEqual(len(r_index['keyword']), len(t_index['keyword']))
         self.assertEqual(r_index['keyword'].sort(), t_index['keyword'].sort())
@@ -161,14 +160,22 @@ class TestIndexing(unittest.TestCase):
         t_index = {
             'keyword': kw_list,
             'variable': var_list}
-        r_index = self.index.create_index_for_table(
-                self.db_dir, table_name, self.index_dir)
+        r_index = self.index.create_index_for_table(self.db_dir, table_name)
         self.assertEqual(r_index['variable'], t_index['variable'])
         self.assertEqual(len(r_index['keyword']), len(t_index['keyword']))
         self.assertEqual(r_index['keyword'].sort(), t_index['keyword'].sort())
 
     def test_index_all_db(self):
-        raise ValueError('Not done')
+        t_index_table_names = []
+        for table in os.listdir(self.db_dir):
+            t_index_table_names.append(
+                'index-{0}'.format(table))
+        self.index.index_all_tables(self.db_dir, self.index_dir)
+        r_index_table_names = os.listdir(self.index_dir)
+        self.assertEqual(r_index_table_names, t_index_table_names)
+        for index_file in os.listdir(self.index_dir):
+            size = os.path.getsize(os.path.join(self.index_dir, index_file))
+            self.assertGreater(size, 1000)
 
     def get_resource_b(self):
         f = open(os.path.join(
