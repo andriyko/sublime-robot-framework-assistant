@@ -13,11 +13,18 @@ class Index(object):
     def __init__(self):
         self.queue = ParsingQueue()
 
-    def create_index_for_table(self, db_dir, table_name, index_path):
-        if path.exists(index_path):
-            shutil.rmtree(index_path)
+    def index_all_tables(self, db_dir, index_path):
+        """Index all tables found from db_dir"""
         makedirs(index_path)
         self.queue.queue = OrderedDict({})
+
+    def create_index_for_table(self, db_dir, table_name, index_path):
+        """Creates index for a single table.
+
+        Index contains all imported kw and variables"""
+        self.queue.queue = OrderedDict({})
+        if path.exists(index_path):
+            shutil.rmtree(index_path)
         self.queue.add(table_name, None, None)
         keywords = []
         variables = []

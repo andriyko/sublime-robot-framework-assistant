@@ -142,8 +142,30 @@ class TestIndexing(unittest.TestCase):
             'variable': var_list}
         r_index = self.index.create_index_for_table(
                 self.db_dir, table_name, self.index_dir)
-        self.assertEqual(len(r_index['variable']), len(t_index['variable']))
+        self.assertEqual(r_index['variable'], t_index['variable'])
         self.assertEqual(len(r_index['keyword']), len(t_index['keyword']))
+        self.assertEqual(r_index['keyword'].sort(), t_index['keyword'].sort())
+
+    def test_index_creation_test_b(self):
+        table_name = 'test_b.robot-779d241623971b05b6c1fa507e4f1ab5.json'
+        KeywordRecord = namedtuple(
+            'KeywordRecord',
+            'keyword object_name table_name')
+        kw_list = []
+        kw_list.extend(self.get_test_b_kw_index(KeywordRecord)[0])
+        kw_list.extend(self.get_common_kw_index(KeywordRecord)[0])
+        kw_list.extend(self.get_resource_b_kw_index(KeywordRecord)[0])
+        kw_list.extend(self.get_s2l_kw_index(KeywordRecord)[0])
+        kw_list.extend(self.get_process_kw_index(KeywordRecord)[0])
+        var_list = [u'${TEST_B}', u'${RESOURCE_B}']
+        t_index = {
+            'keyword': kw_list,
+            'variable': var_list}
+        r_index = self.index.create_index_for_table(
+                self.db_dir, table_name, self.index_dir)
+        self.assertEqual(r_index['variable'], t_index['variable'])
+        self.assertEqual(len(r_index['keyword']), len(t_index['keyword']))
+        self.assertEqual(r_index['keyword'].sort(), t_index['keyword'].sort())
 
     def test_index_all_db(self):
         raise ValueError('Not done')
@@ -188,6 +210,14 @@ class TestIndexing(unittest.TestCase):
         )
         return json.load(f)
 
+    def get_process(self):
+        f = open(os.path.join(
+                self.db_dir,
+                'Process-b6ec7abeb6ae29cc35a4b47475e12afe.json'
+            )
+        )
+        return json.load(f)
+
     def get_s2l_kw_index(self, keywordrecord):
         s2l_data = self.get_s2l()
         kw_list = self.index.get_keywords(s2l_data)
@@ -210,6 +240,17 @@ class TestIndexing(unittest.TestCase):
                 keyword=kw, object_name=object_name, table_name=table_name))
         return l, kw_list, object_name, table_name
 
+    def get_process_kw_index(self, keywordrecord):
+        process_data = self.get_process()
+        kw_list = self.index.get_keywords(process_data)
+        object_name = 'Process'
+        table_name = 'Process-b6ec7abeb6ae29cc35a4b47475e12afe.json'
+        l = []
+        for kw in kw_list:
+            l.append(keywordrecord(
+                keyword=kw, object_name=object_name, table_name=table_name))
+        return l, kw_list, object_name, table_name
+
     def get_test_a_kw_index(self, keywordrecord):
         kw_list = [u'test_a_keyword']
         table_name = 'test_a.robot-1852a118490abd2b0024027f490d5654.json'
@@ -220,10 +261,27 @@ class TestIndexing(unittest.TestCase):
             table_name=table_name)]
         return l, kw_list, object_name, table_name
 
+    def get_test_b_kw_index(self, keywordrecord):
+        kw_list = []
+        table_name = 'test_b.robot-779d241623971b05b6c1fa507e4f1ab5.json'
+        object_name = u'test_a.robot'
+        l = []
+        return l, kw_list, object_name, table_name
+
     def get_resource_a_kw_index(self, keywordrecord):
         kw_list = [u'resource_a_keyword_1', u'resource_a_keyword_2']
         table_name = 'resource_a.robot-a8aeadbbe3564ef58fc8119b0cd766ec.json'
         object_name = u'resource_a.robot'
+        l = []
+        for kw in kw_list:
+            l.append(keywordrecord(
+                keyword=kw, object_name=object_name, table_name=table_name))
+        return l, kw_list, object_name, table_name
+
+    def get_resource_b_kw_index(self, keywordrecord):
+        kw_list = [u'resource_b_keyword_1', u'resource_b_keyword_2']
+        table_name = 'resource_b.robot-bc289af1f3ddcc4187b4a9785e075694.json'
+        object_name = u'resource_b.robot'
         l = []
         for kw in kw_list:
             l.append(keywordrecord(
