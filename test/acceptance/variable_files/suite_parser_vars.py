@@ -32,11 +32,13 @@ def create_simple_test(resource_dir):
     result = {}
     result['file_name'] = 'simple_test.robot'
     result['file_path'] = path.join(resource_dir, result['file_name'])
-    result['libraries'] = [{'library_name': 'Selenium2Library',
-                            'library_alias': None,
-                            'library_arguments': ['timeout=5.0',
-                                                  'implicit_wait=0.0']
-                            }]
+    result['libraries'] = [
+        {'library_name': 'Selenium2Library',
+         'library_alias': None,
+         'library_arguments': ['timeout=5.0','implicit_wait=0.0'],
+         'library_path': None
+        }
+    ]
     result['resources'] = [path.join(resource_dir, 'simple_resrouce2.robot')]
     result['variable_files'] = [
         {path.join(resource_dir, 'simple_variable_file.py'):
@@ -58,10 +60,12 @@ def create_simple_resource(resource_dir):
     result['libraries'] = [
         {'library_name': 'Selenium2Library',
          'library_alias': None,
-         'library_arguments': ['timeout=5.0']},
-        {'library_name': lib_path,
+         'library_arguments': ['timeout=5.0'],
+         'library_path': None},
+        {'library_name': 'FooBar.py',
          'library_alias': None,
-         'library_arguments': []}
+         'library_arguments': [],
+         'library_path': lib_path}
         ]
     result['variable_files'] = [
         {path.join(resource_dir, 'simple_variable_file.py'):
@@ -77,15 +81,17 @@ def create_simple_resource(resource_dir):
 
 
 def get_resource_path(root_dir):
-    return path.normpath(
-        path.join(
-            root_dir,
-            '..',
-            '..',
-            'resource',
-            'test_data'
+    return path.normcase(
+        path.normpath(
+            path.join(
+                root_dir,
+                '..',
+                '..',
+                'resource',
+                'test_data'
             )
         )
+    )
 
 
 def get_args(**args):

@@ -6,6 +6,7 @@ import json
 from time import sleep
 from collections import namedtuple
 from dataparser.queue.scanner import Scanner
+from dataparser.queue.scanner import rf_table_name, lib_table_name
 from dataparser.index.index import Index
 
 
@@ -47,7 +48,7 @@ class TestIndexing(unittest.TestCase):
         data = self.index.read_table(
             os.path.join(
                 self.db_dir,
-                'test_b.robot-779d241623971b05b6c1fa507e4f1ab5.json'))
+                self.test_b_table_name))
         self.assertTrue(data['file_name'], 'test_b.robot')
 
     def test_get_keywords_resource(self):
@@ -67,13 +68,13 @@ class TestIndexing(unittest.TestCase):
 
     def test_get_imports(self):
         data = self.get_resource_b()
-        import_list = ['Process-b6ec7abeb6ae29cc35a4b47475e12afe.json']
+        import_list = [self.process_table_name]
         self.assertEqual(self.index.get_imports(data), import_list)
 
         data = self.get_test_a()
         import_list = [
-            'common.robot-c7d61b0da98ae8ac905b9596256934f2.json',
-            'resource_a.robot-a8aeadbbe3564ef58fc8119b0cd766ec.json']
+            self.common_table_name,
+            self.resource_a_table_name]
         self.assertEqual(
             self.index.get_imports(data).sort(), import_list.sort())
 
@@ -101,7 +102,7 @@ class TestIndexing(unittest.TestCase):
             'KeywordRecord',
             'keyword object_name table_name')
         kw_list = ['resource_b_keyword_2', 'resource_b_keyword_1']
-        table_name = 'resource_b.robot-bc289af1f3ddcc4187b4a9785e075694.json'
+        table_name = self.resource_b_table_name
         object_name = 'resource_b.robot'
         l = []
         for kw in kw_list:
@@ -126,7 +127,7 @@ class TestIndexing(unittest.TestCase):
             self.index.get_kw_for_index(kw_list, table_name, object_name), l)
 
     def test_index_creation_test_a(self):
-        table_name = 'test_a.robot-1852a118490abd2b0024027f490d5654.json'
+        table_name = self.test_a_table_name
         KeywordRecord = namedtuple(
             'KeywordRecord',
             'keyword object_name table_name')
@@ -136,17 +137,23 @@ class TestIndexing(unittest.TestCase):
         kw_list.extend(self.get_resource_a_kw_index(KeywordRecord)[0])
         kw_list.extend(self.get_s2l_kw_index(KeywordRecord)[0])
         kw_list.extend(self.get_os_kw_index(KeywordRecord)[0])
-        var_list = [u'${TEST_A}', u'${RESOURCE_A}']
+        var_list = [
+            u'${TEST_A}',
+            u'${RESOURCE_A}',
+            u'${COMMON_VARIABLE_1}',
+            u'${COMMON_VARIABLE_2}'
+        ]
         t_index = {
             'keyword': kw_list,
             'variable': var_list}
         r_index = self.index.create_index_for_table(self.db_dir, table_name)
-        self.assertEqual(r_index['variable'], t_index['variable'])
+        self.assertEqual(
+            r_index['variable'].sort(), t_index['variable'].sort())
         self.assertEqual(len(r_index['keyword']), len(t_index['keyword']))
         self.assertEqual(r_index['keyword'].sort(), t_index['keyword'].sort())
 
     def test_index_creation_test_b(self):
-        table_name = 'test_b.robot-779d241623971b05b6c1fa507e4f1ab5.json'
+        table_name = self.test_b_table_name
         KeywordRecord = namedtuple(
             'KeywordRecord',
             'keyword object_name table_name')
@@ -156,12 +163,18 @@ class TestIndexing(unittest.TestCase):
         kw_list.extend(self.get_resource_b_kw_index(KeywordRecord)[0])
         kw_list.extend(self.get_s2l_kw_index(KeywordRecord)[0])
         kw_list.extend(self.get_process_kw_index(KeywordRecord)[0])
-        var_list = [u'${TEST_B}', u'${RESOURCE_B}']
+        var_list = [
+            u'${TEST_B}',
+            u'${RESOURCE_B}',
+            u'${COMMON_VARIABLE_1}',
+            u'${COMMON_VARIABLE_2}'
+        ]
         t_index = {
             'keyword': kw_list,
             'variable': var_list}
         r_index = self.index.create_index_for_table(self.db_dir, table_name)
-        self.assertEqual(r_index['variable'], t_index['variable'])
+        self.assertEqual(
+            r_index['variable'].sort(), t_index['variable'].sort())
         self.assertEqual(len(r_index['keyword']), len(t_index['keyword']))
         self.assertEqual(r_index['keyword'].sort(), t_index['keyword'].sort())
 
@@ -175,20 +188,62 @@ class TestIndexing(unittest.TestCase):
         self.assertEqual(r_index_table_names, t_index_table_names)
         for index_file in os.listdir(self.index_dir):
             size = os.path.getsize(os.path.join(self.index_dir, index_file))
-            self.assertGreater(size, 1000)
+            self.assertGreater(size, 10)
+
+    @property
+    def resource_b_table_name(self):
+        return rf_table_name(
+            os.path.normcase(os.path.join(self.suite_dir, 'resource_b.robot'))
+        )
+
+    @property
+    def common_table_name(self):
+        return rf_table_name(
+            os.path.normcase(os.path.join(self.suite_dir, 'common.robot'))
+        )
+
+    @property
+    def test_a_table_name(self):
+        return rf_table_name(
+            os.path.normcase(os.path.join(self.suite_dir, 'test_a.robot'))
+        )
+
+    @property
+    def test_b_table_name(self):
+        return rf_table_name(
+            os.path.normcase(os.path.join(self.suite_dir, 'test_b.robot'))
+        )
+
+    @property
+    def resource_a_table_name(self):
+        return rf_table_name(os.path.normcase(
+            os.path.join(self.suite_dir, 'resource_a.robot'))
+        )
+
+    @property
+    def s2l_table_name(self):
+        return lib_table_name('Selenium2Library')
+
+    @property
+    def os_table_name(self):
+        return lib_table_name('OperatingSystem')
+
+    @property
+    def process_table_name(self):
+        return lib_table_name('Process')
 
     def get_resource_b(self):
         f = open(os.path.join(
-                self.db_dir,
-                'resource_b.robot-bc289af1f3ddcc4187b4a9785e075694.json'
+                    self.db_dir,
+                    self.resource_b_table_name
+                )
             )
-        )
         return json.load(f)
 
     def get_common(self):
         f = open(os.path.join(
                 self.db_dir,
-                'common.robot-c7d61b0da98ae8ac905b9596256934f2.json'
+                self.common_table_name
             )
         )
         return json.load(f)
@@ -196,7 +251,7 @@ class TestIndexing(unittest.TestCase):
     def get_test_a(self):
         f = open(os.path.join(
                 self.db_dir,
-                'test_a.robot-1852a118490abd2b0024027f490d5654.json'
+                self.test_a_table_name
             )
         )
         return json.load(f)
@@ -204,7 +259,7 @@ class TestIndexing(unittest.TestCase):
     def get_s2l(self):
         f = open(os.path.join(
                 self.db_dir,
-                'Selenium2Library-ac72a5ed5dae4edc06e58114b7c0ce92.json'
+                self.s2l_table_name
             )
         )
         return json.load(f)
@@ -212,7 +267,7 @@ class TestIndexing(unittest.TestCase):
     def get_os(self):
         f = open(os.path.join(
                 self.db_dir,
-                'OperatingSystem-3f475567566b93c16c76ae4f3daaca1a.json'
+                self.os_table_name
             )
         )
         return json.load(f)
@@ -220,7 +275,7 @@ class TestIndexing(unittest.TestCase):
     def get_process(self):
         f = open(os.path.join(
                 self.db_dir,
-                'Process-b6ec7abeb6ae29cc35a4b47475e12afe.json'
+                self.process_table_name
             )
         )
         return json.load(f)
@@ -229,7 +284,7 @@ class TestIndexing(unittest.TestCase):
         s2l_data = self.get_s2l()
         kw_list = self.index.get_keywords(s2l_data)
         object_name = 'Selenium2Library'
-        table_name = 'Selenium2Library-ac72a5ed5dae4edc06e58114b7c0ce92.json'
+        table_name = self.s2l_table_name
         l = []
         for kw in kw_list:
             l.append(keywordrecord(
@@ -240,7 +295,7 @@ class TestIndexing(unittest.TestCase):
         os_data = self.get_os()
         kw_list = self.index.get_keywords(os_data)
         object_name = 'OperatingSystem'
-        table_name = 'OperatingSystem-3f475567566b93c16c76ae4f3daaca1a.json'
+        table_name = self.os_table_name
         l = []
         for kw in kw_list:
             l.append(keywordrecord(
@@ -251,7 +306,7 @@ class TestIndexing(unittest.TestCase):
         process_data = self.get_process()
         kw_list = self.index.get_keywords(process_data)
         object_name = 'Process'
-        table_name = 'Process-b6ec7abeb6ae29cc35a4b47475e12afe.json'
+        table_name = self.process_table_name
         l = []
         for kw in kw_list:
             l.append(keywordrecord(
@@ -260,7 +315,7 @@ class TestIndexing(unittest.TestCase):
 
     def get_test_a_kw_index(self, keywordrecord):
         kw_list = [u'test_a_keyword']
-        table_name = 'test_a.robot-1852a118490abd2b0024027f490d5654.json'
+        table_name = self.test_a_table_name
         object_name = u'test_a.robot'
         l = [keywordrecord(
             keyword=kw_list[0],
@@ -270,14 +325,14 @@ class TestIndexing(unittest.TestCase):
 
     def get_test_b_kw_index(self, keywordrecord):
         kw_list = []
-        table_name = 'test_b.robot-779d241623971b05b6c1fa507e4f1ab5.json'
+        table_name = self.test_b_table_name
         object_name = u'test_a.robot'
         l = []
         return l, kw_list, object_name, table_name
 
     def get_resource_a_kw_index(self, keywordrecord):
         kw_list = [u'resource_a_keyword_1', u'resource_a_keyword_2']
-        table_name = 'resource_a.robot-a8aeadbbe3564ef58fc8119b0cd766ec.json'
+        table_name = self.resource_a_table_name
         object_name = u'resource_a.robot'
         l = []
         for kw in kw_list:
@@ -287,7 +342,7 @@ class TestIndexing(unittest.TestCase):
 
     def get_resource_b_kw_index(self, keywordrecord):
         kw_list = [u'resource_b_keyword_1', u'resource_b_keyword_2']
-        table_name = 'resource_b.robot-bc289af1f3ddcc4187b4a9785e075694.json'
+        table_name = self.resource_b_table_name
         object_name = u'resource_b.robot'
         l = []
         for kw in kw_list:
@@ -297,7 +352,7 @@ class TestIndexing(unittest.TestCase):
 
     def get_common_kw_index(self, keywordrecord):
         kw_list = [u'common_keyword_2', u'common_keyword_1']
-        table_name = 'common.robot-c7d61b0da98ae8ac905b9596256934f2.json'
+        table_name = self.common_table_name
         object_name = u'common.robot'
         l = []
         for kw in kw_list:

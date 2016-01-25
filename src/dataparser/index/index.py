@@ -30,7 +30,7 @@ class Index(object):
         """Creates index for a single table.
 
         Index contains all imported kw and variables"""
-        self.queue.queue = OrderedDict({})
+        self.queue.clear_queue()
         self.queue.add(table_name, None, None)
         keywords = []
         variables = []
@@ -39,7 +39,7 @@ class Index(object):
             if not item:
                 break
             t_name = item[0]
-            data = self.read_table(path.join(db_dir, t_name))
+            data = self.read_table(path.normcase(path.join(db_dir, t_name)))
             var = self.get_variables(data)
             if var:
                 variables.extend(var)
@@ -84,7 +84,7 @@ class Index(object):
                     )
         if 'variable_files' in data:
             for var in data['variable_files']:
-                result.append(rf_table_name(var))
+                result.append(rf_table_name(var.keys()[0]))
         if 'resources' in data:
             for resource in data['resources']:
                 result.append(rf_table_name(resource))
@@ -99,8 +99,9 @@ class Index(object):
 
     def get_keywords(self, data):
         kw_list = []
-        for kw in data['keywords'].iterkeys():
-            kw_list.append(kw)
+        if 'keywords' in data:
+            for kw in data['keywords'].iterkeys():
+                kw_list.append(kw)
         return kw_list
 
     def get_kw_for_index(self, kw_list, table_name, object_name):
@@ -119,11 +120,7 @@ class Index(object):
         return l
 
     def read_table(self, t_path):
-        try:
-            f = open(t_path)
-            data = json_load(f)
-        except:
-            raise
-        finally:
-            f.close()
+        f = open(t_path)
+        data = json_load(f)
+        f.close()
         return data

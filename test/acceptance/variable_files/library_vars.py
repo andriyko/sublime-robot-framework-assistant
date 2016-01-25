@@ -22,15 +22,14 @@ def get_variables():
 
 
 def get_mylibrary(resource_dir):
+    module = 'MyLibrary'
     data = {}
     data['arguments'] = []
-    data['library_module'] = 'MyLibrary'
-    data['file_path'] = path.normpath(path.join(
-        resource_dir,
-        '..',
-        'library',
-        'MyLibrary.py'))
-    data['file_name'] = path.basename(data['file_path'])
+    data['library_module'] = module
+    f_path = path.normcase(
+        path.normpath(path.join(resource_dir, '..', 'library')))
+    data['file_path'] = path.join(f_path, '{0}{1}'.format(module, '.py'))
+    data['file_name'] = '{0}{1}'.format(module, '.py')
     kws = {}
     kw = {}
     kw['keyword_name'] = 'Keyword 2'
@@ -49,14 +48,13 @@ def get_mylibrary(resource_dir):
 
 
 def get_othermylibrary(resource_dir):
+    module = 'OtherMyLibrary'
     data = get_mylibrary(resource_dir)
-    data['library_module'] = 'OtherMyLibrary'
-    data['file_path'] = path.normpath(path.join(
-        resource_dir,
-        '..',
-        'library',
-        'OtherMyLibrary.py'))
-    data['file_name'] = path.basename(data['file_path'])
+    data['library_module'] = module
+    f_path = path.normcase(
+        path.normpath(path.join(resource_dir, '..', 'library')))
+    data['file_path'] = path.join(f_path, '{0}{1}'.format(module, '.py'))
+    data['file_name'] = '{0}{1}'.format(module, '.py')
     data['arguments'] = ['arg111', 'arg222']
     return data
 

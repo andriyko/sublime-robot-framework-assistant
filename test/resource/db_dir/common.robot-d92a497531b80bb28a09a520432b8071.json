@@ -4,6 +4,7 @@
     "libraries": [
         {
             "library_name": "Selenium2Library", 
+            "library_path": null, 
             "library_alias": null, 
             "library_arguments": [
                 "timeout=5.0", 
@@ -11,7 +12,16 @@
             ]
         }
     ], 
-    "variable_files": [], 
+    "variable_files": [
+        {
+            "d:\\workspace\\robotframework-from-sublime\\test\\resource\\test_data\\suite_tree\\common_variables.py": {
+                "variable_file_arguments": [
+                    "one", 
+                    "two"
+                ]
+            }
+        }
+    ], 
     "keywords": {
         "common_keyword_2": {
             "keyword_arguments": [], 
@@ -26,6 +36,6 @@
             "tags": null
         }
     }, 
-    "file_path": "D:\\workspace\\robotframework-from-sublime\\test\\resource\\test_data\\suite_tree\\common.robot", 
+    "file_path": "d:\\workspace\\robotframework-from-sublime\\test\\resource\\test_data\\suite_tree\\common.robot", 
     "resources": []
 }

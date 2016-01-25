@@ -13,9 +13,9 @@
             "tags": null
         }
     }, 
-    "file_path": "D:\\workspace\\robotframework-from-sublime\\test\\resource\\test_data\\suite_tree\\test_a.robot", 
+    "file_path": "d:\\workspace\\robotframework-from-sublime\\test\\resource\\test_data\\suite_tree\\test_a.robot", 
     "resources": [
-        "D:\\workspace\\robotframework-from-sublime\\test\\resource\\test_data\\suite_tree\\resource_a.robot", 
-        "D:\\workspace\\robotframework-from-sublime\\test\\resource\\test_data\\suite_tree\\common.robot"
+        "d:\\workspace\\robotframework-from-sublime\\test\\resource\\test_data\\suite_tree\\resource_a.robot", 
+        "d:\\workspace\\robotframework-from-sublime\\test\\resource\\test_data\\suite_tree\\common.robot"
     ]
 }

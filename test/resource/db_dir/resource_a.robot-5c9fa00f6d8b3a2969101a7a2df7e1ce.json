@@ -6,6 +6,7 @@
     "libraries": [
         {
             "library_name": "OperatingSystem", 
+            "library_path": null, 
             "library_alias": null, 
             "library_arguments": []
         }
@@ -27,6 +28,6 @@
             "tags": null
         }
     }, 
-    "file_path": "D:\\workspace\\robotframework-from-sublime\\test\\resource\\test_data\\suite_tree\\resource_a.robot", 
+    "file_path": "d:\\workspace\\robotframework-from-sublime\\test\\resource\\test_data\\suite_tree\\resource_a.robot", 
     "resources": []
 }

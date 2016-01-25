@@ -47,3 +47,7 @@ class ParsingQueue(object):
         status = self.queue[data]
         status['scanned'] = True
         self.queue[data] = status
+
+    def clear_queue(self):
+        """Clears all items in the queue"""
+        self.queue = OrderedDict({})

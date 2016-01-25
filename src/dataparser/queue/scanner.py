@@ -58,7 +58,7 @@ class Scanner(object):
             makedirs(db_path)
         self.add_builtin()
         for f in finder(workspace, ext):
-            self.queue.add(f, None, None)
+            self.queue.add(path.normcase(f), None, None)
         while True:
             item = self.get_item()
             if not item:
@@ -125,8 +125,12 @@ class Scanner(object):
 
     def add_libraries_queue(self, libs):
         for lib in libs:
+            if lib['library_path']:
+                lib_module = lib['library_path']
+            else:
+                lib_module = lib['library_name']
             self.queue.add(
-                lib['library_name'],
+                lib_module,
                 LIBRARY,
                 lib['library_arguments']
                 )

@@ -95,6 +95,23 @@ class TestLibraryParsingQueue(unittest.TestCase):
                 'SomeLib',
                 {'scanned': False, 'type': 'library', 'args': [1, 2, 3]})]))
 
+    def test_clear_queue(self):
+        self.add_test_data()
+        self.add_resource()
+        self.add_builtin()
+        self.assertGreater(len(self.queue.queue), 2)
+        self.queue.clear_queue()
+        self.assertEqual(len(self.queue.queue), 0)
+
+    def test_add_dublicates(self):
+        """Duplicates"""
+        self.queue.add('/path/to/robot.robot', None, None)
+        self.assertEqual(len(self.queue.queue), 1)
+        self.queue.add('/path/to/robot.robot', None, None)
+        self.assertEqual(len(self.queue.queue), 1)
+        self.queue.add('/path/to/robot.robot', 'resource', None)
+        self.assertEqual(len(self.queue.queue), 1)
+
     def add_builtin(self):
         tmp = OrderedDict({})
         tmp['BuiltIn'] = self.join_dict(

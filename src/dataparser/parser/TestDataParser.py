@@ -13,6 +13,13 @@ def strip_and_lower(text):
     return text.lower().replace(' ', '_')
 
 
+def normalise_path(f_path):
+    dirname = path.abspath(path.dirname(f_path))
+    basename = path.basename(f_path)
+    dirname = path.normpath(path.normcase(dirname))
+    return path.join(dirname, basename)
+
+
 class TestDataParser():
     """ This class is used to parse different tables in test data.
 
@@ -50,7 +57,7 @@ class TestDataParser():
             args = []
         data = {}
         data['file_name'] = path.basename(file_path)
-        data['file_path'] = path.normpath(file_path)
+        data['file_path'] = normalise_path(file_path)
         self.file_path = file_path
         setter = VariableFileSetter(self.rf_var_storage)
         var_list = []
@@ -76,7 +83,7 @@ class TestDataParser():
             data['arguments'] = arg_list
         if path.isfile(library):
             data['file_name'] = path.basename(library)
-            data['file_path'] = path.normpath(library)
+            data['file_path'] = normalise_path(library)
             data['library_module'] = path.splitext(data['file_name'])[0]
             if library.endswith('.xml'):
                 data['keywords'] = self._parse_xml_doc(library)
@@ -151,11 +158,11 @@ class TestDataParser():
     def _parse_robot_data(self, file_path, model):
         data = {}
         data['file_name'] = path.basename(file_path)
-        data['file_path'] = path.normpath(file_path)
+        data['file_path'] = normalise_path(file_path)
         data['keywords'] = self._get_keywords(model)
         data['variables'] = self._get_global_variables(model)
         lib, res, v_files = self._get_imports(
-            model, path. os.path.dirname(path.normpath(file_path)))
+            model, path. os.path.dirname(normalise_path(file_path)))
         data['resources'] = res
         data['libraries'] = lib
         data['variable_files'] = v_files
@@ -189,10 +196,17 @@ class TestDataParser():
         data = {}
         lib_name = setting.name
         if lib_name.endswith('.py') and not path.isfile(lib_name):
-            lib_name = path.abspath(path.join(file_dir, lib_name))
+            lib_path = path.abspath(path.join(file_dir, lib_name))
+            lib_name = path.basename(lib_path)
+        elif lib_name.endswith('.py') and path.isfile(lib_name):
+            lib_path = path.abspath(lib_name)
+            lib_name = path.basename(lib_path)
+        else:
+            lib_path = None
         data['library_name'] = lib_name
         data['library_alias'] = setting.alias
         data['library_arguments'] = setting.args
+        data['library_path'] = lib_path
         return data
 
     def _format_resource(self, setting):
@@ -200,14 +214,14 @@ class TestDataParser():
             return setting.name
         else:
             c_dir = path.dirname(self.file_path)
-            return path.normpath(path.join(c_dir, setting.name))
+            return normalise_path(path.join(c_dir, setting.name))
 
     def _format_variable_file(self, setting):
         data = {}
         if path.isfile(setting.name):
             v_path = setting.name
         else:
-            v_path = path.normpath(path.join(
+            v_path = normalise_path(path.join(
                 path.dirname(self.file_path), setting.name))
         args = {}
         args['variable_file_arguments'] = setting.args
