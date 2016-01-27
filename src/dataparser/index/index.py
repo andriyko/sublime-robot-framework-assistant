@@ -3,7 +3,6 @@ from os import path, makedirs, listdir
 from json import load as json_load
 from json import dump as json_dump
 from collections import namedtuple
-from collections import OrderedDict
 from dataparser.queue.scanner import rf_table_name, lib_table_name
 from dataparser.queue.queue import ParsingQueue
 
@@ -34,25 +33,41 @@ class Index(object):
         self.queue.add(table_name, None, None)
         keywords = []
         variables = []
+
+        def internal_logger():
+            print 'Error finding: {0}'.format(path.join(db_dir, t_name))
+            print 'When creating index for: {0}'.format(table_name)
+
         while True:
             item = self.get_item_from_queue()
             if not item:
                 break
             t_name = item[0]
-            data = self.read_table(path.normcase(path.join(db_dir, t_name)))
-            var = self.get_variables(data)
-            if var:
-                variables.extend(var)
-            kw = self.get_keywords(data)
-            if kw:
-                object_name = self.get_object_name(data)
-                kw_index = self.get_kw_for_index(
-                    kw, t_name,
-                    object_name)
+            try:
+                data, read_status = self.read_table(path.join(db_dir, t_name))
+                var, kw_index = self.parse_table_data(
+                    data, t_name)
                 keywords.extend(kw_index)
-            self.add_imports_to_queue(self.get_imports(data))
-            self.queue.set(t_name)
+                variables.extend(var)
+            except ValueError:
+                internal_logger()
+            if not read_status:
+                internal_logger()
         return {'keyword': keywords, 'variable': variables}
+
+    def parse_table_data(self, data, t_name):
+        var = self.get_variables(data)
+        kw = self.get_keywords(data)
+        if kw:
+            object_name = self.get_object_name(data)
+            kw_index = self.get_kw_for_index(
+                kw, t_name,
+                object_name)
+        else:
+            kw_index = []
+        self.add_imports_to_queue(self.get_imports(data))
+        self.queue.set(t_name)
+        return var, kw_index
 
     def add_imports_to_queue(self, imports):
         for import_ in imports:
@@ -78,10 +93,7 @@ class Index(object):
     def get_imports(self, data):
         result = []
         if 'libraries' in data:
-            for lib in data['libraries']:
-                result.append(
-                    lib_table_name(lib['library_name'])
-                    )
+            result += self.get_library_imports(data)
         if 'variable_files' in data:
             for var in data['variable_files']:
                 result.append(rf_table_name(var.keys()[0]))
@@ -89,6 +101,15 @@ class Index(object):
             for resource in data['resources']:
                 result.append(rf_table_name(resource))
         return result
+
+    def get_library_imports(self, data):
+        l = []
+        for lib in data['libraries']:
+            if lib['library_path']:
+                l.append(lib_table_name(lib['library_path']))
+            else:
+                l.append(lib_table_name(lib['library_name']))
+        return l
 
     def get_variables(self, data):
         result = []
@@ -120,7 +141,31 @@ class Index(object):
         return l
 
     def read_table(self, t_path):
-        f = open(t_path)
+        try:
+            f = open(t_path)
+            status = True
+        except IOError:
+            print 'Could not open table: {0}'.format(t_path)
+            similar = self.find_similar_table(t_path)
+            print 'Instead using: {0}'.format(similar)
+            f = open(similar)
+            status = False
         data = json_load(f)
         f.close()
-        return data
+        return data, status
+
+    def find_similar_table(self, t_path):
+        path_ = path.dirname(t_path)
+        name = path.basename(t_path).split('-', 1)[0]
+        similar_table = None
+        if path.exists(path_):
+            dir_list = listdir(path_)
+        else:
+            dir_list = []
+        for f_name in dir_list:
+            if f_name.startswith(name):
+                similar_table = path.join(path_, f_name)
+        if not similar_table:
+            raise ValueError(
+                'Could not locate similar table to: {0}'.format(t_path))
+        return similar_table

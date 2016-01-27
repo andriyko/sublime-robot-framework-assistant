@@ -162,7 +162,10 @@ class TestDataParser():
         data['keywords'] = self._get_keywords(model)
         data['variables'] = self._get_global_variables(model)
         lib, res, v_files = self._get_imports(
-            model, path. os.path.dirname(normalise_path(file_path)))
+            model,
+            path.dirname(normalise_path(file_path)),
+            file_path
+        )
         data['resources'] = res
         data['libraries'] = lib
         data['variable_files'] = v_files
@@ -179,7 +182,7 @@ class TestDataParser():
             kw_data[strip_and_lower(kw.name)] = tmp
         return kw_data
 
-    def _get_imports(self, model, file_dir):
+    def _get_imports(self, model, file_dir, file_path):
         lib = []
         res = []
         var_files = []
@@ -187,7 +190,7 @@ class TestDataParser():
             if setting.type == 'Library':
                 lib.append(self._format_library(setting, file_dir))
             elif setting.type == 'Resource':
-                res.append(self._format_resource(setting))
+                res.append(self._format_resource(setting, file_path))
             elif setting.type == 'Variables':
                 var_files.append(self._format_variable_file(setting))
         return lib, res, var_files
@@ -199,8 +202,8 @@ class TestDataParser():
             lib_path = path.abspath(path.join(file_dir, lib_name))
             lib_name = path.basename(lib_path)
         elif lib_name.endswith('.py') and path.isfile(lib_name):
-            lib_path = path.abspath(lib_name)
-            lib_name = path.basename(lib_path)
+            lib_path = normalise_path(lib_name)
+            lib_name = path.basename(lib_name)
         else:
             lib_path = None
         data['library_name'] = lib_name
@@ -209,12 +212,16 @@ class TestDataParser():
         data['library_path'] = lib_path
         return data
 
-    def _format_resource(self, setting):
+    def _format_resource(self, setting, file_path):
         if path.isfile(setting.name):
             return setting.name
         else:
             c_dir = path.dirname(self.file_path)
-            return normalise_path(path.join(c_dir, setting.name))
+            resource_path = normalise_path(path.join(c_dir, setting.name))
+            if not path.isfile(resource_path):
+                print ('Import failure on file: {0},'.format(file_path),
+                       'could not locate: {0}'.format(setting.name))
+            return resource_path
 
     def _format_variable_file(self, setting):
         data = {}

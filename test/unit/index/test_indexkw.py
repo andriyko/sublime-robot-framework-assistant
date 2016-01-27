@@ -45,7 +45,7 @@ class TestIndexing(unittest.TestCase):
         self.index = Index()
 
     def test_read_table(self):
-        data = self.index.read_table(
+        data, read_status = self.index.read_table(
             os.path.join(
                 self.db_dir,
                 self.test_b_table_name))
