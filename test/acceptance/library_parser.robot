@@ -1,5 +1,5 @@
 *** Settings ***
-Library           ../../src/dataparser/parser/TestDataParser.py
+Library           data_parser.data_parser.DataParser
 Library           Collections
 Variables         variable_files/library_vars.py
 

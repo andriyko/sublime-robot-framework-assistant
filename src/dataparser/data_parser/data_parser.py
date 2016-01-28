@@ -20,7 +20,7 @@ def normalise_path(f_path):
     return path.join(dirname, basename)
 
 
-class TestDataParser():
+class DataParser():
     """ This class is used to parse different tables in test data.
 
     Class will return the the test data as in json format. Can parse

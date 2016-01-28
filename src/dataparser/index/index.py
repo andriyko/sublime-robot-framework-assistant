@@ -3,8 +3,8 @@ from os import path, makedirs, listdir
 from json import load as json_load
 from json import dump as json_dump
 from collections import namedtuple
-from dataparser.queue.scanner import rf_table_name, lib_table_name
-from dataparser.queue.queue import ParsingQueue
+from queue.scanner import rf_table_name, lib_table_name
+from queue.queue import ParsingQueue
 
 
 class Index(object):

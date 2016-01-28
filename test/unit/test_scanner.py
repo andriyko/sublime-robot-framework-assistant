@@ -1,12 +1,11 @@
 import unittest
 import env
 import os
-import sys
 import shutil
 import hashlib
 from time import sleep
 import json
-from dataparser.queue.scanner import Scanner
+from queue.scanner import Scanner
 
 
 class TestScanner(unittest.TestCase):

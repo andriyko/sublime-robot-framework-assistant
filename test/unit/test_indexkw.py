@@ -5,9 +5,9 @@ import shutil
 import json
 from time import sleep
 from collections import namedtuple
-from dataparser.queue.scanner import Scanner
-from dataparser.queue.scanner import rf_table_name, lib_table_name
-from dataparser.index.index import Index
+from queue.scanner import Scanner
+from queue.scanner import rf_table_name, lib_table_name
+from index.index import Index
 
 
 class TestIndexing(unittest.TestCase):

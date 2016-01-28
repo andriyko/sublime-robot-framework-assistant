@@ -1,6 +1,6 @@
 import unittest
 from collections import OrderedDict
-from dataparser.queue.queue import ParsingQueue
+from queue.queue import ParsingQueue
 
 
 class TestLibraryParsingQueue(unittest.TestCase):

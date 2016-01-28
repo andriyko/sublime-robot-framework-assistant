@@ -4,7 +4,7 @@ from hashlib import md5
 import json
 from robot.errors import DataError
 from finder import finder
-from dataparser.parser.TestDataParser import TestDataParser
+from data_parser.data_parser import DataParser
 from queue import ParsingQueue
 
 LIBRARIES = 'libraries'
@@ -40,7 +40,7 @@ class Scanner(object):
     """
     def __init__(self):
         self.queue = ParsingQueue()
-        self.parser = TestDataParser()
+        self.parser = DataParser()
         self.rf_data_type = [None, 'test_suite', 'resource']
 
     def scan(self, workspace, ext, db_path):
