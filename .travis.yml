@@ -1,0 +1,7 @@
+language: python
+python:
+  - "2.7"
+install:
+  - pip install robotframework==2.9.2
+script:
+- "python test/run_test.py"
