@@ -14,16 +14,12 @@ class TestRunnerForScanner(unittest.TestCase):
             'scanner',
             'db_dir'
         )
-        self.real_suite = os.path.join(
-            env.TEST_DATA_DIR,
-            'suite_tree')
         if os.path.exists(self.db_dir):
             while os.path.exists(self.db_dir):
                 shutil.rmtree(self.db_dir)
                 sleep(0.1)
             os.mkdir(self.db_dir)
-            sleep(0.1)
-        self.workspace = env.TEST_DATA_DIR
+        self.workspace = os.path.join(env.TEST_DATA_DIR, 'suite_tree')
         self.runner = os.path.join(env.SRC_DIR, 'run_scanner.py')
 
     def test_scan_all(self):
@@ -39,7 +35,7 @@ class TestRunnerForScanner(unittest.TestCase):
             self.db_dir]
         self.run_process(p_args)
         files = os.listdir(self.db_dir)
-        self.assertEqual(len(files), 22)
+        self.assertEqual(len(files), 10)
 
     def test_scan_errors(self):
         p_args = [
