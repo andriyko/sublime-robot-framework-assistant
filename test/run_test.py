@@ -8,26 +8,30 @@ from robot import run as robot_run
 
 def acceptance_test(options):
     if not options:
-        _acceptance_all()
+        return _acceptance_all()
     else:
         if '-s' in options or '--suite' in options:
-            _acceptance_include(options[1:])
+            return _acceptance_include(options[1:])
         else:
             print 'Only "-s" or "--suite" supported'
             _exit(255)
 
 
 def _acceptance_all():
-    robot_run(env.ACCEPTANCE_TEST_DIR,
-              outputdir=env.RESULTS_DIR,
-              loglevel='trace')
+    return robot_run(
+        env.ACCEPTANCE_TEST_DIR,
+        outputdir=env.RESULTS_DIR,
+        loglevel='trace'
+    )
 
 
 def _acceptance_include(options):
-    robot_run(env.ACCEPTANCE_TEST_DIR,
-              outputdir=env.RESULTS_DIR,
-              suite=options,
-              loglevel='trace')
+    return robot_run(
+        env.ACCEPTANCE_TEST_DIR,
+        outputdir=env.RESULTS_DIR,
+        suite=options,
+        loglevel='trace'
+    )
 
 
 def clean_results():
@@ -62,9 +66,16 @@ if __name__ == '__main__':
     if '--help' in sys.argv or '-h' in sys.argv:
         _exit(_help())
     clean_results()
-    result = unit_test()
-    if result.errors == 0:
-        print 'Unit test passed'
+    u_result = unit_test()
+    a_result = acceptance_test(sys.argv[1:])
+    if u_result.errors:
+        print 'Unit tests failed'
+        print 'errors: ', u_result.errors
+        print 'failures: ', u_result.failures
+        _exit(u_result.errors)
+    elif a_result != 0:
+        print 'Acceptance tests failed'
+        _exit(a_result)
     else:
-        print 'Unit test failed'
-    acceptance_test(sys.argv[1:])
+        print 'All passed'
+        _exit(0)
