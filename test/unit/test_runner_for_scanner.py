@@ -6,6 +6,19 @@ import subprocess
 from time import sleep
 
 
+def run_process(p_args):
+    log_file = open(os.path.join(env.RESULTS_DIR, 'popen.log'), 'w')
+    p = subprocess.Popen(
+        p_args,
+        stderr=subprocess.STDOUT,
+        stdout=log_file
+    )
+    p.wait()
+    log_file.name
+    log_file.close()
+    return log_file.name
+
+
 class TestRunnerForScanner(unittest.TestCase):
 
     def setUp(self):
@@ -22,7 +35,7 @@ class TestRunnerForScanner(unittest.TestCase):
         self.workspace = os.path.join(env.TEST_DATA_DIR, 'suite_tree')
         self.runner = os.path.join(env.SRC_DIR, 'run_scanner.py')
 
-    def test_scan_all(self):
+    def test_scan_all_runner(self):
         p_args = [
             'python',
             self.runner,
@@ -33,7 +46,7 @@ class TestRunnerForScanner(unittest.TestCase):
             'robot',
             '--db_path',
             self.db_dir]
-        self.run_process(p_args)
+        run_process(p_args)
         files = os.listdir(self.db_dir)
         self.assertEqual(len(files), 10)
 
@@ -44,7 +57,7 @@ class TestRunnerForScanner(unittest.TestCase):
             'all',
             '--db_path',
             self.db_dir]
-        log_file = self.run_process(p_args)
+        log_file = run_process(p_args)
         f = open(log_file)
         self.assertTrue(f.readlines()[-1].startswith('ValueError'))
         f.close()
@@ -57,7 +70,7 @@ class TestRunnerForScanner(unittest.TestCase):
             self.workspace,
             '--db_path',
             self.db_dir]
-        log_file = self.run_process(p_args)
+        log_file = run_process(p_args)
         f = open(log_file)
         self.assertTrue(f.readlines()[-1].startswith('ValueError'))
         f.close()
@@ -68,19 +81,7 @@ class TestRunnerForScanner(unittest.TestCase):
             'single',
             '--db_path',
             self.db_dir]
-        log_file = self.run_process(p_args)
+        log_file = run_process(p_args)
         f = open(log_file)
         self.assertTrue(f.readlines()[-1].startswith('ValueError'))
         f.close()
-
-    def run_process(self, p_args):
-        log_file = open(os.path.join(env.RESULTS_DIR, 'popen.log'), 'w')
-        p = subprocess.Popen(
-            p_args,
-            stderr=subprocess.STDOUT,
-            stdout=log_file
-        )
-        p.wait()
-        log_file.name
-        log_file.close()
-        return log_file.name
