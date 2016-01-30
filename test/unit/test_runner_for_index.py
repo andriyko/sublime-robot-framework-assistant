@@ -49,6 +49,9 @@ class TestRunner(unittest.TestCase):
             '--index_path',
             self.index_path
         ]
-        run_process(p_args)
+        log_file = run_process(p_args)
+        f = open(log_file)
+        self.assertFalse(f.readlines())
+        f.close()
         files = os.listdir(self.index_path)
         self.assertEqual(len(files), 10)

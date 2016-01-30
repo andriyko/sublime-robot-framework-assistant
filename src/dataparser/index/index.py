@@ -13,19 +13,19 @@ class Index(object):
     def __init__(self):
         self.queue = ParsingQueue()
 
-    def index_all_tables(self, db_dir, index_path):
-        """Index all tables found from db_dir"""
+    def index_all_tables(self, db_path, index_path):
+        """Index all tables found from db_path"""
         if path.exists(index_path):
             shutil.rmtree(index_path)
         makedirs(index_path)
-        for table in listdir(db_dir):
+        for table in listdir(db_path):
             index_name = 'index-{0}'.format(table)
             f = open(path.join(index_path, index_name), 'w')
-            data = self.create_index_for_table(db_dir, table)
+            data = self.create_index_for_table(db_path, table)
             json_dump(data, f)
             f.close()
 
-    def create_index_for_table(self, db_dir, table_name):
+    def create_index_for_table(self, db_path, table_name):
         """Creates index for a single table.
 
         Index contains all imported kw and variables"""
@@ -35,7 +35,7 @@ class Index(object):
         variables = []
 
         def internal_logger():
-            print 'Error finding: {0}'.format(path.join(db_dir, t_name))
+            print 'Error finding: {0}'.format(path.join(db_path, t_name))
             print 'When creating index for: {0}'.format(table_name)
 
         while True:
@@ -44,7 +44,7 @@ class Index(object):
                 break
             t_name = item[0]
             try:
-                data, read_status = self.read_table(path.join(db_dir, t_name))
+                data, read_status = self.read_table(path.join(db_path, t_name))
                 var, kw_index = self.parse_table_data(
                     data, t_name)
                 keywords.extend(kw_index)
