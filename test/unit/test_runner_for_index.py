@@ -2,7 +2,6 @@ import unittest
 import env
 import os
 import shutil
-import subprocess
 from time import sleep
 from queue.scanner import Scanner
 from test_runner_for_scanner import run_process
