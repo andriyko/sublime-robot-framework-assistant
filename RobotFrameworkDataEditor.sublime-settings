@@ -62,5 +62,46 @@
         [
             "/path/to/libs",
             "/other/path/to/libraries"
+        ],
+
+    /*
+        Robot Framework variables
+
+        Robot Framework comes by default some predefined and builtin variables.
+        These variables names may change between different Robot Framework
+        versions. Use this setting to define the Robot Framework variables.
+
+        The variables in the default settings are from Robot Framework
+        version 2.9.2
+
+    */
+    "robot_framework_builtin_variables":
+        [
+            "${/}",
+            "${:}",
+            "${\\n}",
+            "${DEBUG_FILE}",
+            "${EXECDIR}",
+            "${False}",
+            "${LOG_FILE}",
+            "${LOG_LEVEL}",
+            "${None}",
+            "${null}",
+            "${OUTPUT_DIR}",
+            "${OUTPUT_FILE}",
+            "${PREV_TEST_MESSAGE}",
+            "${PREV_TEST_NAME}",
+            "${PREV_TEST_STATUS}",
+            "${REPORT_FILE}",
+            "${SPACE}",
+            "${SUITE_DOCUMENTATION}",
+            "${SUITE_NAME}",
+            "${SUITE_SOURCE}",
+            "${TEMPDIR}",
+            "${TEST_DOCUMENTATION}",
+            "${TEST_NAME}",
+            "${True}",
+            "&{SUITE_METADATA}",
+            "@{TEST_TAGS}"
         ]
 }
