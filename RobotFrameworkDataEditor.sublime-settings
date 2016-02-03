@@ -1,0 +1,53 @@
+/*
+    Robot Framework Data Editor default settings
+*/
+{
+    /*
+        Robot Framework Workspace
+
+        Defines a root folder where Robot Framework Data Editor starts looking
+        for Robot Framework data. Before the Robot Framework Data Editor
+        can provide the keyword and variable completion features, it needs
+        to scan and index the test suite and resource files. The argument
+        defines the root folder where scanning of robot data is performed.
+
+        In windows the backslash is the folder separator and in json
+        backslash is the escape character. Therefore, in windows write
+        double backslash to write literal backslash.
+
+    */
+    "robot_framework_workspace": "/path/to/folder/containing/robot/data",
+
+    /*
+        File extension defines which types of files the Robot Framework
+        Data Editor plugin will search and index from the folder defined
+        in the robot_framework_workspace option.
+
+        This only affect the scanning and indexing, other options in this
+        plugin are not affected by this option.
+    */
+
+    "robot_frameowrk_extension": "robot",
+
+    /*
+        Module search path defines a list of paths where the where the
+        Robot Framework libraries are searched. Example if you have imported
+        a library with the library name, then module search path must
+        contain the folder where the library can be located.
+
+        The Robot Framework Data Editor uses the Robot Framework API to parse
+        the test data and libraries. All changes, which are not system
+        wide, to locate the libraries, must also be added in the
+        module search path in the Robot Framework Data Editor
+
+        More details how libraries is searched in Robot Framework can be
+        found from be the Robot Framework User guide:
+        http://robotframework.org/robotframework/latest/RobotFrameworkUserGuide.html#module-search-path
+
+    */
+    "robot_framework_module_search_path":
+        [
+            "/path/to/libs",
+            "/other/path/to/libraries"
+        ]
+}
