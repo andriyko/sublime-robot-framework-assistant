@@ -10,6 +10,8 @@ class ScanIndexCommand(sublime_plugin.TextCommand):
 
     def run(self, edit):
         print('HERE')
+        plugin_settings = sublime.load_settings('RobotFrameworkDataEditor.sublime-settings')
+        print(plugin_settings)
         sublime.set_timeout_async(self.run_scan, 0)
 
     def run_scan(self):
