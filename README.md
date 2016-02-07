@@ -69,7 +69,7 @@ These variables names may change between different Robot Framework
 versions. Use this setting to define a list of the Robot Framework BuiltIn variables.
 The easiest way to see the listof  the variables is to run Robot Framework with following
 test case:
-|  *** Test Cases *** |   |
+| *** Test Cases *** |   |
 | --- |--- |
 | Log All BuiltIn Vars |
 |   | Log Variables |
