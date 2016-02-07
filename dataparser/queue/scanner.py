@@ -1,7 +1,8 @@
 import shutil
+import logging
+import json
 from os import path, makedirs
 from hashlib import md5
-import json
 from robot.errors import DataError
 from finder import finder
 from data_parser.data_parser import DataParser
@@ -9,6 +10,9 @@ from queue import ParsingQueue
 
 LIBRARIES = 'libraries'
 LIBRARY = 'library'
+logging.basicConfig(
+    format='%(levelname)s:%(asctime)s: %(message)s',
+    level=logging.DEBUG)
 
 
 def rf_table_name(f_path):
@@ -73,7 +77,7 @@ class Scanner(object):
                     self.add_to_queue(data)
                     self.put_item_to_db(data, db_path)
                 except ValueError:
-                    print 'Error in: {0}'.format(item[0])
+                    logging.warning('Error in: %s', item[0])
                 finally:
                     self.queue.set(item[0])
 

@@ -1,10 +1,15 @@
 import shutil
+import logging
 from os import path, makedirs, listdir
 from json import load as json_load
 from json import dump as json_dump
 from collections import namedtuple
 from queue.scanner import rf_table_name, lib_table_name
 from queue.queue import ParsingQueue
+
+logging.basicConfig(
+    format='%(levelname)s:%(asctime)s: %(message)s',
+    level=logging.DEBUG)
 
 
 class Index(object):
@@ -35,8 +40,8 @@ class Index(object):
         variables = []
 
         def internal_logger():
-            print 'Error finding: {0}'.format(path.join(db_path, t_name))
-            print 'When creating index for: {0}'.format(table_name)
+            logging.warning('Error finding: %s', path.join(db_path, t_name))
+            logging.debug('When creating index for: %s', table_name)
 
         while True:
             item = self.get_item_from_queue()
@@ -145,9 +150,9 @@ class Index(object):
             f = open(t_path)
             status = True
         except IOError:
-            print 'Could not open table: {0}'.format(t_path)
+            logging.warning('Could not open table: %s', t_path)
             similar = self.find_similar_table(t_path)
-            print 'Instead using: {0}'.format(similar)
+            logging.info('Instead of %s using: %s', t_path, similar)
             f = open(similar)
             status = False
         data = json_load(f)
