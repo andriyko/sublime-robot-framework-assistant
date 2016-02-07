@@ -43,7 +43,7 @@
     "path_to_python": "/usr/bin/python",
 
     /*
-        Module search path defines a list of paths where the where the
+        Module search path defines a list of paths where the
         Robot Framework libraries are searched. Example if you have imported
         a library with the library name, then module search path must
         contain the folder where the library can be located.
