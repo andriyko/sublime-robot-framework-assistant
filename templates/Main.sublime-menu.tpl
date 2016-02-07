@@ -23,6 +23,11 @@
                                 "command": "open_file",
                                 "args": {"file": "${packages}/User/RobotFrameworkDataEditor.sublime-settings"},
                                 "caption": "Settings – User"
+                            },
+                            { "caption": "-" },
+                            {
+                                "command": "scan_index",
+                                "caption": "Scan and index all Robot data from worksace"
                             }
                         ]
                     }
