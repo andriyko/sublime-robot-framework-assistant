@@ -1,11 +1,15 @@
 from os import path
 import sublime
 
-SETTINGS_DIR = path.dirname(path.realpath(__file__))
-PACKAGE_DIR = path.realpath(path.join(SETTINGS_DIR, '..'))
-DATABASE_DIR = path.join(PACKAGE_DIR, 'database')
+settings_dir = path.dirname(path.realpath(__file__))
+package_dir = path.realpath(path.join(settings_dir, '..'))
+datapraser = path.join(package_dir, 'dataparser')
+SCANNER_RUNNER = path.join(datapraser, 'run_scanner.py')
+INDEX_RUNNER = path.join(datapraser, 'run_index.py')
+DATABASE_DIR = path.join(package_dir, 'database')
 SCANNER_DIR = path.join(DATABASE_DIR, 'scanner')
 INDEX_DIR = path.join(DATABASE_DIR, 'index')
+LOG_FILE = path.join(DATABASE_DIR, 'scan_index.log')
 
 
 def get_setting(setting):
@@ -13,6 +17,12 @@ def get_setting(setting):
         return SCANNER_DIR
     elif setting.lower() == 'index_dir':
         return INDEX_DIR
+    elif setting.lower() == 'scanner_runner':
+        return SCANNER_RUNNER
+    elif setting.lower() == 'index_runner':
+        return INDEX_RUNNER
+    elif setting.lower() == 'log_file':
+        return LOG_FILE
     else:
         return get_sublime_setting(setting)
 
