@@ -7,6 +7,12 @@ from robot.output import LOGGER as ROBOT_LOGGER
 from robot.utils.importer import DataError
 from os import path
 import xml.etree.ElementTree as ET
+from tempfile import mkdtemp
+import logging
+
+logging.basicConfig(
+    format='%(levelname)s:%(asctime)s: %(message)s',
+    level=logging.DEBUG)
 
 
 def strip_and_lower(text):
@@ -126,12 +132,31 @@ class DataParser():
         return kws
 
     def _lib_arg_formatter(self, library, args):
+        args = self._argument_path_formatter(library, args)
         if not args:
             return library
         else:
             for item in args:
                 library = '{lib}::{item}'.format(lib=library, item=item)
             return library
+
+    def _argument_path_formatter(self, library, args):
+        """Replace robot folder with real path
+
+        If ${/}, ${OUTPUT_DIR} or ${EXECDIR} is found from args then
+        a temporary directory is created and that one is used instead."""
+        arguments = []
+        for arg in args:
+            if '${/}' in arg or '${OUTPUT_DIR}' in arg or '${EXECDIR}' in arg:
+                f = mkdtemp()
+                logging.info(
+                    'Possible robot path encountered in library arguments')
+                logging.debug('In library %s', library)
+                logging.debug('Instead of %s using: %s', arg, f)
+                arguments.append(f)
+            else:
+                arguments.append(arg)
+        return arguments
 
     def _parse_xml_doc(self, library):
         root = ET.parse(library).getroot()
