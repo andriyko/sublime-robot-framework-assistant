@@ -12,7 +12,7 @@ class TestRunner(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.db_dir = os.path.join(
-            env.RESOURCES_DIR,
+            env.RESULTS_DIR,
             'db_dir'
         )
         cls.workspace = os.path.join(env.TEST_DATA_DIR, 'suite_tree')

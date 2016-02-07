@@ -19,7 +19,7 @@ class TestIndexing(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.db_dir = os.path.join(
-            env.RESOURCES_DIR,
+            env.RESULTS_DIR,
             'db_dir'
         )
         cls.suite_dir = os.path.join(
