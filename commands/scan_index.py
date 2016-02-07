@@ -2,16 +2,17 @@ import sublime_plugin
 import sublime
 import subprocess
 import os
-import sys
-import logging
+from ..setting.setting import get_setting
 
 
 class ScanIndexCommand(sublime_plugin.TextCommand):
 
     def run(self, edit):
         print('HERE')
-        plugin_settings = sublime.load_settings('RobotFrameworkDataEditor.sublime-settings')
-        print(plugin_settings)
+        scanner_dir = get_setting('scanner_dir')
+        print(scanner_dir)
+        robot_framework_workspace = get_setting('robot_framework_workspace')
+        print(robot_framework_workspace)
         sublime.set_timeout_async(self.run_scan, 0)
 
     def run_scan(self):
