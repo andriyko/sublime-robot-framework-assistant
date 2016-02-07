@@ -1,6 +1,6 @@
 [
     {
-        "caption": "RF: Scan and index",
+        "caption": "Robot Framework: Scan and index",
         "command": "scan_index"
     }
 ]
