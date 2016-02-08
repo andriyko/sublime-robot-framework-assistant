@@ -12,16 +12,31 @@ INDEX_DIR = path.join(DATABASE_DIR, 'index')
 LOG_FILE = path.join(DATABASE_DIR, 'scan_index.log')
 
 
+class SettingObject(object):
+
+    def __init__(self):
+        self.table_dir = 'table_dir'
+        self.index_dir = 'index_dir'
+        self.scanner_runner = 'scanner_runner'
+        self.index_runner = 'index_runner'
+        self.log_file = 'log_file'
+        self.python_binary = 'path_to_python'
+        self.workspace = 'robot_framework_workspace'
+        self.extension = 'robot_frameowrk_extension'
+        self.builtin_variables = 'robot_framework_builtin_variables'
+
+
 def get_setting(setting):
-    if setting.lower() == 'scanner_dir':
+    settings = SettingObject()
+    if setting.lower() == settings.table_dir:
         return SCANNER_DIR
-    elif setting.lower() == 'index_dir':
+    elif setting.lower() == settings.index_dir:
         return INDEX_DIR
-    elif setting.lower() == 'scanner_runner':
+    elif setting.lower() == settings.scanner_runner:
         return SCANNER_RUNNER
-    elif setting.lower() == 'index_runner':
+    elif setting.lower() == settings.index_runner:
         return INDEX_RUNNER
-    elif setting.lower() == 'log_file':
+    elif setting.lower() == settings.log_file:
         return LOG_FILE
     else:
         return get_sublime_setting(setting)

@@ -27,7 +27,7 @@ class Index(object):
             index_name = 'index-{0}'.format(table)
             f = open(path.join(index_path, index_name), 'w')
             data = self.create_index_for_table(db_path, table)
-            json_dump(data, f)
+            json_dump(data, f, indent=4)
             f.close()
 
     def create_index_for_table(self, db_path, table_name):
@@ -36,6 +36,7 @@ class Index(object):
         Index contains all imported kw and variables"""
         self.queue.clear_queue()
         self.queue.add(table_name, None, None)
+        self.add_builtin_to_queue(db_path)
         keywords = []
         variables = []
 
@@ -55,10 +56,16 @@ class Index(object):
                 keywords.extend(kw_index)
                 variables.extend(var)
             except ValueError:
-                internal_logger()
+                read_status = False
             if not read_status:
                 internal_logger()
         return {'keyword': keywords, 'variable': variables}
+
+    def add_builtin_to_queue(self, db_path):
+        for table in listdir(db_path):
+            if table.lower().startswith('builtin'):
+                self.queue.add(table, None, None)
+                return
 
     def parse_table_data(self, data, t_name):
         var = self.get_variables(data)

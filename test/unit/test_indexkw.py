@@ -44,6 +44,23 @@ class TestIndexing(unittest.TestCase):
         os.makedirs(self.index_dir)
         self.index = Index()
 
+    def test_parse_table_data(self):
+        t_name = os.path.join(
+            env.RESOURCES_DIR,
+            'BuiltIn-ca8f2e8d70641ce17b9b304086c19657.json'
+        )
+        self.index.queue.add(t_name, None, None)
+        data, status = self.index.read_table(
+            os.path.join(env.RESOURCES_DIR, t_name))
+        var, kw_index = self.index.parse_table_data(data, t_name)
+        self.assertTrue(u'${/}' in var)
+        self.assertTrue('${OUTPUT_FILE}' in var)
+        self.assertTrue('@{TEST_TAGS}' in var)
+
+    def test_add_builtin(self):
+        self.index.add_builtin_to_queue(self.db_dir)
+        self.assertTrue(len(self.index.queue.queue) > 0)
+
     def test_read_table(self):
         data, read_status = self.index.read_table(
             os.path.join(
@@ -137,6 +154,7 @@ class TestIndexing(unittest.TestCase):
         kw_list.extend(self.get_resource_a_kw_index(KeywordRecord)[0])
         kw_list.extend(self.get_s2l_kw_index(KeywordRecord)[0])
         kw_list.extend(self.get_os_kw_index(KeywordRecord)[0])
+        kw_list.extend(self.get_builtin_kw_index(KeywordRecord)[0])
         var_list = [
             u'${TEST_A}',
             u'${RESOURCE_A}',
@@ -163,6 +181,7 @@ class TestIndexing(unittest.TestCase):
         kw_list.extend(self.get_resource_b_kw_index(KeywordRecord)[0])
         kw_list.extend(self.get_s2l_kw_index(KeywordRecord)[0])
         kw_list.extend(self.get_process_kw_index(KeywordRecord)[0])
+        kw_list.extend(self.get_builtin_kw_index(KeywordRecord)[0])
         var_list = [
             u'${TEST_B}',
             u'${RESOURCE_B}',
@@ -232,6 +251,10 @@ class TestIndexing(unittest.TestCase):
     def process_table_name(self):
         return lib_table_name('Process')
 
+    @property
+    def builtin_table_name(self):
+        return lib_table_name('BuiltIn')
+
     def get_resource_b(self):
         f = open(os.path.join(
                     self.db_dir,
@@ -280,6 +303,14 @@ class TestIndexing(unittest.TestCase):
         )
         return json.load(f)
 
+    def getbuiltin(self):
+        f = open(os.path.join(
+                self.db_dir,
+                self.builtin_table_name
+            )
+        )
+        return json.load(f)
+
     def get_s2l_kw_index(self, keywordrecord):
         s2l_data = self.get_s2l()
         kw_list = self.index.get_keywords(s2l_data)
@@ -304,6 +335,17 @@ class TestIndexing(unittest.TestCase):
 
     def get_process_kw_index(self, keywordrecord):
         process_data = self.get_process()
+        kw_list = self.index.get_keywords(process_data)
+        object_name = 'Process'
+        table_name = self.process_table_name
+        l = []
+        for kw in kw_list:
+            l.append(keywordrecord(
+                keyword=kw, object_name=object_name, table_name=table_name))
+        return l, kw_list, object_name, table_name
+
+    def get_builtin_kw_index(self, keywordrecord):
+        process_data = self.getbuiltin()
         kw_list = self.index.get_keywords(process_data)
         object_name = 'Process'
         table_name = self.process_table_name
