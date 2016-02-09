@@ -41,6 +41,9 @@ if __name__ == '__main__':
         nargs='*',
         help='List of paths where libraries are searched when scanning')
     args = c_parser.parse_args()
+    module_search_path = []
+    if args.module_search_path:
+        module_search_path = args.module_search_path
     if args.mode == 'all':
         if not args.workspace:
             raise ValueError('--workspace is needed with mode: {0}'.format(
@@ -53,7 +56,7 @@ if __name__ == '__main__':
                 args.workspace,
                 args.extension,
                 args.db_path,
-                args.module_search_path)
+                module_search_path)
     elif args.mode == 'single':
         """To scan single file"""
         raise ValueError('Not implemented')
