@@ -24,6 +24,7 @@ class SettingObject(object):
         self.workspace = 'robot_framework_workspace'
         self.extension = 'robot_frameowrk_extension'
         self.builtin_variables = 'robot_framework_builtin_variables'
+        self.module_search_path = 'robot_framework_module_search_path'
 
 
 def get_setting(setting):
