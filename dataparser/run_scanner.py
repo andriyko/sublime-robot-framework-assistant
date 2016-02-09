@@ -1,8 +1,12 @@
 import argparse
+import sys
 from queue.scanner import Scanner
 
 
-def scan_all(workspace, extension, db_path):
+def scan_all(workspace, extension, db_path,
+             module_search_path):
+    for path in module_search_path:
+        sys.path.append(path)
     scanner = Scanner()
     scanner.scan(
         workspace=workspace,
@@ -32,6 +36,10 @@ if __name__ == '__main__':
         required=True,
         help='Folder where scanning result is saved'
     )
+    c_parser.add_argument(
+        '--module_search_path',
+        nargs='*',
+        help='List of paths where libraries are searched when scanning')
     args = c_parser.parse_args()
     if args.mode == 'all':
         if not args.workspace:
@@ -41,7 +49,11 @@ if __name__ == '__main__':
             raise ValueError('--extension is needed with mode: {0}'.format(
                 args.mode))
         else:
-            scan_all(args.workspace, args.extension, args.db_path)
+            scan_all(
+                args.workspace,
+                args.extension,
+                args.db_path,
+                args.module_search_path)
     elif args.mode == 'single':
         """To scan single file"""
         raise ValueError('Not implemented')
