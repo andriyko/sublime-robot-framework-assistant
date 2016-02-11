@@ -9,4 +9,8 @@ patterns:
 - comment: Robot Framework variables
   name: entity.name.class
   match: ((?<!\\)(@{.+}\[.+\]|[$&@]{.+})|(?<=\\\\)(@{.+}\[.+\]|[$&@]{.+}))
+
+- comment:  Robot Framework data tables
+  name: string.robot.header
+  match: (?i)(\*{1,3} ?)(settings?|variables?|keywords?|test cases?)( ?\*{1,3})?
 ...
