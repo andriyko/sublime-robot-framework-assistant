@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>fileTypes</key>
+	<array>
+		<string>robot</string>
+		<string>txt</string>
+	</array>
+	<key>name</key>
+	<string>Robot Framework syntax highlighting for .robot and .txt files.</string>
+	<key>patterns</key>
+	<array>
+		<dict>
+			<key>comment</key>
+			<string>Robot Framework variables</string>
+			<key>match</key>
+			<string>((?&lt;!\\)(@{.+}\[.+\]|[$&amp;@]{.+})|(?&lt;=\\\\)(@{.+}\[.+\]|[$&amp;@]{.+}))</string>
+			<key>name</key>
+			<string>entity.name.class</string>
+		</dict>
+	</array>
+	<key>scopeName</key>
+	<string>source.robot</string>
+	<key>uuid</key>
+	<string>23650265-9dfb-4d5f-9ed0-0928ba59a796</string>
+</dict>
+</plist>

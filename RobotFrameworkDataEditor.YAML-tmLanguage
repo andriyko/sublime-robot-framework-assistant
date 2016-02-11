@@ -6,7 +6,7 @@ fileTypes: [robot, txt]
 uuid: 23650265-9dfb-4d5f-9ed0-0928ba59a796
 
 patterns:
-- comment: Robot Framework scalar variable
+- comment: Robot Framework variables
   name: entity.name.class
-  match: "[@]{.*}\\[.*]|[$|&|@]{.*}"
+  match: ((?<!\\)(@{.+}\[.+\]|[$&@]{.+})|(?<=\\\\)(@{.+}\[.+\]|[$&@]{.+}))
 ...
