@@ -2,7 +2,7 @@
 ---
 name: Robot Framework syntax highlighting for .robot and .txt files.
 scopeName: source.robot
-fileTypes: [robot, txt]
+fileTypes: [robot]
 uuid: 23650265-9dfb-4d5f-9ed0-0928ba59a796
 
 patterns:

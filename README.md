@@ -4,12 +4,14 @@
 Robot Framework Data Editor
 ==========================
 Robot Framework Data Editor provides IDE features to edit
-[Robot Framework](http://robotframework.org/).
+[Robot Framework](http://robotframework.org/) data.
 
 Configuration
 =============
-Before yo can start using the Robot Framework Data Editor, you must configure
-the pluging.
+Before yo can start using the Robot Framework Data Editor, you must
+at least configure the settings in the
+[User package](http://docs.sublimetext.info/en/latest/basic_concepts.html#the-packages-directory)
+`RobotFrameworkDataEditor.sublime-settings` file.
 
 robot_framework_workspace
 -------------------------
@@ -75,6 +77,45 @@ test case:
 | Log All BuiltIn Vars |
 |   | Log Variables |
 
+Syntax definitions
+==================
+
+By default this plugin will be used with files which extension is
+`.robot` and plugin will use four spaces as cell separator. The
+settings can be changed by user, but consult the
+[Sublime unofficial documentation](http://docs.sublimetext.info/en/latest/customization/customization.html)
+where the user settings should be saved.
+
+Change the file extension
+-------------------------
+The file extension is defined in the
+`RobotFrameworkDataEditor.tmLanguage` file. To change file extension,
+navigate to the
+[User package](http://docs.sublimetext.info/en/latest/basic_concepts.html#the-packages-directory)
+folder and open the `RobotFrameworkDataEditor.tmLanguage` file.
+
+Look for the lines containing:
+```xml
+<key>fileTypes</key>
+    <array>
+        <string>robot</string>
+    </array>
+```
+The `<string>` element contains the filetype defintion.
+
+Change the cell separator
+-------------------------
+The cell separator is defined in the
+`RobotFrameworkDataEditor.tmPreferences` file. To change the cell separator,
+navigate to the
+[User package](http://docs.sublimetext.info/en/latest/basic_concepts.html#the-packages-directory)
+folder and open the `RobotFrameworkDataEditor.tmPreferences` file.
+
+Look for the line containing `<string><![CDATA[    ]]></string>` XML tag. There are four
+spaces inside of the `[    ]` characters and those four spaces defines the cell separator which is
+user by the pluging. The cell separator is example used by the for loop
+[snippets](http://docs.sublimetext.info/en/latest/extensibility/snippets.html?highlight=snippets)
+to align and display snipped correctly.
 
 Scanning and indexing
 =====================
