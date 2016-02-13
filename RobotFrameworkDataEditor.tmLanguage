@@ -12,10 +12,22 @@
 	<key>patterns</key>
 	<array>
 		<dict>
+			<key>begin</key>
+			<string>((?&lt;!\\)([$&amp;]{)|(?&lt;=\\\\)([$&amp;]{))</string>
 			<key>comment</key>
-			<string>Robot Framework variables</string>
-			<key>match</key>
-			<string>((?&lt;!\\)(@{.+}\[.+\]|[$&amp;@]{.+})|(?&lt;=\\\\)(@{.+}\[.+\]|[$&amp;@]{.+}))</string>
+			<string>Robot Framework scalar and dictionary variables</string>
+			<key>end</key>
+			<string>\}</string>
+			<key>name</key>
+			<string>entity.name.class</string>
+		</dict>
+		<dict>
+			<key>begin</key>
+			<string>((?&lt;!\\)(@{)|(?&lt;=\\\\)(@{))</string>
+			<key>comment</key>
+			<string>Robot Framework list variables</string>
+			<key>end</key>
+			<string>(}\[.+])|(})</string>
 			<key>name</key>
 			<string>entity.name.class</string>
 		</dict>
