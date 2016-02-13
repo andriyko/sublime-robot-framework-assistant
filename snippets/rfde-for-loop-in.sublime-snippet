@@ -1,0 +1,12 @@
+<snippet>
+        <content><![CDATA[
+:FOR${RF_CELL}\${${1:index}}${RF_CELL}IN${RF_CELL}@{${2:list}}
+\\${RF_CELL}${3:Log}${RF_CELL}\${${1:index}}
+]]>
+        </content>
+        <!-- how to trigger the snippet -->
+        <tabTrigger>:f</tabTrigger>
+        <!-- scope to limit where the snippet will trigger -->
+        <scope>source.robot</scope>
+        <description>:FOR IN loop</description>
+</snippet>
