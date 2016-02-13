@@ -4,5 +4,5 @@
         <tabTrigger>*s</tabTrigger>
         <!-- scope to limit where the snippet will trigger -->
         <scope>source.robot</scope>
-        <description>Robot Framework Library setting for settings table</description>
+        <description>Library setting for settings table</description>
 </snippet>
