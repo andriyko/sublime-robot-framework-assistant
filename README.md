@@ -10,8 +10,10 @@ Configuration
 =============
 Before yo can start using the Robot Framework Data Editor, you must
 at least configure the settings in the
-[User package](http://docs.sublimetext.info/en/latest/basic_concepts.html#the-packages-directory)
-`RobotFrameworkDataEditor.sublime-settings` file.
+[User package](http://docs.sublimetext.info/en/latest/customization/settings.html)
+`RobotFrameworkDataEditor.sublime-settings` file. To Open the file
+navigate to: **Preferences | Package settings**
+**| Robot Framework Data Editor | Settings - User |**
 
 robot_framework_workspace
 -------------------------
