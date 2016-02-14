@@ -38,6 +38,16 @@
 			<key>name</key>
 			<string>string.robot.header</string>
 		</dict>
+		<dict>
+			<key>begin</key>
+			<string>(?i)^\s*\[?Documentation\]?\s+</string>
+			<key>comment</key>
+			<string>Test case, keyword and settings table documentation</string>
+			<key>end</key>
+			<string>^(?!\s*+\.\.\.)</string>
+			<key>name</key>
+			<string>comment</string>
+		</dict>
 	</array>
 	<key>scopeName</key>
 	<string>source.robot</string>
