@@ -33,4 +33,8 @@ patterns:
   name: constant.language
   match: (?i)(Library|Resource|Test Timeout|Test Template|Test Teardown|Test Setup|Default Tags|Force Tags|Metadata|Variables|Suite Setup|Suite Teardown)
 
+- comment: Keywords and test cases
+  name: keyword.control.robot
+  begin: ^\S+
+  end: \S$
 ...
