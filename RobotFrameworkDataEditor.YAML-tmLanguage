@@ -28,4 +28,9 @@ patterns:
 - comment: Tests case and keyword settings
   name: storage.type
   match: (?i)\s+\[(Tags|Setup|Teardown|Template|Timeout|Arguments|Return)\]
+
+- comment: Settings table settings, like Library
+  name: constant.language
+  match: (?i)(Library|Resource|Test Timeout|Test Template|Test Teardown|Test Setup|Default Tags|Force Tags|Metadata|Variables|Suite Setup|Suite Teardown)
+
 ...
