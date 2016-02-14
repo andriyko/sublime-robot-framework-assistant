@@ -24,4 +24,8 @@ patterns:
   name: comment
   begin: (?i)^\s*\[?Documentation\]?\s+
   end: ^(?!\s*+\.\.\.)
+
+- comment: Tests case and keyword settings
+  name: storage.type
+  match: (?i)\s+\[(Tags|Setup|Teardown|Template|Timeout|Arguments|Return)\]
 ...

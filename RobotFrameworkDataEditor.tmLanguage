@@ -48,6 +48,14 @@
 			<key>name</key>
 			<string>comment</string>
 		</dict>
+		<dict>
+			<key>comment</key>
+			<string>Tests case and keyword settings</string>
+			<key>match</key>
+			<string>(?i)\s+\[(Tags|Setup|Teardown|Template|Timeout|Arguments|Return)\]</string>
+			<key>name</key>
+			<string>storage.type</string>
+		</dict>
 	</array>
 	<key>scopeName</key>
 	<string>source.robot</string>
