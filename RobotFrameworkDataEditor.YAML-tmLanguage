@@ -6,6 +6,10 @@ fileTypes: [robot]
 uuid: 23650265-9dfb-4d5f-9ed0-0928ba59a796
 
 patterns:
+- comment: Robot Framework numbers, like ${1} or ${12.3}
+  name: constant.numeric.robot
+  match: \$\{(\d+|\d+\.\d*|0[bB][01]+|0[oO][0-7]+|0[xX][0-9a-fA-F]+)\}
+
 - comment: Robot Framework scalar and dictionary variables
   name: entity.name.class
   begin: ((?<!\\)([$&]{)|(?<=\\\\)([$&]{))

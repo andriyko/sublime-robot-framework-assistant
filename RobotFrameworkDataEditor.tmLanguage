@@ -11,6 +11,14 @@
 	<key>patterns</key>
 	<array>
 		<dict>
+			<key>comment</key>
+			<string>Robot Framework numbers, like ${1} or ${12.3}</string>
+			<key>match</key>
+			<string>\$\{(\d+|\d+\.\d*|0[bB][01]+|0[oO][0-7]+|0[xX][0-9a-fA-F]+)\}</string>
+			<key>name</key>
+			<string>constant.numeric.robot</string>
+		</dict>
+		<dict>
 			<key>begin</key>
 			<string>((?&lt;!\\)([$&amp;]{)|(?&lt;=\\\\)([$&amp;]{))</string>
 			<key>comment</key>
