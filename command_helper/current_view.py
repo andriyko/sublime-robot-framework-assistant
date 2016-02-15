@@ -2,13 +2,19 @@ from os import path
 import hashlib
 from json import load as json_load
 from json import dump as json_dump
-from queue.scanner import rf_table_name
 
 VIEW_FILE_NAME = 'current_view.json'
 VIEW_MD5 = 'view_md5'
 KW_COMPLETION = 'kw_completion'
 VIEW_NAME = 'view_name'
 VARIABLE = 'variable'
+
+
+def rf_table_name(f_path):
+    return '{realname}-{md5}.json'.format(
+            realname=path.basename(f_path),
+            md5=hashlib.md5(f_path).hexdigest()
+        )
 
 
 class CurrentView(object):
