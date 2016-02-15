@@ -68,7 +68,7 @@ if __name__ == '__main__':
     clean_results()
     u_result = unit_test()
     a_result = acceptance_test(sys.argv[1:])
-    if u_result.errors:
+    if u_result.errors or u_result.failures:
         print 'Unit tests failed'
         print 'errors: ', u_result.errors
         print 'failures: ', u_result.failures
