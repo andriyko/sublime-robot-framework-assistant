@@ -12,10 +12,9 @@ from ..setting.setting import SettingObject
 class ScanIndexCommand(sublime_plugin.TextCommand):
 
     def run(self, edit):
-        setting = SettingObject()
-        log_file = get_setting(setting.log_file)
-        python_binary = get_setting(setting.python_binary)
-        table_dir = get_setting(setting.table_dir)
+        log_file = get_setting(SettingObject.log_file)
+        python_binary = get_setting(SettingObject.python_binary)
+        table_dir = get_setting(SettingObject.table_dir)
         makedirs(path.dirname(log_file), exist_ok=True)
         file_ = open(log_file, 'w')
         sublime.set_timeout_async(self.run_scan(
@@ -32,7 +31,6 @@ class ScanIndexCommand(sublime_plugin.TextCommand):
         file_.close()
 
     def run_scan(self, python_binary, db_path, log_file):
-        setting = SettingObject()
         startupinfo = None
         if system() == 'Windows':
             startupinfo = subprocess.STARTUPINFO()
@@ -40,16 +38,16 @@ class ScanIndexCommand(sublime_plugin.TextCommand):
         p = subprocess.Popen(
                 [
                     python_binary,
-                    get_setting(setting.scanner_runner),
+                    get_setting(SettingObject.scanner_runner),
                     'all',
                     '--workspace',
-                    get_setting(setting.workspace),
+                    get_setting(SettingObject.workspace),
                     '--db_path',
                     db_path,
                     '--extension',
-                    get_setting(setting.extension),
+                    get_setting(SettingObject.extension),
                     '--module_search_path',
-                    get_setting(setting.module_search_path)
+                    get_setting(SettingObject.module_search_path)
                 ],
                 stderr=subprocess.STDOUT,
                 stdout=log_file,
@@ -59,7 +57,6 @@ class ScanIndexCommand(sublime_plugin.TextCommand):
         print('Scaning done with rc: ', rc)
 
     def run_index(self, python_binary, db_path, log_file):
-        setting = SettingObject()
         startupinfo = None
         if system() == 'Windows':
             startupinfo = subprocess.STARTUPINFO()
@@ -67,12 +64,12 @@ class ScanIndexCommand(sublime_plugin.TextCommand):
         p = subprocess.Popen(
                 [
                     python_binary,
-                    get_setting(setting.index_runner),
+                    get_setting(SettingObject.index_runner),
                     'all',
                     '--db_path',
                     db_path,
                     '--index_path',
-                    get_setting(setting.index_dir)
+                    get_setting(SettingObject.index_dir)
                 ],
                 stderr=subprocess.STDOUT,
                 stdout=log_file,
@@ -82,7 +79,6 @@ class ScanIndexCommand(sublime_plugin.TextCommand):
         print('Indexing done with rc: ', rc)
 
     def add_builtin_vars(self, db_path):
-        setting = SettingObject()
         builtin = 'BuiltIn'
         table_name = '{0}-{1}.json'.format(
             builtin, md5(builtin.encode('utf-8')).hexdigest())
@@ -90,7 +86,7 @@ class ScanIndexCommand(sublime_plugin.TextCommand):
         f_table = open(table_path, 'r')
         data = json.load(f_table)
         f_table.close()
-        builtin_variables = get_setting(setting.builtin_variables)
+        builtin_variables = get_setting(SettingObject.builtin_variables)
         data['variables'] = builtin_variables
         f_table = open(table_path, 'w')
         json.dump(data, f_table, indent=4)
