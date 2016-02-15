@@ -44,10 +44,11 @@ def clean_results():
 
 def unit_test():
     print 'Running unit test'
+    sys.path.insert(0, env.COMMAND_HELPER_DIR)
     sys.path.insert(0, env.SRC_DIR)
     sys.path.append(env.UNIT_TEST_DIR)
     # suite = unittest.TestLoader().loadTestsFromName(
-    #     'test_runners.TestRunnerForScanner.test_scan_all')
+    #     'test_current_view.TestIndexing.test_create_view')
     suite = unittest.TestLoader().discover(
         start_dir=env.UNIT_TEST_DIR,
         pattern='test*.py')
