@@ -52,6 +52,9 @@ class TestIndexing(unittest.TestCase):
             self.workspace,
             'test_a.robot'
         )
+        self.other_tab = path.join(
+            self.workspace,
+            'test_b.robot')
         if not path.exists(path.dirname(self.current_view)):
             makedirs(path.dirname(self.current_view))
         elif path.exists(self.current_view):
@@ -73,13 +76,9 @@ class TestIndexing(unittest.TestCase):
                 view_db),
             True
         )
-        other_tab = path.join(
-            self.workspace,
-            'test_b.robot'
-        )
         self.assertEqual(
             self.cv.view_same(
-                other_tab,
+                self.other_tab,
                 view_db),
             False
         )
@@ -100,6 +99,58 @@ class TestIndexing(unittest.TestCase):
         expected['kw_completion'] = self.completions()
         self.assertEqual(data['variable'], expected['variable'])
         self.assertEqual(data['kw_completion'], expected['kw_completion'])
+
+    def test_view_in_db(self):
+        ext = 'robot'
+        self.assertEqual(
+            self.cv.view_in_db(
+                self.workspace,
+                self.open_tab,
+                self.index_dir,
+                ext
+            ), True)
+        self.assertEqual(
+            self.cv.view_in_db(
+                self.workspace,
+                self.other_tab,
+                self.index_dir,
+                ext
+            ), True)
+        not_in_workspace = path.join(
+            env.TEST_DATA_DIR,
+            'real_suite',
+            'test',
+            'real_suite.robot'
+        )
+        self.assertEqual(
+            self.cv.view_in_db(
+                self.workspace,
+                not_in_workspace,
+                self.index_dir,
+                ext
+            ), False)
+        not_rf_file = path.join(
+            self.workspace,
+            'common_variables.py'
+        )
+        self.assertEqual(
+            self.cv.view_in_db(
+                self.workspace,
+                not_rf_file,
+                self.index_dir,
+                ext
+            ), False)
+        not_found_file = path.join(
+            self.workspace,
+            'not_here.robot'
+        )
+        self.assertEqual(
+            self.cv.view_in_db(
+                self.workspace,
+                not_found_file,
+                self.index_dir,
+                ext
+            ), False)
 
     @classmethod
     def clean_dir(cls, directory):

@@ -1,20 +1,19 @@
-from os import path
+from os import path, listdir
 import hashlib
 from json import load as json_load
 from json import dump as json_dump
+
+try:
+    from queue.file_formatter import rf_table_name
+except:
+    from ..dataparser.queue.file_formatter import rf_table_name
+
 
 VIEW_FILE_NAME = 'current_view.json'
 VIEW_MD5 = 'view_md5'
 KW_COMPLETION = 'kw_completion'
 VIEW_NAME = 'view_name'
 VARIABLE = 'variable'
-
-
-def rf_table_name(f_path):
-    return '{realname}-{md5}.json'.format(
-            realname=path.basename(f_path),
-            md5=hashlib.md5(f_path).hexdigest()
-        )
 
 
 class CurrentView(object):
@@ -36,6 +35,29 @@ class CurrentView(object):
         f = open(view_path, 'w')
         json_dump(data, f)
         f.close()
+
+    def view_in_db(self, workspace, view_path, index_db, extension):
+        workspace = path.normcase(workspace)
+        view_path = path.normcase(view_path)
+        ''.startswith
+        if view_path.startswith(workspace):
+            return self.is_rf_file(view_path, extension, index_db)
+        else:
+            return False
+
+    def is_rf_file(self, view_path, extension, index_db):
+        ''.endswith
+        if view_path.endswith(extension):
+            return self.is_in_index(view_path, index_db)
+        else:
+            return False
+
+    def is_in_index(self, view_path, index_db):
+        index_table = 'index-{0}'.format(rf_table_name(view_path))
+        if index_table in listdir(index_db):
+            return True
+        else:
+            return False
 
     def get_keyword_completions(self, index_data):
         completions = []

@@ -2,35 +2,17 @@ import shutil
 import logging
 import json
 from os import path, makedirs
-from hashlib import md5
 from robot.errors import DataError
 from finder import finder
 from data_parser.data_parser import DataParser
 from queue import ParsingQueue
+from file_formatter import rf_table_name, lib_table_name
 
 LIBRARIES = 'libraries'
 LIBRARY = 'library'
 logging.basicConfig(
     format='%(levelname)s:%(asctime)s: %(message)s',
     level=logging.DEBUG)
-
-
-def rf_table_name(f_path):
-    return '{realname}-{md5}.json'.format(
-                realname=path.basename(f_path),
-                md5=md5(f_path).hexdigest()
-            )
-
-
-def lib_table_name(library):
-    if path.isfile(library):
-        module = path.basename(library)
-    else:
-        module = library
-    return '{realname}-{md5}.json'.format(
-                realname=module,
-                md5=md5(library).hexdigest()
-            )
 
 
 class Scanner(object):
