@@ -68,7 +68,7 @@
 			<key>comment</key>
 			<string>Settings table settings, like Library</string>
 			<key>match</key>
-			<string>(?i)(Library|Resource|Test Timeout|Test Template|Test Teardown|Test Setup|Default Tags|Force Tags|Metadata|Variables|Suite Setup|Suite Teardown)</string>
+			<string>(?i)^(Library|Resource|Test Timeout|Test Template|Test Teardown|Test Setup|Default Tags|Force Tags|Metadata|Variables|Suite Setup|Suite Teardown)</string>
 			<key>name</key>
 			<string>constant.language</string>
 		</dict>
