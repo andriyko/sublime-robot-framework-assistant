@@ -39,21 +39,20 @@ class CurrentView(object):
     def view_in_db(self, workspace, view_path, index_db, extension):
         workspace = path.normcase(workspace)
         view_path = path.normcase(view_path)
-        ''.startswith
         if view_path.startswith(workspace):
             return self.is_rf_file(view_path, extension, index_db)
         else:
             return False
 
     def is_rf_file(self, view_path, extension, index_db):
-        ''.endswith
         if view_path.endswith(extension):
             return self.is_in_index(view_path, index_db)
         else:
             return False
 
     def is_in_index(self, view_path, index_db):
-        index_table = 'index-{0}'.format(rf_table_name(view_path))
+        view_path = path.normcase(view_path)
+        index_table = 'index-{0:s}'.format(rf_table_name(view_path))
         try:
             files = listdir(index_db)
         except:
