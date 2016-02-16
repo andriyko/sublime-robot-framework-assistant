@@ -54,7 +54,11 @@ class CurrentView(object):
 
     def is_in_index(self, view_path, index_db):
         index_table = 'index-{0}'.format(rf_table_name(view_path))
-        if index_table in listdir(index_db):
+        try:
+            files = listdir(index_db)
+        except:
+            return False
+        if index_table in files:
             return True
         else:
             return False

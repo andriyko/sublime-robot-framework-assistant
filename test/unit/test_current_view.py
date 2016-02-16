@@ -151,6 +151,13 @@ class TestIndexing(unittest.TestCase):
                 self.index_dir,
                 ext
             ), False)
+        self.assertEqual(
+            self.cv.view_in_db(
+                self.workspace,
+                self.open_tab,
+                path.join(env.ROOT_DIR, 'not_here'),
+                ext
+            ), False)
 
     @classmethod
     def clean_dir(cls, directory):
