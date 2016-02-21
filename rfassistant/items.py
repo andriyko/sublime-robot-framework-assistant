@@ -8,6 +8,7 @@ import sublime_plugin  # noqa
 # Python imports
 from collections import namedtuple
 import os
+import re
 import tempfile
 import webbrowser
 
@@ -257,7 +258,7 @@ class RFKeyword(object):
         return view.find(r'def\s{0,}%s' % def_keyword, 0, sublime.IGNORECASE)
 
     def _find_keyword_in_resource(self, view):
-        return view.find(r'^%s\s{0,}' % self.name, 0, sublime.IGNORECASE)
+        return view.find(r'^%s\s{0,}' % re.escape(self.name), 0, sublime.IGNORECASE)
 
     @property
     def signature(self):

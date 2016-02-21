@@ -31,3 +31,6 @@ Verify RFDocs Page Title
     Verify Page Title
     ...  ${RFDOCS_PAGE}
     ...  Robot Framework Documentation
+
+Verify Keyword With Parenthesis
+    Example Keyword With Parenthesis (Example)

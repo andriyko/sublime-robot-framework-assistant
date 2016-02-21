@@ -33,3 +33,6 @@ Hello1 "${name}" User
 
 Hello2 ${name} User
     Log  ${name}
+
+Example Keyword With Parenthesis (Example)
+    Log    This is Keyword With Parenthesis
