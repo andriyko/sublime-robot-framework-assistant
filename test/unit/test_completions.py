@@ -68,7 +68,7 @@ class TestCompletions(unittest.TestCase):
 
     def test_create_variable_completion_item(self):
         scalar = '${var}'
-        expected = (scalar, scalar)
+        expected = (scalar, '\{0}'.format(scalar))
         result = create_var_completion_item(scalar)
         self.assertEqual(result, expected)
 
@@ -79,18 +79,17 @@ class TestCompletions(unittest.TestCase):
             '${COMMON_VARIABLE_2}',
             '${RESOURCE_A}'
         ]
-        var_l = [(i, i) for i in var_l]
-        var_t = tuple(var_l)
+        var_l = [(i, '\{0}'.format(i)) for i in var_l]
         result = get_var_completion_list(self.test_a_index, '$')
-        self.assertEqual(result, var_t)
+        self.assertEqual(result, var_l)
         # Single var
         result = get_var_completion_list(self.test_a_index, '${T')
-        self.assertEqual(result, (('${TEST_A}', '${TEST_A}'), ))
+        self.assertEqual(result, [('${TEST_A}', '\${TEST_A}')])
         result = get_var_completion_list(self.test_a_index, '${t')
-        self.assertEqual(result, (('${TEST_A}', '${TEST_A}'), ))
+        self.assertEqual(result, [('${TEST_A}', '\${TEST_A}')])
         # No match
         result = get_var_completion_list(self.test_a_index, '${NOT_HERE')
-        self.assertEqual(result, ())
+        self.assertEqual(result, [])
 
     def test_get_var_re_string(self):
         var = '${var}'

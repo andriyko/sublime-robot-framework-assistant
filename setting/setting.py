@@ -1,4 +1,5 @@
 from os import path
+from ..command_helper.current_view import VIEW_FILE_NAME
 import sublime
 
 settings_dir = path.dirname(path.realpath(__file__))
@@ -10,6 +11,7 @@ DATABASE_DIR = path.join(package_dir, 'database')
 SCANNER_DIR = path.join(DATABASE_DIR, 'scanner')
 INDEX_DIR = path.join(DATABASE_DIR, 'index')
 LOG_FILE = path.join(DATABASE_DIR, 'scan_index.log')
+CURRENT_VIEW_PATH = path.join(DATABASE_DIR, 'view_db', VIEW_FILE_NAME)
 
 
 class SettingObject(object):
@@ -24,6 +26,7 @@ class SettingObject(object):
     extension = 'robot_frameowrk_extension'
     builtin_variables = 'robot_framework_builtin_variables'
     module_search_path = 'robot_framework_module_search_path'
+    view_completions = 'view_completions'
 
 
 def get_setting(setting):
@@ -37,6 +40,8 @@ def get_setting(setting):
         return INDEX_RUNNER
     elif setting.lower() == SettingObject.log_file:
         return LOG_FILE
+    elif setting.lower() == SettingObject.view_completions:
+        return CURRENT_VIEW_PATH
     else:
         return get_sublime_setting(setting)
 

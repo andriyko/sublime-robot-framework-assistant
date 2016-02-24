@@ -68,7 +68,7 @@ def get_var_completion_list(view_index, prefix):
     for var in get_variables(view_index):
         if pattern.search(var):
             match_vars.append(create_var_completion_item(var))
-    return tuple(match_vars)
+    return match_vars
 
 
 def create_kw_completion_item(kw, source):
@@ -77,7 +77,7 @@ def create_kw_completion_item(kw, source):
 
 
 def create_var_completion_item(var):
-    return (var, var)
+    return (var, '\{0}'.format(var))
 
 
 def _get_data(view_index):
