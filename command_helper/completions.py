@@ -1,5 +1,11 @@
 import re
 from json import load as json_load
+try:
+    from current_view import KW_COMPLETION
+    from current_view import VARIABLE
+except:
+    from .current_view import KW_COMPLETION
+    from .current_view import VARIABLE
 
 VAR_RE_STRING = '[\$\@\&]\{?\w*$'
 
@@ -26,16 +32,11 @@ def get_kw_re_string(prefix):
 def get_kw_completion_list(view_index, prefix):
     pattern = re.compile(get_kw_re_string(prefix))
     match_keywords = []
-    libraries = []
     for keyword in get_keywords(view_index):
         kw = keyword[0]
         lib = keyword[1]
         if pattern.search(kw):
             match_keywords.append(create_kw_completion_item(kw, lib))
-        if lib not in libraries:
-            libraries.append(lib)
-            if pattern.search(lib):
-                match_keywords.append(create_kw_completion_item(lib, lib))
     return match_keywords
 
 
@@ -86,8 +87,8 @@ def _get_data(view_index):
 
 
 def get_keywords(view_index):
-    return _get_data(view_index)['keyword']
+    return _get_data(view_index)[KW_COMPLETION]
 
 
 def get_variables(view_index):
-    return _get_data(view_index)['variable']
+    return _get_data(view_index)[VARIABLE]
