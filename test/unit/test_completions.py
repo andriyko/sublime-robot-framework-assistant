@@ -111,7 +111,7 @@ class TestCompletions(unittest.TestCase):
         # Single var
         result = get_var_completion_list(self.test_a_index, '${RESO')
         self.assertEqual(result, [('${RESOURCE_A}', '\${RESOURCE_A}')])
-        result = get_var_completion_list(self.test_a_index, '${RESO')
+        result = get_var_completion_list(self.test_a_index, '${reso')
         self.assertEqual(result, [('${RESOURCE_A}', '\${RESOURCE_A}')])
         # No match
         result = get_var_completion_list(self.test_a_index, '${NOT_HERE')
