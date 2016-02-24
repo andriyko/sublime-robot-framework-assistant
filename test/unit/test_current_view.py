@@ -96,9 +96,9 @@ class TestIndexing(unittest.TestCase):
             "${COMMON_VARIABLE_2}",
             "${RESOURCE_A}"
         ]
-        expected['kw_completion'] = self.completions()
+        expected['completion'] = self.completions()
         self.assertEqual(data['variable'], expected['variable'])
-        self.assertEqual(data['kw_completion'], expected['kw_completion'])
+        self.assertEqual(data['completion'], expected['completion'])
 
     def test_view_in_db(self):
         ext = 'robot'

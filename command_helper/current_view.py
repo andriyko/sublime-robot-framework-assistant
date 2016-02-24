@@ -1,5 +1,5 @@
-from os import path, listdir
 import hashlib
+from os import path, listdir, mkdir
 from json import load as json_load
 from json import dump as json_dump
 
@@ -11,17 +11,26 @@ except:
 
 VIEW_FILE_NAME = 'current_view.json'
 VIEW_MD5 = 'view_md5'
-KW_COMPLETION = 'kw_completion'
+KW_COMPLETION = 'completion'
 VIEW_NAME = 'view_name'
 VARIABLE = 'variable'
 
 
 class CurrentView(object):
 
-    def __init__(self):
-        self.data = None
-
     def create_view(self, new_view, view_db, index_db):
+        """Changes the content of database/view_db/current_view.json
+
+        ``new_view`` -- Path to the open tab in sublime.
+        ``view_db``  -- Path to folder where current_view.json is.
+        ``index_db`` -- Path in index database folder.
+
+        When user changes between different robot framework data
+        tabs, this function changes the context of the
+        database/view_db/current_view.json. The current_view.json.
+        is used to provide the completions for the Sublime
+        on_query_completions API call.
+        """
         view_path = path.join(view_db, VIEW_FILE_NAME)
         new_view = self.normalise_path(new_view)
         index_table = 'index-{0}'.format(rf_table_name(new_view))
@@ -30,17 +39,19 @@ class CurrentView(object):
         data = {}
         data[VARIABLE] = index_data['variable']
         data[VIEW_NAME] = new_view
-        data[VIEW_MD5] = hashlib.md5(new_view).hexdigest()
+        data[VIEW_MD5] = hashlib.md5(new_view.encode('utf-8')).hexdigest()
         data[KW_COMPLETION] = self.get_keyword_completions(index_data)
+        if not path.exists(path.dirname(view_path)):
+            mkdir(path.dirname(view_path))
         f = open(view_path, 'w')
-        json_dump(data, f)
+        json_dump(data, f, indent=4)
         f.close()
 
-    def view_in_db(self, workspace, view_path, index_db, extension):
-        workspace = path.normcase(workspace)
-        view_path = path.normcase(view_path)
-        if view_path.startswith(workspace):
-            return self.is_rf_file(view_path, extension, index_db)
+    def view_in_db(self, workspace, open_tab, index_db, extension):
+        workspace = path.normcase(str(workspace))
+        open_tab = path.normcase(str(open_tab))
+        if open_tab.startswith(workspace):
+            return self.is_rf_file(open_tab, extension, index_db)
         else:
             return False
 
@@ -78,8 +89,8 @@ class CurrentView(object):
         view_path = path.join(view_db, VIEW_FILE_NAME)
         if path.exists(view_path):
             new_view_md5 = hashlib.md5(new_view).hexdigest()
-            self.data = self.get_data(view_path)
-            if self.data[VIEW_MD5] == new_view_md5:
+            data = self.get_data(view_path)
+            if data[VIEW_MD5] == new_view_md5:
                 return True
             else:
                 return False

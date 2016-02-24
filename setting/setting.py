@@ -11,7 +11,8 @@ DATABASE_DIR = path.join(package_dir, 'database')
 SCANNER_DIR = path.join(DATABASE_DIR, 'scanner')
 INDEX_DIR = path.join(DATABASE_DIR, 'index')
 LOG_FILE = path.join(DATABASE_DIR, 'scan_index.log')
-CURRENT_VIEW_PATH = path.join(DATABASE_DIR, 'view_db', VIEW_FILE_NAME)
+VIEW_PATH = path.join(DATABASE_DIR, 'view_db')
+CURRENT_VIEW_PATH = path.join(VIEW_PATH, VIEW_FILE_NAME)
 
 
 class SettingObject(object):
@@ -27,6 +28,7 @@ class SettingObject(object):
     builtin_variables = 'robot_framework_builtin_variables'
     module_search_path = 'robot_framework_module_search_path'
     view_completions = 'view_completions'
+    view_path = 'view_path'
 
 
 def get_setting(setting):
@@ -42,6 +44,8 @@ def get_setting(setting):
         return LOG_FILE
     elif setting.lower() == SettingObject.view_completions:
         return CURRENT_VIEW_PATH
+    elif setting.lower() == SettingObject.view_path:
+        return VIEW_PATH
     else:
         return get_sublime_setting(setting)
 
