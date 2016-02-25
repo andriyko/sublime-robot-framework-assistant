@@ -2,6 +2,7 @@
     Robot Framework Data Editor default settings
 */
 {
+    "word_separators": "./\\()\"'-:,.;<>~!#%^*|+=[]{}`~?",
     /*
         Robot Framework Workspace
 
