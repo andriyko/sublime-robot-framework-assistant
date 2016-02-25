@@ -120,6 +120,10 @@ class TestCompletions(unittest.TestCase):
         self.assertEqual(result, [('${RESOURCE_A}', '{RESOURCE_A}')])
         result = get_var_completion_list(self.test_a_index, '${reso')
         self.assertEqual(result, [('${RESOURCE_A}', '{RESOURCE_A}')])
+        result = get_var_completion_list(self.test_a_index, '@')
+        self.assertEqual(result, [('@{TEST_TAGS}', '{TEST_TAGS}')])
+        result = get_var_completion_list(self.test_a_index, '&')
+        self.assertEqual(result, [('&{SUITE_METADATA}', '{SUITE_METADATA}')])
         # No match
         result = get_var_completion_list(self.test_a_index, '${NOT_HERE')
         self.assertEqual(result, [])
