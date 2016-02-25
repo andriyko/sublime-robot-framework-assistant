@@ -68,12 +68,12 @@ class TestCompletions(unittest.TestCase):
 
     def test_create_variable_completion_item(self):
         scalar = '${var}'
-        expected = (scalar, '\{0}'.format(scalar))
+        expected = (scalar, '{0}'.format(scalar[1:]))
         result = create_var_completion_item(scalar)
         self.assertEqual(result, expected)
 
     def test_get_var_completion_list(self):
-        var_l = [
+        vars_in_completion = [
             '${/}',
             '${:}',
             '${\\n}',
@@ -98,21 +98,28 @@ class TestCompletions(unittest.TestCase):
             '${TEST_DOCUMENTATION}',
             '${TEST_NAME}',
             '${True}',
-            '&{SUITE_METADATA}',
-            '@{TEST_TAGS}',
             '${TEST_A}',
             '${COMMON_VARIABLE_1}',
             '${COMMON_VARIABLE_2}',
             '${RESOURCE_A}'
         ]
-        var_l = [(i, '\{0}'.format(i)) for i in var_l]
+        var_l = []
+        for var in vars_in_completion:
+            if var.startswith('$'):
+                var_l.append((var, var[1:]))
+            else:
+                var_l.append((var, var))
         result = get_var_completion_list(self.test_a_index, '$')
-        self.assertEqual(result.sort(), var_l.sort())
+        result = sorted(result, key=lambda v: v[0])
+        var_l = sorted(var_l, key=lambda v: v[0])
+        for e, r in zip(result, var_l):
+            self.assertEqual(r, e)
+        self.assertEqual(len(result), len(var_l))
         # Single var
         result = get_var_completion_list(self.test_a_index, '${RESO')
-        self.assertEqual(result, [('${RESOURCE_A}', '\${RESOURCE_A}')])
+        self.assertEqual(result, [('${RESOURCE_A}', '{RESOURCE_A}')])
         result = get_var_completion_list(self.test_a_index, '${reso')
-        self.assertEqual(result, [('${RESOURCE_A}', '\${RESOURCE_A}')])
+        self.assertEqual(result, [('${RESOURCE_A}', '{RESOURCE_A}')])
         # No match
         result = get_var_completion_list(self.test_a_index, '${NOT_HERE')
         self.assertEqual(result, [])

@@ -78,7 +78,11 @@ def create_kw_completion_item(kw, source):
 
 
 def create_var_completion_item(var):
-    return (var, '\{0}'.format(var))
+    if var.startswith('$'):
+        result = (var, '{0}'.format(var[1:]))
+    else:
+        result = (var, var)
+    return result
 
 
 def _get_data(view_index):
