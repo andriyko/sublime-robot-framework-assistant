@@ -10,6 +10,15 @@ except:
 VAR_RE_STRING = '[\$\@\&]\{?\w*$'
 
 
+class VarMode(object):
+    """Which contents mode is used for variables
+
+    Describes is found from the Sublime prefix"""
+    no_brackets = 1
+    two_brackets = 2
+    start_bracket = 3
+
+
 def get_completion_list(view_index, prefix):
     if re.search(VAR_RE_STRING, prefix):
         return get_var_completion_list(view_index, prefix)
@@ -68,7 +77,8 @@ def get_var_completion_list(view_index, prefix):
     match_vars = []
     for var in get_variables(view_index):
         if pattern.search(var):
-            match_vars.append(create_var_completion_item(var))
+            match_vars.append(create_var_completion_item(
+                var, VarMode.no_brackets))
     return match_vars
 
 
@@ -77,8 +87,13 @@ def create_kw_completion_item(kw, source):
     return (trigger, kw.replace('_', ' ').title())
 
 
-def create_var_completion_item(var):
-    return (var, '{0}'.format(var[1:]))
+def create_var_completion_item(var, mode):
+    if mode == VarMode.no_brackets:
+        return (var, '{0}'.format(var[1:]))
+    elif mode == VarMode.two_brackets:
+        return (var, '{0}'.format(var[2:-1]))
+    elif mode == VarMode.start_bracket:
+        return (var, '{0}'.format(var[2:]))
 
 
 def _get_data(view_index):

@@ -68,8 +68,17 @@ class TestCompletions(unittest.TestCase):
 
     def test_create_variable_completion_item(self):
         scalar = '${var}'
+        # Mode 1
         expected = (scalar, '{0}'.format(scalar[1:]))
-        result = create_var_completion_item(scalar)
+        result = create_var_completion_item(scalar, 1)
+        self.assertEqual(result, expected)
+        # Mode 2
+        expected = (scalar, '{0}'.format(scalar[2:5]))
+        result = create_var_completion_item(scalar, 2)
+        self.assertEqual(result, expected)
+        # Mode 3
+        expected = (scalar, '{0}'.format(scalar[2:]))
+        result = create_var_completion_item(scalar, 3)
         self.assertEqual(result, expected)
 
     def test_get_var_completion_list(self):
