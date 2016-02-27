@@ -8,6 +8,7 @@ from completions import create_var_completion_item
 from completions import get_var_completion_list
 from completions import get_var_re_string
 from completions import get_completion_list
+from completions import get_var_mode
 
 
 class TestCompletions(unittest.TestCase):
@@ -20,9 +21,9 @@ class TestCompletions(unittest.TestCase):
 
     def test_get_completion_list(self):
         prefix = 'Run'
-        result = get_completion_list(self.test_a_index, prefix)
+        result = get_completion_list(self.test_a_index, prefix, '')
         self.assertEqual(len(result), 39)
-        result = get_completion_list(self.test_a_index, '$')
+        result = get_completion_list(self.test_a_index, '$', '')
         self.assertEqual(len(result), 28)
 
     def test_get_kw_re_string(self):
@@ -118,24 +119,40 @@ class TestCompletions(unittest.TestCase):
                 var_l.append((var, var[1:]))
             else:
                 var_l.append((var, var))
-        result = get_var_completion_list(self.test_a_index, '$')
+        result = get_var_completion_list(self.test_a_index, '$', '')
         result = sorted(result, key=lambda v: v[0])
         var_l = sorted(var_l, key=lambda v: v[0])
         for e, r in zip(result, var_l):
             self.assertEqual(r, e)
         self.assertEqual(len(result), len(var_l))
         # Single var
-        result = get_var_completion_list(self.test_a_index, '${RESO')
-        self.assertEqual(result, [('${RESOURCE_A}', '{RESOURCE_A}')])
-        result = get_var_completion_list(self.test_a_index, '${reso')
-        self.assertEqual(result, [('${RESOURCE_A}', '{RESOURCE_A}')])
-        result = get_var_completion_list(self.test_a_index, '@')
+        result = get_var_completion_list(self.test_a_index, '${RESO', '')
+        self.assertEqual(result, [('${RESOURCE_A}', 'RESOURCE_A}')])
+        result = get_var_completion_list(self.test_a_index, '${reso', '')
+        self.assertEqual(result, [('${RESOURCE_A}', 'RESOURCE_A}')])
+        result = get_var_completion_list(self.test_a_index, '@', '')
         self.assertEqual(result, [('@{TEST_TAGS}', '{TEST_TAGS}')])
-        result = get_var_completion_list(self.test_a_index, '&')
+        result = get_var_completion_list(self.test_a_index, '&', '')
         self.assertEqual(result, [('&{SUITE_METADATA}', '{SUITE_METADATA}')])
         # No match
-        result = get_var_completion_list(self.test_a_index, '${NOT_HERE')
+        result = get_var_completion_list(self.test_a_index, '${NOT_HERE', '')
         self.assertEqual(result, [])
+
+    def test_text_before_var(self):
+        result = get_var_completion_list(self.test_a_index, 'text@', '')
+        self.assertEqual(result, [('@{TEST_TAGS}', '{TEST_TAGS}')])
+        result = get_var_completion_list(self.test_a_index, 'text@{', '')
+        self.assertEqual(result, [('@{TEST_TAGS}', 'TEST_TAGS}')])
+        result = get_var_completion_list(self.test_a_index, 'text@', '')
+        self.assertEqual(result, [('@{TEST_TAGS}', '{TEST_TAGS}')])
+
+    def test_get_var_mode(self):
+        result = get_var_mode('$', '')
+        self.assertEqual(result, 1)
+        result = get_var_mode('${', '}')
+        self.assertEqual(result, 2)
+        result = get_var_mode('${', '')
+        self.assertEqual(result, 3)
 
     def test_get_var_re_string(self):
         var = '${var}'

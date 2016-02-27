@@ -20,10 +20,14 @@ class RobotCompletion(sublime_plugin.EventListener):
                                              index_db, extension)
         view_completions = get_setting(
             SettingObject.view_completions)
+        text_cursor_rigt = None
         if not prefix:
-            column, line = get_line(view)
-            prefix = get_prefix(line, column)
+            line, column = get_line(view)
+            data = get_prefix(line, column)
+            prefix = data['match']
+            text_cursor_rigt = data['rside']
         if view_in_db:
-            return get_completion_list(view_completions, prefix)
+            return get_completion_list(
+                view_completions, prefix, text_cursor_rigt)
         else:
             return None

@@ -20,9 +20,9 @@ class VarMode(object):
     start_bracket = 3
 
 
-def get_completion_list(view_index, prefix):
+def get_completion_list(view_index, prefix, text_cursor_rigt):
     if re.search(VAR_RE_STRING, prefix):
-        return get_var_completion_list(view_index, prefix)
+        return get_var_completion_list(view_index, prefix, text_cursor_rigt)
     else:
         return get_kw_completion_list(view_index, prefix)
 
@@ -73,14 +73,28 @@ def get_var_re_string(prefix):
     return re_string
 
 
-def get_var_completion_list(view_index, prefix):
+def get_var_completion_list(view_index, prefix, text_cursor_rigt):
     pattern = re.compile(get_var_re_string(prefix))
     match_vars = []
+    mode = get_var_mode(prefix, text_cursor_rigt)
     for var in get_variables(view_index):
         if pattern.search(var):
-            match_vars.append(create_var_completion_item(
-                var, VarMode.no_brackets))
+            match_vars.append(create_var_completion_item(var, mode))
     return match_vars
+
+
+def get_var_mode(prefix, text_cursor_rigt):
+    one_character = '[\@\$\&]'
+    two_characters = '{0}\\{{'.format(one_character)
+    if (re.search(two_characters, prefix) and
+            text_cursor_rigt.startswith('}')):
+        return VarMode.two_brackets
+    elif re.search(two_characters, prefix) and not text_cursor_rigt:
+        return VarMode.start_bracket
+    elif re.search(one_character, prefix) and not text_cursor_rigt:
+        return VarMode.no_brackets
+    else:
+        return VarMode.no_brackets
 
 
 def create_kw_completion_item(kw, source):
