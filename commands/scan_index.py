@@ -54,6 +54,9 @@ class ScanIndexCommand(sublime_plugin.TextCommand):
                 startupinfo=startupinfo
             )
         rc = p.wait()
+        if not rc == 0:
+            print('See log file from database directory for details')
+            raise ValueError('Error in scanning result code: {0}'.format(rc))
         print('Scaning done with rc: ', rc)
 
     def run_index(self, python_binary, db_path, log_file):
@@ -76,6 +79,11 @@ class ScanIndexCommand(sublime_plugin.TextCommand):
                 startupinfo=startupinfo
             )
         rc = p.wait()
+        if not rc == 0:
+            print('See log file from database directory for details')
+            raise ValueError(
+                'Error in indexing, result code: {0}'.format(rc)
+            )
         print('Indexing done with rc: ', rc)
 
     def add_builtin_vars(self, db_path):
