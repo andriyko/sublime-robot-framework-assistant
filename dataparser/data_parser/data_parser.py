@@ -250,11 +250,8 @@ class DataParser():
 
     def _format_variable_file(self, setting):
         data = {}
-        if path.isfile(setting.name):
-            v_path = setting.name
-        else:
-            v_path = normalise_path(path.join(
-                path.dirname(self.file_path), setting.name))
+        v_path = normalise_path(path.join(
+            path.dirname(self.file_path), setting.name))
         args = {}
         args['variable_file_arguments'] = setting.args
         data[v_path] = args
