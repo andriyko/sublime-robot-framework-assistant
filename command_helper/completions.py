@@ -13,7 +13,8 @@ VAR_RE_STRING = '[\$\@\&]\{?\w*$'
 class VarMode(object):
     """Which contents mode is used for variables
 
-    Describes is found from the Sublime prefix"""
+    Describes how variable is found from the Sublime prefix
+    """
     no_brackets = 1
     two_brackets = 2
     start_bracket = 3
