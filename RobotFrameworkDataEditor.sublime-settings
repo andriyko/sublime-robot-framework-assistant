@@ -78,9 +78,10 @@
     /*
         Robot Framework variables
 
-        Robot Framework comes by default some predefined and builtin variables.
-        These variables names may change between different Robot Framework
-        versions. Use this setting to define the Robot Framework variables.
+        Robot Framework comes by default some predefined and built in
+        variables. These variables names may change between different
+        Robot Framework versions. Use this setting to define the
+        Robot Framework variables.
 
         The variables in the default settings are from Robot Framework
         version 2.9.2
@@ -92,6 +93,9 @@
             "${:}",
             "${\\n}",
             "${DEBUG_FILE}",
+            "${EMPTY}",
+            "@{EMPTY}",
+            "&{EMPTY}",
             "${EXECDIR}",
             "${False}",
             "${LOG_FILE}",
