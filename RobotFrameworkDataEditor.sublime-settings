@@ -2,7 +2,17 @@
     Robot Framework Data Editor default settings
 */
 {
-    "word_separators": "./\\()\"'-:,.;<>~!#%^*|+=[]{}`~?",
+    /*
+        Sublime settings to make Robot Framework data editing more
+        clearer and easier. Refer the Sublime default settings for
+        more details.
+    */
+    "translate_tabs_to_spaces": true,
+
+    "trim_trailing_white_space_on_save": true,
+
+    "draw_white_space": "all",
+
     /*
         Robot Framework Workspace
 
