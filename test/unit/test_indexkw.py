@@ -118,18 +118,10 @@ class TestIndexing(unittest.TestCase):
         KeywordRecord = namedtuple(
             'KeywordRecord',
             'keyword object_name table_name')
-        kw_list = ['Resource B Keyword 2', 'resource B Keyword 1']
         table_name = self.resource_b_table_name
-        object_name = 'resource_b.robot'
-        l = []
-        for kw in kw_list:
-            l.append(
-                KeywordRecord(
-                    keyword=kw,
-                    object_name=object_name,
-                    table_name=table_name
-                )
-            )
+        l, kw_list, object_name, table_name = self.get_resource_b_kw_index(
+            KeywordRecord)
+
         self.assertEqual(
             self.index.get_kw_for_index(kw_list, table_name, object_name), l)
 
