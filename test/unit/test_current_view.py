@@ -182,7 +182,7 @@ class TestIndexing(unittest.TestCase):
         data = json.load(f)
         f.close()
         for i in data['keyword']:
-            kw = i[0].replace('_', ' ').title()
+            kw = i[0]
             object_name = i[1]
             completions.append([kw, object_name])
             if object_name not in added_object_name:

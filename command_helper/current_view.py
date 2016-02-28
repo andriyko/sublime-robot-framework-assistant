@@ -77,7 +77,7 @@ class CurrentView(object):
         completions = []
         added_object_name = []
         for i in index_data['keyword']:
-            kw = i[0].replace('_', ' ').title()
+            kw = i[0]
             object_name = i[1]
             completions.append([kw, object_name])
             if object_name not in added_object_name:

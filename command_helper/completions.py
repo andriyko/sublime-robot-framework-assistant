@@ -99,7 +99,7 @@ def get_var_mode(prefix, text_cursor_rigt):
 
 def create_kw_completion_item(kw, source):
     trigger = '{trigger}\t{hint}'.format(trigger=kw, hint=source)
-    return (trigger, kw.replace('_', ' ').title())
+    return (trigger, kw)
 
 
 def create_var_completion_item(var, mode):

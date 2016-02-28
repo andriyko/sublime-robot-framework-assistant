@@ -59,11 +59,10 @@ class TestCompletions(unittest.TestCase):
         self.assertEqual(kw_tuple[-1], expected)
 
     def test_kw_create_completion_item(self):
-        kw = 'run_keyword_and_expect_error'
+        kw = 'Run Keyword And Expect Error'
         lib = 'BuiltIn'
         completion = create_kw_completion_item(kw, lib)
         trigger = '{0}\t{1}'.format(kw, lib)
-        kw = kw.replace('_', ' ').title()
         expected = (trigger, kw)
         self.assertEqual(completion, expected)
 

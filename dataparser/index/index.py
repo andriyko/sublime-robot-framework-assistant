@@ -133,8 +133,9 @@ class Index(object):
     def get_keywords(self, data):
         kw_list = []
         if 'keywords' in data:
-            for kw in data['keywords'].iterkeys():
-                kw_list.append(kw)
+            kws = data["keywords"]
+            for kw in kws.iterkeys():
+                kw_list.append(kws[kw]['keyword_name'])
         return kw_list
 
     def get_kw_for_index(self, kw_list, table_name, object_name):

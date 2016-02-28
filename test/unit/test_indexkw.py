@@ -70,18 +70,18 @@ class TestIndexing(unittest.TestCase):
 
     def test_get_keywords_resource(self):
         data = self.get_resource_b()
-        kw_list = ['resource_b_keyword_2', 'resource_b_keyword_1']
+        kw_list = ['Resource B Keyword 2', 'Resource B Keyword 1']
         self.assertEqual(self.index.get_keywords(data), kw_list)
 
         data = self.get_test_a()
-        kw_list = ['test_a_keyword']
+        kw_list = ['Test A Keyword']
         self.assertEqual(self.index.get_keywords(data), kw_list)
 
         data = self.get_s2l()
         parsed_kw = self.index.get_keywords(data)
-        self.assertTrue('set_window_position' in parsed_kw)
-        self.assertTrue('get_cookies' in parsed_kw)
-        self.assertTrue('unselect_frame' in parsed_kw)
+        self.assertTrue('Set Window Position' in parsed_kw)
+        self.assertTrue('Get Cookies' in parsed_kw)
+        self.assertTrue('Unselect Frame' in parsed_kw)
 
     def test_get_imports(self):
         data = self.get_resource_b()
@@ -118,7 +118,7 @@ class TestIndexing(unittest.TestCase):
         KeywordRecord = namedtuple(
             'KeywordRecord',
             'keyword object_name table_name')
-        kw_list = ['resource_b_keyword_2', 'resource_b_keyword_1']
+        kw_list = ['Resource B Keyword 2', 'resource B Keyword 1']
         table_name = self.resource_b_table_name
         object_name = 'resource_b.robot'
         l = []
@@ -356,7 +356,7 @@ class TestIndexing(unittest.TestCase):
         return l, kw_list, object_name, table_name
 
     def get_test_a_kw_index(self, keywordrecord):
-        kw_list = [u'test_a_keyword']
+        kw_list = [u'Test A Keyword']
         table_name = self.test_a_table_name
         object_name = u'test_a.robot'
         l = [keywordrecord(
@@ -373,7 +373,7 @@ class TestIndexing(unittest.TestCase):
         return l, kw_list, object_name, table_name
 
     def get_resource_a_kw_index(self, keywordrecord):
-        kw_list = [u'resource_a_keyword_1', u'resource_a_keyword_2']
+        kw_list = [u'Resource A Keyword 1', u'resource A Keyword 2']
         table_name = self.resource_a_table_name
         object_name = u'resource_a.robot'
         l = []
@@ -383,7 +383,7 @@ class TestIndexing(unittest.TestCase):
         return l, kw_list, object_name, table_name
 
     def get_resource_b_kw_index(self, keywordrecord):
-        kw_list = [u'resource_b_keyword_1', u'resource_b_keyword_2']
+        kw_list = [u'Resource B Keyword 1', u'resource B Keyword 2']
         table_name = self.resource_b_table_name
         object_name = u'resource_b.robot'
         l = []
@@ -393,7 +393,7 @@ class TestIndexing(unittest.TestCase):
         return l, kw_list, object_name, table_name
 
     def get_common_kw_index(self, keywordrecord):
-        kw_list = [u'common_keyword_2', u'common_keyword_1']
+        kw_list = [u'Common Keyword 2', u'common Keyword 1']
         table_name = self.common_table_name
         object_name = u'common.robot'
         l = []

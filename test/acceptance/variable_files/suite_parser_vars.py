@@ -35,9 +35,8 @@ def create_simple_test(resource_dir):
     result['libraries'] = [
         {'library_name': 'Selenium2Library',
          'library_alias': None,
-         'library_arguments': ['timeout=5.0','implicit_wait=0.0'],
-         'library_path': None
-        }
+         'library_arguments': ['timeout=5.0', 'implicit_wait=0.0'],
+         'library_path': None}
     ]
     result['resources'] = [path.join(resource_dir, 'simple_resrouce2.robot')]
     result['variable_files'] = [
