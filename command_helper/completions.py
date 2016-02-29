@@ -20,11 +20,11 @@ class VarMode(object):
     start_bracket = 3
 
 
-def get_completion_list(view_index, prefix, text_cursor_rigt):
+def get_completion_list(view_index, prefix, text_cursor_rigt, rf_cell):
     if re.search(VAR_RE_STRING, prefix):
         return get_var_completion_list(view_index, prefix, text_cursor_rigt)
     else:
-        return get_kw_completion_list(view_index, prefix)
+        return get_kw_completion_list(view_index, prefix, rf_cell)
 
 
 def get_kw_re_string(prefix):
@@ -39,14 +39,16 @@ def get_kw_re_string(prefix):
     return re_string
 
 
-def get_kw_completion_list(view_index, prefix):
+def get_kw_completion_list(view_index, prefix, rf_cell):
     pattern = re.compile(get_kw_re_string(prefix))
     match_keywords = []
     for keyword in get_keywords(view_index):
         kw = keyword[0]
-        lib = keyword[1]
+        args = keyword[1]
+        lib = keyword[2]
         if pattern.search(kw):
-            match_keywords.append(create_kw_completion_item(kw, lib))
+            kw_completion = create_kw_completion_item(kw, args, rf_cell, lib)
+            match_keywords.append(kw_completion)
     return match_keywords
 
 
@@ -97,9 +99,15 @@ def get_var_mode(prefix, text_cursor_rigt):
         return VarMode.no_brackets
 
 
-def create_kw_completion_item(kw, source):
+def create_kw_completion_item(kw, kw_args, rf_cell, source):
     trigger = '{trigger}\t{hint}'.format(trigger=kw, hint=source)
-    return (trigger, kw)
+    if kw_args:
+        completion = '{0}\n'.format(kw)
+    else:
+        completion = kw
+    for arg in kw_args:
+        completion = '{0}{1}{2}\n'.format(completion, '...' + rf_cell, arg)
+    return (trigger, completion.rstrip('\n'))
 
 
 def create_var_completion_item(var, mode):

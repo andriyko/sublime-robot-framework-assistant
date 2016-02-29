@@ -6,6 +6,7 @@ from ..setting.setting import SettingObject
 from ..command_helper.current_view import CurrentView
 from ..command_helper.get_text import get_line
 from ..command_helper.get_text import get_prefix
+from ..command_helper.get_metadata import get_rf_table_separator
 
 
 class RobotCompletion(sublime_plugin.EventListener):
@@ -20,6 +21,7 @@ class RobotCompletion(sublime_plugin.EventListener):
                                              index_db, extension)
         view_completions = get_setting(
             SettingObject.view_completions)
+        rc_cell = get_rf_table_separator(view)
         text_cursor_rigt = None
         if not prefix:
             line, column = get_line(view)
@@ -28,6 +30,6 @@ class RobotCompletion(sublime_plugin.EventListener):
             text_cursor_rigt = data['rside']
         if view_in_db:
             return get_completion_list(
-                view_completions, prefix, text_cursor_rigt)
+                view_completions, prefix, text_cursor_rigt, rc_cell)
         else:
             return None

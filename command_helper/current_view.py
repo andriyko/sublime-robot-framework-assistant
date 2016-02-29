@@ -78,10 +78,11 @@ class CurrentView(object):
         added_object_name = []
         for i in index_data['keyword']:
             kw = i[0]
-            object_name = i[1]
-            completions.append([kw, object_name])
+            args = i[1]
+            object_name = i[2]
+            completions.append([kw, args, object_name])
             if object_name not in added_object_name:
-                completions.append([object_name, object_name])
+                completions.append([object_name, [], object_name])
                 added_object_name.append(object_name)
         return completions
 

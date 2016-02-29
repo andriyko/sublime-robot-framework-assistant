@@ -70,18 +70,27 @@ class TestIndexing(unittest.TestCase):
 
     def test_get_keywords_resource(self):
         data = self.get_resource_b()
-        kw_list = ['Resource B Keyword 2', 'Resource B Keyword 1']
-        self.assertEqual(self.index.get_keywords(data), kw_list)
+        expected_kw_list = ['Resource B Keyword 2', 'Resource B Keyword 1']
+        expected_arg_list = [['kwb1'], []]
+        kw_list, arg_list = self.index.get_keywords(data)
+        self.assertEqual(kw_list, expected_kw_list)
+        self.assertEqual(arg_list.sort(), expected_arg_list.sort())
 
         data = self.get_test_a()
-        kw_list = ['Test A Keyword']
-        self.assertEqual(self.index.get_keywords(data), kw_list)
+        expected_kw_list = ['Test A Keyword']
+        kw_list, arg_list = self.index.get_keywords(data)
+        self.assertEqual(kw_list, expected_kw_list)
+        self.assertEqual(arg_list, [[]])
 
         data = self.get_s2l()
-        parsed_kw = self.index.get_keywords(data)
+        parsed_kw, arg_list = self.index.get_keywords(data)
         self.assertTrue('Set Window Position' in parsed_kw)
         self.assertTrue('Get Cookies' in parsed_kw)
         self.assertTrue('Unselect Frame' in parsed_kw)
+        self.assertTrue(['name'] in arg_list)
+        l = ['driver_name', 'alias', 'kwargs', '**init_kwargs']
+        self.assertTrue(l in arg_list)
+        self.assertTrue(['*code'] in arg_list)
 
     def test_get_imports(self):
         data = self.get_resource_b()
@@ -117,29 +126,32 @@ class TestIndexing(unittest.TestCase):
     def test_get_kw_for_index(self):
         KeywordRecord = namedtuple(
             'KeywordRecord',
-            'keyword object_name table_name')
+            'keyword argument object_name table_name')
         table_name = self.resource_b_table_name
-        l, kw_list, object_name, table_name = self.get_resource_b_kw_index(
-            KeywordRecord)
+        l, kw_list, arg_list, object_name, table_name = \
+            self.get_resource_b_kw_index(KeywordRecord)
 
         self.assertEqual(
-            self.index.get_kw_for_index(kw_list, table_name, object_name), l)
+            self.index.get_kw_for_index(
+                kw_list, arg_list, table_name, object_name), l)
 
-        l, kw_list, object_name, table_name = self.get_test_a_kw_index(
+        l, kw_list, arg_list, object_name, table_name = \
+            self.get_test_a_kw_index(KeywordRecord)
+        self.assertEqual(
+            self.index.get_kw_for_index(
+                kw_list, arg_list, table_name, object_name), l)
+
+        l, kw_list, arg_list, object_name, table_name = self.get_s2l_kw_index(
             KeywordRecord)
         self.assertEqual(
-            self.index.get_kw_for_index(kw_list, table_name, object_name), l)
-
-        l, kw_list, object_name, table_name = self.get_s2l_kw_index(
-            KeywordRecord)
-        self.assertEqual(
-            self.index.get_kw_for_index(kw_list, table_name, object_name), l)
+            self.index.get_kw_for_index(
+                kw_list, arg_list, table_name, object_name), l)
 
     def test_index_creation_test_a(self):
         table_name = self.test_a_table_name
         KeywordRecord = namedtuple(
             'KeywordRecord',
-            'keyword object_name table_name')
+            'keyword argument object_name table_name')
         kw_list = []
         kw_list.extend(self.get_test_a_kw_index(KeywordRecord)[0])
         kw_list.extend(self.get_common_kw_index(KeywordRecord)[0])
@@ -166,7 +178,7 @@ class TestIndexing(unittest.TestCase):
         table_name = self.test_b_table_name
         KeywordRecord = namedtuple(
             'KeywordRecord',
-            'keyword object_name table_name')
+            'keyword argument object_name table_name')
         kw_list = []
         kw_list.extend(self.get_test_b_kw_index(KeywordRecord)[0])
         kw_list.extend(self.get_common_kw_index(KeywordRecord)[0])
@@ -200,6 +212,26 @@ class TestIndexing(unittest.TestCase):
         for index_file in os.listdir(self.index_dir):
             size = os.path.getsize(os.path.join(self.index_dir, index_file))
             self.assertGreater(size, 10)
+
+    def test_get_kw_arguments(self):
+        kw_args = [u'item', u'msg=None']
+        result = self.index.get_kw_arguments(kw_args)
+        expected = [u'item', u'msg']
+        self.assertEqual(result, expected)
+        kw_args = [u'name', u'*args']
+        result = self.index.get_kw_arguments(kw_args)
+        self.assertEqual(result, kw_args)
+        kw_args = []
+        result = self.index.get_kw_arguments(kw_args)
+        self.assertEqual(result, kw_args)
+        kw_args = [u'object=None', u'*args', u'**kwargs']
+        result = self.index.get_kw_arguments(kw_args)
+        expected = [u'object', u'*args', u'**kwargs']
+        self.assertEqual(result, expected)
+        kw_args = [u'${kwa1}', '@{list}', '&{kwargs}']
+        result = self.index.get_kw_arguments(kw_args)
+        expected = [u'kwa1', '*list', '**kwargs']
+        self.assertEqual(result, expected)
 
     @property
     def resource_b_table_name(self):
@@ -305,47 +337,77 @@ class TestIndexing(unittest.TestCase):
 
     def get_s2l_kw_index(self, keywordrecord):
         s2l_data = self.get_s2l()
-        kw_list = self.index.get_keywords(s2l_data)
+        kw_list = self.index.get_keywords(s2l_data)[0]
+        arg_list = self.get_kw_args(s2l_data)
         object_name = 'Selenium2Library'
         table_name = self.s2l_table_name
         l = []
-        for kw in kw_list:
-            l.append(keywordrecord(
-                keyword=kw, object_name=object_name, table_name=table_name))
-        return l, kw_list, object_name, table_name
+        for kw, arg in zip(kw_list, arg_list):
+            # print 'kw: "{0}"'.format(kw)
+            # print 'arg: "{0}"'.format(arg)
+            l.append(
+                keywordrecord(
+                    keyword=kw,
+                    argument=arg,
+                    object_name=object_name,
+                    table_name=table_name
+                )
+            )
+        return l, kw_list, arg_list, object_name, table_name
 
     def get_os_kw_index(self, keywordrecord):
         os_data = self.get_os()
-        kw_list = self.index.get_keywords(os_data)
+        kw_list = self.index.get_keywords(os_data)[0]
+        arg_list = self.get_kw_args(os_data)
         object_name = 'OperatingSystem'
         table_name = self.os_table_name
         l = []
-        for kw in kw_list:
-            l.append(keywordrecord(
-                keyword=kw, object_name=object_name, table_name=table_name))
-        return l, kw_list, object_name, table_name
+        for kw, arg in zip(kw_list, arg_list):
+            l.append(
+                keywordrecord(
+                    keyword=kw,
+                    argument=arg,
+                    object_name=object_name,
+                    table_name=table_name
+                )
+            )
+        return l, kw_list, arg_list, object_name, table_name
 
     def get_process_kw_index(self, keywordrecord):
-        process_data = self.get_process()
-        kw_list = self.index.get_keywords(process_data)
+        data = self.get_process()
+        kw_list = self.index.get_keywords(data)[0]
+        arg_list = self.get_kw_args(data)
         object_name = 'Process'
         table_name = self.process_table_name
         l = []
-        for kw in kw_list:
-            l.append(keywordrecord(
-                keyword=kw, object_name=object_name, table_name=table_name))
-        return l, kw_list, object_name, table_name
+        for kw, arg in zip(kw_list, arg_list):
+            l.append(
+                keywordrecord(
+                    keyword=kw,
+                    argument=arg,
+                    object_name=object_name,
+                    table_name=table_name
+                )
+            )
+        return l, kw_list, arg_list, object_name, table_name
 
     def get_builtin_kw_index(self, keywordrecord):
-        process_data = self.getbuiltin()
-        kw_list = self.index.get_keywords(process_data)
-        object_name = 'Process'
-        table_name = self.process_table_name
+        data = self.getbuiltin()
+        kw_list = self.index.get_keywords(data)[0]
+        arg_list = self.get_kw_args(data)
+        object_name = 'BuiltIn'
+        table_name = self.builtin_table_name
         l = []
-        for kw in kw_list:
-            l.append(keywordrecord(
-                keyword=kw, object_name=object_name, table_name=table_name))
-        return l, kw_list, object_name, table_name
+        for kw, arg in zip(kw_list, arg_list):
+            l.append(
+                keywordrecord(
+                    keyword=kw,
+                    argument=arg,
+                    object_name=object_name,
+                    table_name=table_name
+                )
+            )
+        return l, kw_list, arg_list, object_name, table_name
 
     def get_test_a_kw_index(self, keywordrecord):
         kw_list = [u'Test A Keyword']
@@ -353,36 +415,51 @@ class TestIndexing(unittest.TestCase):
         object_name = u'test_a.robot'
         l = [keywordrecord(
             keyword=kw_list[0],
+            argument=None,
             object_name=object_name,
             table_name=table_name)]
-        return l, kw_list, object_name, table_name
+        return l, kw_list, [None], object_name, table_name
 
     def get_test_b_kw_index(self, keywordrecord):
         kw_list = []
         table_name = self.test_b_table_name
         object_name = u'test_a.robot'
         l = []
-        return l, kw_list, object_name, table_name
+        return l, kw_list, [None], object_name, table_name
 
     def get_resource_a_kw_index(self, keywordrecord):
         kw_list = [u'Resource A Keyword 1', u'resource A Keyword 2']
+        arg_list = ['kwa1', None]
         table_name = self.resource_a_table_name
         object_name = u'resource_a.robot'
         l = []
-        for kw in kw_list:
-            l.append(keywordrecord(
-                keyword=kw, object_name=object_name, table_name=table_name))
-        return l, kw_list, object_name, table_name
+        for kw, arg in zip(kw_list, arg_list):
+            l.append(
+                keywordrecord(
+                    keyword=kw,
+                    argument=arg,
+                    object_name=object_name,
+                    table_name=table_name
+                )
+            )
+        return l, kw_list, arg_list, object_name, table_name
 
     def get_resource_b_kw_index(self, keywordrecord):
         kw_list = [u'Resource B Keyword 1', u'resource B Keyword 2']
+        arg_list = ['kwb1', None]
         table_name = self.resource_b_table_name
         object_name = u'resource_b.robot'
         l = []
-        for kw in kw_list:
-            l.append(keywordrecord(
-                keyword=kw, object_name=object_name, table_name=table_name))
-        return l, kw_list, object_name, table_name
+        for kw, arg in zip(kw_list, arg_list):
+            l.append(
+                keywordrecord(
+                    keyword=kw,
+                    argument=arg,
+                    object_name=object_name,
+                    table_name=table_name
+                )
+            )
+        return l, kw_list, arg_list, object_name, table_name
 
     def get_common_kw_index(self, keywordrecord):
         kw_list = [u'Common Keyword 2', u'common Keyword 1']
@@ -390,6 +467,24 @@ class TestIndexing(unittest.TestCase):
         object_name = u'common.robot'
         l = []
         for kw in kw_list:
-            l.append(keywordrecord(
-                keyword=kw, object_name=object_name, table_name=table_name))
-        return l, kw_list, object_name, table_name
+            l.append(
+                keywordrecord(
+                    keyword=kw,
+                    argument=None,
+                    object_name=object_name,
+                    table_name=table_name
+                )
+            )
+        return l, kw_list, [None], object_name, table_name
+
+    def get_kw_args(self, data):
+        arg_list = []
+        kws = data["keywords"]
+        for i in kws.iterkeys():
+            args = kws[i]['keyword_arguments']
+            for arg in args:
+                if '=' in arg:
+                    arg_list.append(arg.split('=')[0])
+                else:
+                    arg_list.append(arg)
+        return arg_list

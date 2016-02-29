@@ -10,6 +10,8 @@ from completions import get_var_re_string
 from completions import get_completion_list
 from completions import get_var_mode
 
+RF_CELL = '    '
+
 
 class TestCompletions(unittest.TestCase):
 
@@ -21,10 +23,10 @@ class TestCompletions(unittest.TestCase):
 
     def test_get_completion_list(self):
         prefix = 'Run'
-        result = get_completion_list(self.test_a_index, prefix, '')
+        result = get_completion_list(self.test_a_index, prefix, '', RF_CELL)
         self.assertEqual(len(result), 39)
-        result = get_completion_list(self.test_a_index, '$', '')
-        self.assertEqual(len(result), 28)
+        result = get_completion_list(self.test_a_index, '$', '', RF_CELL)
+        self.assertEqual(len(result), 29)
 
     def test_get_kw_re_string(self):
         re_string = get_kw_re_string('1')
@@ -36,32 +38,45 @@ class TestCompletions(unittest.TestCase):
 
     def test_get_kw_completion_list_count(self):
         prefix = 'Run'
-        kw_tuple = get_kw_completion_list(self.test_a_index, prefix)
+        kw_tuple = get_kw_completion_list(self.test_a_index, prefix, RF_CELL)
         self.assertEqual(len(kw_tuple), 39)
         prefix = 'RunKeY'
-        kw_tuple = get_kw_completion_list(self.test_a_index, prefix)
+        kw_tuple = get_kw_completion_list(self.test_a_index, prefix, RF_CELL)
         self.assertEqual(len(kw_tuple), 19)
         prefix = 'BUI'
-        kw_tuple = get_kw_completion_list(self.test_a_index, prefix)
+        kw_tuple = get_kw_completion_list(self.test_a_index, prefix, RF_CELL)
         self.assertEqual(len(kw_tuple), 13)
 
     def test_get_kw_completion_list_structure(self):
         prefix = 'Run'
-        kw_tuple = get_kw_completion_list(self.test_a_index, prefix)
+        kw_tuple = get_kw_completion_list(self.test_a_index, prefix, RF_CELL)
+        kw = 'Run Keyword And Expect Error'
         expected = (
-            'Run Keyword And Expect Error\tBuiltIn',
-            'Run Keyword And Expect Error'
+            '{0}\tBuiltIn'.format(kw),
+            '{0}{1}expected_error{1}name{1}*args'.format(kw, '\n...' + RF_CELL)
         )
         self.assertEqual(kw_tuple[0], expected)
+        kw = 'Run And Return Rc'
         expected = (
-            'Run And Return Rc\tOperatingSystem',
-            'Run And Return Rc')
+            '{0}\tOperatingSystem'.format(kw),
+            '{0}{1}command'.format(kw, '\n...' + RF_CELL))
         self.assertEqual(kw_tuple[-1], expected)
 
     def test_kw_create_completion_item(self):
+        # kw with args
         kw = 'Run Keyword And Expect Error'
         lib = 'BuiltIn'
-        completion = create_kw_completion_item(kw, lib)
+        kw_completion = '{0}{1}expected_error{1}name{1}*args'.format(
+            kw, '\n...    ')
+        args = ['expected_error', 'name', '*args']
+        completion = create_kw_completion_item(kw, args, RF_CELL, lib)
+        trigger = '{0}\t{1}'.format(kw, lib)
+        expected = (trigger, kw_completion)
+        self.assertEqual(completion, expected)
+        # kw not args
+        kw = 'Unselect Frame'
+        lib = 'Selenium2Library'
+        completion = create_kw_completion_item(kw, [], RF_CELL, lib)
         trigger = '{0}\t{1}'.format(kw, lib)
         expected = (trigger, kw)
         self.assertEqual(completion, expected)
@@ -87,6 +102,7 @@ class TestCompletions(unittest.TestCase):
             '${:}',
             '${\\n}',
             '${DEBUG_FILE}',
+            "${EMPTY}",
             '${EXECDIR}',
             '${False}',
             '${LOG_FILE}',
@@ -130,20 +146,25 @@ class TestCompletions(unittest.TestCase):
         result = get_var_completion_list(self.test_a_index, '${reso', '')
         self.assertEqual(result, [('${RESOURCE_A}', 'RESOURCE_A}')])
         result = get_var_completion_list(self.test_a_index, '@', '')
-        self.assertEqual(result, [('@{TEST_TAGS}', '{TEST_TAGS}')])
+        self.assertEqual(result, [('@{EMPTY}', '{EMPTY}'),
+                                  ('@{TEST_TAGS}', '{TEST_TAGS}')])
         result = get_var_completion_list(self.test_a_index, '&', '')
-        self.assertEqual(result, [('&{SUITE_METADATA}', '{SUITE_METADATA}')])
+        self.assertEqual(result, [('&{EMPTY}', '{EMPTY}'),
+                                  ('&{SUITE_METADATA}', '{SUITE_METADATA}')])
         # No match
         result = get_var_completion_list(self.test_a_index, '${NOT_HERE', '')
         self.assertEqual(result, [])
 
     def test_text_before_var(self):
         result = get_var_completion_list(self.test_a_index, 'text@', '')
-        self.assertEqual(result, [('@{TEST_TAGS}', '{TEST_TAGS}')])
+        self.assertEqual(result, [('@{EMPTY}', '{EMPTY}'),
+                                  ('@{TEST_TAGS}', '{TEST_TAGS}')])
         result = get_var_completion_list(self.test_a_index, 'text@{', '')
-        self.assertEqual(result, [('@{TEST_TAGS}', 'TEST_TAGS}')])
-        result = get_var_completion_list(self.test_a_index, 'text@', '')
-        self.assertEqual(result, [('@{TEST_TAGS}', '{TEST_TAGS}')])
+        self.assertEqual(result, [('@{EMPTY}', 'EMPTY}'),
+                                  ('@{TEST_TAGS}', 'TEST_TAGS}')])
+        result = get_var_completion_list(self.test_a_index, 'text@{', '}')
+        self.assertEqual(result, [('@{EMPTY}', 'EMPTY'),
+                                  ('@{TEST_TAGS}', 'TEST_TAGS')])
 
     def test_get_var_mode(self):
         result = get_var_mode('$', '')

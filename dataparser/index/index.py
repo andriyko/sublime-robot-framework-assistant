@@ -1,5 +1,6 @@
 import shutil
 import logging
+import re
 from os import path, makedirs, listdir
 from json import load as json_load
 from json import dump as json_dump
@@ -69,12 +70,11 @@ class Index(object):
 
     def parse_table_data(self, data, t_name):
         var = self.get_variables(data)
-        kw = self.get_keywords(data)
+        kw, args = self.get_keywords(data)
         if kw:
             object_name = self.get_object_name(data)
             kw_index = self.get_kw_for_index(
-                kw, t_name,
-                object_name)
+                kw, args, t_name, object_name)
         else:
             kw_index = []
         self.add_imports_to_queue(self.get_imports(data))
@@ -132,26 +132,49 @@ class Index(object):
 
     def get_keywords(self, data):
         kw_list = []
+        arg_list = []
         if 'keywords' in data:
             kws = data["keywords"]
             for kw in kws.iterkeys():
                 kw_list.append(kws[kw]['keyword_name'])
-        return kw_list
+                kw_args = self.get_kw_arguments(kws[kw]['keyword_arguments'])
+                arg_list.append(kw_args)
+        return kw_list, arg_list
 
-    def get_kw_for_index(self, kw_list, table_name, object_name):
+    def get_kw_arguments(self, kw_args):
+        """Formats keyword arguments to suite completions"""
+        pattern = re.compile('(?:[\@\$\&]\{)(.+)(?:\})')
+        comletion_args = []
+        for arg in kw_args:
+            match = pattern.search(arg)
+            if not match:
+                comletion_args.append(arg.split('=')[0])
+            else:
+                arg_text = match.group(1)
+                if arg.startswith('$'):
+                    comletion_args.append(arg_text)
+                elif arg.startswith('@'):
+                    comletion_args.append('*{0}'.format(arg_text))
+                else:
+                    comletion_args.append('**{0}'.format(arg_text))
+        return comletion_args
+
+    def get_kw_for_index(
+            self, kw_list, argument_list, table_name, object_name):
         KeywordRecord = namedtuple(
             'KeywordRecord',
-            'keyword object_name table_name')
-        l = []
-        for kw in kw_list:
-            l.append(
+            'keyword argument object_name table_name')
+        kw_index = []
+        for kw, argument in zip(kw_list, argument_list):
+            kw_index.append(
                 KeywordRecord(
                     keyword=kw,
+                    argument=argument,
                     object_name=object_name,
                     table_name=table_name
                 )
             )
-        return l
+        return kw_index
 
     def read_table(self, t_path):
         try:
