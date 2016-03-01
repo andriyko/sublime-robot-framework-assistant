@@ -20,11 +20,24 @@ class VarMode(object):
     start_bracket = 3
 
 
-def get_completion_list(view_index, prefix, text_cursor_rigt, rf_cell):
+def get_completion_list(view_index, prefix, text_cursor_rigt,
+                        rf_cell, object_name, extension):
+    """Returns completion list for variables and keywords
+
+    ``view_index`` -- Path to current_view.json in database.
+    ``prefix`` -- Prefix for the completion
+    ``text_cursor_rigt`` -- Text from cursor right side.
+    ``rf_cell`` -- RF_CELL value from .tmPreferences
+    ``object_name`` -- Library or resource object name
+    ``extension`` -- Rbot file extension, from .sublime-settings
+
+    Entry point for getting Robot Framework completion in using
+    on_query_completions API from Sublime Text 3."""
     if re.search(VAR_RE_STRING, prefix):
         return get_var_completion_list(view_index, prefix, text_cursor_rigt)
     else:
-        return get_kw_completion_list(view_index, prefix, rf_cell)
+        return get_kw_completion_list(
+            view_index, prefix, rf_cell, object_name, extension)
 
 
 def get_kw_re_string(prefix):
@@ -39,16 +52,31 @@ def get_kw_re_string(prefix):
     return re_string
 
 
-def get_kw_completion_list(view_index, prefix, rf_cell):
+def get_kw_completion_list(view_index, prefix, rf_cell,
+                           object_name, extension):
+    def get_kw(kw, args, rf_cell, lib, match_keywords):
+        if pattern.search(kw):
+            kw = create_kw_completion_item(kw, args, rf_cell, lib)
+            match_keywords.append(kw)
+            return match_keywords
+
     pattern = re.compile(get_kw_re_string(prefix))
     match_keywords = []
     for keyword in get_keywords(view_index):
         kw = keyword[0]
         args = keyword[1]
         lib = keyword[2]
-        if pattern.search(kw):
-            kw_completion = create_kw_completion_item(kw, args, rf_cell, lib)
-            match_keywords.append(kw_completion)
+        lib_with_ext = lib
+        if lib.endswith(extension):
+            lib = lib.replace('.{0}'.format(extension), '')
+        if not object_name:
+            if pattern.search(kw):
+                kw = create_kw_completion_item(kw, args, rf_cell, lib)
+                match_keywords.append(kw)
+        elif lib == object_name and lib_with_ext != kw:
+            if pattern.search(kw):
+                kw = create_kw_completion_item(kw, args, rf_cell, lib)
+                match_keywords.append(kw)
     return match_keywords
 
 
@@ -86,6 +114,16 @@ def get_var_completion_list(view_index, prefix, text_cursor_rigt):
 
 
 def get_var_mode(prefix, text_cursor_rigt):
+    """Returns hwo variable prefix is written when completion is done.
+
+    ``prefix`` -- Prefix for the completion
+    ``text_cursor_rigt`` -- Text from cursor right side.
+
+    Variable completion can be done in thee ways and completion
+    depends on which way variable is written. Possible variable
+    complations are: $, ${ and ${}. In last cursor is between
+    curly braces.
+    """
     one_character = '[\@\$\&]'
     two_characters = '{0}\\{{'.format(one_character)
     if (re.search(two_characters, prefix) and

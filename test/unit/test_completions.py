@@ -11,6 +11,7 @@ from completions import get_completion_list
 from completions import get_var_mode
 
 RF_CELL = '    '
+RF_EXTENSION = 'robot'
 
 
 class TestCompletions(unittest.TestCase):
@@ -23,9 +24,11 @@ class TestCompletions(unittest.TestCase):
 
     def test_get_completion_list(self):
         prefix = 'Run'
-        result = get_completion_list(self.test_a_index, prefix, '', RF_CELL)
+        result = get_completion_list(self.test_a_index, prefix,
+                                     '', RF_CELL, None, RF_EXTENSION)
         self.assertEqual(len(result), 39)
-        result = get_completion_list(self.test_a_index, '$', '', RF_CELL)
+        result = get_completion_list(self.test_a_index, '$',
+                                     '', RF_CELL, None, RF_EXTENSION)
         self.assertEqual(len(result), 29)
 
     def test_get_kw_re_string(self):
@@ -38,18 +41,22 @@ class TestCompletions(unittest.TestCase):
 
     def test_get_kw_completion_list_count(self):
         prefix = 'Run'
-        kw_tuple = get_kw_completion_list(self.test_a_index, prefix, RF_CELL)
+        kw_tuple = get_kw_completion_list(self.test_a_index, prefix,
+                                          RF_CELL, None, RF_EXTENSION)
         self.assertEqual(len(kw_tuple), 39)
         prefix = 'RunKeY'
-        kw_tuple = get_kw_completion_list(self.test_a_index, prefix, RF_CELL)
+        kw_tuple = get_kw_completion_list(self.test_a_index, prefix,
+                                          RF_CELL, None, RF_EXTENSION)
         self.assertEqual(len(kw_tuple), 19)
         prefix = 'BUI'
-        kw_tuple = get_kw_completion_list(self.test_a_index, prefix, RF_CELL)
+        kw_tuple = get_kw_completion_list(self.test_a_index, prefix,
+                                          RF_CELL, None, RF_EXTENSION)
         self.assertEqual(len(kw_tuple), 13)
 
     def test_get_kw_completion_list_structure(self):
         prefix = 'Run'
-        kw_tuple = get_kw_completion_list(self.test_a_index, prefix, RF_CELL)
+        kw_tuple = get_kw_completion_list(self.test_a_index, prefix,
+                                          RF_CELL, None, RF_EXTENSION)
         kw = 'Run Keyword And Expect Error'
         expected = (
             '{0}\tBuiltIn'.format(kw),
@@ -61,6 +68,18 @@ class TestCompletions(unittest.TestCase):
             '{0}\tOperatingSystem'.format(kw),
             '{0}{1}command'.format(kw, '\n...' + RF_CELL))
         self.assertEqual(kw_tuple[-1], expected)
+
+    def test_get_kw_completion_list_structure_with_object(self):
+        object_name = 'test_a'
+        prefix = 'test'
+        kw = 'Test A Keyword'
+        kw_tuple = get_kw_completion_list(self.test_a_index, prefix,
+                                          RF_CELL, object_name, RF_EXTENSION)
+        expected = [(
+            '{0}\t{1}'.format(kw, object_name),
+            '{0}'.format(kw)
+        )]
+        self.assertEqual(kw_tuple, expected)
 
     def test_kw_create_completion_item(self):
         # kw with args
