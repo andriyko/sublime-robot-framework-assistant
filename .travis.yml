@@ -2,7 +2,7 @@ language: python
 python:
   - "2.7"
 install:
-  - pip install robotframework==3.0.0
+  - pip install robotframework==2.9.2
   - pip install robotframework-selenium2library==1.7.2
 script:
 - "python test/run_test.py"
