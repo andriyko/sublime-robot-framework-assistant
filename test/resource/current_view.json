@@ -1,5 +1,4 @@
 {
-    "view_name": "d:\\workspace\\robotframework-from-sublime\\test\\resource\\test_data\\suite_tree\\test_a.robot", 
     "completion": [
         [
             "Run Keyword And Expect Error", 
@@ -2590,9 +2589,41 @@
                 "alias"
             ], 
             "OperatingSystem"
+        ], 
+        [
+            "My Long Keyword", 
+            [
+                "arg1", 
+                "arg2"
+            ], 
+            "com.company.library.DoLibrary"
+        ], 
+        [
+            "My Other Keyword", 
+            [
+                "arg1", 
+                "arg2", 
+                "arg3"
+            ], 
+            "com.company.library.DoLibrary"
+        ], 
+        [
+            "My Long Keyword", 
+            [
+                "arg1", 
+                "arg2"
+            ], 
+            "com.company.library.OtherLibrary"
+        ], 
+        [
+            "My Long Keyword", 
+            [
+                "arg1", 
+                "arg2"
+            ], 
+            "com.company.library.special.long.OtherLibrary"
         ]
     ], 
-    "view_md5": "41883aa9e5af28925d37eba7d2313d57", 
     "variable": [
         "${/}", 
         "${:}", 
@@ -2627,5 +2658,7 @@
         "${COMMON_VARIABLE_1}", 
         "${COMMON_VARIABLE_2}", 
         "${RESOURCE_A}"
-    ]
+    ], 
+    "view_name": "d:\\workspace\\robotframework-from-sublime\\test\\resource\\test_data\\suite_tree\\test_a.robot", 
+    "view_md5": "41883aa9e5af28925d37eba7d2313d57"
 }
