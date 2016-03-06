@@ -76,12 +76,12 @@ class DataParser():
         """
         data = {}
         if not args:
-            data['arguments'] = []
+            data[DBJsonSetting.arguments] = []
         else:
             arg_list = []
             for arg in args:
                 arg_list.append(arg)
-            data['arguments'] = arg_list
+            data[DBJsonSetting.arguments] = arg_list
         if path.isfile(library):
             data[DBJsonSetting.file_name] = path.basename(library)
             data[DBJsonSetting.file_path] = normalise_path(library)
@@ -91,13 +91,13 @@ class DataParser():
                 data[DBJsonSetting.keywords] = self._parse_xml_doc(library)
             elif library.endswith('.py'):
                 data[DBJsonSetting.keywords] = self._parse_python_lib(
-                    library, data['arguments'])
+                    library, data[DBJsonSetting.arguments])
             else:
                 raise ValueError('Unknown library')
         else:
             data[DBJsonSetting.library_module] = library
             data[DBJsonSetting.keywords] = self._parse_python_lib(
-                library, data['arguments'])
+                library, data[DBJsonSetting.arguments])
         if data[DBJsonSetting.keywords] is None:
             raise ValueError('Library did not contain keywords')
         else:
@@ -228,8 +228,8 @@ class DataParser():
         else:
             lib_path = None
         data[DBJsonSetting.library_name] = lib_name
-        data['library_alias'] = setting.alias
-        data['library_arguments'] = setting.args
+        data[DBJsonSetting.library_alias] = setting.alias
+        data[DBJsonSetting.library_arguments] = setting.args
         data[DBJsonSetting.library_path] = lib_path
         return data
 
