@@ -86,8 +86,8 @@ class Scanner(object):
         """Creates the json file to self.db_path"""
         if DBJsonSetting.file_path in item:
             f_name = rf_table_name(item[DBJsonSetting.file_path])
-        elif 'library_module' in item:
-            f_name = lib_table_name(item['library_module'])
+        elif DBJsonSetting.library_module in item:
+            f_name = lib_table_name(item[DBJsonSetting.library_module])
         f = open(path.join(db_path, f_name), 'w')
         f.write(json.dumps(item, indent=4))
         f.close()

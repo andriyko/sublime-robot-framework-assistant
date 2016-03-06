@@ -85,7 +85,8 @@ class DataParser():
         if path.isfile(library):
             data[DBJsonSetting.file_name] = path.basename(library)
             data[DBJsonSetting.file_path] = normalise_path(library)
-            data['library_module'] = path.splitext(data[DBJsonSetting.file_name])[0]
+            data[DBJsonSetting.library_module] = path.splitext(
+                data[DBJsonSetting.file_name])[0]
             if library.endswith('.xml'):
                 data[DBJsonSetting.keywords] = self._parse_xml_doc(library)
             elif library.endswith('.py'):
@@ -94,7 +95,7 @@ class DataParser():
             else:
                 raise ValueError('Unknown library')
         else:
-            data['library_module'] = library
+            data[DBJsonSetting.library_module] = library
             data[DBJsonSetting.keywords] = self._parse_python_lib(
                 library, data['arguments'])
         if data[DBJsonSetting.keywords] is None:

@@ -7,3 +7,4 @@ class DBJsonSetting(object):
     file_name = 'file_name'
     file_path = 'file_path'
     variable = 'variable'
+    library_module = 'library_module'

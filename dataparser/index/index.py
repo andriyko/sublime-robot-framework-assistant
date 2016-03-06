@@ -105,8 +105,8 @@ class Index(object):
     def get_object_name(self, data):
         if DBJsonSetting.file_name in data:
             return data[DBJsonSetting.file_name]
-        elif 'library_module' in data:
-            return data['library_module']
+        elif DBJsonSetting.library_module in data:
+            return data[DBJsonSetting.library_module]
         else:
             raise ValueError('Parsing error: {0}'.format(data))
 
