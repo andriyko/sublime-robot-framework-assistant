@@ -121,7 +121,7 @@ class Scanner(object):
             self.queue.add(
                 lib_module,
                 DBJsonSetting.library,
-                lib['library_arguments']
+                lib[DBJsonSetting.library_arguments]
                 )
 
     def add_var_files_queue(self, var_files):
