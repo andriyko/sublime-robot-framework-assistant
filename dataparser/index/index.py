@@ -100,8 +100,8 @@ class Index(object):
             return {}
 
     def get_object_name(self, data):
-        if 'file_name' in data:
-            return data['file_name']
+        if DBJsonSetting.file_name in data:
+            return data[DBJsonSetting.file_name]
         elif 'library_module' in data:
             return data['library_module']
         else:

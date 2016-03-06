@@ -57,7 +57,7 @@ class DataParser():
         if not args:
             args = []
         data = {}
-        data['file_name'] = path.basename(file_path)
+        data[DBJsonSetting.file_name] = path.basename(file_path)
         data['file_path'] = normalise_path(file_path)
         self.file_path = file_path
         setter = VariableFileSetter(self.rf_var_storage)
@@ -83,9 +83,9 @@ class DataParser():
                 arg_list.append(arg)
             data['arguments'] = arg_list
         if path.isfile(library):
-            data['file_name'] = path.basename(library)
+            data[DBJsonSetting.file_name] = path.basename(library)
             data['file_path'] = normalise_path(library)
-            data['library_module'] = path.splitext(data['file_name'])[0]
+            data['library_module'] = path.splitext(data[DBJsonSetting.file_name])[0]
             if library.endswith('.xml'):
                 data[DBJsonSetting.keywords] = self._parse_xml_doc(library)
             elif library.endswith('.py'):
@@ -177,7 +177,7 @@ class DataParser():
 
     def _parse_robot_data(self, file_path, model):
         data = {}
-        data['file_name'] = path.basename(file_path)
+        data[DBJsonSetting.file_name] = path.basename(file_path)
         data['file_path'] = normalise_path(file_path)
         data[DBJsonSetting.keywords] = self._get_keywords(model)
         data['variables'] = self._get_global_variables(model)
