@@ -4,9 +4,9 @@ from ..command_helper.completions import get_completion_list
 from ..setting.setting import get_setting
 from ..setting.setting import SettingObject
 from ..command_helper.current_view import CurrentView
-from ..command_helper.get_text import get_line
-from ..command_helper.get_text import get_prefix
-from ..command_helper.get_text import get_object_from_line
+from ..command_helper.utils.get_text import get_line
+from ..command_helper.utils.get_text import get_prefix
+from ..command_helper.utils.get_text import get_object_from_line
 from ..command_helper.get_metadata import get_rf_table_separator
 
 
