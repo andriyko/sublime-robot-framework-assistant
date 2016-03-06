@@ -128,7 +128,7 @@ class Index(object):
             if lib[DBJsonSetting.library_path]:
                 l.append(lib_table_name(lib[DBJsonSetting.library_path]))
             else:
-                l.append(lib_table_name(lib['library_name']))
+                l.append(lib_table_name(lib[DBJsonSetting.library_name]))
         return l
 
     def get_variables(self, data):

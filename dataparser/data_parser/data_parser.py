@@ -227,7 +227,7 @@ class DataParser():
             lib_name = path.basename(lib_name)
         else:
             lib_path = None
-        data['library_name'] = lib_name
+        data[DBJsonSetting.library_name] = lib_name
         data['library_alias'] = setting.alias
         data['library_arguments'] = setting.args
         data[DBJsonSetting.library_path] = lib_path

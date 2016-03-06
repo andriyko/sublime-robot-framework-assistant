@@ -117,7 +117,7 @@ class Scanner(object):
             if lib[DBJsonSetting.library_path]:
                 lib_module = lib[DBJsonSetting.library_path]
             else:
-                lib_module = lib['library_name']
+                lib_module = lib[DBJsonSetting.library_name]
             self.queue.add(
                 lib_module,
                 DBJsonSetting.library,
