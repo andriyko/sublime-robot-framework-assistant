@@ -7,6 +7,7 @@ from hashlib import md5
 import json
 from ..setting.setting import get_setting
 from ..setting.setting import SettingObject
+from ..setting.db_json_settings import DBJsonSetting
 
 
 class ScanIndexCommand(sublime_plugin.TextCommand):
@@ -95,7 +96,7 @@ class ScanIndexCommand(sublime_plugin.TextCommand):
         data = json.load(f_table)
         f_table.close()
         builtin_variables = get_setting(SettingObject.builtin_variables)
-        data['variables'] = builtin_variables
+        data[DBJsonSetting.variables] = builtin_variables
         f_table = open(table_path, 'w')
         json.dump(data, f_table, indent=4)
         f_table.close()

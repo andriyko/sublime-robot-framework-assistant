@@ -133,8 +133,8 @@ class Index(object):
 
     def get_variables(self, data):
         result = []
-        if 'variables' in data:
-            for var in data['variables']:
+        if DBJsonSetting.variables in data:
+            for var in data[DBJsonSetting.variables]:
                 result.append(var)
         return result
 

@@ -64,7 +64,7 @@ class DataParser():
         var_list = []
         for variable in setter.set(file_path, args):
             var_list.append(variable[0])
-        data['variables'] = sorted(var_list)
+        data[DBJsonSetting.variables] = sorted(var_list)
         return data
 
     def parse_library(self, library, args=None):
@@ -181,7 +181,7 @@ class DataParser():
         data[DBJsonSetting.file_name] = path.basename(file_path)
         data[DBJsonSetting.file_path] = normalise_path(file_path)
         data[DBJsonSetting.keywords] = self._get_keywords(model)
-        data['variables'] = self._get_global_variables(model)
+        data[DBJsonSetting.variables] = self._get_global_variables(model)
         lib, res, v_files = self._get_imports(
             model,
             path.dirname(normalise_path(file_path)),
