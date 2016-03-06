@@ -6,3 +6,4 @@ class DBJsonSetting(object):
     keywords = 'keywords'
     file_name = 'file_name'
     file_path = 'file_path'
+    variable = 'variable'

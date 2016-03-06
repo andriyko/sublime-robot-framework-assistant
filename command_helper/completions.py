@@ -2,10 +2,10 @@ import re
 from json import load as json_load
 try:
     from current_view import KW_COMPLETION
-    from current_view import VARIABLE
+    from db_json_settings import DBJsonSetting
 except:
     from .current_view import KW_COMPLETION
-    from .current_view import VARIABLE
+    from ..setting.db_json_settings import DBJsonSetting
 
 VAR_RE_STRING = '[\$\@\&]\{?\w*$'
 
@@ -167,4 +167,4 @@ def get_keywords(view_index):
 
 
 def get_variables(view_index):
-    return _get_data(view_index)[VARIABLE]
+    return _get_data(view_index)[DBJsonSetting.variable]

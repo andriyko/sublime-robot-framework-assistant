@@ -15,7 +15,6 @@ VIEW_FILE_NAME = 'current_view.json'
 VIEW_MD5 = 'view_md5'
 KW_COMPLETION = 'completion'
 VIEW_NAME = 'view_name'
-VARIABLE = 'variable'
 
 
 class CurrentView(object):
@@ -39,7 +38,7 @@ class CurrentView(object):
         index_table = path.join(index_db, index_table)
         index_data = self.get_data(index_table)
         data = {}
-        data[VARIABLE] = index_data['variable']
+        data[DBJsonSetting.variable] = index_data[DBJsonSetting.variable]
         data[VIEW_NAME] = new_view
         data[VIEW_MD5] = hashlib.md5(new_view.encode('utf-8')).hexdigest()
         data[KW_COMPLETION] = self.get_keyword_completions(index_data)

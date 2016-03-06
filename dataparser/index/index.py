@@ -65,7 +65,10 @@ class Index(object):
                 read_status = False
             if not read_status:
                 internal_logger()
-        return {DBJsonSetting.keyword: keywords, 'variable': variables}
+        return {
+                    DBJsonSetting.keyword: keywords,
+                    DBJsonSetting.variable: variables
+                }
 
     def add_builtin_to_queue(self, db_path):
         for table in listdir(db_path):
