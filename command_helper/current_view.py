@@ -6,7 +6,7 @@ try:
     from parser_utils.file_formatter import rf_table_name
     from parser_utils.util import normalise_path
 except:
-    from ..dataparser.queue.parser_utils.file_formatter import rf_table_name
+    from ..dataparser.parser_utils.file_formatter import rf_table_name
     from ..dataparser.parser_utils.util import normalise_path
 
 
