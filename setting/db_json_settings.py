@@ -15,6 +15,7 @@ class DBJsonSetting(object):
     library_name = 'library_name'
     library_path = 'library_path'
     resources = 'resources'
+    tags = 'tags'
     variable = 'variable'
     variable_files = 'variable_files'
     variables = 'variables'
