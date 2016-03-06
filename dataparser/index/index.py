@@ -117,8 +117,8 @@ class Index(object):
         if DBJsonSetting.variable_files in data:
             for var in data[DBJsonSetting.variable_files]:
                 result.append(rf_table_name(var.keys()[0]))
-        if 'resources' in data:
-            for resource in data['resources']:
+        if DBJsonSetting.resources in data:
+            for resource in data[DBJsonSetting.resources]:
                 result.append(rf_table_name(resource))
         return result
 

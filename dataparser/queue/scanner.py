@@ -79,8 +79,8 @@ class Scanner(object):
             self.add_libraries_queue(data[LIBRARIES])
         if DBJsonSetting.variable_files in data:
             self.add_var_files_queue(data[DBJsonSetting.variable_files])
-        if 'resources' in data:
-            self.add_resources_queue(data['resources'])
+        if DBJsonSetting.resources in data:
+            self.add_resources_queue(data[DBJsonSetting.resources])
 
     def put_item_to_db(self, item, db_path):
         """Creates the json file to self.db_path"""

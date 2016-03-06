@@ -187,7 +187,7 @@ class DataParser():
             path.dirname(normalise_path(file_path)),
             file_path
         )
-        data['resources'] = res
+        data[DBJsonSetting.resources] = res
         data['libraries'] = lib
         data[DBJsonSetting.variable_files] = v_files
         return data
