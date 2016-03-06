@@ -145,7 +145,8 @@ class Index(object):
             kws = data[DBJsonSetting.keywords]
             for kw in kws.iterkeys():
                 kw_list.append(kws[kw][DBJsonSetting.keyword_name])
-                kw_args = self.get_kw_arguments(kws[kw]['keyword_arguments'])
+                kw_args = self.get_kw_arguments(
+                    kws[kw][DBJsonSetting.keyword_arguments])
                 arg_list.append(kw_args)
         return kw_list, arg_list
 

@@ -5,6 +5,7 @@ class DBJsonSetting(object):
     file_name = 'file_name'
     file_path = 'file_path'
     keyword = 'keyword'
+    keyword_arguments = 'keyword_arguments'
     keyword_name = 'keyword_name'
     keywords = 'keywords'
     libraries = 'libraries'
