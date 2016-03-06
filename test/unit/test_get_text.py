@@ -1,5 +1,5 @@
 import unittest
-from get_text import get_object_from_line
+from utils.get_text import get_object_from_line
 
 
 class TestCompletions(unittest.TestCase):

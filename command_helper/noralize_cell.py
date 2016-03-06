@@ -1,16 +1,10 @@
 import re
-from json import load as json_load
 try:
     from current_view import KW_COMPLETION
+    from utils.util import get_data_from_json
 except:
     from ..current_view import KW_COMPLETION
-
-
-def get_data_from_json(json_file):
-    f = open(json_file)
-    data = json_load(f)
-    f.close()
-    return data
+    from ..utils.util import get_data_from_json
 
 
 class ReturnKeywordAndObject(object):
