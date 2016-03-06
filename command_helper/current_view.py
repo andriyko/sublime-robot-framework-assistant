@@ -5,10 +5,11 @@ from json import dump as json_dump
 try:
     from parser_utils.file_formatter import rf_table_name
     from parser_utils.util import normalise_path
+    from db_json_settings import DBJsonSetting
 except:
     from ..dataparser.parser_utils.file_formatter import rf_table_name
     from ..dataparser.parser_utils.util import normalise_path
-
+    from ..setting.db_json_settings import DBJsonSetting
 
 VIEW_FILE_NAME = 'current_view.json'
 VIEW_MD5 = 'view_md5'
@@ -77,7 +78,7 @@ class CurrentView(object):
     def get_keyword_completions(self, index_data):
         completions = []
         added_object_name = []
-        for i in index_data['keyword']:
+        for i in index_data[DBJsonSetting.keyword]:
             kw = i[0]
             args = i[1]
             object_name = i[2]

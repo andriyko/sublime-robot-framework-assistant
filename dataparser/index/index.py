@@ -7,6 +7,7 @@ from json import dump as json_dump
 from collections import namedtuple
 from parser_utils.file_formatter import rf_table_name, lib_table_name
 from queue.queue import ParsingQueue
+from db_json_settings import DBJsonSetting
 
 logging.basicConfig(
     format='%(levelname)s:%(asctime)s: %(message)s',
@@ -64,7 +65,7 @@ class Index(object):
                 read_status = False
             if not read_status:
                 internal_logger()
-        return {'keyword': keywords, 'variable': variables}
+        return {DBJsonSetting.keyword: keywords, 'variable': variables}
 
     def add_builtin_to_queue(self, db_path):
         for table in listdir(db_path):

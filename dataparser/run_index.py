@@ -1,4 +1,11 @@
 import argparse
+import sys
+from os import path
+
+ROOT_DIR = path.dirname(path.abspath(__file__))
+SETTING_DIR = path.join(ROOT_DIR, '..', 'setting')
+sys.path.append(SETTING_DIR)
+
 from index.index import Index
 
 
