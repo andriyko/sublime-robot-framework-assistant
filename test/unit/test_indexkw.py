@@ -343,8 +343,6 @@ class TestIndexing(unittest.TestCase):
         table_name = self.s2l_table_name
         l = []
         for kw, arg in zip(kw_list, arg_list):
-            # print 'kw: "{0}"'.format(kw)
-            # print 'arg: "{0}"'.format(arg)
             l.append(
                 keywordrecord(
                     keyword=kw,
