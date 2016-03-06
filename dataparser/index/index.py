@@ -13,6 +13,10 @@ logging.basicConfig(
     level=logging.DEBUG)
 
 
+def get_index_name(table_name):
+    return 'index-{0}'.format(table_name)
+
+
 class Index(object):
     """Reads the database and returns index's of keywords and variables"""
 
@@ -25,7 +29,7 @@ class Index(object):
             shutil.rmtree(index_path)
         makedirs(index_path)
         for table in listdir(db_path):
-            index_name = 'index-{0}'.format(table)
+            index_name = get_index_name(table)
             f = open(path.join(index_path, index_name), 'w')
             data = self.create_index_for_table(db_path, table)
             json_dump(data, f, indent=4)
