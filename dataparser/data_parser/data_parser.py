@@ -9,6 +9,7 @@ from os import path
 import xml.etree.ElementTree as ET
 from tempfile import mkdtemp
 import logging
+from parser_utils.util import normalise_path
 
 logging.basicConfig(
     format='%(levelname)s:%(asctime)s: %(message)s',
@@ -17,13 +18,6 @@ logging.basicConfig(
 
 def strip_and_lower(text):
     return text.lower().replace(' ', '_')
-
-
-def normalise_path(f_path):
-    dirname = path.abspath(path.dirname(f_path))
-    basename = path.basename(f_path)
-    dirname = path.normpath(path.normcase(dirname))
-    return path.join(dirname, basename)
 
 
 class DataParser():

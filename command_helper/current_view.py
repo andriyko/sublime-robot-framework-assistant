@@ -4,8 +4,10 @@ from json import load as json_load
 from json import dump as json_dump
 try:
     from parser_utils.file_formatter import rf_table_name
+    from parser_utils.util import normalise_path
 except:
     from ..dataparser.queue.parser_utils.file_formatter import rf_table_name
+    from ..dataparser.parser_utils.util import normalise_path
 
 
 VIEW_FILE_NAME = 'current_view.json'
@@ -31,7 +33,7 @@ class CurrentView(object):
         on_query_completions API call.
         """
         view_path = path.join(view_db, VIEW_FILE_NAME)
-        new_view = self.normalise_path(new_view)
+        new_view = normalise_path(new_view)
         index_table = 'index-{0}'.format(rf_table_name(new_view))
         index_table = path.join(index_db, index_table)
         index_data = self.get_data(index_table)
@@ -103,10 +105,3 @@ class CurrentView(object):
         data = json_load(f)
         f.close()
         return data
-
-    @staticmethod
-    def normalise_path(f_path):
-        dirname = path.abspath(path.dirname(f_path))
-        basename = path.basename(f_path)
-        dirname = path.normpath(path.normcase(dirname))
-        return path.join(dirname, basename)
