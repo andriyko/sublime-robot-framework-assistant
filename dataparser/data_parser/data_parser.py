@@ -120,7 +120,7 @@ class DataParser():
                 'Library does not exist: {0}'.format(library))
         for keyword in library.keywords:
             kw = {}
-            kw['keyword_name'] = keyword.name
+            kw[DBJsonSetting.keyword_name] = keyword.name
             kw['tags'] = list(keyword.tags._tags)
             kw['keyword_arguments'] = keyword.args
             kw['documentation'] = keyword.doc
@@ -165,7 +165,7 @@ class DataParser():
         kws = {}
         for element in root.findall('kw'):
             kw = {}
-            kw['keyword_name'] = element.attrib['name']
+            kw[DBJsonSetting.keyword_name] = element.attrib['name']
             kw['documentation'] = element.find('doc').text
             tags = []
             [tags.append(tag.text) for tag in element.findall('.//tags/tag')]
@@ -173,7 +173,7 @@ class DataParser():
             arg = []
             [arg.append(tag.text) for tag in element.findall('.//arguments/arg')]
             kw['keyword_arguments'] = arg
-            kws[strip_and_lower(kw['keyword_name'])] = kw
+            kws[strip_and_lower(kw[DBJsonSetting.keyword_name])] = kw
         return kws
 
     def _parse_robot_data(self, file_path, model):
@@ -199,7 +199,7 @@ class DataParser():
             tmp['keyword_arguments'] = kw.args.value
             tmp['documentation'] = kw.doc.value
             tmp['tags'] = kw.tags.value
-            tmp['keyword_name'] = kw.name
+            tmp[DBJsonSetting.keyword_name] = kw.name
             kw_data[strip_and_lower(kw.name)] = tmp
         return kw_data
 
