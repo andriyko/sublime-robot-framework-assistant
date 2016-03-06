@@ -123,7 +123,7 @@ class DataParser():
             kw[DBJsonSetting.keyword_name] = keyword.name
             kw['tags'] = list(keyword.tags._tags)
             kw[DBJsonSetting.keyword_arguments] = keyword.args
-            kw['documentation'] = keyword.doc
+            kw[DBJsonSetting.documentation] = keyword.doc
             kws[strip_and_lower(keyword.name)] = kw
         return kws
 
@@ -166,7 +166,7 @@ class DataParser():
         for element in root.findall('kw'):
             kw = {}
             kw[DBJsonSetting.keyword_name] = element.attrib['name']
-            kw['documentation'] = element.find('doc').text
+            kw[DBJsonSetting.documentation] = element.find('doc').text
             tags = []
             [tags.append(tag.text) for tag in element.findall('.//tags/tag')]
             kw['tags'] = tags
@@ -197,7 +197,7 @@ class DataParser():
         for kw in model.keywords:
             tmp = {}
             tmp[DBJsonSetting.keyword_arguments] = kw.args.value
-            tmp['documentation'] = kw.doc.value
+            tmp[DBJsonSetting.documentation] = kw.doc.value
             tmp['tags'] = kw.tags.value
             tmp[DBJsonSetting.keyword_name] = kw.name
             kw_data[strip_and_lower(kw.name)] = tmp

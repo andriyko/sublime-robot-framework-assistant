@@ -2,6 +2,7 @@
 class DBJsonSetting(object):
     """Configuration for json files keys"""
 
+    documentation = 'documentation'
     file_name = 'file_name'
     file_path = 'file_path'
     keyword = 'keyword'
