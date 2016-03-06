@@ -189,7 +189,7 @@ class DataParser():
         )
         data['resources'] = res
         data['libraries'] = lib
-        data['variable_files'] = v_files
+        data[DBJsonSetting.variable_files] = v_files
         return data
 
     def _get_keywords(self, model):

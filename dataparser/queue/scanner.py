@@ -77,8 +77,8 @@ class Scanner(object):
         """Add resources and libraries to queue"""
         if LIBRARIES in data:
             self.add_libraries_queue(data[LIBRARIES])
-        if 'variable_files' in data:
-            self.add_var_files_queue(data['variable_files'])
+        if DBJsonSetting.variable_files in data:
+            self.add_var_files_queue(data[DBJsonSetting.variable_files])
         if 'resources' in data:
             self.add_resources_queue(data['resources'])
 
