@@ -230,7 +230,7 @@ class DataParser():
         data['library_name'] = lib_name
         data['library_alias'] = setting.alias
         data['library_arguments'] = setting.args
-        data['library_path'] = lib_path
+        data[DBJsonSetting.library_path] = lib_path
         return data
 
     def _format_resource(self, setting, file_path):

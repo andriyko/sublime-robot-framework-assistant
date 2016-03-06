@@ -114,8 +114,8 @@ class Scanner(object):
 
     def add_libraries_queue(self, libs):
         for lib in libs:
-            if lib['library_path']:
-                lib_module = lib['library_path']
+            if lib[DBJsonSetting.library_path]:
+                lib_module = lib[DBJsonSetting.library_path]
             else:
                 lib_module = lib['library_name']
             self.queue.add(

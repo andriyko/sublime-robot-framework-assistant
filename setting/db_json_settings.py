@@ -12,3 +12,4 @@ class DBJsonSetting(object):
     resources = 'resources'
     libraries = 'libraries'
     library = 'library'
+    library_path = 'library_path'

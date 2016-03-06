@@ -125,8 +125,8 @@ class Index(object):
     def get_library_imports(self, data):
         l = []
         for lib in data[DBJsonSetting.libraries]:
-            if lib['library_path']:
-                l.append(lib_table_name(lib['library_path']))
+            if lib[DBJsonSetting.library_path]:
+                l.append(lib_table_name(lib[DBJsonSetting.library_path]))
             else:
                 l.append(lib_table_name(lib['library_name']))
         return l
