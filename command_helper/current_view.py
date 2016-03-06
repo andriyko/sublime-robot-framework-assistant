@@ -2,11 +2,10 @@ import hashlib
 from os import path, listdir, mkdir
 from json import load as json_load
 from json import dump as json_dump
-
 try:
-    from queue.file_formatter import rf_table_name
+    from parser_utils.file_formatter import rf_table_name
 except:
-    from ..dataparser.queue.file_formatter import rf_table_name
+    from ..dataparser.queue.parser_utils.file_formatter import rf_table_name
 
 
 VIEW_FILE_NAME = 'current_view.json'

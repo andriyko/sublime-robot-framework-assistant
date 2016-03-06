@@ -5,7 +5,7 @@ from os import path, makedirs, listdir
 from json import load as json_load
 from json import dump as json_dump
 from collections import namedtuple
-from queue.file_formatter import rf_table_name, lib_table_name
+from parser_utils.file_formatter import rf_table_name, lib_table_name
 from queue.queue import ParsingQueue
 
 logging.basicConfig(

@@ -6,7 +6,7 @@ from robot.errors import DataError
 from finder import finder
 from data_parser.data_parser import DataParser
 from queue import ParsingQueue
-from file_formatter import rf_table_name, lib_table_name
+from parser_utils.file_formatter import rf_table_name, lib_table_name
 
 LIBRARIES = 'libraries'
 LIBRARY = 'library'
