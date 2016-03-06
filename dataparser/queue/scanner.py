@@ -7,6 +7,7 @@ from finder import finder
 from data_parser.data_parser import DataParser
 from queue import ParsingQueue
 from parser_utils.file_formatter import rf_table_name, lib_table_name
+from db_json_settings import DBJsonSetting
 
 LIBRARIES = 'libraries'
 LIBRARY = 'library'
@@ -83,8 +84,8 @@ class Scanner(object):
 
     def put_item_to_db(self, item, db_path):
         """Creates the json file to self.db_path"""
-        if 'file_path' in item:
-            f_name = rf_table_name(item['file_path'])
+        if DBJsonSetting.file_path in item:
+            f_name = rf_table_name(item[DBJsonSetting.file_path])
         elif 'library_module' in item:
             f_name = lib_table_name(item['library_module'])
         f = open(path.join(db_path, f_name), 'w')
