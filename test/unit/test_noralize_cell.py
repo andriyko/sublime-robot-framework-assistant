@@ -2,7 +2,7 @@ import unittest
 import env
 import json
 from os import path
-from return_keyword_table import ReturnKeywordAndObject
+from noralize_cell import ReturnKeywordAndObject
 
 
 class TestCompletions(unittest.TestCase):
