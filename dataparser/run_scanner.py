@@ -1,12 +1,18 @@
 import argparse
 import sys
+from os import path
+
+ROOT_DIR = path.dirname(path.abspath(__file__))
+SETTING_DIR = path.join(ROOT_DIR, '..', 'setting')
+sys.path.append(SETTING_DIR)
+
 from queue.scanner import Scanner
 
 
 def scan_all(workspace, extension, db_path,
              module_search_path):
-    for path in module_search_path:
-        sys.path.append(path)
+    for path_ in module_search_path:
+        sys.path.append(path_)
     scanner = Scanner()
     scanner.scan(
         workspace=workspace,

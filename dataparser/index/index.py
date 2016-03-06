@@ -138,8 +138,8 @@ class Index(object):
     def get_keywords(self, data):
         kw_list = []
         arg_list = []
-        if 'keywords' in data:
-            kws = data["keywords"]
+        if DBJsonSetting.keywords in data:
+            kws = data[DBJsonSetting.keywords]
             for kw in kws.iterkeys():
                 kw_list.append(kws[kw]['keyword_name'])
                 kw_args = self.get_kw_arguments(kws[kw]['keyword_arguments'])

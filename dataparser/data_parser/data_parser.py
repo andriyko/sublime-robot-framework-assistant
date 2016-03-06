@@ -10,6 +10,7 @@ import xml.etree.ElementTree as ET
 from tempfile import mkdtemp
 import logging
 from parser_utils.util import normalise_path
+from db_json_settings import DBJsonSetting
 
 logging.basicConfig(
     format='%(levelname)s:%(asctime)s: %(message)s',
@@ -86,17 +87,17 @@ class DataParser():
             data['file_path'] = normalise_path(library)
             data['library_module'] = path.splitext(data['file_name'])[0]
             if library.endswith('.xml'):
-                data['keywords'] = self._parse_xml_doc(library)
+                data[DBJsonSetting.keywords] = self._parse_xml_doc(library)
             elif library.endswith('.py'):
-                data['keywords'] = self._parse_python_lib(
+                data[DBJsonSetting.keywords] = self._parse_python_lib(
                     library, data['arguments'])
             else:
                 raise ValueError('Unknown library')
         else:
             data['library_module'] = library
-            data['keywords'] = self._parse_python_lib(
+            data[DBJsonSetting.keywords] = self._parse_python_lib(
                 library, data['arguments'])
-        if data['keywords'] is None:
+        if data[DBJsonSetting.keywords] is None:
             raise ValueError('Library did not contain keywords')
         else:
             return data
@@ -178,7 +179,7 @@ class DataParser():
         data = {}
         data['file_name'] = path.basename(file_path)
         data['file_path'] = normalise_path(file_path)
-        data['keywords'] = self._get_keywords(model)
+        data[DBJsonSetting.keywords] = self._get_keywords(model)
         data['variables'] = self._get_global_variables(model)
         lib, res, v_files = self._get_imports(
             model,
