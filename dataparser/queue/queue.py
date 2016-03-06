@@ -1,5 +1,6 @@
 from collections import OrderedDict
 from copy import deepcopy
+from db_json_settings import DBJsonSetting
 
 
 class ParsingQueue(object):
@@ -7,7 +8,7 @@ class ParsingQueue(object):
     def __init__(self):
         self.queue = OrderedDict({})
         self.rf_types = [
-            'library',
+            DBJsonSetting.library,
             'test_suite',
             'resource',
             None,

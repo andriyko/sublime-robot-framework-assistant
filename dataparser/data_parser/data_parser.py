@@ -156,7 +156,7 @@ class DataParser():
 
     def _parse_xml_doc(self, library):
         root = ET.parse(library).getroot()
-        if ('type', 'library') in root.items():
+        if ('type', DBJsonSetting.library) in root.items():
             return self._parse_xml_lib(root)
         else:
             ValueError('XML file is not library: {}'.format(root.items()))
@@ -188,7 +188,7 @@ class DataParser():
             file_path
         )
         data[DBJsonSetting.resources] = res
-        data['libraries'] = lib
+        data[DBJsonSetting.libraries] = lib
         data[DBJsonSetting.variable_files] = v_files
         return data
 

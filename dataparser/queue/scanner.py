@@ -9,8 +9,6 @@ from queue import ParsingQueue
 from parser_utils.file_formatter import rf_table_name, lib_table_name
 from db_json_settings import DBJsonSetting
 
-LIBRARIES = 'libraries'
-LIBRARY = 'library'
 logging.basicConfig(
     format='%(levelname)s:%(asctime)s: %(message)s',
     level=logging.DEBUG)
@@ -75,8 +73,8 @@ class Scanner(object):
 
     def add_to_queue(self, data):
         """Add resources and libraries to queue"""
-        if LIBRARIES in data:
-            self.add_libraries_queue(data[LIBRARIES])
+        if DBJsonSetting.libraries in data:
+            self.add_libraries_queue(data[DBJsonSetting.libraries])
         if DBJsonSetting.variable_files in data:
             self.add_var_files_queue(data[DBJsonSetting.variable_files])
         if DBJsonSetting.resources in data:
@@ -96,7 +94,7 @@ class Scanner(object):
         data_type = item[1]['type']
         if data_type in self.rf_data_type:
             return self.scan_rf_data(item[0])
-        elif data_type == LIBRARY:
+        elif data_type == DBJsonSetting.library:
             return self.parser.parse_library(item[0], item[1]['args'])
         elif data_type == 'variable_file':
             return self.parser.parse_variable_file(item[0], item[1]['args'])
@@ -122,7 +120,7 @@ class Scanner(object):
                 lib_module = lib['library_name']
             self.queue.add(
                 lib_module,
-                LIBRARY,
+                DBJsonSetting.library,
                 lib['library_arguments']
                 )
 
@@ -140,4 +138,4 @@ class Scanner(object):
             self.queue.add(resource, 'resource', None)
 
     def add_builtin(self):
-        self.queue.add('BuiltIn', LIBRARY, [])
+        self.queue.add('BuiltIn', DBJsonSetting.library, [])

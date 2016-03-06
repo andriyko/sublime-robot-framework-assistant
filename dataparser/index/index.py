@@ -112,7 +112,7 @@ class Index(object):
 
     def get_imports(self, data):
         result = []
-        if 'libraries' in data:
+        if DBJsonSetting.libraries in data:
             result += self.get_library_imports(data)
         if DBJsonSetting.variable_files in data:
             for var in data[DBJsonSetting.variable_files]:
@@ -124,7 +124,7 @@ class Index(object):
 
     def get_library_imports(self, data):
         l = []
-        for lib in data['libraries']:
+        for lib in data[DBJsonSetting.libraries]:
             if lib['library_path']:
                 l.append(lib_table_name(lib['library_path']))
             else:
