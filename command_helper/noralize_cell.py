@@ -6,6 +6,13 @@ except:
     from ..current_view import KW_COMPLETION
 
 
+def get_data_from_json(json_file):
+    f = open(json_file)
+    data = json_load(f)
+    f.close()
+    return data
+
+
 class ReturnKeywordAndObject(object):
     """From line searches the keyword name and possible object
 
@@ -94,6 +101,4 @@ class ReturnKeywordAndObject(object):
         return kw == kw_candite
 
     def _get_data(self):
-        f = open(self.current_view)
-        self.data = json_load(f)
-        f.close()
+        self.data = get_data_from_json(self.current_view)
