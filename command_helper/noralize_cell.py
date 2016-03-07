@@ -1,10 +1,10 @@
 import re
 try:
     from current_view import KW_COMPLETION
-    from utils.util import get_data_from_json
+    from utils.util import get_data_from_json, kw_equals_kw_candite
 except:
     from ..current_view import KW_COMPLETION
-    from ..utils.util import get_data_from_json
+    from ..utils.util import get_data_from_json, kw_equals_kw_candite
 
 
 class ReturnKeywordAndObject(object):
@@ -78,21 +78,10 @@ class ReturnKeywordAndObject(object):
                         keyword_canditate = match.group(1)
                     else:
                         keyword_canditate = ''
-                    if self.kw_equals_kw_candite(kw, keyword_canditate):
+                    if kw_equals_kw_candite(kw, keyword_canditate):
                         object_best_match = object_canditate
                         keyword_best_match = keyword_canditate
         return object_best_match, keyword_best_match
-
-    def kw_equals_kw_candite(self, kw, kw_candite):
-        """Returns True if kw == kw_canditate
-
-        Spaces, under score are removed and
-        strings are converted to lower before validation.
-        """
-        kw = kw.lower().replace(' ', '').replace('_', '')
-        kw_candite = kw_candite.lower().replace(' ', '').replace('_', '')
-        kw_candite = kw_candite.lstrip('.')
-        return kw == kw_candite
 
     def _get_data(self):
         self.data = get_data_from_json(self.current_view)

@@ -5,6 +5,7 @@ from os import path
 from noralize_cell import ReturnKeywordAndObject
 
 
+
 class TestCompletions(unittest.TestCase):
 
     @classmethod
@@ -99,22 +100,6 @@ class TestCompletions(unittest.TestCase):
         object_name, keyword = self.rkao.separate_keyword_from_object(cell)
         self.assertEqual(object_name, library)
         self.assertEqual(keyword, kw)
-
-    def test_kw_equals_kw_candite(self):
-        kw1 = 'My Long Keyword'
-        kw2 = '.My Long Keyword'
-        self.assertTrue(self.rkao.kw_equals_kw_candite(kw1, kw2))
-        kw2 = 'Not Same'
-        self.assertFalse(self.rkao.kw_equals_kw_candite(kw1, kw2))
-        kw1 = 'My Long Keyword'
-        kw2 = '.my long keyword'
-        self.assertTrue(self.rkao.kw_equals_kw_candite(kw1, kw2))
-        kw1 = 'My Long Keyword'
-        kw2 = '.my_LONG_keyword'
-        self.assertTrue(self.rkao.kw_equals_kw_candite(kw1, kw2))
-        kw1 = 'My Long Keyword'
-        kw2 = '.myLONGkeyword'
-        self.assertTrue(self.rkao.kw_equals_kw_candite(kw1, kw2))
 
     def test_get_data(self):
         self.rkao._get_data()
