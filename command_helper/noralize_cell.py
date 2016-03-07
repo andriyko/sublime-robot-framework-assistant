@@ -3,8 +3,8 @@ try:
     from current_view import KW_COMPLETION
     from utils.util import get_data_from_json, kw_equals_kw_candite
 except:
-    from ..current_view import KW_COMPLETION
-    from ..utils.util import get_data_from_json, kw_equals_kw_candite
+    from .current_view import KW_COMPLETION
+    from .utils.util import get_data_from_json, kw_equals_kw_candite
 
 
 class ReturnKeywordAndObject(object):
@@ -16,7 +16,7 @@ class ReturnKeywordAndObject(object):
     """
     def __init__(self, current_view, rf_cell):
         self.index_data = None
-        self.current_view = current_view
+        self.current_view = current_view  # Currently open tab
         self.rf_cell = rf_cell
 
     def normalize(self, line, column):

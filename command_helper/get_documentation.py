@@ -1,16 +1,16 @@
 from os import path
 try:
     from parser_utils.file_formatter import rf_table_name
-    from index.index import get_index_name
+    from parser_utils.util import get_index_name, normalise_path
     from noralize_cell import get_data_from_json
     from db_json_settings import DBJsonSetting
     from utils.util import kw_equals_kw_candite
 except:
     from ..dataparser.parser_utils.file_formatter import rf_table_name
-    from ..dataparser.index.index import get_index_name
+    from ..dataparser.parser_utils.util import get_index_name, normalise_path
     from ..command_helper.noralize_cell import get_data_from_json
     from ..setting.db_json_settings import DBJsonSetting
-    from ..utils.util import kw_equals_kw_candite
+    from ..command_helper.utils.util import kw_equals_kw_candite
 
 
 class GetKeywordDocumentation(object):
@@ -52,7 +52,8 @@ class GetKeywordDocumentation(object):
         ``keyword``     -- Keyword documentation to search from database.
         ``object_name`` -- Library or resource object name.
         """
-        index_name = get_index_name(rf_table_name(self.open_tab))
+        open_tab = normalise_path(self.open_tab)
+        index_name = get_index_name(rf_table_name(open_tab))
         index_data = get_data_from_json(
             path.join(self.index_dir, index_name)
         )

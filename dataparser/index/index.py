@@ -6,16 +6,13 @@ from json import load as json_load
 from json import dump as json_dump
 from collections import namedtuple
 from parser_utils.file_formatter import rf_table_name, lib_table_name
+from parser_utils.util import get_index_name
 from queue.queue import ParsingQueue
 from db_json_settings import DBJsonSetting
 
 logging.basicConfig(
     format='%(levelname)s:%(asctime)s: %(message)s',
     level=logging.DEBUG)
-
-
-def get_index_name(table_name):
-    return 'index-{0}'.format(table_name)
 
 
 class Index(object):
