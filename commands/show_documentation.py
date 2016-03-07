@@ -29,5 +29,8 @@ class ShowKeywordDocumentation(sublime_plugin.TextCommand):
             keyword, object_name = get_kw.normalize(line, column)
             get_doc = GetKeywordDocumentation(db_dir, index_db, open_tab)
             doc = get_doc.return_documentation(object_name, keyword)
+            if not doc:
+                doc = 'No documentation found for keyword: "{0}"'.format(
+                    keyword)
             panel.run_command('append', {'characters': doc})
             w.run_command('show_panel', {'panel': 'output.kw_documentation'})
