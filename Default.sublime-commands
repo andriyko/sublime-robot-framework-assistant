@@ -2,5 +2,9 @@
     {
         "caption": "Robot Framework: Scan and index",
         "command": "scan_index"
+    },
+    {
+        "caption": "Robot Framework: Show keyword documentation",
+        "command": "show_keyword_documentation"
     }
 ]

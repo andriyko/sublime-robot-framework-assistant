@@ -1,0 +1,7 @@
+[
+    {
+      "button": "button1", "count": 1, "modifiers": ["alt", "ctrl"],
+      "press_command": "drag_select",
+      "command": "show_keyword_documentation"
+    }
+]

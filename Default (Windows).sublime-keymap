@@ -1,0 +1,4 @@
+[
+    { "keys": ["ctrl+alt+enter"], "command": "show_keyword_documentation" }
+
+]
