@@ -1,0 +1,33 @@
+{
+    "file_name": "resource_a.robot", 
+    "variables": [
+        "${RESOURCE_A}"
+    ], 
+    "libraries": [
+        {
+            "library_name": "OperatingSystem", 
+            "library_path": null, 
+            "library_alias": null, 
+            "library_arguments": []
+        }
+    ], 
+    "variable_files": [], 
+    "keywords": {
+        "resource_a_keyword_1": {
+            "keyword_arguments": [
+                "${kwa1}"
+            ], 
+            "documentation": "", 
+            "keyword_name": "Resource A Keyword 1", 
+            "tags": null
+        }, 
+        "resource_a_keyword_2": {
+            "keyword_arguments": [], 
+            "documentation": "", 
+            "keyword_name": "Resource A Keyword 2", 
+            "tags": null
+        }
+    }, 
+    "file_path": "d:\\workspace\\robotframework-from-sublime\\test\\resource\\test_data\\suite_tree\\resource_a.robot", 
+    "resources": []
+}

@@ -1,0 +1,8 @@
+{
+    "file_name": "common_variables.py", 
+    "variables": [
+        "${COMMON_VARIABLE_1}", 
+        "${COMMON_VARIABLE_2}"
+    ], 
+    "file_path": "d:\\workspace\\robotframework-from-sublime\\test\\resource\\test_data\\suite_tree\\common_variables.py"
+}

@@ -1,0 +1,1392 @@
+{
+    "keywords": {
+        "set_window_position": {
+            "keyword_name": "Set Window Position", 
+            "keyword_arguments": [
+                "x", 
+                "y"
+            ], 
+            "documentation": "Sets the position `x` and `y` of the current window to the specified values.\n\nExample:\n| Set Window Size | ${1000} | ${0}       |\n| ${x} | ${y}= | Get Window Position |\n| Should Be Equal | ${x}      | ${1000}   |\n| Should Be Equal | ${y}      | ${0}      |", 
+            "tags": []
+        }, 
+        "element_should_be_disabled": {
+            "keyword_name": "Element Should Be Disabled", 
+            "keyword_arguments": [
+                "locator"
+            ], 
+            "documentation": "Verifies that element identified with `locator` is disabled.\n\nKey attributes for arbitrary elements are `id` and `name`. See\n`introduction` for details about locating elements.", 
+            "tags": []
+        }, 
+        "press_key": {
+            "keyword_name": "Press Key", 
+            "keyword_arguments": [
+                "locator", 
+                "key"
+            ], 
+            "documentation": "Simulates user pressing key on element identified by `locator`.\n\n`key` is either a single character, or a numerical ASCII code of the key\nlead by '\\\\'.\n\nExamples:\n| Press Key | text_field   | q |\n| Press Key | login_button | \\\\13 | # ASCII code for enter key |", 
+            "tags": []
+        }, 
+        "simulate": {
+            "keyword_name": "Simulate", 
+            "keyword_arguments": [
+                "locator", 
+                "event"
+            ], 
+            "documentation": "Simulates `event` on element identified by `locator`.\n\nThis keyword is useful if element has OnEvent handler that needs to be\nexplicitly invoked.\n\nSee `introduction` for details about locating elements.", 
+            "tags": []
+        }, 
+        "get_text": {
+            "keyword_name": "Get Text", 
+            "keyword_arguments": [
+                "locator"
+            ], 
+            "documentation": "Returns the text value of element identified by `locator`.\n\nSee `introduction` for details about locating elements.", 
+            "tags": []
+        }, 
+        "click_element_at_coordinates": {
+            "keyword_name": "Click Element At Coordinates", 
+            "keyword_arguments": [
+                "locator", 
+                "xoffset", 
+                "yoffset"
+            ], 
+            "documentation": "Click element identified by `locator` at x/y coordinates of the element.\nCursor is moved and the center of the element and x/y coordinates are\ncalculted from that point.\n\nKey attributes for arbitrary elements are `id` and `name`. See\n`introduction` for details about locating elements.", 
+            "tags": []
+        }, 
+        "reload_page": {
+            "keyword_name": "Reload Page", 
+            "keyword_arguments": [], 
+            "documentation": "Simulates user reloading page.", 
+            "tags": []
+        }, 
+        "get_location": {
+            "keyword_name": "Get Location", 
+            "keyword_arguments": [], 
+            "documentation": "Returns the current location.", 
+            "tags": []
+        }, 
+        "focus": {
+            "keyword_name": "Focus", 
+            "keyword_arguments": [
+                "locator"
+            ], 
+            "documentation": "Sets focus to element identified by `locator`.", 
+            "tags": []
+        }, 
+        "get_element_attribute": {
+            "keyword_name": "Get Element Attribute", 
+            "keyword_arguments": [
+                "attribute_locator"
+            ], 
+            "documentation": "Return value of element attribute.\n\n`attribute_locator` consists of element locator followed by an @ sign\nand attribute name, for example \"element_id@class\".", 
+            "tags": []
+        }, 
+        "table_column_should_contain": {
+            "keyword_name": "Table Column Should Contain", 
+            "keyword_arguments": [
+                "table_locator", 
+                "col", 
+                "expected", 
+                "loglevel=INFO"
+            ], 
+            "documentation": "Verifies that a specific column contains `expected`.\n\nThe first leftmost column is column number 1. A negative column\nnumber can be used to get column counting from the end of the row (end: -1).\nIf the table contains cells that span multiple columns, those merged cells\ncount as a single column. For example both tests below work,\nif in one row columns A and B are merged with colspan=\"2\", and\nthe logical third column contains \"C\".\n\nExample:\n| Table Column Should Contain | tableId | 3 | C |\n| Table Column Should Contain | tableId | 2 | C |\n\nTo understand how tables are identified, please take a look at\nthe `introduction`.\n\nSee `Page Should Contain Element` for explanation about\n`loglevel` argument.", 
+            "tags": []
+        }, 
+        "textarea_value_should_be": {
+            "keyword_name": "Textarea Value Should Be", 
+            "keyword_arguments": [
+                "locator", 
+                "expected", 
+                "message="
+            ], 
+            "documentation": "Verifies the value in text area identified by `locator` is exactly `expected`.\n\n`message` can be used to override default error message.\n\nKey attributes for text areas are `id` and `name`. See `introduction`\nfor details about locating elements.", 
+            "tags": []
+        }, 
+        "dismiss_alert": {
+            "keyword_name": "Dismiss Alert", 
+            "keyword_arguments": [
+                "accept=True"
+            ], 
+            "documentation": "Returns true if alert was confirmed, false if it was dismissed\n\nThis keyword will fail if no alert is present. Note that\nfollowing keywords will fail unless the alert is\ndismissed by this keyword or another like `Get Alert Message`.", 
+            "tags": []
+        }, 
+        "page_should_not_contain_element": {
+            "keyword_name": "Page Should Not Contain Element", 
+            "keyword_arguments": [
+                "locator", 
+                "message=", 
+                "loglevel=INFO"
+            ], 
+            "documentation": "Verifies element identified by `locator` is not found on the current page.\n\n`message` can be used to override the default error message.\n\nSee `Page Should Contain ` for explanation about `loglevel` argument.\n\nKey attributes for arbitrary elements are `id` and `name`. See\n`introduction` for details about locating elements.", 
+            "tags": []
+        }, 
+        "set_selenium_implicit_wait": {
+            "keyword_name": "Set Selenium Implicit Wait", 
+            "keyword_arguments": [
+                "seconds"
+            ], 
+            "documentation": "Sets Selenium 2's default implicit wait in seconds and\nsets the implicit wait for all open browsers.\n\nFrom selenium 2 function 'Sets a sticky timeout to implicitly \n    wait for an element to be found, or a command to complete.\n    This method only needs to be called one time per session.'\n\nExample:\n| ${orig wait} = | Set Selenium Implicit Wait | 10 seconds |\n| Perform AJAX call that is slow |\n| Set Selenium Implicit Wait | ${orig wait} |", 
+            "tags": []
+        }, 
+        "get_horizontal_position": {
+            "keyword_name": "Get Horizontal Position", 
+            "keyword_arguments": [
+                "locator"
+            ], 
+            "documentation": "Returns horizontal position of element identified by `locator`.\n\nThe position is returned in pixels off the left side of the page,\nas an integer. Fails if a matching element is not found.\n\nSee also `Get Vertical Position`.", 
+            "tags": []
+        }, 
+        "element_should_not_contain": {
+            "keyword_name": "Element Should Not Contain", 
+            "keyword_arguments": [
+                "locator", 
+                "expected", 
+                "message="
+            ], 
+            "documentation": "Verifies element identified by `locator` does not contain text `expected`.\n\n`message` can be used to override the default error message.\n\nKey attributes for arbitrary elements are `id` and `name`. See\n`Element Should Contain` for more details.", 
+            "tags": []
+        }, 
+        "wait_until_page_contains": {
+            "keyword_name": "Wait Until Page Contains", 
+            "keyword_arguments": [
+                "text", 
+                "timeout=None", 
+                "error=None"
+            ], 
+            "documentation": "Waits until `text` appears on current page.\n\nFails if `timeout` expires before the text appears. See\n`introduction` for more information about `timeout` and its\ndefault value.\n\n`error` can be used to override the default error message.\n\nSee also `Wait Until Page Contains Element`, `Wait For Condition`,\n`Wait Until Element Is Visible` and BuiltIn keyword `Wait Until\nKeyword Succeeds`.", 
+            "tags": []
+        }, 
+        "unselect_from_list_by_label": {
+            "keyword_name": "Unselect From List By Label", 
+            "keyword_arguments": [
+                "locator", 
+                "*labels"
+            ], 
+            "documentation": "Unselects `*labels` from list identified by `locator`\n\nSelect list keywords work on both lists and combo boxes. Key attributes for\nselect lists are `id` and `name`. See `introduction` for details about\nlocating elements.", 
+            "tags": []
+        }, 
+        "input_text": {
+            "keyword_name": "Input Text", 
+            "keyword_arguments": [
+                "locator", 
+                "text"
+            ], 
+            "documentation": "Types the given `text` into text field identified by `locator`.\n\nSee `introduction` for details about locating elements.", 
+            "tags": []
+        }, 
+        "page_should_not_contain_radio_button": {
+            "keyword_name": "Page Should Not Contain Radio Button", 
+            "keyword_arguments": [
+                "locator", 
+                "message=", 
+                "loglevel=INFO"
+            ], 
+            "documentation": "Verifies radio button identified by `locator` is not found from current page.\n\nSee `Page Should Contain Element` for explanation about `message` and\n`loglevel` arguments.\n\nKey attributes for radio buttons are `id`, `name` and `value`. See\n`introduction` for details about locating elements.", 
+            "tags": []
+        }, 
+        "go_to": {
+            "keyword_name": "Go To", 
+            "keyword_arguments": [
+                "url"
+            ], 
+            "documentation": "Navigates the active browser instance to the provided URL.", 
+            "tags": []
+        }, 
+        "table_row_should_contain": {
+            "keyword_name": "Table Row Should Contain", 
+            "keyword_arguments": [
+                "table_locator", 
+                "row", 
+                "expected", 
+                "loglevel=INFO"
+            ], 
+            "documentation": "Verifies that a specific table row contains `expected`.\n\nThe uppermost row is row number 1. A negative column\nnumber can be used to get column counting from the end of the row\n(end: -1). For tables that are structured with thead, tbody and tfoot,\nonly the tbody section is searched. Please use `Table Header Should Contain`\nor `Table Footer Should Contain` for tests against the header or\nfooter content.\n\nIf the table contains cells that span multiple rows, a match\nonly occurs for the uppermost row of those merged cells. To\nunderstand how tables are identified, please take a look at\nthe `introduction`.\n\nSee `Page Should Contain Element` for explanation about `loglevel` argument.", 
+            "tags": []
+        }, 
+        "mouse_down_on_image": {
+            "keyword_name": "Mouse Down On Image", 
+            "keyword_arguments": [
+                "locator"
+            ], 
+            "documentation": "Simulates a mouse down event on an image.\n\nKey attributes for images are `id`, `src` and `alt`. See\n`introduction` for details about locating elements.", 
+            "tags": []
+        }, 
+        "wait_until_element_is_not_visible": {
+            "keyword_name": "Wait Until Element Is Not Visible", 
+            "keyword_arguments": [
+                "locator", 
+                "timeout=None", 
+                "error=None"
+            ], 
+            "documentation": "Waits until element specified with `locator` is not visible.\n\nFails if `timeout` expires before the element is not visible. See\n`introduction` for more information about `timeout` and its\ndefault value.\n\n`error` can be used to override the default error message.\n\nSee also `Wait Until Page Contains`, `Wait Until Page Contains\nElement`, `Wait For Condition` and BuiltIn keyword `Wait Until Keyword\nSucceeds`.", 
+            "tags": []
+        }, 
+        "table_cell_should_contain": {
+            "keyword_name": "Table Cell Should Contain", 
+            "keyword_arguments": [
+                "table_locator", 
+                "row", 
+                "column", 
+                "expected", 
+                "loglevel=INFO"
+            ], 
+            "documentation": "Verifies that a certain cell in a table contains `expected`.\n\nRow and column number start from 1. This keyword passes if the\nspecified cell contains the given content. If you want to test\nthat the cell content matches exactly, or that it e.g. starts\nwith some text, use `Get Table Cell` keyword in combination\nwith built-in keywords such as `Should Be Equal` or `Should\nStart With`.\n\nTo understand how tables are identified, please take a look at\nthe `introduction`.\n\nSee `Page Should Contain` for explanation about `loglevel` argument.", 
+            "tags": []
+        }, 
+        "input_password": {
+            "keyword_name": "Input Password", 
+            "keyword_arguments": [
+                "locator", 
+                "text"
+            ], 
+            "documentation": "Types the given password into text field identified by `locator`.\n\nDifference between this keyword and `Input Text` is that this keyword\ndoes not log the given password. See `introduction` for details about\nlocating elements.", 
+            "tags": []
+        }, 
+        "title_should_be": {
+            "keyword_name": "Title Should Be", 
+            "keyword_arguments": [
+                "title"
+            ], 
+            "documentation": "Verifies that current page title equals `title`.", 
+            "tags": []
+        }, 
+        "radio_button_should_be_set_to": {
+            "keyword_name": "Radio Button Should Be Set To", 
+            "keyword_arguments": [
+                "group_name", 
+                "value"
+            ], 
+            "documentation": "Verifies radio button group identified by `group_name` has its selection set to `value`.\n\nSee `Select Radio Button` for information about how radio buttons are\nlocated.", 
+            "tags": []
+        }, 
+        "assign_id_to_element": {
+            "keyword_name": "Assign Id To Element", 
+            "keyword_arguments": [
+                "locator", 
+                "id"
+            ], 
+            "documentation": "Assigns a temporary identifier to element specified by `locator`.\n\nThis is mainly useful if the locator is complicated/slow XPath expression.\nIdentifier expires when the page is reloaded.\n\nExample:\n| Assign ID to Element | xpath=//div[@id=\"first_div\"] | my id |\n| Page Should Contain Element | my id |", 
+            "tags": []
+        }, 
+        "go_back": {
+            "keyword_name": "Go Back", 
+            "keyword_arguments": [], 
+            "documentation": "Simulates the user clicking the \"back\" button on their browser.", 
+            "tags": []
+        }, 
+        "page_should_contain_checkbox": {
+            "keyword_name": "Page Should Contain Checkbox", 
+            "keyword_arguments": [
+                "locator", 
+                "message=", 
+                "loglevel=INFO"
+            ], 
+            "documentation": "Verifies checkbox identified by `locator` is found from current page.\n\nSee `Page Should Contain Element` for explanation about `message` and\n`loglevel` arguments.\n\nKey attributes for checkboxes are `id` and `name`. See `introduction`\nfor details about locating elements.", 
+            "tags": []
+        }, 
+        "create_webdriver": {
+            "keyword_name": "Create Webdriver", 
+            "keyword_arguments": [
+                "driver_name", 
+                "alias=None", 
+                "kwargs={}", 
+                "**init_kwargs"
+            ], 
+            "documentation": "Creates an instance of a WebDriver.\n\nLike `Open Browser`, but allows passing arguments to a WebDriver's\n__init__. _Open Browser_ is preferred over _Create Webdriver_ when\nfeasible.\n\nReturns the index of this browser instance which can be used later to\nswitch back to it. Index starts from 1 and is reset back to it when\n`Close All Browsers` keyword is used. See `Switch Browser` for\nexample.\n\n`driver_name` must be the exact name of a WebDriver in\n_selenium.webdriver_ to use. WebDriver names include: Firefox, Chrome,\nIe, Opera, Safari, PhantomJS, and Remote.\n\nUse keyword arguments to specify the arguments you want to pass to\nthe WebDriver's __init__. The values of the arguments are not\nprocessed in any way before being passed on. For Robot Framework\n< 2.8, which does not support keyword arguments, create a keyword\ndictionary and pass it in as argument `kwargs`. See the\n[http://selenium.googlecode.com/git/docs/api/py/api.html|Selenium API Documentation]\nfor information about argument names and appropriate argument values.\n\nExamples:\n| # use proxy for Firefox     |              |                                           |                         |\n| ${proxy}=                   | Evaluate     | sys.modules['selenium.webdriver'].Proxy() | sys, selenium.webdriver |\n| ${proxy.http_proxy}=        | Set Variable | localhost:8888                            |                         |\n| Create Webdriver            | Firefox      | proxy=${proxy}                            |                         |\n| # use a proxy for PhantomJS |              |                                           |                         |\n| ${service args}=            | Create List  | --proxy=192.168.132.104:8888              |                         |\n| Create Webdriver            | PhantomJS    | service_args=${service args}              |                         |\n\nExample for Robot Framework < 2.8:\n| # debug IE driver |                   |                  |       |          |                       |\n| ${kwargs}=        | Create Dictionary | log_level        | DEBUG | log_file | %{HOMEPATH}${/}ie.log |\n| Create Webdriver  | Ie                | kwargs=${kwargs} |       |          |                       |", 
+            "tags": []
+        }, 
+        "set_selenium_timeout": {
+            "keyword_name": "Set Selenium Timeout", 
+            "keyword_arguments": [
+                "seconds"
+            ], 
+            "documentation": "Sets the timeout in seconds used by various keywords.\n\nThere are several `Wait ...` keywords that take timeout as an\nargument. All of these timeout arguments are optional. The timeout\nused by all of them can be set globally using this keyword.\nSee `Timeouts` for more information about timeouts.\n\nThe previous timeout value is returned by this keyword and can\nbe used to set the old value back later. The default timeout\nis 5 seconds, but it can be altered in `importing`.\n\nExample:\n| ${orig timeout} = | Set Selenium Timeout | 15 seconds |\n| Open page that loads slowly |\n| Set Selenium Timeout | ${orig timeout} |", 
+            "tags": []
+        }, 
+        "set_browser_implicit_wait": {
+            "keyword_name": "Set Browser Implicit Wait", 
+            "keyword_arguments": [
+                "seconds"
+            ], 
+            "documentation": "Sets current browser's implicit wait in seconds.\n\nFrom selenium 2 function 'Sets a sticky timeout to implicitly \n    wait for an element to be found, or a command to complete.\n    This method only needs to be called one time per session.'\n\nExample:\n| Set Browser Implicit Wait | 10 seconds |\n\nSee also `Set Selenium Implicit Wait`.", 
+            "tags": []
+        }, 
+        "unselect_checkbox": {
+            "keyword_name": "Unselect Checkbox", 
+            "keyword_arguments": [
+                "locator"
+            ], 
+            "documentation": "Removes selection of checkbox identified by `locator`.\n\nDoes nothing if the checkbox is not checked. Key attributes for\ncheckboxes are `id` and `name`. See `introduction` for details about\nlocating elements.", 
+            "tags": []
+        }, 
+        "click_button": {
+            "keyword_name": "Click Button", 
+            "keyword_arguments": [
+                "locator"
+            ], 
+            "documentation": "Clicks a button identified by `locator`.\n\nKey attributes for buttons are `id`, `name` and `value`. See\n`introduction` for details about locating elements.", 
+            "tags": []
+        }, 
+        "page_should_not_contain_image": {
+            "keyword_name": "Page Should Not Contain Image", 
+            "keyword_arguments": [
+                "locator", 
+                "message=", 
+                "loglevel=INFO"
+            ], 
+            "documentation": "Verifies image identified by `locator` is found from current page.\n\nSee `Page Should Contain Element` for explanation about `message` and\n`loglevel` arguments.\n\nKey attributes for images are `id`, `src` and `alt`. See\n`introduction` for details about locating elements.", 
+            "tags": []
+        }, 
+        "element_text_should_be": {
+            "keyword_name": "Element Text Should Be", 
+            "keyword_arguments": [
+                "locator", 
+                "expected", 
+                "message="
+            ], 
+            "documentation": "Verifies element identified by `locator` exactly contains text `expected`.\n\nIn contrast to `Element Should Contain`, this keyword does not try\na substring match but an exact match on the element identified by `locator`.\n\n`message` can be used to override the default error message.\n\nKey attributes for arbitrary elements are `id` and `name`. See\n`introduction` for details about locating elements.", 
+            "tags": []
+        }, 
+        "wait_until_page_does_not_contain_element": {
+            "keyword_name": "Wait Until Page Does Not Contain Element", 
+            "keyword_arguments": [
+                "locator", 
+                "timeout=None", 
+                "error=None"
+            ], 
+            "documentation": "Waits until element specified with `locator` disappears from current page.\n\nFails if `timeout` expires before the element disappears. See\n`introduction` for more information about `timeout` and its\ndefault value.\n\n`error` can be used to override the default error message.\n\nSee also `Wait Until Page Contains`, `Wait For Condition`,\n`Wait Until Element Is Visible` and BuiltIn keyword `Wait Until\nKeyword Succeeds`.", 
+            "tags": []
+        }, 
+        "page_should_not_contain_checkbox": {
+            "keyword_name": "Page Should Not Contain Checkbox", 
+            "keyword_arguments": [
+                "locator", 
+                "message=", 
+                "loglevel=INFO"
+            ], 
+            "documentation": "Verifies checkbox identified by `locator` is not found from current page.\n\nSee `Page Should Contain Element` for explanation about `message` and\n`loglevel` arguments.\n\nKey attributes for checkboxes are `id` and `name`. See `introduction`\nfor details about locating elements.", 
+            "tags": []
+        }, 
+        "get_alert_message": {
+            "keyword_name": "Get Alert Message", 
+            "keyword_arguments": [
+                "dismiss=True"
+            ], 
+            "documentation": "Returns the text of current JavaScript alert.\n\nBy default the current JavaScript alert will be dismissed.\nThis keyword will fail if no alert is present. Note that\nfollowing keywords will fail unless the alert is\ndismissed by this keyword or another like `Get Alert Message`.", 
+            "tags": []
+        }, 
+        "set_window_size": {
+            "keyword_name": "Set Window Size", 
+            "keyword_arguments": [
+                "width", 
+                "height"
+            ], 
+            "documentation": "Sets the `width` and `height` of the current window to the specified values.\n\nExample:\n| Set Window Size | ${800} | ${600}       |\n| ${width} | ${height}= | Get Window Size |\n| Should Be Equal | ${width}  | ${800}    |\n| Should Be Equal | ${height} | ${600}    |", 
+            "tags": []
+        }, 
+        "select_from_list": {
+            "keyword_name": "Select From List", 
+            "keyword_arguments": [
+                "locator", 
+                "*items"
+            ], 
+            "documentation": "Selects `*items` from list identified by `locator`\n\nIf more than one value is given for a single-selection list, the last\nvalue will be selected. If the target list is a multi-selection list,\nand `*items` is an empty list, all values of the list will be selected.\n\n*items try to select by value then by label.\n\nIt's faster to use 'by index/value/label' functions.\n\nAn exception is raised for a single-selection list if the last\nvalue does not exist in the list and a warning for all other non-\nexisting items. For a multi-selection list, an exception is raised\nfor any and all non-existing values.\n\nSelect list keywords work on both lists and combo boxes. Key attributes for\nselect lists are `id` and `name`. See `introduction` for details about\nlocating elements.", 
+            "tags": []
+        }, 
+        "get_selenium_timeout": {
+            "keyword_name": "Get Selenium Timeout", 
+            "keyword_arguments": [], 
+            "documentation": "Gets the timeout in seconds that is used by various keywords.\n\nSee `Set Selenium Timeout` for an explanation.", 
+            "tags": []
+        }, 
+        "get_webelements": {
+            "keyword_name": "Get Webelements", 
+            "keyword_arguments": [
+                "locator"
+            ], 
+            "documentation": "Returns list of WebElement objects matching locator.\n\nSee `introduction` for details about locating elements.", 
+            "tags": []
+        }, 
+        "log_location": {
+            "keyword_name": "Log Location", 
+            "keyword_arguments": [], 
+            "documentation": "Logs and returns the current location.", 
+            "tags": []
+        }, 
+        "select_window": {
+            "keyword_name": "Select Window", 
+            "keyword_arguments": [
+                "locator=None"
+            ], 
+            "documentation": "Selects the window matching locator and return previous window handle.\n\nlocator: any of name, title, url, window handle, excluded handle's list, or special words.\nreturn: either current window handle before selecting, or None if no current window.\n\nIf the window is found, all subsequent commands use that window, until\nthis keyword is used again. If the window is not found, this keyword fails.\n\nBy default, when a locator value is provided,\nit is matched against the title of the window and the\njavascript name of the window. If multiple windows with\nsame identifier are found, the first one is selected.\n\nThere are some special locators for searching target window:\nstring 'main' (default): select the main window;\nstring 'self': only return current window handle;\nstring 'new': select the last-indexed window assuming it is the newest opened window\nwindow list: select the first window not in given list (See 'List Windows' to get the list)\n\nIt is also possible to specify the approach Selenium2Library should take\nto find a window by specifying a locator strategy:\n\n| *Strategy* | *Example*                               | *Description*                        |\n| title      | Select Window `|` title=My Document     | Matches by window title              |\n| name       | Select Window `|` name=${name}          | Matches by window javascript name    |\n| url        | Select Window `|` url=http://google.com | Matches by window's current URL      |\n\nExample:\n| Click Link | popup_link | # opens new window |\n| Select Window | popupName |\n| Title Should Be | Popup Title |\n| Select Window |  | | # Chooses the main window again |", 
+            "tags": []
+        }, 
+        "click_image": {
+            "keyword_name": "Click Image", 
+            "keyword_arguments": [
+                "locator"
+            ], 
+            "documentation": "Clicks an image found by `locator`.\n\nKey attributes for images are `id`, `src` and `alt`. See\n`introduction` for details about locating elements.", 
+            "tags": []
+        }, 
+        "current_frame_should_not_contain": {
+            "keyword_name": "Current Frame Should Not Contain", 
+            "keyword_arguments": [
+                "text", 
+                "loglevel=INFO"
+            ], 
+            "documentation": "Verifies that current frame contains `text`.\n\nSee `Page Should Contain ` for explanation about `loglevel` argument.", 
+            "tags": []
+        }, 
+        "add_cookie": {
+            "keyword_name": "Add Cookie", 
+            "keyword_arguments": [
+                "name", 
+                "value", 
+                "path=None", 
+                "domain=None", 
+                "secure=None", 
+                "expiry=None"
+            ], 
+            "documentation": "Adds a cookie to your current session.\n\"name\" and \"value\" are required, \"path\", \"domain\" and \"secure\" are\noptional", 
+            "tags": []
+        }, 
+        "mouse_down": {
+            "keyword_name": "Mouse Down", 
+            "keyword_arguments": [
+                "locator"
+            ], 
+            "documentation": "Simulates pressing the left mouse button on the element specified by `locator`.\n\nThe element is pressed without releasing the mouse button.\n\nKey attributes for arbitrary elements are `id` and `name`. See\n`introduction` for details about locating elements.\n\nSee also the more specific keywords `Mouse Down On Image` and\n`Mouse Down On Link`.", 
+            "tags": []
+        }, 
+        "get_window_identifiers": {
+            "keyword_name": "Get Window Identifiers", 
+            "keyword_arguments": [], 
+            "documentation": "Returns and logs id attributes of all windows known to the browser.", 
+            "tags": []
+        }, 
+        "select_from_list_by_value": {
+            "keyword_name": "Select From List By Value", 
+            "keyword_arguments": [
+                "locator", 
+                "*values"
+            ], 
+            "documentation": "Selects `*values` from list identified by `locator`\n\nSelect list keywords work on both lists and combo boxes. Key attributes for\nselect lists are `id` and `name`. See `introduction` for details about\nlocating elements.", 
+            "tags": []
+        }, 
+        "add_location_strategy": {
+            "keyword_name": "Add Location Strategy", 
+            "keyword_arguments": [
+                "strategy_name", 
+                "strategy_keyword", 
+                "persist=False"
+            ], 
+            "documentation": "Adds a custom location strategy based on a user keyword. Location strategies are\nautomatically removed after leaving the current scope by default. Setting `persist`\nto any non-empty string will cause the location strategy to stay registered throughout\nthe life of the test.\n\nTrying to add a custom location strategy with the same name as one that already exists will\ncause the keyword to fail.\n\nCustom locator keyword example:\n| Custom Locator Strategy | [Arguments] | ${browser} | ${criteria} | ${tag} | ${constraints} |\n|   | ${retVal}= | Execute Javascript | return window.document.getElementById('${criteria}'); |\n|   | [Return] | ${retVal} |\n\nUsage example:\n| Add Location Strategy | custom | Custom Locator Strategy |\n| Page Should Contain Element | custom=my_id |\n\nSee `Remove Location Strategy` for details about removing a custom location strategy.", 
+            "tags": []
+        }, 
+        "unselect_from_list_by_index": {
+            "keyword_name": "Unselect From List By Index", 
+            "keyword_arguments": [
+                "locator", 
+                "*indexes"
+            ], 
+            "documentation": "Unselects `*indexes` from list identified by `locator`\n\nSelect list keywords work on both lists and combo boxes. Key attributes for\nselect lists are `id` and `name`. See `introduction` for details about\nlocating elements.", 
+            "tags": []
+        }, 
+        "page_should_contain_link": {
+            "keyword_name": "Page Should Contain Link", 
+            "keyword_arguments": [
+                "locator", 
+                "message=", 
+                "loglevel=INFO"
+            ], 
+            "documentation": "Verifies link identified by `locator` is found from current page.\n\nSee `Page Should Contain Element` for explanation about `message` and\n`loglevel` arguments.\n\nKey attributes for links are `id`, `name`, `href` and link text. See\n`introduction` for details about locating elements.", 
+            "tags": []
+        }, 
+        "set_selenium_speed": {
+            "keyword_name": "Set Selenium Speed", 
+            "keyword_arguments": [
+                "seconds"
+            ], 
+            "documentation": "Sets the delay in seconds that is waited after each Selenium command.\n\nThis is useful mainly in slowing down the test execution to be able to\nview the execution. `seconds` may be given in Robot Framework time\nformat. Returns the previous speed value.\n\nExample:\n| Set Selenium Speed | .5 seconds |", 
+            "tags": []
+        }, 
+        "textfield_value_should_be": {
+            "keyword_name": "Textfield Value Should Be", 
+            "keyword_arguments": [
+                "locator", 
+                "expected", 
+                "message="
+            ], 
+            "documentation": "Verifies the value in text field identified by `locator` is exactly `expected`.\n\n`message` can be used to override default error message.\n\nKey attributes for text fields are `id` and `name`. See `introduction`\nfor details about locating elements.", 
+            "tags": []
+        }, 
+        "table_should_contain": {
+            "keyword_name": "Table Should Contain", 
+            "keyword_arguments": [
+                "table_locator", 
+                "expected", 
+                "loglevel=INFO"
+            ], 
+            "documentation": "Verifies that `expected` can be found somewhere in the table.\n\nTo understand how tables are identified, please take a look at\nthe `introduction`.\n\nSee `Page Should Contain Element` for explanation about\n`loglevel` argument.", 
+            "tags": []
+        }, 
+        "current_frame_contains": {
+            "keyword_name": "Current Frame Contains", 
+            "keyword_arguments": [
+                "text", 
+                "loglevel=INFO"
+            ], 
+            "documentation": "Verifies that current frame contains `text`.\n\nSee `Page Should Contain ` for explanation about `loglevel` argument.", 
+            "tags": []
+        }, 
+        "wait_until_element_is_visible": {
+            "keyword_name": "Wait Until Element Is Visible", 
+            "keyword_arguments": [
+                "locator", 
+                "timeout=None", 
+                "error=None"
+            ], 
+            "documentation": "Waits until element specified with `locator` is visible.\n\nFails if `timeout` expires before the element is visible. See\n`introduction` for more information about `timeout` and its\ndefault value.\n\n`error` can be used to override the default error message.\n\nSee also `Wait Until Page Contains`, `Wait Until Page Contains\nElement`, `Wait For Condition` and BuiltIn keyword `Wait Until Keyword\nSucceeds`.", 
+            "tags": []
+        }, 
+        "switch_browser": {
+            "keyword_name": "Switch Browser", 
+            "keyword_arguments": [
+                "index_or_alias"
+            ], 
+            "documentation": "Switches between active browsers using index or alias.\n\nIndex is returned from `Open Browser` and alias can be given to it.\n\nExample:\n| Open Browser        | http://google.com | ff       |\n| Location Should Be  | http://google.com |          |\n| Open Browser        | http://yahoo.com  | ie       | 2nd conn |\n| Location Should Be  | http://yahoo.com  |          |\n| Switch Browser      | 1                 | # index  |\n| Page Should Contain | I'm feeling lucky |          |\n| Switch Browser      | 2nd conn          | # alias  |\n| Page Should Contain | More Yahoo!       |          |\n| Close All Browsers  |                   |          |\n\nAbove example expects that there was no other open browsers when\nopening the first one because it used index '1' when switching to it\nlater. If you aren't sure about that you can store the index into\na variable as below.\n\n| ${id} =            | Open Browser  | http://google.com | *firefox |\n| # Do something ... |\n| Switch Browser     | ${id}         |                   |          |", 
+            "tags": []
+        }, 
+        "remove_location_strategy": {
+            "keyword_name": "Remove Location Strategy", 
+            "keyword_arguments": [
+                "strategy_name"
+            ], 
+            "documentation": "Removes a previously added custom location strategy.\nWill fail if a default strategy is specified.\n\nSee `Add Location Strategy` for details about adding a custom location strategy.", 
+            "tags": []
+        }, 
+        "confirm_action": {
+            "keyword_name": "Confirm Action", 
+            "keyword_arguments": [], 
+            "documentation": "Dismisses currently shown confirmation dialog and returns it's message.\n\nBy default, this keyword chooses 'OK' option from the dialog. If\n'Cancel' needs to be chosen, keyword `Choose Cancel On Next\nConfirmation` must be called before the action that causes the\nconfirmation dialog to be shown.\n\nExamples:\n| Click Button | Send | # Shows a confirmation dialog |\n| ${message}= | Confirm Action | # Chooses Ok |\n| Should Be Equal | ${message} | Are your sure? |\n|                |    |              |\n| Choose Cancel On Next Confirmation | | |\n| Click Button | Send | # Shows a confirmation dialog |\n| Confirm Action |    | # Chooses Cancel |", 
+            "tags": []
+        }, 
+        "page_should_contain_element": {
+            "keyword_name": "Page Should Contain Element", 
+            "keyword_arguments": [
+                "locator", 
+                "message=", 
+                "loglevel=INFO"
+            ], 
+            "documentation": "Verifies element identified by `locator` is found on the current page.\n\n`message` can be used to override default error message.\n\nSee `Page Should Contain` for explanation about `loglevel` argument.\n\nKey attributes for arbitrary elements are `id` and `name`. See\n`introduction` for details about locating elements.", 
+            "tags": []
+        }, 
+        "wait_until_element_is_enabled": {
+            "keyword_name": "Wait Until Element Is Enabled", 
+            "keyword_arguments": [
+                "locator", 
+                "timeout=None", 
+                "error=None"
+            ], 
+            "documentation": "Waits until element specified with `locator` is enabled.\n\nFails if `timeout` expires before the element is enabled. See\n`introduction` for more information about `timeout` and its\ndefault value.\n\n`error` can be used to override the default error message.\n\nSee also `Wait Until Page Contains`, `Wait Until Page Contains\nElement`, `Wait For Condition` and BuiltIn keyword `Wait Until Keyword\nSucceeds`.", 
+            "tags": []
+        }, 
+        "close_browser": {
+            "keyword_name": "Close Browser", 
+            "keyword_arguments": [], 
+            "documentation": "Closes the current browser.", 
+            "tags": []
+        }, 
+        "get_window_titles": {
+            "keyword_name": "Get Window Titles", 
+            "keyword_arguments": [], 
+            "documentation": "Returns and logs titles of all windows known to the browser.", 
+            "tags": []
+        }, 
+        "list_should_have_no_selections": {
+            "keyword_name": "List Should Have No Selections", 
+            "keyword_arguments": [
+                "locator"
+            ], 
+            "documentation": "Verifies select list identified by `locator` has no selections.\n\nSelect list keywords work on both lists and combo boxes. Key attributes for\nselect lists are `id` and `name`. See `introduction` for details about\nlocating elements.", 
+            "tags": []
+        }, 
+        "mouse_over": {
+            "keyword_name": "Mouse Over", 
+            "keyword_arguments": [
+                "locator"
+            ], 
+            "documentation": "Simulates hovering mouse over the element specified by `locator`.\n\nKey attributes for arbitrary elements are `id` and `name`. See\n`introduction` for details about locating elements.", 
+            "tags": []
+        }, 
+        "select_from_list_by_index": {
+            "keyword_name": "Select From List By Index", 
+            "keyword_arguments": [
+                "locator", 
+                "*indexes"
+            ], 
+            "documentation": "Selects `*indexes` from list identified by `locator`\n\nSelect list keywords work on both lists and combo boxes. Key attributes for\nselect lists are `id` and `name`. See `introduction` for details about\nlocating elements.", 
+            "tags": []
+        }, 
+        "list_windows": {
+            "keyword_name": "List Windows", 
+            "keyword_arguments": [], 
+            "documentation": "Return all current window handles as a list", 
+            "tags": []
+        }, 
+        "choose_ok_on_next_confirmation": {
+            "keyword_name": "Choose Ok On Next Confirmation", 
+            "keyword_arguments": [], 
+            "documentation": "Undo the effect of using keywords `Choose Cancel On Next Confirmation`. Note\nthat Selenium's overridden window.confirm() function will normally automatically\nreturn true, as if the user had manually clicked OK, so you shouldn't\nneed to use this command unless for some reason you need to change\nyour mind prior to the next confirmation. After any confirmation, Selenium will resume using the\ndefault behavior for future confirmations, automatically returning \ntrue (OK) unless/until you explicitly use `Choose Cancel On Next Confirmation` for each\nconfirmation.\n\nNote that every time a confirmation comes up, you must\nconsume it by using a keywords such as `Get Alert Message`, or else\nthe following selenium operations will fail.", 
+            "tags": []
+        }, 
+        "page_should_not_contain_link": {
+            "keyword_name": "Page Should Not Contain Link", 
+            "keyword_arguments": [
+                "locator", 
+                "message=", 
+                "loglevel=INFO"
+            ], 
+            "documentation": "Verifies image identified by `locator` is not found from current page.\n\nSee `Page Should Contain Element` for explanation about `message` and\n`loglevel` arguments.\n\nKey attributes for images are `id`, `src` and `alt`. See\n`introduction` for details about locating elements.", 
+            "tags": []
+        }, 
+        "page_should_not_contain_button": {
+            "keyword_name": "Page Should Not Contain Button", 
+            "keyword_arguments": [
+                "locator", 
+                "message=", 
+                "loglevel=INFO"
+            ], 
+            "documentation": "Verifies button identified by `locator` is not found from current page.\n\nThis keyword searches for buttons created with either `input` or `button` tag.\n\nSee `Page Should Contain Element` for explanation about `message` and\n`loglevel` arguments.\n\nKey attributes for buttons are `id`, `name` and `value`. See\n`introduction` for details about locating elements.", 
+            "tags": []
+        }, 
+        "wait_until_page_does_not_contain": {
+            "keyword_name": "Wait Until Page Does Not Contain", 
+            "keyword_arguments": [
+                "text", 
+                "timeout=None", 
+                "error=None"
+            ], 
+            "documentation": "Waits until `text` disappears from current page.\n\nFails if `timeout` expires before the `text` disappears. See\n`introduction` for more information about `timeout` and its\ndefault value.\n\n`error` can be used to override the default error message.\n\nSee also `Wait Until Page Contains`, `Wait For Condition`,\n`Wait Until Element Is Visible` and BuiltIn keyword `Wait Until\nKeyword Succeeds`.", 
+            "tags": []
+        }, 
+        "get_cookies": {
+            "keyword_name": "Get Cookies", 
+            "keyword_arguments": [], 
+            "documentation": "Returns all cookies of the current page.", 
+            "tags": []
+        }, 
+        "get_selected_list_value": {
+            "keyword_name": "Get Selected List Value", 
+            "keyword_arguments": [
+                "locator"
+            ], 
+            "documentation": "Returns the value of the selected element from the select list identified by `locator`.\n\nReturn value is read from `value` attribute of the selected element.\n\nSelect list keywords work on both lists and combo boxes. Key attributes for\nselect lists are `id` and `name`. See `introduction` for details about\nlocating elements.", 
+            "tags": []
+        }, 
+        "select_checkbox": {
+            "keyword_name": "Select Checkbox", 
+            "keyword_arguments": [
+                "locator"
+            ], 
+            "documentation": "Selects checkbox identified by `locator`.\n\nDoes nothing if checkbox is already selected. Key attributes for\ncheckboxes are `id` and `name`. See `introduction` for details about\nlocating elements.", 
+            "tags": []
+        }, 
+        "page_should_contain_textfield": {
+            "keyword_name": "Page Should Contain Textfield", 
+            "keyword_arguments": [
+                "locator", 
+                "message=", 
+                "loglevel=INFO"
+            ], 
+            "documentation": "Verifies text field identified by `locator` is found from current page.\n\nSee `Page Should Contain Element` for explanation about `message` and\n`loglevel` arguments.\n\nKey attributes for text fields are `id` and `name`. See `introduction`\nfor details about locating elements.", 
+            "tags": []
+        }, 
+        "textfield_should_contain": {
+            "keyword_name": "Textfield Should Contain", 
+            "keyword_arguments": [
+                "locator", 
+                "expected", 
+                "message="
+            ], 
+            "documentation": "Verifies text field identified by `locator` contains text `expected`.\n\n`message` can be used to override default error message.\n\nKey attributes for text fields are `id` and `name`. See `introduction`\nfor details about locating elements.", 
+            "tags": []
+        }, 
+        "get_selected_list_label": {
+            "keyword_name": "Get Selected List Label", 
+            "keyword_arguments": [
+                "locator"
+            ], 
+            "documentation": "Returns the visible label of the selected element from the select list identified by `locator`.\n\nSelect list keywords work on both lists and combo boxes. Key attributes for\nselect lists are `id` and `name`. See `introduction` for details about\nlocating elements.", 
+            "tags": []
+        }, 
+        "get_selected_list_values": {
+            "keyword_name": "Get Selected List Values", 
+            "keyword_arguments": [
+                "locator"
+            ], 
+            "documentation": "Returns the values of selected elements (as a list) from the select list identified by `locator`.\n\nFails if there is no selection.\n\nSelect list keywords work on both lists and combo boxes. Key attributes for\nselect lists are `id` and `name`. See `introduction` for details about\nlocating elements.", 
+            "tags": []
+        }, 
+        "get_window_position": {
+            "keyword_name": "Get Window Position", 
+            "keyword_arguments": [], 
+            "documentation": "Returns current window position as `x` then `y`.\n\nExample:\n| ${x} | ${y}= | Get Window Position |", 
+            "tags": []
+        }, 
+        "choose_cancel_on_next_confirmation": {
+            "keyword_name": "Choose Cancel On Next Confirmation", 
+            "keyword_arguments": [], 
+            "documentation": "Cancel will be selected the next time `Confirm Action` is used.", 
+            "tags": []
+        }, 
+        "open_browser": {
+            "keyword_name": "Open Browser", 
+            "keyword_arguments": [
+                "url", 
+                "browser=firefox", 
+                "alias=None", 
+                "remote_url=False", 
+                "desired_capabilities=None", 
+                "ff_profile_dir=None"
+            ], 
+            "documentation": "Opens a new browser instance to given URL.\n\nReturns the index of this browser instance which can be used later to\nswitch back to it. Index starts from 1 and is reset back to it when\n`Close All Browsers` keyword is used. See `Switch Browser` for\nexample.\n\nOptional alias is an alias for the browser instance and it can be used\nfor switching between browsers (just as index can be used). See `Switch\nBrowser` for more details.\n\nPossible values for `browser` are as follows:\n\n| firefox          | FireFox   |\n| ff               | FireFox   |\n| internetexplorer | Internet Explorer |\n| ie               | Internet Explorer |\n| googlechrome     | Google Chrome |\n| gc               | Google Chrome |\n| chrome           | Google Chrome |\n| opera            | Opera         |\n| phantomjs        | PhantomJS     |\n| htmlunit         | HTMLUnit      |\n| htmlunitwithjs   | HTMLUnit with Javascipt support |\n| android          | Android       |\n| iphone           | Iphone        |\n| safari           | Safari        |\n\n\nNote, that you will encounter strange behavior, if you open\nmultiple Internet Explorer browser instances. That is also why\n`Switch Browser` only works with one IE browser at most.\nFor more information see:\nhttp://selenium-grid.seleniumhq.org/faq.html#i_get_some_strange_errors_when_i_run_multiple_internet_explorer_instances_on_the_same_machine\n\nOptional 'remote_url' is the url for a remote selenium server for example\nhttp://127.0.0.1/wd/hub.  If you specify a value for remote you can\nalso specify 'desired_capabilities' which is a string in the form\nkey1:val1,key2:val2 that will be used to specify desired_capabilities\nto the remote server. This is useful for doing things like specify a\nproxy server for internet explorer or for specify browser and os if your\nusing saucelabs.com. 'desired_capabilities' can also be a dictonary\n(created with 'Create Dictionary') to allow for more complex configurations.\n\nOptional 'ff_profile_dir' is the path to the firefox profile dir if you\nwish to overwrite the default.", 
+            "tags": []
+        }, 
+        "get_vertical_position": {
+            "keyword_name": "Get Vertical Position", 
+            "keyword_arguments": [
+                "locator"
+            ], 
+            "documentation": "Returns vertical position of element identified by `locator`.\n\nThe position is returned in pixels off the top of the page,\nas an integer. Fails if a matching element is not found.\n\nSee also `Get Horizontal Position`.", 
+            "tags": []
+        }, 
+        "wait_until_element_does_not_contain": {
+            "keyword_name": "Wait Until Element Does Not Contain", 
+            "keyword_arguments": [
+                "locator", 
+                "text", 
+                "timeout=None", 
+                "error=None"
+            ], 
+            "documentation": "Waits until given element does not contain `text`.\n\nFails if `timeout` expires before the text disappears from given element. See\n`introduction` for more information about `timeout` and its\ndefault value.\n\n`error` can be used to override the default error message.\n\nSee also `Wait Until Page Contains`, `Wait Until Page Contains Element`, `Wait For Condition`,\n`Wait Until Element Is Visible` and BuiltIn keyword `Wait Until\nKeyword Succeeds`.", 
+            "tags": []
+        }, 
+        "log_title": {
+            "keyword_name": "Log Title", 
+            "keyword_arguments": [], 
+            "documentation": "Logs and returns the title of current page.", 
+            "tags": []
+        }, 
+        "element_should_contain": {
+            "keyword_name": "Element Should Contain", 
+            "keyword_arguments": [
+                "locator", 
+                "expected", 
+                "message="
+            ], 
+            "documentation": "Verifies element identified by `locator` contains text `expected`.\n\nIf you wish to assert an exact (not a substring) match on the text\nof the element, use `Element Text Should Be`.\n\n`message` can be used to override the default error message.\n\nKey attributes for arbitrary elements are `id` and `name`. See\n`introduction` for details about locating elements.", 
+            "tags": []
+        }, 
+        "delete_all_cookies": {
+            "keyword_name": "Delete All Cookies", 
+            "keyword_arguments": [], 
+            "documentation": "Deletes all cookies.", 
+            "tags": []
+        }, 
+        "delete_cookie": {
+            "keyword_name": "Delete Cookie", 
+            "keyword_arguments": [
+                "name"
+            ], 
+            "documentation": "Deletes cookie matching `name`.\n\nIf the cookie is not found, nothing happens.", 
+            "tags": []
+        }, 
+        "page_should_not_contain": {
+            "keyword_name": "Page Should Not Contain", 
+            "keyword_arguments": [
+                "text", 
+                "loglevel=INFO"
+            ], 
+            "documentation": "Verifies the current page does not contain `text`.\n\nSee `Page Should Contain ` for explanation about `loglevel` argument.", 
+            "tags": []
+        }, 
+        "submit_form": {
+            "keyword_name": "Submit Form", 
+            "keyword_arguments": [
+                "locator=None"
+            ], 
+            "documentation": "Submits a form identified by `locator`.\n\nIf `locator` is empty, first form in the page will be submitted.\nKey attributes for forms are `id` and `name`. See `introduction` for\ndetails about locating elements.", 
+            "tags": []
+        }, 
+        "choose_file": {
+            "keyword_name": "Choose File", 
+            "keyword_arguments": [
+                "locator", 
+                "file_path"
+            ], 
+            "documentation": "Inputs the `file_path` into file input field found by `locator`.\n\nThis keyword is most often used to input files into upload forms.\nThe file specified with `file_path` must be available on the same host\nwhere the Selenium Server is running.\n\nExample:\n| Choose File | my_upload_field | /home/user/files/trades.csv |", 
+            "tags": []
+        }, 
+        "wait_until_page_contains_element": {
+            "keyword_name": "Wait Until Page Contains Element", 
+            "keyword_arguments": [
+                "locator", 
+                "timeout=None", 
+                "error=None"
+            ], 
+            "documentation": "Waits until element specified with `locator` appears on current page.\n\nFails if `timeout` expires before the element appears. See\n`introduction` for more information about `timeout` and its\ndefault value.\n\n`error` can be used to override the default error message.\n\nSee also `Wait Until Page Contains`, `Wait For Condition`,\n`Wait Until Element Is Visible` and BuiltIn keyword `Wait Until\nKeyword Succeeds`.", 
+            "tags": []
+        }, 
+        "xpath_should_match_x_times": {
+            "keyword_name": "Xpath Should Match X Times", 
+            "keyword_arguments": [
+                "xpath", 
+                "expected_xpath_count", 
+                "message=", 
+                "loglevel=INFO"
+            ], 
+            "documentation": "Verifies that the page contains the given number of elements located by the given `xpath`.\n\nOne should not use the xpath= prefix for 'xpath'. XPath is assumed.\n\nCorrect:\n| Xpath Should Match X Times | //div[@id='sales-pop'] | 1\nIncorrect:\n| Xpath Should Match X Times | xpath=//div[@id='sales-pop'] | 1\n\nSee `Page Should Contain Element` for explanation about `message` and\n`loglevel` arguments.", 
+            "tags": []
+        }, 
+        "page_should_contain_button": {
+            "keyword_name": "Page Should Contain Button", 
+            "keyword_arguments": [
+                "locator", 
+                "message=", 
+                "loglevel=INFO"
+            ], 
+            "documentation": "Verifies button identified by `locator` is found from current page.\n\nThis keyword searches for buttons created with either `input` or `button` tag.\n\nSee `Page Should Contain Element` for explanation about `message` and\n`loglevel` arguments.\n\nKey attributes for buttons are `id`, `name` and `value`. See\n`introduction` for details about locating elements.", 
+            "tags": []
+        }, 
+        "select_frame": {
+            "keyword_name": "Select Frame", 
+            "keyword_arguments": [
+                "locator"
+            ], 
+            "documentation": "Sets frame identified by `locator` as current frame.\n\nKey attributes for frames are `id` and `name.` See `introduction` for\ndetails about locating elements.", 
+            "tags": []
+        }, 
+        "get_source": {
+            "keyword_name": "Get Source", 
+            "keyword_arguments": [], 
+            "documentation": "Returns the entire html source of the current page or frame.", 
+            "tags": []
+        }, 
+        "radio_button_should_not_be_selected": {
+            "keyword_name": "Radio Button Should Not Be Selected", 
+            "keyword_arguments": [
+                "group_name"
+            ], 
+            "documentation": "Verifies radio button group identified by `group_name` has no selection.\n\nSee `Select Radio Button` for information about how radio buttons are\nlocated.", 
+            "tags": []
+        }, 
+        "get_list_items": {
+            "keyword_name": "Get List Items", 
+            "keyword_arguments": [
+                "locator"
+            ], 
+            "documentation": "Returns the values in the select list identified by `locator`.\n\nSelect list keywords work on both lists and combo boxes. Key attributes for\nselect lists are `id` and `name`. See `introduction` for details about\nlocating elements.", 
+            "tags": []
+        }, 
+        "get_selenium_speed": {
+            "keyword_name": "Get Selenium Speed", 
+            "keyword_arguments": [], 
+            "documentation": "Gets the delay in seconds that is waited after each Selenium command.\n\nSee `Set Selenium Speed` for an explanation.", 
+            "tags": []
+        }, 
+        "register_keyword_to_run_on_failure": {
+            "keyword_name": "Register Keyword To Run On Failure", 
+            "keyword_arguments": [
+                "keyword"
+            ], 
+            "documentation": "Sets the keyword to execute when a Selenium2Library keyword fails.\n\n`keyword_name` is the name of a keyword (from any available\nlibraries) that  will be executed if a Selenium2Library keyword fails.\nIt is not possible to use a keyword that requires arguments.\nUsing the value \"Nothing\" will disable this feature altogether.\n\nThe initial keyword to use is set in `importing`, and the\nkeyword that is used by default is `Capture Page Screenshot`.\nTaking a screenshot when something failed is a very useful\nfeature, but notice that it can slow down the execution.\n\nThis keyword returns the name of the previously registered\nfailure keyword. It can be used to restore the original\nvalue later.\n\nExample:\n| Register Keyword To Run On Failure  | Log Source | # Run `Log Source` on failure. |\n| ${previous kw}= | Register Keyword To Run On Failure  | Nothing    | # Disables run-on-failure functionality and stores the previous kw name in a variable. |\n| Register Keyword To Run On Failure  | ${previous kw} | # Restore to the previous keyword. |\n\nThis run-on-failure functionality only works when running tests on Python/Jython 2.4\nor newer and it does not work on IronPython at all.", 
+            "tags": []
+        }, 
+        "list_selection_should_be": {
+            "keyword_name": "List Selection Should Be", 
+            "keyword_arguments": [
+                "locator", 
+                "*items"
+            ], 
+            "documentation": "Verifies the selection of select list identified by `locator` is exactly `*items`.\n\nIf you want to test that no option is selected, simply give no `items`.\n\nSelect list keywords work on both lists and combo boxes. Key attributes for\nselect lists are `id` and `name`. See `introduction` for details about\nlocating elements.", 
+            "tags": []
+        }, 
+        "frame_should_contain": {
+            "keyword_name": "Frame Should Contain", 
+            "keyword_arguments": [
+                "locator", 
+                "text", 
+                "loglevel=INFO"
+            ], 
+            "documentation": "Verifies frame identified by `locator` contains `text`.\n\nSee `Page Should Contain ` for explanation about `loglevel` argument.\n\nKey attributes for frames are `id` and `name.` See `introduction` for\ndetails about locating elements.", 
+            "tags": []
+        }, 
+        "locator_should_match_x_times": {
+            "keyword_name": "Locator Should Match X Times", 
+            "keyword_arguments": [
+                "locator", 
+                "expected_locator_count", 
+                "message=", 
+                "loglevel=INFO"
+            ], 
+            "documentation": "Verifies that the page contains the given number of elements located by the given `locator`.\n\nSee `introduction` for details about locating elements.\n\nSee `Page Should Contain Element` for explanation about `message` and\n`loglevel` arguments.", 
+            "tags": []
+        }, 
+        "mouse_out": {
+            "keyword_name": "Mouse Out", 
+            "keyword_arguments": [
+                "locator"
+            ], 
+            "documentation": "Simulates moving mouse away from the element specified by `locator`.\n\nKey attributes for arbitrary elements are `id` and `name`. See\n`introduction` for details about locating elements.", 
+            "tags": []
+        }, 
+        "select_all_from_list": {
+            "keyword_name": "Select All From List", 
+            "keyword_arguments": [
+                "locator"
+            ], 
+            "documentation": "Selects all values from multi-select list identified by `id`.\n\nKey attributes for lists are `id` and `name`. See `introduction` for\ndetails about locating elements.", 
+            "tags": []
+        }, 
+        "table_footer_should_contain": {
+            "keyword_name": "Table Footer Should Contain", 
+            "keyword_arguments": [
+                "table_locator", 
+                "expected", 
+                "loglevel=INFO"
+            ], 
+            "documentation": "Verifies that the table footer contains `expected`.\n\nWith table footer can be described as any <td>-element that is\nchild of a <tfoot>-element.  To understand how tables are\nidentified, please take a look at the `introduction`.\n\nSee `Page Should Contain Element` for explanation about\n`loglevel` argument.", 
+            "tags": []
+        }, 
+        "select_radio_button": {
+            "keyword_name": "Select Radio Button", 
+            "keyword_arguments": [
+                "group_name", 
+                "value"
+            ], 
+            "documentation": "Sets selection of radio button group identified by `group_name` to `value`.\n\nThe radio button to be selected is located by two arguments:\n- `group_name` is used as the name of the radio input\n- `value` is used for the value attribute or for the id attribute\n\nThe XPath used to locate the correct radio button then looks like this:\n//input[@type='radio' and @name='group_name' and (@value='value' or @id='value')]\n\nExamples:\n| Select Radio Button | size | XL | # Matches HTML like <input type=\"radio\" name=\"size\" value=\"XL\">XL</input> |\n| Select Radio Button | size | sizeXL | # Matches HTML like <input type=\"radio\" name=\"size\" value=\"XL\" id=\"sizeXL\">XL</input> |", 
+            "tags": []
+        }, 
+        "click_link": {
+            "keyword_name": "Click Link", 
+            "keyword_arguments": [
+                "locator"
+            ], 
+            "documentation": "Clicks a link identified by locator.\n\nKey attributes for links are `id`, `name`, `href` and link text. See\n`introduction` for details about locating elements.", 
+            "tags": []
+        }, 
+        "get_window_names": {
+            "keyword_name": "Get Window Names", 
+            "keyword_arguments": [], 
+            "documentation": "Returns and logs names of all windows known to the browser.", 
+            "tags": []
+        }, 
+        "get_selected_list_labels": {
+            "keyword_name": "Get Selected List Labels", 
+            "keyword_arguments": [
+                "locator"
+            ], 
+            "documentation": "Returns the visible labels of selected elements (as a list) from the select list identified by `locator`.\n\nFails if there is no selection.\n\nSelect list keywords work on both lists and combo boxes. Key attributes for\nselect lists are `id` and `name`. See `introduction` for details about\nlocating elements.", 
+            "tags": []
+        }, 
+        "clear_element_text": {
+            "keyword_name": "Clear Element Text", 
+            "keyword_arguments": [
+                "locator"
+            ], 
+            "documentation": "Clears the text value of text entry element identified by `locator`.\n\nSee `introduction` for details about locating elements.", 
+            "tags": []
+        }, 
+        "location_should_contain": {
+            "keyword_name": "Location Should Contain", 
+            "keyword_arguments": [
+                "expected"
+            ], 
+            "documentation": "Verifies that current URL contains `expected`.", 
+            "tags": []
+        }, 
+        "unselect_from_list": {
+            "keyword_name": "Unselect From List", 
+            "keyword_arguments": [
+                "locator", 
+                "*items"
+            ], 
+            "documentation": "Unselects given values from select list identified by locator.\n\nAs a special case, giving empty list as `*items` will remove all\nselections.\n\n*items try to unselect by value AND by label.\n\nIt's faster to use 'by index/value/label' functions.\n\nSelect list keywords work on both lists and combo boxes. Key attributes for\nselect lists are `id` and `name`. See `introduction` for details about\nlocating elements.", 
+            "tags": []
+        }, 
+        "get_window_size": {
+            "keyword_name": "Get Window Size", 
+            "keyword_arguments": [], 
+            "documentation": "Returns current window size as `width` then `height`.\n\nExample:\n| ${width} | ${height}= | Get Window Size |", 
+            "tags": []
+        }, 
+        "unselect_from_list_by_value": {
+            "keyword_name": "Unselect From List By Value", 
+            "keyword_arguments": [
+                "locator", 
+                "*values"
+            ], 
+            "documentation": "Unselects `*values` from list identified by `locator`\n\nSelect list keywords work on both lists and combo boxes. Key attributes for\nselect lists are `id` and `name`. See `introduction` for details about\nlocating elements.", 
+            "tags": []
+        }, 
+        "table_header_should_contain": {
+            "keyword_name": "Table Header Should Contain", 
+            "keyword_arguments": [
+                "table_locator", 
+                "expected", 
+                "loglevel=INFO"
+            ], 
+            "documentation": "Verifies that the table header, i.e. any <th>...</th> element, contains `expected`.\n\nTo understand how tables are identified, please take a look at\nthe `introduction`.\n\nSee `Page Should Contain Element` for explanation about\n`loglevel` argument.", 
+            "tags": []
+        }, 
+        "alert_should_be_present": {
+            "keyword_name": "Alert Should Be Present", 
+            "keyword_arguments": [
+                "text="
+            ], 
+            "documentation": "Verifies an alert is present and dismisses it.\n\nIf `text` is a non-empty string, then it is also verified that the\nmessage of the alert equals to `text`.\n\nWill fail if no alert is present. Note that following keywords\nwill fail unless the alert is dismissed by this\nkeyword or another like `Get Alert Message`.", 
+            "tags": []
+        }, 
+        "close_window": {
+            "keyword_name": "Close Window", 
+            "keyword_arguments": [], 
+            "documentation": "Closes currently opened pop-up window.", 
+            "tags": []
+        }, 
+        "page_should_contain_radio_button": {
+            "keyword_name": "Page Should Contain Radio Button", 
+            "keyword_arguments": [
+                "locator", 
+                "message=", 
+                "loglevel=INFO"
+            ], 
+            "documentation": "Verifies radio button identified by `locator` is found from current page.\n\nSee `Page Should Contain Element` for explanation about `message` and\n`loglevel` arguments.\n\nKey attributes for radio buttons are `id`, `name` and `value`. See\n`introduction` for details about locating elements.", 
+            "tags": []
+        }, 
+        "get_title": {
+            "keyword_name": "Get Title", 
+            "keyword_arguments": [], 
+            "documentation": "Returns title of current page.", 
+            "tags": []
+        }, 
+        "click_element": {
+            "keyword_name": "Click Element", 
+            "keyword_arguments": [
+                "locator"
+            ], 
+            "documentation": "Click element identified by `locator`.\n\nKey attributes for arbitrary elements are `id` and `name`. See\n`introduction` for details about locating elements.", 
+            "tags": []
+        }, 
+        "set_screenshot_directory": {
+            "keyword_name": "Set Screenshot Directory", 
+            "keyword_arguments": [
+                "path", 
+                "persist=False"
+            ], 
+            "documentation": "Sets the root output directory for captured screenshots.\n\n``path`` argument specifies the location to where the screenshots should\nbe written to. If the specified ``path`` does not exist, it will be created.\nSetting ``persist`` specifies that the given ``path`` should\nbe used for the rest of the test execution, otherwise the path will be restored\nat the end of the currently executing scope.", 
+            "tags": []
+        }, 
+        "input_text_into_prompt": {
+            "keyword_name": "Input Text Into Prompt", 
+            "keyword_arguments": [
+                "text"
+            ], 
+            "documentation": "Types the given `text` into alert box.", 
+            "tags": []
+        }, 
+        "element_should_be_visible": {
+            "keyword_name": "Element Should Be Visible", 
+            "keyword_arguments": [
+                "locator", 
+                "message="
+            ], 
+            "documentation": "Verifies that the element identified by `locator` is visible.\n\nHerein, visible means that the element is logically visible, not optically\nvisible in the current browser viewport. For example, an element that carries\ndisplay:none is not logically visible, so using this keyword on that element\nwould fail.\n\n`message` can be used to override the default error message.\n\nKey attributes for arbitrary elements are `id` and `name`. See\n`introduction` for details about locating elements.", 
+            "tags": []
+        }, 
+        "page_should_not_contain_textfield": {
+            "keyword_name": "Page Should Not Contain Textfield", 
+            "keyword_arguments": [
+                "locator", 
+                "message=", 
+                "loglevel=INFO"
+            ], 
+            "documentation": "Verifies text field identified by `locator` is not found from current page.\n\nSee `Page Should Contain Element` for explanation about `message` and\n`loglevel` arguments.\n\nKey attributes for text fields are `id` and `name`. See `introduction`\nfor details about locating elements.", 
+            "tags": []
+        }, 
+        "mouse_up": {
+            "keyword_name": "Mouse Up", 
+            "keyword_arguments": [
+                "locator"
+            ], 
+            "documentation": "Simulates releasing the left mouse button on the element specified by `locator`.\n\nKey attributes for arbitrary elements are `id` and `name`. See\n`introduction` for details about locating elements.", 
+            "tags": []
+        }, 
+        "element_should_be_enabled": {
+            "keyword_name": "Element Should Be Enabled", 
+            "keyword_arguments": [
+                "locator"
+            ], 
+            "documentation": "Verifies that element identified with `locator` is enabled.\n\nKey attributes for arbitrary elements are `id` and `name`. See\n`introduction` for details about locating elements.", 
+            "tags": []
+        }, 
+        "execute_async_javascript": {
+            "keyword_name": "Execute Async Javascript", 
+            "keyword_arguments": [
+                "*code"
+            ], 
+            "documentation": "Executes asynchronous JavaScript code.\n\nSimilar to `Execute Javascript` except that scripts executed with\nthis keyword must explicitly signal they are finished by invoking the\nprovided callback. This callback is always injected into the executed\nfunction as the last argument.\n\nScripts must complete within the script timeout or this keyword will\nfail. See the `Timeouts` section for more information.\n\nExamples:\n| Execute Async JavaScript | var callback = arguments[arguments.length - 1]; | window.setTimeout(callback, 2000); |\n| Execute Async JavaScript | ${CURDIR}/async_js_to_execute.js                |                                    |\n| ${retval}=               | Execute Async JavaScript                        |                                    |\n| ...                      | var callback = arguments[arguments.length - 1]; |                                    |\n| ...                      | function answer(){callback(\"text\");};           |                                    |\n| ...                      | window.setTimeout(answer, 2000);                |                                    |\n| Should Be Equal          | ${retval}                                       | text                               |", 
+            "tags": []
+        }, 
+        "get_value": {
+            "keyword_name": "Get Value", 
+            "keyword_arguments": [
+                "locator"
+            ], 
+            "documentation": "Returns the value attribute of element identified by `locator`.\n\nSee `introduction` for details about locating elements.", 
+            "tags": []
+        }, 
+        "checkbox_should_be_selected": {
+            "keyword_name": "Checkbox Should Be Selected", 
+            "keyword_arguments": [
+                "locator"
+            ], 
+            "documentation": "Verifies checkbox identified by `locator` is selected/checked.\n\nKey attributes for checkboxes are `id` and `name`. See `introduction`\nfor details about locating elements.", 
+            "tags": []
+        }, 
+        "get_selenium_implicit_wait": {
+            "keyword_name": "Get Selenium Implicit Wait", 
+            "keyword_arguments": [], 
+            "documentation": "Gets the wait in seconds that is waited by Selenium.\n\nSee `Set Selenium Implicit Wait` for an explanation.", 
+            "tags": []
+        }, 
+        "drag_and_drop_by_offset": {
+            "keyword_name": "Drag And Drop By Offset", 
+            "keyword_arguments": [
+                "source", 
+                "xoffset", 
+                "yoffset"
+            ], 
+            "documentation": "Drags element identified with `source` which is a locator.\n\nElement will be moved by xoffset and yoffset, each of which is a\nnegative or positive number specify the offset.\n\nExamples:\n| Drag And Drop By Offset | myElem | 50 | -35 | # Move myElem 50px right and 35px down. |", 
+            "tags": []
+        }, 
+        "get_table_cell": {
+            "keyword_name": "Get Table Cell", 
+            "keyword_arguments": [
+                "table_locator", 
+                "row", 
+                "column", 
+                "loglevel=INFO"
+            ], 
+            "documentation": "Returns the content from a table cell.\n\nRow and column number start from 1. Header and footer rows are\nincluded in the count. A negative row or column number can be used\nto get rows counting from the end (end: -1). Cell content from header\nor footer rows can be obtained with this keyword. To understand how\ntables are identified, please take a look at the `introduction`.\n\nSee `Page Should Contain` for explanation about `loglevel` argument.", 
+            "tags": []
+        }, 
+        "capture_page_screenshot": {
+            "keyword_name": "Capture Page Screenshot", 
+            "keyword_arguments": [
+                "filename=None"
+            ], 
+            "documentation": "Takes a screenshot of the current page and embeds it into the log.\n\n`filename` argument specifies the name of the file to write the\nscreenshot into. If no `filename` is given, the screenshot is saved into file\n`selenium-screenshot-<counter>.png` under the directory where\nthe Robot Framework log file is written into. The `filename` is\nalso considered relative to the same directory, if it is not\ngiven in absolute format. If an absolute or relative path is given\nbut the path does not exist it will be created.\n\n`css` can be used to modify how the screenshot is taken. By default\nthe bakground color is changed to avoid possible problems with\nbackground leaking when the page layout is somehow broken.", 
+            "tags": []
+        }, 
+        "get_matching_xpath_count": {
+            "keyword_name": "Get Matching Xpath Count", 
+            "keyword_arguments": [
+                "xpath"
+            ], 
+            "documentation": "Returns number of elements matching `xpath`\n\nOne should not use the xpath= prefix for 'xpath'. XPath is assumed.\n\nCorrect:\n| count = | Get Matching Xpath Count | //div[@id='sales-pop']\nIncorrect:\n| count = | Get Matching Xpath Count | xpath=//div[@id='sales-pop']\n\nIf you wish to assert the number of matching elements, use\n`Xpath Should Match X Times`.", 
+            "tags": []
+        }, 
+        "textarea_should_contain": {
+            "keyword_name": "Textarea Should Contain", 
+            "keyword_arguments": [
+                "locator", 
+                "expected", 
+                "message="
+            ], 
+            "documentation": "Verifies text area identified by `locator` contains text `expected`.\n\n`message` can be used to override default error message.\n\nKey attributes for text areas are `id` and `name`. See `introduction`\nfor details about locating elements.", 
+            "tags": []
+        }, 
+        "wait_until_element_contains": {
+            "keyword_name": "Wait Until Element Contains", 
+            "keyword_arguments": [
+                "locator", 
+                "text", 
+                "timeout=None", 
+                "error=None"
+            ], 
+            "documentation": "Waits until given element contains `text`.\n\nFails if `timeout` expires before the text appears on given element. See\n`introduction` for more information about `timeout` and its\ndefault value.\n\n`error` can be used to override the default error message.\n\nSee also `Wait Until Page Contains`, `Wait Until Page Contains Element`, `Wait For Condition`,\n`Wait Until Element Is Visible` and BuiltIn keyword `Wait Until\nKeyword Succeeds`.", 
+            "tags": []
+        }, 
+        "get_all_links": {
+            "keyword_name": "Get All Links", 
+            "keyword_arguments": [], 
+            "documentation": "Returns a list containing ids of all links found in current page.\n\nIf a link has no id, an empty string will be in the list instead.", 
+            "tags": []
+        }, 
+        "execute_javascript": {
+            "keyword_name": "Execute Javascript", 
+            "keyword_arguments": [
+                "*code"
+            ], 
+            "documentation": "Executes the given JavaScript code.\n\n`code` may contain multiple lines of code and may be divided into\nmultiple cells in the test data. In that case, the parts are\ncatenated together without adding spaces.\n\nIf `code` is an absolute path to an existing file, the JavaScript\nto execute will be read from that file. Forward slashes work as\na path separator on all operating systems.\n\nThe JavaScript executes in the context of the currently selected\nframe or window as the body of an anonymous function. Use _window_ to\nrefer to the window of your application and _document_ to refer to the\ndocument object of the current frame or window, e.g.\n_document.getElementById('foo')_.\n\nThis keyword returns None unless there is a return statement in the\nJavaScript. Return values are converted to the appropriate type in\nPython, including WebElements.\n\nExamples:\n| Execute JavaScript | window.my_js_function('arg1', 'arg2') |               |\n| Execute JavaScript | ${CURDIR}/js_to_execute.js            |               |\n| ${sum}=            | Execute JavaScript                    | return 1 + 1; |\n| Should Be Equal    | ${sum}                                | ${2}          |", 
+            "tags": []
+        }, 
+        "open_context_menu": {
+            "keyword_name": "Open Context Menu", 
+            "keyword_arguments": [
+                "locator"
+            ], 
+            "documentation": "Opens context menu on element identified by `locator`.", 
+            "tags": []
+        }, 
+        "maximize_browser_window": {
+            "keyword_name": "Maximize Browser Window", 
+            "keyword_arguments": [], 
+            "documentation": "Maximizes current browser window.", 
+            "tags": []
+        }, 
+        "page_should_contain_image": {
+            "keyword_name": "Page Should Contain Image", 
+            "keyword_arguments": [
+                "locator", 
+                "message=", 
+                "loglevel=INFO"
+            ], 
+            "documentation": "Verifies image identified by `locator` is found from current page.\n\nSee `Page Should Contain Element` for explanation about `message` and\n`loglevel` arguments.\n\nKey attributes for images are `id`, `src` and `alt`. See\n`introduction` for details about locating elements.", 
+            "tags": []
+        }, 
+        "mouse_down_on_link": {
+            "keyword_name": "Mouse Down On Link", 
+            "keyword_arguments": [
+                "locator"
+            ], 
+            "documentation": "Simulates a mouse down event on a link.\n\nKey attributes for links are `id`, `name`, `href` and link text. See\n`introduction` for details about locating elements.", 
+            "tags": []
+        }, 
+        "wait_for_condition": {
+            "keyword_name": "Wait For Condition", 
+            "keyword_arguments": [
+                "condition", 
+                "timeout=None", 
+                "error=None"
+            ], 
+            "documentation": "Waits until the given `condition` is true or `timeout` expires.\n\nThe `condition` can be arbitrary JavaScript expression but must contain a\nreturn statement (with the value to be returned) at the end.\nSee `Execute JavaScript` for information about accessing the\nactual contents of the window through JavaScript.\n\n`error` can be used to override the default error message.\n\nSee `introduction` for more information about `timeout` and its\ndefault value.\n\nSee also `Wait Until Page Contains`, `Wait Until Page Contains\nElement`, `Wait Until Element Is Visible` and BuiltIn keyword\n`Wait Until Keyword Succeeds`.", 
+            "tags": []
+        }, 
+        "checkbox_should_not_be_selected": {
+            "keyword_name": "Checkbox Should Not Be Selected", 
+            "keyword_arguments": [
+                "locator"
+            ], 
+            "documentation": "Verifies checkbox identified by `locator` is not selected/checked.\n\nKey attributes for checkboxes are `id` and `name`. See `introduction`\nfor details about locating elements.", 
+            "tags": []
+        }, 
+        "page_should_contain": {
+            "keyword_name": "Page Should Contain", 
+            "keyword_arguments": [
+                "text", 
+                "loglevel=INFO"
+            ], 
+            "documentation": "Verifies that current page contains `text`.\n\nIf this keyword fails, it automatically logs the page source\nusing the log level specified with the optional `loglevel` argument.\nValid log levels are DEBUG, INFO (default), WARN, and NONE. If the\nlog level is NONE or below the current active log level the source\nwill not be logged.", 
+            "tags": []
+        }, 
+        "select_from_list_by_label": {
+            "keyword_name": "Select From List By Label", 
+            "keyword_arguments": [
+                "locator", 
+                "*labels"
+            ], 
+            "documentation": "Selects `*labels` from list identified by `locator`\n\nSelect list keywords work on both lists and combo boxes. Key attributes for\nselect lists are `id` and `name`. See `introduction` for details about\nlocating elements.", 
+            "tags": []
+        }, 
+        "element_should_not_be_visible": {
+            "keyword_name": "Element Should Not Be Visible", 
+            "keyword_arguments": [
+                "locator", 
+                "message="
+            ], 
+            "documentation": "Verifies that the element identified by `locator` is NOT visible.\n\nThis is the opposite of `Element Should Be Visible`.\n\n`message` can be used to override the default error message.\n\nKey attributes for arbitrary elements are `id` and `name`. See\n`introduction` for details about locating elements.", 
+            "tags": []
+        }, 
+        "drag_and_drop": {
+            "keyword_name": "Drag And Drop", 
+            "keyword_arguments": [
+                "source", 
+                "target"
+            ], 
+            "documentation": "Drags element identified with `source` which is a locator.\n\nElement can be moved on top of another element with `target`\nargument.\n\n`target` is a locator of the element where the dragged object is\ndropped.\n\nExamples:\n| Drag And Drop | elem1 | elem2 | # Move elem1 over elem2. |", 
+            "tags": []
+        }, 
+        "log_source": {
+            "keyword_name": "Log Source", 
+            "keyword_arguments": [
+                "loglevel=INFO"
+            ], 
+            "documentation": "Logs and returns the entire html source of the current page or frame.\n\nThe `loglevel` argument defines the used log level. Valid log levels are\nWARN, INFO (default), DEBUG, and NONE (no logging).", 
+            "tags": []
+        }, 
+        "close_all_browsers": {
+            "keyword_name": "Close All Browsers", 
+            "keyword_arguments": [], 
+            "documentation": "Closes all open browsers and resets the browser cache.\n\nAfter this keyword new indexes returned from `Open Browser` keyword\nare reset to 1.\n\nThis keyword should be used in test or suite teardown to make sure\nall browsers are closed.", 
+            "tags": []
+        }, 
+        "page_should_contain_list": {
+            "keyword_name": "Page Should Contain List", 
+            "keyword_arguments": [
+                "locator", 
+                "message=", 
+                "loglevel=INFO"
+            ], 
+            "documentation": "Verifies select list identified by `locator` is found from current page.\n\nSee `Page Should Contain Element` for explanation about `message` and\n`loglevel` arguments.\n\nKey attributes for lists are `id` and `name`. See `introduction` for\ndetails about locating elements.", 
+            "tags": []
+        }, 
+        "location_should_be": {
+            "keyword_name": "Location Should Be", 
+            "keyword_arguments": [
+                "url"
+            ], 
+            "documentation": "Verifies that current URL is exactly `url`.", 
+            "tags": []
+        }, 
+        "get_cookie_value": {
+            "keyword_name": "Get Cookie Value", 
+            "keyword_arguments": [
+                "name"
+            ], 
+            "documentation": "Returns value of cookie found with `name`.\n\nIf no cookie is found with `name`, this keyword fails.", 
+            "tags": []
+        }, 
+        "double_click_element": {
+            "keyword_name": "Double Click Element", 
+            "keyword_arguments": [
+                "locator"
+            ], 
+            "documentation": "Double click element identified by `locator`.\n\nKey attributes for arbitrary elements are `id` and `name`. See\n`introduction` for details about locating elements.", 
+            "tags": []
+        }, 
+        "page_should_not_contain_list": {
+            "keyword_name": "Page Should Not Contain List", 
+            "keyword_arguments": [
+                "locator", 
+                "message=", 
+                "loglevel=INFO"
+            ], 
+            "documentation": "Verifies select list identified by `locator` is not found from current page.\n\nSee `Page Should Contain Element` for explanation about `message` and\n`loglevel` arguments.\n\nKey attributes for lists are `id` and `name`. See `introduction` for\ndetails about locating elements.", 
+            "tags": []
+        }, 
+        "unselect_frame": {
+            "keyword_name": "Unselect Frame", 
+            "keyword_arguments": [], 
+            "documentation": "Sets the top frame as the current frame.", 
+            "tags": []
+        }
+    }, 
+    "library_module": "Selenium2Library", 
+    "arguments": [
+        "timeout=5.0", 
+        "run_on_failure=Common Keyword 1"
+    ]
+}

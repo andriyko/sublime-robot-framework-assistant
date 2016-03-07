@@ -1,0 +1,536 @@
+{
+    "keywords": {
+        "move_directory": {
+            "keyword_name": "Move Directory", 
+            "keyword_arguments": [
+                "source", 
+                "destination"
+            ], 
+            "documentation": "Moves the source directory into a destination.\n\nUses `Copy Directory` keyword internally, and ``source`` and\n``destination`` arguments have exactly same semantics as with\nthat keyword.", 
+            "tags": []
+        }, 
+        "count_items_in_directory": {
+            "keyword_name": "Count Items In Directory", 
+            "keyword_arguments": [
+                "path", 
+                "pattern=None"
+            ], 
+            "documentation": "Returns and logs the number of all items in the given directory.\n\nThe argument ``pattern`` has the same semantics as with `List Directory`\nkeyword. The count is returned as an integer, so it must be checked e.g.\nwith the built-in keyword `Should Be Equal As Integers`.", 
+            "tags": []
+        }, 
+        "append_to_file": {
+            "keyword_name": "Append To File", 
+            "keyword_arguments": [
+                "path", 
+                "content", 
+                "encoding=UTF-8"
+            ], 
+            "documentation": "Appends the given contend to the specified file.\n\nIf the file does not exists, this keyword works exactly the same\nway as `Create File`.", 
+            "tags": []
+        }, 
+        "run_and_return_rc_and_output": {
+            "keyword_name": "Run And Return Rc And Output", 
+            "keyword_arguments": [
+                "command"
+            ], 
+            "documentation": "Runs the given command in the system and returns the RC and output.\n\nThe return code (RC) is returned similarly as with `Run And Return RC`\nand the output similarly as with `Run`.\n\nExamples:\n| ${rc} | ${output} =  | Run and Return RC and Output | ${CURDIR}${/}mytool |\n| Should Be Equal As Integers | ${rc}    | 0    |\n| Should Not Contain   | ${output}       | FAIL |\n| ${rc} | ${stdout} =  | Run and Return RC and Output | /opt/script.sh 2>/tmp/stderr.txt |\n| Should Be True       | ${rc} > 42      |\n| Should Be Equal      | ${stdout}       | TEST PASSED |\n| File Should Be Empty | /tmp/stderr.txt |\n\n*TIP:* `Run Process` keyword provided by the `Process library` supports\nbetter process configuration and is generally recommended as a\nreplacement for this keyword.", 
+            "tags": []
+        }, 
+        "set_environment_variable": {
+            "keyword_name": "Set Environment Variable", 
+            "keyword_arguments": [
+                "name", 
+                "value"
+            ], 
+            "documentation": "Sets an environment variable to a specified value.\n\nValues are converted to strings automatically. Starting from Robot\nFramework 2.7, set variables are automatically encoded using the system\nencoding.", 
+            "tags": []
+        }, 
+        "read_process_output": {
+            "keyword_name": "Read Process Output", 
+            "keyword_arguments": [], 
+            "documentation": "*DEPRECATED.* Use keywords in the `Process library` instead.\n\nWaits for a process to finish and returns its output.\n\nThis keyword waits for a process started with `Start Process` to end\nand then returns all output it has produced. The returned output\ncontains everything the process has written into the standard output\nand error streams.\n\nThere is no need to use `Stop Process` after using this keyword.\nTrying to read from an already stopped process fails.\n\nNote that although the process is finished, it still stays as the\nactive process. Use `Switch Process` to switch the active process or\n`Stop All Processes` to reset the list of started processes.", 
+            "tags": []
+        }, 
+        "create_binary_file": {
+            "keyword_name": "Create Binary File", 
+            "keyword_arguments": [
+                "path", 
+                "content"
+            ], 
+            "documentation": "Creates a binary file with the given content.\n\nIf content is given as a Unicode string, it is first converted to bytes\ncharacter by character. All characters with ordinal below 256 can be\nused and are converted to bytes with same values. Using characters\nwith higher ordinal is an error.\n\nByte strings, and possible other types, are written to the file as is.\n\nIf the directory where to create file does not exist it, and possible\nintermediate missing directories, are created.\n\nExamples:\n| Create Binary File | ${dir}/example.png | ${image content}     |\n| Create Binary File | ${path}            | \\x01\\x00\\xe4\\x00 |\n\nUse `Create File` if you want to create a text file using a certain\nencoding. `File Should Not Exist` can be used to avoid overwriting\nexisting files.\n\nNew in Robot Framework 2.8.5.", 
+            "tags": []
+        }, 
+        "split_extension": {
+            "keyword_name": "Split Extension", 
+            "keyword_arguments": [
+                "path"
+            ], 
+            "documentation": "Splits the extension from the given path.\n\nThe given path is first normalized (e.g. possible trailing\npath separators removed, special directories ``..`` and ``.``\nremoved). The base path and extension are returned as separate\ncomponents so that the dot used as an extension separator is\nremoved. If the path contains no extension, an empty string is\nreturned for it. Possible leading and trailing dots in the file\nname are never considered to be extension separators.\n\nExamples:\n| ${path} | ${ext} = | Split Extension | file.extension    |\n| ${p2}   | ${e2} =  | Split Extension | path/file.ext     |\n| ${p3}   | ${e3} =  | Split Extension | path/file         |\n| ${p4}   | ${e4} =  | Split Extension | p1/../p2/file.ext |\n| ${p5}   | ${e5} =  | Split Extension | path/.file.ext    |\n| ${p6}   | ${e6} =  | Split Extension | path/.file        |\n=>\n- ${path} = 'file' & ${ext} = 'extension'\n- ${p2} = 'path/file' & ${e2} = 'ext'\n- ${p3} = 'path/file' & ${e3} = ''\n- ${p4} = 'p2/file' & ${e4} = 'ext'\n- ${p5} = 'path/.file' & ${e5} = 'ext'\n- ${p6} = 'path/.file' & ${e6} = ''", 
+            "tags": []
+        }, 
+        "stop_process": {
+            "keyword_name": "Stop Process", 
+            "keyword_arguments": [], 
+            "documentation": "*DEPRECATED.* Use keywords in the `Process library` instead.\n\nCloses the standard output stream of the process.\n\nThis keyword does not actually stop the process nor even wait for it\nto terminate. Only thing it does is closing the standard output stream\nof the process. Depending on the process that may terminate it but\nthat is not guaranteed. Use `Read Process Output` instead if you need\nto wait for the process to complete.\n\nThis keyword operates the active process similarly as `Read Process\nOutput`. Stopping an already stopped process is not an error.", 
+            "tags": []
+        }, 
+        "get_environment_variable": {
+            "keyword_name": "Get Environment Variable", 
+            "keyword_arguments": [
+                "name", 
+                "default=None"
+            ], 
+            "documentation": "Returns the value of an environment variable with the given name.\n\nIf no such environment variable is set, returns the default value, if\ngiven. Otherwise fails the test case.\n\nStarting from Robot Framework 2.7, returned variables are automatically\ndecoded to Unicode using the system encoding.\n\nNote that you can also access environment variables directly using\nthe variable syntax ``%{ENV_VAR_NAME}``.", 
+            "tags": []
+        }, 
+        "environment_variable_should_be_set": {
+            "keyword_name": "Environment Variable Should Be Set", 
+            "keyword_arguments": [
+                "name", 
+                "msg=None"
+            ], 
+            "documentation": "Fails if the specified environment variable is not set.\n\nThe default error message can be overridden with the ``msg`` argument.", 
+            "tags": []
+        }, 
+        "get_modified_time": {
+            "keyword_name": "Get Modified Time", 
+            "keyword_arguments": [
+                "path", 
+                "format=timestamp"
+            ], 
+            "documentation": "Returns the last modification time of a file or directory.\n\nHow time is returned is determined based on the given ``format``\nstring as follows. Note that all checks are case-insensitive.\nReturned time is also automatically logged.\n\n1) If ``format`` contains the word ``epoch``, the time is returned\n   in seconds after the UNIX epoch. The return value is always\n   an integer.\n\n2) If ``format`` contains any of the words ``year``, ``month``,\n   ``day``, ``hour``, ``min`` or ``sec``, only the selected parts are\n   returned. The order of the returned parts is always the one\n   in the previous sentence and the order of the words in\n   ``format`` is not significant. The parts are returned as\n   zero-padded strings (e.g. May -> ``05``).\n\n3) Otherwise, and by default, the time is returned as a\n   timestamp string in the format ``2006-02-24 15:08:31``.\n\nExamples (when the modified time of ``${CURDIR}`` is\n2006-03-29 15:06:21):\n| ${time} = | Get Modified Time | ${CURDIR} |\n| ${secs} = | Get Modified Time | ${CURDIR} | epoch |\n| ${year} = | Get Modified Time | ${CURDIR} | return year |\n| ${y} | ${d} = | Get Modified Time | ${CURDIR} | year,day |\n| @{time} = | Get Modified Time | ${CURDIR} | year,month,day,hour,min,sec |\n=>\n- ${time} = '2006-03-29 15:06:21'\n- ${secs} = 1143637581\n- ${year} = '2006'\n- ${y} = '2006' & ${d} = '29'\n- @{time} = ['2006', '03', '29', '15', '06', '21']", 
+            "tags": []
+        }, 
+        "touch": {
+            "keyword_name": "Touch", 
+            "keyword_arguments": [
+                "path"
+            ], 
+            "documentation": "Emulates the UNIX touch command.\n\nCreates a file, if it does not exist. Otherwise changes its access and\nmodification times to the current time.\n\nFails if used with the directories or the parent directory of the given\nfile does not exist.", 
+            "tags": []
+        }, 
+        "grep_file": {
+            "keyword_name": "Grep File", 
+            "keyword_arguments": [
+                "path", 
+                "pattern", 
+                "encoding=UTF-8", 
+                "encoding_errors=strict"
+            ], 
+            "documentation": "Returns the lines of the specified file that match the ``pattern``.\n\nThis keyword reads a file from the file system using the defined\n``path``, ``encoding`` and ``encoding_errors`` similarly as `Get File`.\nA difference is that only the lines that match the given ``pattern`` are\nreturned. Lines are returned as a single string catenated back together\nwith newlines and the number of matched lines is automatically logged.\nPossible trailing newline is never returned.\n\nA line matches if it contains the ``pattern`` anywhere in it and\nit *does not need to match the pattern fully*. The pattern\nmatching syntax is explained in `introduction`, and in this\ncase matching is case-sensitive.\n\nExamples:\n| ${errors} = | Grep File | /var/log/myapp.log | ERROR |\n| ${ret} = | Grep File | ${CURDIR}/file.txt | [Ww]ildc??d ex*ple |\n\nIf more complex pattern matching is needed, it is possible to use\n`Get File` in combination with String library keywords like `Get\nLines Matching Regexp`.\n\n``encoding_errors`` argument is new in Robot Framework 2.8.5.", 
+            "tags": []
+        }, 
+        "should_not_exist": {
+            "keyword_name": "Should Not Exist", 
+            "keyword_arguments": [
+                "path", 
+                "msg=None"
+            ], 
+            "documentation": "Fails if the given path (file or directory) exists.\n\nThe path can be given as an exact path or as a glob pattern.\nThe pattern matching syntax is explained in `introduction`.\nThe default error message can be overridden with the ``msg`` argument.", 
+            "tags": []
+        }, 
+        "directory_should_be_empty": {
+            "keyword_name": "Directory Should Be Empty", 
+            "keyword_arguments": [
+                "path", 
+                "msg=None"
+            ], 
+            "documentation": "Fails unless the specified directory is empty.\n\nThe default error message can be overridden with the ``msg`` argument.", 
+            "tags": []
+        }, 
+        "list_files_in_directory": {
+            "keyword_name": "List Files In Directory", 
+            "keyword_arguments": [
+                "path", 
+                "pattern=None", 
+                "absolute=False"
+            ], 
+            "documentation": "Wrapper for `List Directory` that returns only files.", 
+            "tags": []
+        }, 
+        "file_should_not_exist": {
+            "keyword_name": "File Should Not Exist", 
+            "keyword_arguments": [
+                "path", 
+                "msg=None"
+            ], 
+            "documentation": "Fails if the given path points to an existing file.\n\nThe path can be given as an exact path or as a glob pattern.\nThe pattern matching syntax is explained in `introduction`.\nThe default error message can be overridden with the ``msg`` argument.", 
+            "tags": []
+        }, 
+        "directory_should_not_exist": {
+            "keyword_name": "Directory Should Not Exist", 
+            "keyword_arguments": [
+                "path", 
+                "msg=None"
+            ], 
+            "documentation": "Fails if the given path points to an existing file.\n\nThe path can be given as an exact path or as a glob pattern.\nThe pattern matching syntax is explained in `introduction`.\nThe default error message can be overridden with the ``msg`` argument.", 
+            "tags": []
+        }, 
+        "join_path": {
+            "keyword_name": "Join Path", 
+            "keyword_arguments": [
+                "base", 
+                "*parts"
+            ], 
+            "documentation": "Joins the given path part(s) to the given base path.\n\nThe path separator (``/`` or ``\\``) is inserted when needed and\nthe possible absolute paths handled as expected. The resulted\npath is also normalized.\n\nExamples:\n| ${path} = | Join Path | my        | path  |\n| ${p2} =   | Join Path | my/       | path/ |\n| ${p3} =   | Join Path | my        | path  | my | file.txt |\n| ${p4} =   | Join Path | my        | /path |\n| ${p5} =   | Join Path | /my/path/ | ..    | path2 |\n=>\n- ${path} = 'my/path'\n- ${p2} = 'my/path'\n- ${p3} = 'my/path/my/file.txt'\n- ${p4} = '/path'\n- ${p5} = '/my/path2'", 
+            "tags": []
+        }, 
+        "file_should_exist": {
+            "keyword_name": "File Should Exist", 
+            "keyword_arguments": [
+                "path", 
+                "msg=None"
+            ], 
+            "documentation": "Fails unless the given ``path`` points to an existing file.\n\nThe path can be given as an exact path or as a glob pattern.\nThe pattern matching syntax is explained in `introduction`.\nThe default error message can be overridden with the ``msg`` argument.", 
+            "tags": []
+        }, 
+        "create_file": {
+            "keyword_name": "Create File", 
+            "keyword_arguments": [
+                "path", 
+                "content=", 
+                "encoding=UTF-8"
+            ], 
+            "documentation": "Creates a file with the given content and encoding.\n\nIf the directory where to create file does not exist it, and possible\nintermediate missing directories, are created.\n\nExamples:\n| Create File | ${dir}/example.txt | Hello, world!      |         |\n| Create File | ${path}            | Hyv\\xe4 esimerkki | latin-1 |\n\nUse `Append To File` if you want to append to an existing file\nand `Create Binary File` if you need to write bytes without encoding.\n`File Should Not Exist` can be used to avoid overwriting existing\nfiles.", 
+            "tags": []
+        }, 
+        "count_files_in_directory": {
+            "keyword_name": "Count Files In Directory", 
+            "keyword_arguments": [
+                "path", 
+                "pattern=None"
+            ], 
+            "documentation": "Wrapper for `Count Items In Directory` returning only file count.", 
+            "tags": []
+        }, 
+        "copy_files": {
+            "keyword_name": "Copy Files", 
+            "keyword_arguments": [
+                "*sources_and_destination"
+            ], 
+            "documentation": "Copies specified files to the target directory.\n\nSource files can be given as exact paths and as glob patterns (see\n`Pattern matching`). At least one source must be given, but it is\nnot an error if it is a pattern that does not match anything.\n\nLast argument must be the destination directory. If the destination\ndoes not exist, it will be created.\n\nExamples:\n| Copy Files | ${dir}/file1.txt  | ${dir}/file2.txt | ${dir2} |\n| Copy Files | ${dir}/file-*.txt | ${dir2}          |         |\n\nSee also `Copy File`, `Move File`, and `Move Files`.\n\nNew in Robot Framework 2.8.4.", 
+            "tags": []
+        }, 
+        "set_modified_time": {
+            "keyword_name": "Set Modified Time", 
+            "keyword_arguments": [
+                "path", 
+                "mtime"
+            ], 
+            "documentation": "Sets the file modification and access times.\n\nChanges the modification and access times of the given file to\nthe value determined by ``mtime``. The time can be given in\ndifferent formats described below. Note that all checks\ninvolving strings are case-insensitive. Modified time can only\nbe set to regular files.\n\n1) If ``mtime`` is a number, or a string that can be converted\n   to a number, it is interpreted as seconds since the UNIX\n   epoch (1970-01-01 00:00:00 UTC). This documentation was\n   originally written about 1177654467 seconds after the epoch.\n\n2) If ``mtime`` is a timestamp, that time will be used. Valid\n   timestamp formats are ``YYYY-MM-DD hh:mm:ss`` and\n   ``YYYYMMDD hhmmss``.\n\n3) If ``mtime`` is equal to ``NOW``, the current local time is used.\n   This time is got using Python's ``time.time()`` function.\n\n4) If ``mtime`` is equal to ``UTC``, the current time in\n   [http://en.wikipedia.org/wiki/Coordinated_Universal_Time|UTC]\n   is used. This time is got using ``time.time() + time.altzone``\n   in Python.\n\n5) If ``mtime`` is in the format like ``NOW - 1 day`` or ``UTC + 1\n   hour 30 min``, the current local/UTC time plus/minus the time\n   specified with the time string is used. The time string format\n   is described in an appendix of Robot Framework User Guide.\n\nExamples:\n| Set Modified Time | /path/file | 1177654467         | # Time given as epoch seconds |\n| Set Modified Time | /path/file | 2007-04-27 9:14:27 | # Time given as a timestamp   |\n| Set Modified Time | /path/file | NOW                | # The local time of execution |\n| Set Modified Time | /path/file | NOW - 1 day        | # 1 day subtracted from the local time |\n| Set Modified Time | /path/file | UTC + 1h 2min 3s   | # 1h 2min 3s added to the UTC time |\n\nSupport for UTC time is a new feature in Robot Framework 2.7.5.", 
+            "tags": []
+        }, 
+        "switch_process": {
+            "keyword_name": "Switch Process", 
+            "keyword_arguments": [
+                "index_or_alias"
+            ], 
+            "documentation": "*DEPRECATED.* Use keywords in the `Process library` instead.\n\nSwitches the active process to the specified process.\n\nNew active process can be specified either using an index or an alias.\nIndices are return values from `Start Process` and aliases can be\ngiven to that keyword.\n\nExample:\n| Start Process  | /path/script.sh arg  | alias=1st process |\n| ${2nd} =       | Start Process        | /path/script2.sh |\n| Switch Process | 1st process          |\n| ${out1} =      | Read Process Output  |\n| Switch Process | ${2nd}               |\n| ${out2} =      | Read Process Output  |\n| Log Many       | 1st process: ${out1} | 2nd process: ${out1} |\n| [Teardown]     | Stop All Processes   |", 
+            "tags": []
+        }, 
+        "get_environment_variables": {
+            "keyword_name": "Get Environment Variables", 
+            "keyword_arguments": [], 
+            "documentation": "Returns currently available environment variables as a dictionary.\n\nBoth keys and values are decoded to Unicode using the system encoding.\nAltering the returned dictionary has no effect on the actual environment\nvariables.\n\nNew in Robot Framework 2.7.", 
+            "tags": []
+        }, 
+        "stop_all_processes": {
+            "keyword_name": "Stop All Processes", 
+            "keyword_arguments": [], 
+            "documentation": "*DEPRECATED.* Use keywords in the `Process library` instead.\n\nCloses the standard output of all the processes and resets the process\nlist.\n\nExactly like `Stop Process`, this keyword does not actually stop\nprocesses nor even wait for them to terminate.\n\nThis keyword resets the indexing that `Start Process` uses. All aliases\nare also deleted. It does not matter have some of the processes\nalready been closed or not.", 
+            "tags": []
+        }, 
+        "append_to_environment_variable": {
+            "keyword_name": "Append To Environment Variable", 
+            "keyword_arguments": [
+                "name", 
+                "*values", 
+                "**config"
+            ], 
+            "documentation": "Appends given ``values`` to environment variable ``name``.\n\nIf the environment variable already exists, values are added after it,\nand otherwise a new environment variable is created.\n\nValues are, by default, joined together using the operating system\npath separator (``;`` on Windows, ``:`` elsewhere). This can be changed\nby giving a separator after the values like ``separator=value``. No\nother configuration parameters are accepted.\n\nExamples (assuming ``NAME`` and ``NAME2`` do not exist initially):\n| Append To Environment Variable | NAME     | first  |       |\n| Should Be Equal                | %{NAME}  | first  |       |\n| Append To Environment Variable | NAME     | second | third |\n| Should Be Equal                | %{NAME}  | first${:}second${:}third |\n| Append To Environment Variable | NAME2    | first  | separator=-     |\n| Should Be Equal                | %{NAME2} | first  |                 |\n| Append To Environment Variable | NAME2    | second | separator=-     |\n| Should Be Equal                | %{NAME2} | first-second             |\n\nNew in Robot Framework 2.8.4.", 
+            "tags": []
+        }, 
+        "run": {
+            "keyword_name": "Run", 
+            "keyword_arguments": [
+                "command"
+            ], 
+            "documentation": "Runs the given command in the system and returns the output.\n\nThe execution status of the command *is not checked* by this\nkeyword, and it must be done separately based on the returned\noutput. If the execution return code is needed, either `Run\nAnd Return RC` or `Run And Return RC And Output` can be used.\n\nThe standard error stream is automatically redirected to the standard\noutput stream by adding ``2>&1`` after the executed command. This\nautomatic redirection is done only when the executed command does not\ncontain additional output redirections. You can thus freely forward\nthe standard error somewhere else, for example, like\n``my_command 2>stderr.txt``.\n\nThe returned output contains everything written into the standard\noutput or error streams by the command (unless either of them\nis redirected explicitly). Many commands add an extra newline\n(``\\n``) after the output to make it easier to read in the\nconsole. To ease processing the returned output, this possible\ntrailing newline is stripped by this keyword.\n\nExamples:\n| ${output} =        | Run       | ls -lhF /tmp |\n| Log                | ${output} |\n| ${result} =        | Run       | ${CURDIR}${/}tester.py arg1 arg2 |\n| Should Not Contain | ${result} | FAIL |\n| ${stdout} =        | Run       | /opt/script.sh 2>/tmp/stderr.txt |\n| Should Be Equal    | ${stdout} | TEST PASSED |\n| File Should Be Empty | /tmp/stderr.txt |\n\n*TIP:* `Run Process` keyword provided by the `Process library` supports\nbetter process configuration and is generally recommended as a\nreplacement for this keyword.", 
+            "tags": []
+        }, 
+        "file_should_be_empty": {
+            "keyword_name": "File Should Be Empty", 
+            "keyword_arguments": [
+                "path", 
+                "msg=None"
+            ], 
+            "documentation": "Fails unless the specified file is empty.\n\nThe default error message can be overridden with the ``msg`` argument.", 
+            "tags": []
+        }, 
+        "should_exist": {
+            "keyword_name": "Should Exist", 
+            "keyword_arguments": [
+                "path", 
+                "msg=None"
+            ], 
+            "documentation": "Fails unless the given path (file or directory) exists.\n\nThe path can be given as an exact path or as a glob pattern.\nThe pattern matching syntax is explained in `introduction`.\nThe default error message can be overridden with the ``msg`` argument.", 
+            "tags": []
+        }, 
+        "copy_file": {
+            "keyword_name": "Copy File", 
+            "keyword_arguments": [
+                "source", 
+                "destination"
+            ], 
+            "documentation": "Copies the source file into the destination.\n\nSource must be an existing file. Starting from Robot Framework 2.8.4,\nit can be given as a glob pattern (see `Pattern matching`) that matches\nexactly one file. How the destination is interpreted is explained below.\n\n1) If the destination is an existing file, the source file is copied\nover it.\n\n2) If the destination is an existing directory, the source file is\ncopied into it. A possible file with the same name as the source is\noverwritten.\n\n3) If the destination does not exist and it ends with a path\nseparator (``/`` or ``\\``), it is considered a directory. That\ndirectory is created and a source file copied into it.\nPossible missing intermediate directories are also created.\n\n4) If the destination does not exist and it does not end with a path\nseparator, it is considered a file. If the path to the file does not\nexist, it is created.\n\nThe resulting destination path is returned since Robot Framework 2.9.2.\n\nSee also `Copy Files`, `Move File`, and `Move Files`.", 
+            "tags": []
+        }, 
+        "join_paths": {
+            "keyword_name": "Join Paths", 
+            "keyword_arguments": [
+                "base", 
+                "*paths"
+            ], 
+            "documentation": "Joins given paths with base and returns resulted paths.\n\nSee `Join Path` for more information.\n\nExamples:\n| @{p1} = | Join Path | base     | example       | other |          |\n| @{p2} = | Join Path | /my/base | /example      | other |          |\n| @{p3} = | Join Path | my/base  | example/path/ | other | one/more |\n=>\n- @{p1} = ['base/example', 'base/other']\n- @{p2} = ['/example', '/my/base/other']\n- @{p3} = ['my/base/example/path', 'my/base/other', 'my/base/one/more']", 
+            "tags": []
+        }, 
+        "get_binary_file": {
+            "keyword_name": "Get Binary File", 
+            "keyword_arguments": [
+                "path"
+            ], 
+            "documentation": "Returns the contents of a specified file.\n\nThis keyword reads the specified file and returns the contents as is.\nSee also `Get File`.", 
+            "tags": []
+        }, 
+        "wait_until_removed": {
+            "keyword_name": "Wait Until Removed", 
+            "keyword_arguments": [
+                "path", 
+                "timeout=1 minute"
+            ], 
+            "documentation": "Waits until the given file or directory is removed.\n\nThe path can be given as an exact path or as a glob pattern.\nThe pattern matching syntax is explained in `introduction`.\nIf the path is a pattern, the keyword waits until all matching\nitems are removed.\n\nThe optional ``timeout`` can be used to control the maximum time of\nwaiting. The timeout is given as a timeout string, e.g. in a format\n``15 seconds``, ``1min 10s`` or just ``10``. The time string format is\ndescribed in an appendix of Robot Framework User Guide.\n\nIf the timeout is negative, the keyword is never timed-out. The keyword\nreturns immediately, if the path does not exist in the first place.", 
+            "tags": []
+        }, 
+        "get_file_size": {
+            "keyword_name": "Get File Size", 
+            "keyword_arguments": [
+                "path"
+            ], 
+            "documentation": "Returns and logs file size as an integer in bytes.", 
+            "tags": []
+        }, 
+        "move_file": {
+            "keyword_name": "Move File", 
+            "keyword_arguments": [
+                "source", 
+                "destination"
+            ], 
+            "documentation": "Moves the source file into the destination.\n\nArguments have exactly same semantics as with `Copy File` keyword.\nDestination file path is returned since Robot Framework 2.9.2.\n\nIf the source and destination are on the same filesystem, rename\noperation is used. Otherwise file is copied to the destination\nfilesystem and then removed from the original filesystem.\n\nSee also `Move Files`, `Copy File`, and `Copy Files`.", 
+            "tags": []
+        }, 
+        "list_directories_in_directory": {
+            "keyword_name": "List Directories In Directory", 
+            "keyword_arguments": [
+                "path", 
+                "pattern=None", 
+                "absolute=False"
+            ], 
+            "documentation": "Wrapper for `List Directory` that returns only directories.", 
+            "tags": []
+        }, 
+        "environment_variable_should_not_be_set": {
+            "keyword_name": "Environment Variable Should Not Be Set", 
+            "keyword_arguments": [
+                "name", 
+                "msg=None"
+            ], 
+            "documentation": "Fails if the specified environment variable is set.\n\nThe default error message can be overridden with the ``msg`` argument.", 
+            "tags": []
+        }, 
+        "directory_should_not_be_empty": {
+            "keyword_name": "Directory Should Not Be Empty", 
+            "keyword_arguments": [
+                "path", 
+                "msg=None"
+            ], 
+            "documentation": "Fails if the specified directory is empty.\n\nThe default error message can be overridden with the ``msg`` argument.", 
+            "tags": []
+        }, 
+        "split_path": {
+            "keyword_name": "Split Path", 
+            "keyword_arguments": [
+                "path"
+            ], 
+            "documentation": "Splits the given path from the last path separator (``/`` or ``\\``).\n\nThe given path is first normalized (e.g. a possible trailing\npath separator is removed, special directories ``..`` and ``.``\nremoved). The parts that are split are returned as separate\ncomponents.\n\nExamples:\n| ${path1} | ${dir} =  | Split Path | abc/def         |\n| ${path2} | ${file} = | Split Path | abc/def/ghi.txt |\n| ${path3} | ${d2}  =  | Split Path | abc/../def/ghi/ |\n=>\n- ${path1} = 'abc' & ${dir} = 'def'\n- ${path2} = 'abc/def' & ${file} = 'ghi.txt'\n- ${path3} = 'def' & ${d2} = 'ghi'", 
+            "tags": []
+        }, 
+        "log_environment_variables": {
+            "keyword_name": "Log Environment Variables", 
+            "keyword_arguments": [
+                "level=INFO"
+            ], 
+            "documentation": "Logs all environment variables using the given log level.\n\nEnvironment variables are also returned the same way as with\n`Get Environment Variables` keyword.\n\nNew in Robot Framework 2.7.", 
+            "tags": []
+        }, 
+        "list_directory": {
+            "keyword_name": "List Directory", 
+            "keyword_arguments": [
+                "path", 
+                "pattern=None", 
+                "absolute=False"
+            ], 
+            "documentation": "Returns and logs items in a directory, optionally filtered with ``pattern``.\n\nFile and directory names are returned in case-sensitive alphabetical\norder, e.g. ``['A Name', 'Second', 'a lower case name', 'one more']``.\nImplicit directories ``.`` and ``..`` are not returned. The returned\nitems are automatically logged.\n\nFile and directory names are returned relative to the given path\n(e.g. ``'file.txt'``) by default. If you want them be returned in\nabsolute format (e.g. ``'/home/robot/file.txt'``), give the ``absolute``\nargument a true value (see `Boolean arguments`).\n\nIf ``pattern`` is given, only items matching it are returned. The pattern\nmatching syntax is explained in `introduction`, and in this case\nmatching is case-sensitive.\n\nExamples (using also other `List Directory` variants):\n| @{items} = | List Directory           | ${TEMPDIR} |\n| @{files} = | List Files In Directory  | /tmp | *.txt | absolute |\n| ${count} = | Count Files In Directory | ${CURDIR} | ??? |", 
+            "tags": []
+        }, 
+        "normalize_path": {
+            "keyword_name": "Normalize Path", 
+            "keyword_arguments": [
+                "path"
+            ], 
+            "documentation": "Normalizes the given path.\n\nExamples:\n| ${path} = | Normalize Path | abc        |\n| ${p2} =   | Normalize Path | abc/       |\n| ${p3} =   | Normalize Path | abc/../def |\n| ${p4} =   | Normalize Path | abc/./def  |\n| ${p5} =   | Normalize Path | abc//def   |\n=>\n- ${path} = 'abc'\n- ${p2} = 'abc'\n- ${p3} = 'def'\n- ${p4} = 'abc/def'\n- ${p5} = 'abc/def'", 
+            "tags": []
+        }, 
+        "run_and_return_rc": {
+            "keyword_name": "Run And Return Rc", 
+            "keyword_arguments": [
+                "command"
+            ], 
+            "documentation": "Runs the given command in the system and returns the return code.\n\nThe return code (RC) is returned as a positive integer in\nrange from 0 to 255 as returned by the executed command. On\nsome operating systems (notable Windows) original return codes\ncan be something else, but this keyword always maps them to\nthe 0-255 range. Since the RC is an integer, it must be\nchecked e.g. with the keyword `Should Be Equal As Integers`\ninstead of `Should Be Equal` (both are built-in keywords).\n\nExamples:\n| ${rc} = | Run and Return RC | ${CURDIR}${/}script.py arg |\n| Should Be Equal As Integers | ${rc} | 0 |\n| ${rc} = | Run and Return RC | /path/to/example.rb arg1 arg2 |\n| Should Be True | 0 < ${rc} < 42 |\n\nSee `Run` and `Run And Return RC And Output` if you need to get the\noutput of the executed command.\n\n*TIP:* `Run Process` keyword provided by the `Process library` supports\nbetter process configuration and is generally recommended as a\nreplacement for this keyword.", 
+            "tags": []
+        }, 
+        "move_files": {
+            "keyword_name": "Move Files", 
+            "keyword_arguments": [
+                "*sources_and_destination"
+            ], 
+            "documentation": "Moves specified files to the target directory.\n\nArguments have exactly same semantics as with `Copy Files` keyword.\n\nSee also `Move File`, `Copy File`, and `Copy Files`.\n\nNew in Robot Framework 2.8.4.", 
+            "tags": []
+        }, 
+        "remove_environment_variable": {
+            "keyword_name": "Remove Environment Variable", 
+            "keyword_arguments": [
+                "*names"
+            ], 
+            "documentation": "Deletes the specified environment variable.\n\nDoes nothing if the environment variable is not set.\n\nStarting from Robot Framework 2.7, it is possible to remove multiple\nvariables by passing them to this keyword as separate arguments.", 
+            "tags": []
+        }, 
+        "remove_files": {
+            "keyword_name": "Remove Files", 
+            "keyword_arguments": [
+                "*paths"
+            ], 
+            "documentation": "Uses `Remove File` to remove multiple files one-by-one.\n\nExample:\n| Remove Files | ${TEMPDIR}${/}foo.txt | ${TEMPDIR}${/}bar.txt | ${TEMPDIR}${/}zap.txt |", 
+            "tags": []
+        }, 
+        "file_should_not_be_empty": {
+            "keyword_name": "File Should Not Be Empty", 
+            "keyword_arguments": [
+                "path", 
+                "msg=None"
+            ], 
+            "documentation": "Fails if the specified directory is empty.\n\nThe default error message can be overridden with the ``msg`` argument.", 
+            "tags": []
+        }, 
+        "copy_directory": {
+            "keyword_name": "Copy Directory", 
+            "keyword_arguments": [
+                "source", 
+                "destination"
+            ], 
+            "documentation": "Copies the source directory into the destination.\n\nIf the destination exists, the source is copied under it. Otherwise\nthe destination directory and the possible missing intermediate\ndirectories are created.", 
+            "tags": []
+        }, 
+        "count_directories_in_directory": {
+            "keyword_name": "Count Directories In Directory", 
+            "keyword_arguments": [
+                "path", 
+                "pattern=None"
+            ], 
+            "documentation": "Wrapper for `Count Items In Directory` returning only directory count.", 
+            "tags": []
+        }, 
+        "create_directory": {
+            "keyword_name": "Create Directory", 
+            "keyword_arguments": [
+                "path"
+            ], 
+            "documentation": "Creates the specified directory.\n\nAlso possible intermediate directories are created. Passes if the\ndirectory already exists, but fails if the path exists and is not\na directory.", 
+            "tags": []
+        }, 
+        "directory_should_exist": {
+            "keyword_name": "Directory Should Exist", 
+            "keyword_arguments": [
+                "path", 
+                "msg=None"
+            ], 
+            "documentation": "Fails unless the given path points to an existing directory.\n\nThe path can be given as an exact path or as a glob pattern.\nThe pattern matching syntax is explained in `introduction`.\nThe default error message can be overridden with the ``msg`` argument.", 
+            "tags": []
+        }, 
+        "remove_directory": {
+            "keyword_name": "Remove Directory", 
+            "keyword_arguments": [
+                "path", 
+                "recursive=False"
+            ], 
+            "documentation": "Removes the directory pointed to by the given ``path``.\n\nIf the second argument ``recursive`` is given a true value (see\n`Boolean arguments`), the directory is removed recursively. Otherwise\nremoving fails if the directory is not empty.\n\nIf the directory pointed to by the ``path`` does not exist, the keyword\npasses, but it fails, if the ``path`` points to a file.", 
+            "tags": []
+        }, 
+        "wait_until_created": {
+            "keyword_name": "Wait Until Created", 
+            "keyword_arguments": [
+                "path", 
+                "timeout=1 minute"
+            ], 
+            "documentation": "Waits until the given file or directory is created.\n\nThe path can be given as an exact path or as a glob pattern.\nThe pattern matching syntax is explained in `introduction`.\nIf the path is a pattern, the keyword returns when an item matching\nit is created.\n\nThe optional ``timeout`` can be used to control the maximum time of\nwaiting. The timeout is given as a timeout string, e.g. in a format\n``15 seconds``, ``1min 10s`` or just ``10``. The time string format is\ndescribed in an appendix of Robot Framework User Guide.\n\nIf the timeout is negative, the keyword is never timed-out. The keyword\nreturns immediately, if the path already exists.", 
+            "tags": []
+        }, 
+        "remove_file": {
+            "keyword_name": "Remove File", 
+            "keyword_arguments": [
+                "path"
+            ], 
+            "documentation": "Removes a file with the given path.\n\nPasses if the file does not exist, but fails if the path does\nnot point to a regular file (e.g. it points to a directory).\n\nThe path can be given as an exact path or as a glob pattern.\nThe pattern matching syntax is explained in `introduction`.\nIf the path is a pattern, all files matching it are removed.", 
+            "tags": []
+        }, 
+        "log_file": {
+            "keyword_name": "Log File", 
+            "keyword_arguments": [
+                "path", 
+                "encoding=UTF-8", 
+                "encoding_errors=strict"
+            ], 
+            "documentation": "Wrapper for `Get File` that also logs the returned file.\n\nThe file is logged with the INFO level. If you want something else,\njust use `Get File` and the built-in keyword `Log` with the desired\nlevel.\n\n``encoding_errors`` argument is new in Robot Framework 2.8.5.", 
+            "tags": []
+        }, 
+        "empty_directory": {
+            "keyword_name": "Empty Directory", 
+            "keyword_arguments": [
+                "path"
+            ], 
+            "documentation": "Deletes all the content from the given directory.\n\nDeletes both files and sub-directories, but the specified directory\nitself if not removed. Use `Remove Directory` if you want to remove\nthe whole directory.", 
+            "tags": []
+        }, 
+        "get_file": {
+            "keyword_name": "Get File", 
+            "keyword_arguments": [
+                "path", 
+                "encoding=UTF-8", 
+                "encoding_errors=strict"
+            ], 
+            "documentation": "Returns the contents of a specified file.\n\nThis keyword reads the specified file and returns the contents.\nLine breaks in content are converted to platform independent form.\nSee also `Get Binary File`.\n\n``encoding`` defines the encoding of the file. The default value is\nUTF-8, which means that UTF-8 and ASCII-encoded files are read\ncorrectly.\n\n``encoding_errors`` argument controls what to do if decoding some bytes\nfails. All values accepted by ``decode`` method in Python are valid, but\nin practice the following values are most useful:\n\n- ``strict``: fail if characters cannot be decoded (default)\n- ``ignore``: ignore characters that cannot be decoded\n- ``replace``: replace characters that cannot be decoded with\n  a replacement character\n\n``encoding_errors`` argument is new in Robot Framework 2.8.5.", 
+            "tags": []
+        }, 
+        "start_process": {
+            "keyword_name": "Start Process", 
+            "keyword_arguments": [
+                "command", 
+                "stdin=None", 
+                "alias=None"
+            ], 
+            "documentation": "*DEPRECATED.* Use keywords in the `Process library` instead.\n\nStarts the given command as a background process.\n\nStarts the process in background and sets it as the active process.\n`Read Process Output` or `Stop Process` keywords affect this process\nunless `Switch Process` is used in between.\n\nIf the command needs input through the standard input stream,\nit can be defined with the ``stdin`` argument.  It is not\npossible to give input to the command later. Possible command\nline arguments must be given as part of the command like\n``/tmp/script.sh arg1 arg2``.\n\nReturns the index of this process. Indexing starts from 1, and indices\ncan be used to switch between processes using `Switch Process` keyword.\n`Stop All Processes` can be used to reset indexing.\n\nThe optional ``alias`` is a name for this process that may be used with\n`Switch Process` instead of the returned index.\n\nThe standard error stream is redirected to the standard input\nstream automatically. This is done for the same reasons as with `Run`\nkeyword, but redirecting is done when the process is started and not\nby adding ``2>&1`` to the command.\n\nExample:\n| Start Process  | /path/longlasting.sh |\n| Do Something   |                      |\n| ${output} =    | Read Process Output  |\n| Should Contain | ${output}            | Expected text |\n| [Teardown]     | Stop All Processes   |", 
+            "tags": []
+        }
+    }, 
+    "library_module": "OperatingSystem", 
+    "arguments": []
+}
