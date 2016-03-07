@@ -53,8 +53,6 @@ class GetKeywordDocumentation(object):
         ``object_name`` -- Library or resource object name.
         """
         open_tab = normalise_path(self.open_tab)
-        print open_tab
-        print self.open_tab
         index_name = get_index_name(rf_table_name(open_tab))
         index_data = get_data_from_json(
             path.join(self.index_dir, index_name)

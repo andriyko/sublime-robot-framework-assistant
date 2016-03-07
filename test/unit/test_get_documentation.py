@@ -1,6 +1,9 @@
 import unittest
 import env
-from os import path
+import shutil
+from os import path, mkdir
+from index.index import Index
+from queue.scanner import Scanner
 from parser_utils.file_formatter import rf_table_name, lib_table_name
 from get_documentation import GetKeywordDocumentation
 
@@ -10,7 +13,7 @@ class GetDocumentation(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         db_base = path.join(
-            env.RESOURCES_DIR,
+            env.RESULTS_DIR,
             'database_in_package_dir')
         cls.db_dir = path.join(
             db_base,
@@ -24,6 +27,20 @@ class GetDocumentation(unittest.TestCase):
             env.TEST_DATA_DIR,
             'suite_tree'
         )
+        if path.exists(db_base):
+            shutil.rmtree(db_base)
+        mkdir(db_base)
+        mkdir(cls.db_dir)
+        mkdir(cls.index_dir)
+        scanner = Scanner()
+        index = Index()
+        scanner.scan(
+            cls.suite_dir,
+            'robot',
+            cls.db_dir)
+        index.index_all_tables(
+            cls.db_dir,
+            cls.index_dir)
 
     def setUp(self):
         self.get_doc = GetKeywordDocumentation(
