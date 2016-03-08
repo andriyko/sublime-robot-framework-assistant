@@ -23,11 +23,17 @@ class ShowKeywordDocumentation(sublime_plugin.TextCommand):
                                              index_db, extension)
         db_dir = get_setting(SettingObject.table_dir)
         rf_cell = get_rf_table_separator(self.view)
+        rf_extension = get_setting(SettingObject.extension)
         if view_in_db:
             line, column = get_line(self.view)
             get_kw = ReturnKeywordAndObject(open_tab, rf_cell)
             keyword, object_name = get_kw.normalize(line, column)
-            get_doc = GetKeywordDocumentation(db_dir, index_db, open_tab)
+            get_doc = GetKeywordDocumentation(
+                db_dir,
+                index_db,
+                open_tab,
+                rf_extension
+            )
             doc = get_doc.return_documentation(object_name, keyword)
             if not doc:
                 doc = 'No documentation found for keyword: "{0}"'.format(

@@ -12,6 +12,7 @@ class GetDocumentation(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
+        cls.rf_extension = 'robot'
         db_base = path.join(
             env.RESULTS_DIR,
             'database_in_package_dir')
@@ -36,7 +37,7 @@ class GetDocumentation(unittest.TestCase):
         index = Index()
         scanner.scan(
             cls.suite_dir,
-            'robot',
+            cls.rf_extension,
             cls.db_dir)
         index.index_all_tables(
             cls.db_dir,
@@ -46,7 +47,9 @@ class GetDocumentation(unittest.TestCase):
         self.get_doc = GetKeywordDocumentation(
             table_dir=self.db_dir,
             index_dir=self.index_dir,
-            open_tab=self.test_a_file)
+            open_tab=self.test_a_file,
+            rf_extension=self.rf_extension
+        )
 
     def test_kw_only(self):
         cell = 'No Operation'
@@ -91,14 +94,17 @@ class GetDocumentation(unittest.TestCase):
         cell = 'No Operation'
         object_name = 'BuiltIn'
         table_name = self.get_doc.get_table_name_from_index(object_name, cell)
-        self.assertEqual(self.builtin_table_name, table_name)
+        self.assertEqual(table_name, self.builtin_table_name)
         cell = 'Test A Keyword'
         object_name = None
         table_name = self.get_doc.get_table_name_from_index(object_name, cell)
-        self.assertEqual(self.test_a_table_name, table_name)
+        self.assertEqual(table_name, self.test_a_table_name)
         object_name = ''
         table_name = self.get_doc.get_table_name_from_index(object_name, cell)
-        self.assertEqual(self.test_a_table_name, table_name)
+        self.assertEqual(table_name, self.test_a_table_name)
+        object_name = 'test_a'
+        table_name = self.get_doc.get_table_name_from_index(object_name, cell)
+        self.assertEqual(table_name, self.test_a_table_name)
 
     def test_get_keyword_documentation(self):
         cell = 'No Operation'
