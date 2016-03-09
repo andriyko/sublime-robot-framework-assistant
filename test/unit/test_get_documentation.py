@@ -61,6 +61,12 @@ class GetDocumentation(unittest.TestCase):
         expected = 'Logs the given message with'
         self.assertTrue(doc.startswith(expected))
 
+    def test_user_kw_with_module(self):
+        object_name = 'test_a'
+        cell = 'Test A Keyword'
+        doc = self.get_doc.return_documentation(object_name, cell)
+        self.assertEqual(doc, 'Some Doc Here')
+
     def test_error_conditions(self):
         cell = '${TEST_A}'
         object_name = None

@@ -5,14 +5,18 @@ from os import path
 from noralize_cell import ReturnKeywordAndObject
 
 
-
 class TestCompletions(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
+        cls.rf_ext = 'robot'
         cls.current_view = path.join(env.RESOURCES_DIR, 'current_view.json')
         cls.rf_cell = '    '
-        cls.rkao = ReturnKeywordAndObject(cls.current_view, cls.rf_cell)
+        cls.rkao = ReturnKeywordAndObject(
+            cls.current_view,
+            cls.rf_cell,
+            cls.rf_ext
+        )
 
     def test_get_rf_cell(self):
         kw_in_line = 'Comment'
@@ -67,6 +71,13 @@ class TestCompletions(unittest.TestCase):
         keyword, object_name = self.rkao.normalize(line, column)
         self.assertEqual(object_name, library)
         self.assertEqual(keyword, kw)
+        kw = 'Common Keyword 2'
+        library = 'common'
+        line = '{0}{1}.{2}'.format(self.rf_cell, library, kw)
+        column = len(line) - 1
+        keyword, object_name = self.rkao.normalize(line, column)
+        self.assertEqual(keyword, kw)
+        self.assertEqual(object_name, library)
 
     def test_normalize_long_lib_and_space_in_kw(self):
         kw = 'My Long Keyword'

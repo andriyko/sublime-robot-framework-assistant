@@ -14,10 +14,10 @@ class ReturnKeywordAndObject(object):
     name and object name. So that keyword documentation can be found
     database.
     """
-    def __init__(self, current_view, rf_cell):
-        self.index_data = None
-        self.current_view = current_view  # Currently open tab
+    def __init__(self, current_view, rf_cell, rf_extension):
+        self.current_view = current_view  # Path to current_view.json
         self.rf_cell = rf_cell
+        self.rf_extension = rf_extension
 
     def normalize(self, line, column):
         """Returns the keyword and object from the line.
@@ -57,16 +57,20 @@ class ReturnKeywordAndObject(object):
         ``rf_cell`` -- cell where the cursor is.
 
         ``rf_cell`` must be a valid valid keyword. Example
-        BuiltIn.Comment or Comment. ``rf_cell`` is separeted based
+        BuiltIn.Comment or Comment. ``rf_cell`` is separated based
         on the object names and keywords found from the
         current_view.json file. If object and/or keyword can not be
         found from the rf_cell, empty values are returned.
         """
+        self._get_data()
         completions = self.data[KW_COMPLETION]
         object_best_match = ''
         keyword_best_match = ''
         for kw_completion in completions:
-            object_name = kw_completion[2]
+            # This leaves bug in code if the there class name imported like:
+            # com.company.object.robot In this case robot is stripped from
+            # class name without actually checking should it be.
+            object_name = kw_completion[2].rstrip('.' + self.rf_extension)
             kw = kw_completion[0]
             if rf_cell.startswith(object_name):
                 if len(object_best_match) <= len(object_name):
