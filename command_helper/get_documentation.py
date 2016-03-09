@@ -24,8 +24,8 @@ class GetKeywordDocumentation(object):
     def return_documentation(self, object_name, keyword):
         """Returns the keyword documentation from the database.
 
-        ``keyword``     -- Keyword documentation to search from database.
         ``object_name`` -- Library or resource object name.
+        ``keyword``     -- Keyword documentation to search from database.
 
         Searches the keyword documentation from the database and
         returns the keyword documentation if match is found.
