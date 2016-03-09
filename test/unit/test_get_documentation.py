@@ -111,6 +111,10 @@ class GetDocumentation(unittest.TestCase):
         object_name = 'test_a'
         table_name = self.get_doc.get_table_name_from_index(object_name, cell)
         self.assertEqual(table_name, self.test_a_table_name)
+        cell = 'Resource A Keyword 1'
+        object_name = None
+        table_name = self.get_doc.get_table_name_from_index(object_name, cell)
+        self.assertEqual(table_name, self.resource_a_table_name)
 
     def test_get_keyword_documentation(self):
         cell = 'No Operation'
@@ -134,8 +138,16 @@ class GetDocumentation(unittest.TestCase):
         return path.normcase(path.join(self.suite_dir, 'test_a.robot'))
 
     @property
+    def resource_a_table_file(self):
+        return path.normcase(path.join(self.suite_dir, 'resource_a.robot'))
+
+    @property
     def test_a_table_name(self):
         return rf_table_name(self.test_a_file)
+
+    @property
+    def resource_a_table_name(self):
+        return rf_table_name(self.resource_a_table_file)
 
     @property
     def builtin_table_name(self):
