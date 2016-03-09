@@ -18,12 +18,11 @@ class ShowKeywordDocumentation(sublime_plugin.TextCommand):
         workspace = get_setting(SettingObject.workspace)
         open_tab = self.view.file_name()
         index_db = get_setting(SettingObject.index_dir)
-        extension = get_setting(SettingObject.extension)
+        rf_extension = get_setting(SettingObject.extension)
         view_in_db = current_view.view_in_db(workspace, open_tab,
-                                             index_db, extension)
+                                             index_db, rf_extension)
         db_dir = get_setting(SettingObject.table_dir)
         rf_cell = get_rf_table_separator(self.view)
-        rf_extension = get_setting(SettingObject.extension)
         view_completions = get_setting(
             SettingObject.view_completions)
         if view_in_db:
