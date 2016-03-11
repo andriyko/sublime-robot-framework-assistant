@@ -1,5 +1,6 @@
 import re
 from os import path
+from sys import version_info
 try:
     from get_documentation import GetKeywordDocumentation
     from db_json_settings import DBJsonSetting
@@ -47,8 +48,11 @@ class GetKeyword(object):
         if not table_name:
             return regex, file_path
         table_path = path.join(self.table_dir, table_name)
-        file_path_table = get_data_from_json(
-            table_path)[DBJsonSetting.file_path]
+        data = get_data_from_json(table_path)
+        if DBJsonSetting.file_path in data:
+            file_path_table = data[DBJsonSetting.file_path]
+        else:
+            file_path_table = None
         if self.rf_data(file_path_table):
             regex = self.get_regex_resource(keyword)
             file_path = file_path_table
@@ -78,4 +82,14 @@ class GetKeyword(object):
 
     def rf_data(self, file_path):
         """Returns True if open tab is Robot Framework resource or suite"""
-        return file_path.endswith(self.rf_extension)
+        if self.is_string(file_path):
+            return file_path.endswith(self.rf_extension)
+        else:
+            return None
+
+    def is_string(self, str_):
+        if version_info.major > 2:
+            status = isinstance(str_, str)
+        else:
+            status = isinstance(str_, basestring)
+        return status
