@@ -4,7 +4,12 @@
 Robot Framework Data Editor
 ==========================
 Robot Framework Data Editor provides IDE features to edit
-[Robot Framework](http://robotframework.org/) data.
+[Robot Framework](http://robotframework.org/) test data in the
+[Sublime Text 3](https://www.sublimetext.com/3).
+
+Installation
+============
+To be done
 
 Configuration
 =============
@@ -14,6 +19,8 @@ at least configure the settings in the
 `RobotFrameworkDataEditor.sublime-settings` file. To Open the file
 navigate to: **Preferences | Package settings**
 **| Robot Framework Data Editor | Settings - User |**
+The default settings can be found from the **Preferences | Package settings**
+**| Robot Framework Data Editor | Settings - Default |**
 
 robot_framework_workspace
 -------------------------
@@ -28,7 +35,7 @@ based on this setting.
 
 In windows ow write double backslash to write literal backslash.
 
-robot_frameowrk_extension
+robot_framework_extension
 -------------------------
 File extension defines which types of files the Robot Framework
 Data Editor plugin will search and index from the folder defined
@@ -52,8 +59,8 @@ and in Windows this could be like: C:\Python27\python.exe
 
 robot_framework_module_search_path
 ----------------------------------
-Module search path defines a list of paths where the Robot Framework libraries
-are searched. Example if you have imported
+Module search path defines a list of paths where the Robot Framework
+libraries are searched. Example if you have imported
 a library with the library name, then module search path must
 contain the folder where the library can be located.
 
@@ -70,9 +77,9 @@ robot_framework_builtin_variables
 ---------------------------------
 Robot Framework comes by default some predefined and builtin variables.
 These variables names may change between different Robot Framework
-versions. Use this setting to define a list of the Robot Framework BuiltIn variables.
-The easiest way to see the listof  the variables is to run Robot Framework with following
-test case:
+versions. Use this setting to define a list of the Robot Framework BuiltIn
+variables. The easiest way to see the list of the variables is to run
+Robot Framework with following test case:
 
 | *** Test Cases *** |   |
 | --- |--- |
@@ -118,6 +125,58 @@ spaces inside of the `[    ]` characters and those four spaces defines the cell 
 user by the pluging. The cell separator is example used by the for loop
 [snippets](http://docs.sublimetext.info/en/latest/extensibility/snippets.html?highlight=snippets)
 to align and display snipped correctly.
+
+Hotkeys
+=======
+* Pressing `Alt + Enter` or `Alt + Click` with mouse, on top of the keyword
+will go to the keyword source. Source of the keyword can locate in
+Robot Framework test data or in a Python library. Go to does not work
+on libraries written in other programming languages.
+* Pressing `Ctrl + Alt + Enter`or `Ctrl + Alt + Clicl` with mouse
+will display the keyword documentation.
+
+Snippets
+========
+[Snippets](http://docs.sublimetext.info/en/latest/extensibility/snippets.html?highlight=snippets)
+are a Sublime Text feature to provide commonly used text templates
+when you are writing. In this plugin, snippets offers quick access to
+the commonly used settings in the Robot Framework data. To gain access
+to the snippets write the required character combination and then
+press the `Tab` key to see the snippets completion list. The snippets
+can be accessed with following key combinations:
+* Write `:f` to access Robot Framework for loops. There currently
+are available the following snippets:
+[normal](http://robotframework.org/robotframework/latest/RobotFrameworkUserGuide.html#normal-for-loop),
+[enumerate](http://robotframework.org/robotframework/latest/RobotFrameworkUserGuide.html#for-in-enumerate-loop),
+[range](http://robotframework.org/robotframework/latest/RobotFrameworkUserGuide.html#for-in-range-loop)
+and [zip](http://robotframework.org/robotframework/latest/RobotFrameworkUserGuide.html#for-in-zip-loop)
+loops types.
+* Write `*k` to access `*** Keywords ***` table snippet.
+* Write `*s` to acess `*** Settings ***` table and it settings. There
+currently are available the following snippets:
+`Default Tags`, `Documentation`, `Library`, `Resource`,
+`*** Settings ***`, `Test Setup`, `Test Teardown`, `Test Template`
+and `Test Timeout`.
+* Write `*t` to access `*** Test Cases ***` table snippet.
+* Write `:`to access
+[Keyword](http://robotframework.org/robotframework/latest/RobotFrameworkUserGuide.html#id331)
+and
+[Test Case](http://robotframework.org/robotframework/latest/RobotFrameworkUserGuide.html#test-case-table)
+settings. There currently are available the following snippets::
+`[Arguments]`, `[Documentation]`, `[Return]` `[Tags]`, `[Teardown]`
+and `[Timeout]`.
+* Write `*v` to access `*** Variables ***` snippet.
+
+The different for loop snippets uses the
+[fields](http://docs.sublimetext.info/en/latest/extensibility/snippets.html?highlight=snippets#fields)
+feature from the snippets. After completing the for loop, the different
+for loops fields can be accessed by pressing the `tab` key.
+
+Please note that plugin does not prevent the user to place snippets
+in invalid places in the test data.
+Please refer to the Robot Framework
+[User Guide](http://robotframework.org/robotframework/latest/RobotFrameworkUserGuide.html)
+to locate the correct usage of the different available snippets.
 
 Scanning and indexing
 =====================
