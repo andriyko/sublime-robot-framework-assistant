@@ -3,12 +3,15 @@ from robot.variables.filesetter import VariableFileSetter
 from robot.variables.store import VariableStore
 from robot.variables.variables import Variables
 from robot.libdocpkg.robotbuilder import LibraryDocBuilder
+from robot.utils.importer import Importer
+from robot.libraries import STDLIBS
 from robot.output import LOGGER as ROBOT_LOGGER
 from robot.utils.importer import DataError
 from os import path
 import xml.etree.ElementTree as ET
 from tempfile import mkdtemp
 import logging
+import inspect
 from parser_utils.util import normalise_path
 from db_json_settings import DBJsonSetting
 
@@ -111,21 +114,54 @@ class DataParser():
 
     # Private
     def _parse_python_lib(self, library, args):
-        library = self._lib_arg_formatter(library, args)
+        lib_with_args = self._lib_arg_formatter(library, args)
         kws = {}
         try:
-            library = self.libdoc.build(library)
+            lib = self.libdoc.build(lib_with_args)
         except DataError:
             raise ValueError(
                 'Library does not exist: {0}'.format(library))
-        for keyword in library.keywords:
+        if library in STDLIBS:
+            import_name = 'robot.libraries.' + library
+        else:
+            import_name = library
+        importer = Importer('test library')
+        libcode = importer.import_class_or_module(
+            import_name, return_source=False)
+        for keyword in lib.keywords:
             kw = {}
             kw[DBJsonSetting.keyword_name] = keyword.name
             kw[DBJsonSetting.tags] = list(keyword.tags._tags)
             kw[DBJsonSetting.keyword_arguments] = keyword.args
             kw[DBJsonSetting.documentation] = keyword.doc
+            kw[DBJsonSetting.keyword_file] = self._get_library_kw_source(
+                libcode, keyword.name)
             kws[strip_and_lower(keyword.name)] = kw
         return kws
+
+    def _get_library_kw_source(self, libcode, keyword):
+        kw_func = keyword.lower().replace(' ', '_')
+        func = None
+        func_file = None
+        if hasattr(libcode, kw_func):
+            func = getattr(libcode, kw_func)
+        if func:
+            kw_class = self.get_class_that_defined_method(func)
+            func_file = self.get_function_file(kw_class)
+        return func_file
+
+    def get_class_that_defined_method(self, meth):
+        for cls in inspect.getmro(meth.im_class):
+            if meth.__name__ in cls.__dict__:
+                return cls
+        return None
+
+    def get_function_file(self, kw_class):
+        file_ = inspect.getfile(kw_class)[:-1]
+        if file_ and path.exists(file_):
+            return normalise_path(file_)
+        else:
+            return None
 
     def _lib_arg_formatter(self, library, args):
         args = self._argument_path_formatter(library, args)
@@ -165,6 +201,7 @@ class DataParser():
         kws = {}
         for element in root.findall('kw'):
             kw = {}
+            kw[DBJsonSetting.keyword_file] = None
             kw[DBJsonSetting.keyword_name] = element.attrib['name']
             kw[DBJsonSetting.documentation] = element.find('doc').text
             tags = []

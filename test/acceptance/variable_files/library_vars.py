@@ -1,6 +1,8 @@
 from os import path
 from suite_parser_vars import get_resource_path
 import copy
+import inspect
+import robot.libraries.Screenshot
 
 
 def get_variables():
@@ -17,7 +19,8 @@ def get_variables():
     var['ADDCOOKIE_KEYS_LILST'] = ['keyword_name',
                                    'keyword_arguments',
                                    'documentation',
-                                   'tags']
+                                   'tags',
+                                   'keyword_file']
     return var
 
 
@@ -32,12 +35,14 @@ def get_mylibrary(resource_dir):
     data['file_name'] = '{0}{1}'.format(module, '.py')
     kws = {}
     kw = {}
+    kw['keyword_file'] = data['file_path']
     kw['keyword_name'] = 'Keyword 2'
     kw['keyword_arguments'] = ['arg2', 'arg3']
     kw['documentation'] = 'kw 2 doc'
     kw['tags'] = []
     kws['keyword_2'] = kw
     kw = {}
+    kw['keyword_file'] = data['file_path']
     kw['keyword_name'] = 'Keyword 1'
     kw['keyword_arguments'] = ['arg1']
     kw['documentation'] = 'kw 1 doc'
@@ -56,33 +61,50 @@ def get_othermylibrary(resource_dir):
     data['file_path'] = path.join(f_path, '{0}{1}'.format(module, '.py'))
     data['file_name'] = '{0}{1}'.format(module, '.py')
     data['arguments'] = ['arg111', 'arg222']
+    kws = data['keywords']
+    tmp_kws = {}
+    for kw_key in kws:
+        kw = kws[kw_key]
+        kw['keyword_file'] = data['file_path']
+        tmp_kws[kw_key] = kw
+    data['keywords'] = tmp_kws
     return data
 
 
 def get_mylibrary_xml(data):
-    n_data = copy.copy(data)
-    n_data['file_path'] = data['file_path'].replace('.py', '.xml')
-    n_data['file_name'] = data['file_name'].replace('.py', '.xml')
+    n_data = copy.deepcopy(data)
+    n_data['file_path'] = n_data['file_path'].replace('.py', '.xml')
+    n_data['file_name'] = n_data['file_name'].replace('.py', '.xml')
+    kws = n_data['keywords']
+    tmp_kws = {}
+    for kw_key in kws:
+        kw = kws[kw_key]
+        kw['keyword_file'] = None
+        tmp_kws[kw_key] = kw
+    n_data['keywords'] = tmp_kws
     return n_data
 
 
 def get_screenshot():
+    source_file = inspect.getsourcefile(robot.libraries.Screenshot)
     data = {}
     data['library_module'] = 'Screenshot'
-    data['keywords'] = screenshot_keywords()
+    data['keywords'] = screenshot_keywords(source_file)
     data['arguments'] = []
     return data
 
 
-def screenshot_keywords():
+def screenshot_keywords(source_file):
     kws = {}
     kw = {}
+    kw['keyword_file'] = source_file
     kw['keyword_name'] = 'Set Screenshot Directory'
     kw['tags'] = []
     kw['documentation'] = 'Sets the directory where screenshots are saved.'
     kw['keyword_arguments'] = ['path']
     kws[kw['keyword_name'].lower().replace(' ', '_')] = kw
     kw = {}
+    kw['keyword_file'] = source_file
     kw['keyword_name'] = 'Take Screenshot'
     kw['tags'] = []
     kw['documentation'] = \
@@ -90,6 +112,7 @@ def screenshot_keywords():
     kw['keyword_arguments'] = ['name=screenshot', 'width=800px']
     kws[kw['keyword_name'].lower().replace(' ', '_')] = kw
     kw = {}
+    kw['keyword_file'] = source_file
     kw['keyword_name'] = 'Take Screenshot Without Embedding'
     kw['tags'] = []
     kw['documentation'] = 'Takes a screenshot and links it from the log file.'
