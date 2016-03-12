@@ -28,7 +28,9 @@ class ReturnKeywordAndObject(object):
         keyword = None
         object_name = None
         rf_cell = self.get_rf_cell(line, column)
-        if '.' not in rf_cell:
+        if not rf_cell:
+            pass
+        elif '.' not in rf_cell:
             keyword = rf_cell
         else:
             object_name, keyword = self.separate_keyword_from_object(rf_cell)

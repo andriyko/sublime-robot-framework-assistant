@@ -32,6 +32,11 @@ class JumpToKeyword(sublime_plugin.TextCommand):
                 rf_extension
             )
             keyword, object_name = self.get_kw.normalize(line, column)
+            if not keyword:
+                sublime.status_message(
+                    'Cursor location did not contain keyword'
+                )
+                return
             get_kw = GetKeyword(
                 table_dir=db_dir,
                 index_dir=index_db,
