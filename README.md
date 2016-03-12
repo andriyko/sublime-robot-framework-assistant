@@ -183,7 +183,3 @@ Scanning and indexing
 
 Log file
 --------
-
-
-Hotkeys
-=======
