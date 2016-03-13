@@ -4,11 +4,11 @@ import shutil
 from os import path, mkdir
 from index.index import Index
 from queue.scanner import Scanner
-from parser_utils.file_formatter import rf_table_name, lib_table_name
+from parser_utils.file_formatter import rf_table_name
 from get_keyword import GetKeyword
 
 
-class TestGetKeyword(unittest.TestCase):
+class TestGetKeywordFromResource(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
