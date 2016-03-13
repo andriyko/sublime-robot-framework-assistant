@@ -157,7 +157,7 @@ class DataParser():
         return None
 
     def get_function_file(self, kw_class):
-        file_ = inspect.getfile(kw_class)[:-1]
+        file_ = inspect.getsourcefile(kw_class)
         if file_ and path.exists(file_):
             return normalise_path(file_)
         else:
