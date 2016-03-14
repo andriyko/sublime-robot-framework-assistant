@@ -183,6 +183,22 @@ to locate the correct usage of the different available snippets.
 
 Creating a database
 =====================
+Once the plugin configuration is done, the plugin needs to scan the
+test data to create a internal database to the package directory.
+The database will contain table for each test case, resource and
+library. Once the tables has been created, plugin will create a
+index for each test case, resource and library. Index will contain
+all keywords and variables, what the test case or resource has imported
+in the test data. Indexing allows plugin to provide completion
+to only those keyword or variables which has been imported for
+the currently opened test or resource file.
 
-Log file
---------
+The plugin will automatically update the pointer to the index in the
+database, when user will change between different tabs in the Sublime.
+
+Error investigation for database creation
+-----------------------------------------
+When creating the database, plugin will write a log file
+to the package installation directory: `database/scan_index.log`
+file. If there are errors when the database is created,
+please check the log and correct possible errors.
