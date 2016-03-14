@@ -1,7 +1,6 @@
 import sublime_plugin
 import sublime
 import re
-import time
 from ..setting.setting import get_setting
 from ..setting.setting import SettingObject
 from ..command_helper.current_view import CurrentView
@@ -59,13 +58,17 @@ class JumpToKeyword(sublime_plugin.TextCommand):
             )
 
     def go_to_kw(self, file_path, regex):
-        window = sublime.active_window()
-        new_view = window.open_file(file_path)
-        while new_view.is_loading():
-            time.sleep(0.2)
-        text = new_view.substr(sublime.Region(0, new_view.size()))
-        match = re.search(regex, text)
-        region = sublime.Region(match.start(), match.end())
-        new_view.show(region)
-        new_view.sel().clear()
-        new_view.sel().add(region)
+        new_view = self.view.window().open_file(file_path)
+        sublime.set_timeout(lambda: self.select_keyword(new_view, regex), 10)
+
+    def select_keyword(self, new_view, regex):
+        if not new_view.is_loading():
+            text = new_view.substr(sublime.Region(0, new_view.size()))
+            match = re.search(regex, text)
+            region = sublime.Region(match.start(), match.end())
+            new_view.sel().clear()
+            new_view.sel().add(region)
+            new_view.show(region)
+        else:
+            sublime.set_timeout(
+                lambda: self.select_keyword(new_view, regex), 10)
