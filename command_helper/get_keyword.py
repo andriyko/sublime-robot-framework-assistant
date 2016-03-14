@@ -5,10 +5,12 @@ try:
     from get_documentation import GetKeywordDocumentation
     from db_json_settings import DBJsonSetting
     from noralize_cell import get_data_from_json
+    from utils.util import kw_equals_kw_candite
 except:
     from .get_documentation import GetKeywordDocumentation
     from ..setting.db_json_settings import DBJsonSetting
     from ..command_helper.noralize_cell import get_data_from_json
+    from ..command_helper.utils.util import kw_equals_kw_candite
 
 
 class GetKeyword(object):
@@ -58,27 +60,65 @@ class GetKeyword(object):
             file_path = file_path_table
             return regex, file_path
         else:
-            print('Library keyword not yet supported')
-            return regex, file_path
+            return self.get_lib_keyword(
+                table_path,
+                object_name,
+                keyword
+            )
+
+    def get_lib_keyword(self, table_path, object_name, keyword):
+        regex = self.get_regex_library(keyword)
+        file_path = self.get_lib_keyword_file(
+            table_path,
+            object_name,
+            keyword
+        )
+        return regex, file_path
+
+    def get_lib_keyword_file(self, table_path, object_name, keyword):
+        """Returns file path from db where library keyword is defined"""
+        data = get_data_from_json(table_path)
+        table_keywords = data[DBJsonSetting.keywords]
+        table_kw_object = data[DBJsonSetting.library_module]
+        for table_kw_data in table_keywords:
+            if kw_equals_kw_candite(keyword, table_kw_data):
+                if not object_name or object_name == table_kw_object:
+                    return table_keywords[table_kw_data][DBJsonSetting.keyword_file]
+
+    def get_regex_library(self, keyword):
+        """Returns the regex patters for library keywords"""
+        words = self.split_kw_to_words(keyword)
+        regex_from_func = '(?im)(def '
+        regex_from_deco = r'(\@keyword.+name=[\'"]'
+        for word in words:
+            regex_from_func = '{0}{1}_?'.format(regex_from_func, word.lower())
+            regex_from_deco = '{0}{1}[_ ]'.format(
+                regex_from_deco, word.lower())
+        regex_from_func = regex_from_func.rstrip('_?')
+        regex_from_deco = regex_from_deco.rstrip('[_ ]')
+        return r'{0}\()|{1})'.format(regex_from_func, regex_from_deco)
 
     def get_regex_resource(self, keyword):
         """Returns the regex patters for user defined keywords"""
+        words = self.split_kw_to_words(keyword)
+        regex_patter = '(?im)^'
+        for word in words:
+            regex_patter = '{0}{1}[_ ]?'.format(regex_patter, word.lower())
+        regex_patter = regex_patter.rstrip('[_ ]?')
+        return '{0}$'.format(regex_patter)
+
+    def split_kw_to_words(self, keyword):
+        words = []
         # Like: LOG
         if keyword.isupper() and '_' not in keyword and ' ' not in keyword:
-            words = []
             words.append(keyword)
         # Like: RunKeyword
         elif '_' not in keyword and ' ' not in keyword:
             words = re.findall('[a-zA-Z0-9][^A-Z0-9]*', keyword)
         # The rest, like: Run Keyword or run keyword
         else:
-            words = []
             [words.extend(word.split('_')) for word in keyword.split(' ')]
-        regex_patter = '(?im)^'
-        for word in words:
-            regex_patter = '{0}{1}[_ ]?'.format(regex_patter, word.lower())
-        regex_patter = regex_patter.rstrip('[_ ]?')
-        return '{0}$'.format(regex_patter)
+        return words
 
     def rf_data(self, file_path):
         """Returns True if open tab is Robot Framework resource or suite"""
