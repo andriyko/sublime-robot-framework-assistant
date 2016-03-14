@@ -25,37 +25,37 @@ The default settings can be found from the **Preferences | Package settings**
 robot_framework_workspace
 -------------------------
 Before the Robot Framework Data Editor can provide the keyword and
-variable completion features, it needs to scan and index the test
+variable completion features, it needs to create a database from the test
 suite and resource files. The argument defines the root folder where
 scanning of robot data is performed.
 
-Must point to a folder, pointing to a file is not allowed. When the command
-`Robot Framework: Scan and Index` is executed, the scanning is performed
-based on this setting.
+Must point to a folder and pointing to a file is not allowed. When
+the command `Robot Framework: Create database` is executed,
+the scanning of Robot Framework test data is performed based
+on this setting.
 
 In windows ow write double backslash to write literal backslash.
 
 robot_framework_extension
 -------------------------
 File extension defines which types of files the Robot Framework
-Data Editor plugin will search and index from the folder defined
+Data Editor plugin will search from the folder defined
 in the robot_framework_workspace option.
 
-This only affects the `Robot Framework: Scan and Index` command,
-other options, like theme definition, in this plugin are not affected by
-this option.
+This setting affects the plugin commands and features but the theme
+definition in this plugin is not affected by this option.
 
-If there library or variable imports in the Robot Framework data,
+If there library or variable file imports in the Robot Framework data,
 those imports are automatically parser and included in the scanning.
 
 path_to_python
 -------------
-In order the scanning and indexing of keywords and variables to
-work, path to python binary must be defined. It must be the same
+In order the creating the database of keywords and variables to
+work, path to Python binary must be defined. It must be the same
 Python binary where the Robot Framework is installed.
 
 In Linux like environments this could be like: /usr/bin/python
-and in Windows this could be like: C:\Python27\python.exe
+and in Windows this could be like: C:\\Python27\\python.exe
 
 robot_framework_module_search_path
 ----------------------------------
@@ -86,6 +86,9 @@ Robot Framework with following test case:
 | Log All BuiltIn Vars |
 |   | Log Variables |
 
+Note: At least on Robot Framework 2.9.2 version, the following command
+did not list the empty variables, like ${EMPTY}.
+
 Syntax definitions
 ==================
 
@@ -110,7 +113,7 @@ Look for the lines containing:
         <string>robot</string>
     </array>
 ```
-The `<string>` element contains the filetype defintion.
+The `<string>` element contains the file type definition.
 
 Change the cell separator
 -------------------------
@@ -122,7 +125,7 @@ folder and open the `RobotFrameworkDataEditor.tmPreferences` file.
 
 Look for the line containing `<string><![CDATA[    ]]></string>` XML tag. There are four
 spaces inside of the `[    ]` characters and those four spaces defines the cell separator which is
-user by the pluging. The cell separator is example used by the for loop
+user by the plugin. The cell separator is example used by the for loop
 [snippets](http://docs.sublimetext.info/en/latest/extensibility/snippets.html?highlight=snippets)
 to align and display snipped correctly.
 
@@ -139,7 +142,7 @@ Snippets
 ========
 [Snippets](http://docs.sublimetext.info/en/latest/extensibility/snippets.html?highlight=snippets)
 are a Sublime Text feature to provide commonly used text templates
-when you are writing. In this plugin, snippets offers quick access to
+and in this plugin, snippets offers quick access to
 the commonly used settings in the Robot Framework data. To gain access
 to the snippets write the required character combination and then
 press the `Tab` key to see the snippets completion list. The snippets
@@ -169,7 +172,7 @@ and `[Timeout]`.
 
 The different for loop snippets uses the
 [fields](http://docs.sublimetext.info/en/latest/extensibility/snippets.html?highlight=snippets#fields)
-feature from the snippets. After completing the for loop, the different
+feature from the snippets. After completing the for loop snippry, the different
 for loops fields can be accessed by pressing the `tab` key.
 
 Please note that plugin does not prevent the user to place snippets
@@ -178,7 +181,7 @@ Please refer to the Robot Framework
 [User Guide](http://robotframework.org/robotframework/latest/RobotFrameworkUserGuide.html)
 to locate the correct usage of the different available snippets.
 
-Scanning and indexing
+Creating a database
 =====================
 
 Log file
