@@ -1,10 +1,10 @@
 import unittest
 import env
 import shutil
+import platform
 from os import path, mkdir
 from index.index import Index
 from queue.scanner import Scanner
-from parser_utils.file_formatter import rf_table_name
 from get_keyword import GetKeyword
 
 
@@ -113,16 +113,23 @@ class TestGetKeywordFromResource(unittest.TestCase):
         )
 
     @property
+    def s2l(self):
+        if platform.system() == 'Windows':
+            return 'selenium2library'
+        else:
+            return 'Selenium2Library'
+
+    @property
     def s2l_simulate(self):
-        return path.join('selenium2library', 'keywords', '_element.py')
+        return path.join(self.s2l, 'keywords', '_element.py')
 
     @property
     def s2l_press_key(self):
-        return path.join('selenium2library', 'keywords', '_element.py')
+        return path.join(self.s2l, 'keywords', '_element.py')
 
     @property
     def s2l_textarea_value_should_be(self):
-        return path.join('selenium2library', 'keywords', '_formelement.py')
+        return path.join(self.s2l, 'keywords', '_formelement.py')
 
     @property
     def s2l_table_file(self):
