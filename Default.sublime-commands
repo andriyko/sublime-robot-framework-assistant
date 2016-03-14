@@ -1,10 +1,14 @@
 [
     {
-        "caption": "Robot Framework: Scan and index",
+        "caption": "Robot Framework: Create Database",
         "command": "scan_index"
     },
     {
-        "caption": "Robot Framework: Show keyword documentation",
+        "caption": "Robot Framework: Show Keyword Documentation",
         "command": "show_keyword_documentation"
+    },
+    {
+        "caption": "Robot Framework: Jump To Keyword",
+        "command": "jump_to_keyword"
     }
 ]
