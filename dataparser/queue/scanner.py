@@ -54,6 +54,7 @@ class Scanner(object):
             if not item:
                 return
             else:
+                logging.info('Creating table for: {0}'.format(item[0]))
                 try:
                     data = self.parse_all(item)
                     self.add_to_queue(data)

@@ -29,6 +29,7 @@ class Index(object):
             shutil.rmtree(index_path)
         makedirs(index_path)
         for table in listdir(db_path):
+            logging.info('Creating index for: {0}'.format(table))
             index_name = get_index_name(table)
             f = open(path.join(index_path, index_name), 'w')
             data = self.create_index_for_table(db_path, table)
