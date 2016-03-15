@@ -53,7 +53,7 @@ class TestRunner(unittest.TestCase):
         f = open(log_file)
         # Strip way S2L info messages
         pattern = re.compile(
-            r'(?im)^INFO:.+Capture Page Screenshot will be run on failure\.$'
+            r'(?im)^INFO:'
         )
         lines = []
         for line in f.readlines():
