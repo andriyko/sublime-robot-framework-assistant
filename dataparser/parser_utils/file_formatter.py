@@ -11,11 +11,7 @@ def rf_table_name(f_path):
 
 
 def lib_table_name(library):
-    if path.isfile(library):
-        module = path.basename(library)
-    else:
-        module = library
     return '{realname}-{md5}.json'.format(
-                realname=module,
+                realname=library,
                 md5=md5(library).hexdigest()
             )

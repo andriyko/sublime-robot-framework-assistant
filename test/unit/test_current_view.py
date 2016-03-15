@@ -98,7 +98,9 @@ class TestCurrentView(unittest.TestCase):
         ]
         expected['completion'] = self.completions()
         self.assertEqual(data['variable'], expected['variable'])
-        self.assertEqual(data['completion'], expected['completion'])
+        self.assertEqual(
+            data['completion'].sort(), expected['completion'].sort()
+        )
 
     def test_view_in_db(self):
         ext = 'robot'

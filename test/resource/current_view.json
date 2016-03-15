@@ -2568,6 +2568,26 @@
             "OperatingSystem"
         ],
         [
+            "Library Keyword 1",
+            [
+                "arg1"
+            ],
+            "LibNoClass.py"
+        ],
+        [
+            "LibNoClass.py",
+            [],
+            "LibNoClass.py"
+        ],
+        [
+            "Library Keyword 2",
+            [
+                "arg1",
+                "arg2"
+            ],
+            "LibNoClass.py"
+        ],
+        [
             "My Long Keyword",
             [
                 "arg1",

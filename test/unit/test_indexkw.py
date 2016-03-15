@@ -159,6 +159,7 @@ class TestIndexing(unittest.TestCase):
         kw_list.extend(self.get_s2l_kw_index(KeywordRecord)[0])
         kw_list.extend(self.get_os_kw_index(KeywordRecord)[0])
         kw_list.extend(self.get_builtin_kw_index(KeywordRecord)[0])
+        kw_list.extend(self.get_LibNoClass_kw_index(KeywordRecord)[0])
         var_list = [
             u'${TEST_A}',
             u'${RESOURCE_A}',
@@ -279,6 +280,14 @@ class TestIndexing(unittest.TestCase):
     def builtin_table_name(self):
         return lib_table_name('BuiltIn')
 
+    @property
+    def libnoclass_table_name(self):
+        file_path = os.path.join(
+            os.path.normcase(self.suite_dir),
+            'LibNoClass.py'
+        )
+        return lib_table_name('LibNoClass')
+
     def get_resource_b(self):
         f = open(os.path.join(
                     self.db_dir,
@@ -331,6 +340,14 @@ class TestIndexing(unittest.TestCase):
         f = open(os.path.join(
                 self.db_dir,
                 self.builtin_table_name
+            )
+        )
+        return json.load(f)
+
+    def get_libnoclass(self):
+        f = open(os.path.join(
+                self.db_dir,
+                self.libnoclass_table_name
             )
         )
         return json.load(f)
@@ -391,6 +408,24 @@ class TestIndexing(unittest.TestCase):
 
     def get_builtin_kw_index(self, keywordrecord):
         data = self.getbuiltin()
+        kw_list = self.index.get_keywords(data)[0]
+        arg_list = self.get_kw_args(data)
+        object_name = 'BuiltIn'
+        table_name = self.builtin_table_name
+        l = []
+        for kw, arg in zip(kw_list, arg_list):
+            l.append(
+                keywordrecord(
+                    keyword=kw,
+                    argument=arg,
+                    object_name=object_name,
+                    table_name=table_name
+                )
+            )
+        return l, kw_list, arg_list, object_name, table_name
+
+    def get_LibNoClass_kw_index(self, keywordrecord):
+        data = self.get_libnoclass()
         kw_list = self.index.get_keywords(data)[0]
         arg_list = self.get_kw_args(data)
         object_name = 'BuiltIn'

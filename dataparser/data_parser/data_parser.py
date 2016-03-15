@@ -147,11 +147,18 @@ class DataParser():
             func = getattr(libcode, kw_func)
         if func:
             kw_class = self.get_class_that_defined_method(func)
-            func_file = self.get_function_file(kw_class)
+            if kw_class:
+                func_file = self.get_function_file(kw_class)
+            else:
+                func_file = self.get_function_file(func)
         return func_file
 
     def get_class_that_defined_method(self, meth):
-        for cls in inspect.getmro(meth.im_class):
+        try:
+            class_mro = inspect.getmro(meth.im_class)
+        except AttributeError:
+            return None
+        for cls in class_mro:
             if meth.__name__ in cls.__dict__:
                 return cls
         return None

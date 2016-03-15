@@ -6,6 +6,7 @@ import hashlib
 from time import sleep
 import json
 from queue.scanner import Scanner
+from data_parser.data_parser import DataParser
 
 
 class TestScanner(unittest.TestCase):
@@ -260,7 +261,7 @@ class TestScanner(unittest.TestCase):
             'OperatingSystem',
             hashlib.md5('OperatingSystem').hexdigest())
         self.assertTrue(operatingsystem in files)
-        self.assertEqual(len(files), 10)
+        self.assertEqual(len(files), 11)
 
     def suite_folder(self):
         return os.path.join(

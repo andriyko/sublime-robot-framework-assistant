@@ -21,7 +21,42 @@ def get_variables():
                                    'documentation',
                                    'tags',
                                    'keyword_file']
+    var['LIB_FROM_MODULE'] = get_lib_from_module(resource_dir)
     return var
+
+
+def get_lib_from_module(resource_dir):
+    data = {}
+    module = 'LibNoClass'
+    data['arguments'] = []
+    data['library_module'] = module
+    f_path = path.normcase(
+        path.normpath(
+            path.join(
+                resource_dir,
+                'suite_tree'
+            )
+        )
+    )
+    data['file_path'] = path.join(f_path, '{0}{1}'.format(module, '.py'))
+    data['file_name'] = '{0}{1}'.format(module, '.py')
+    kws = {}
+    kw = {}
+    kw['keyword_file'] = data['file_path']
+    kw['keyword_name'] = 'Library Keyword 1'
+    kw['keyword_arguments'] = ['arg1']
+    kw['documentation'] = 'library keyword 1 doc'
+    kw['tags'] = []
+    kws['library_keyword_1'] = kw
+    kw = {}
+    kw['keyword_file'] = data['file_path']
+    kw['keyword_name'] = 'Library Keyword 2'
+    kw['keyword_arguments'] = ['arg1', 'arg2']
+    kw['documentation'] = 'library keyword 2 doc'
+    kw['tags'] = []
+    kws['library_keyword_2'] = kw
+    data['keywords'] = kws
+    return data
 
 
 def get_mylibrary(resource_dir):

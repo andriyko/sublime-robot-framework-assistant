@@ -31,6 +31,13 @@ Parser Should Be Able To Parse External Library From Python Path
     ...    ${one_kw_keys}
     ...    ${ADDCOOKIE_KEYS_LILST}
 
+Parser Should Be Able To Parse External Library From Module
+    ${result} =    Parse Library
+    ...    ${CURDIR}${/}..${/}resource${/}test_data${/}suite_tree${/}LibNoClass.py
+    Dictionaries Should Be Equal
+    ...    ${result}
+    ...    ${LIB_FROM_MODULE}
+
 Parser Should Be Able To Parse External Library From Custom Location
     ${result} =    Parse Library
     ...    ${CURDIR}${/}..${/}resource${/}library${/}MyLibrary.py

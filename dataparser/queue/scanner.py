@@ -7,6 +7,7 @@ from finder import finder
 from data_parser.data_parser import DataParser
 from queue import ParsingQueue
 from parser_utils.file_formatter import rf_table_name, lib_table_name
+from parser_utils.util import normalise_path
 from db_json_settings import DBJsonSetting
 
 logging.basicConfig(
@@ -47,7 +48,7 @@ class Scanner(object):
             makedirs(db_path)
         self.add_builtin()
         for f in finder(workspace, ext):
-            self.queue.add(path.normcase(f), None, None)
+            self.queue.add(normalise_path(f), None, None)
         while True:
             item = self.get_item()
             if not item:
@@ -82,10 +83,10 @@ class Scanner(object):
 
     def put_item_to_db(self, item, db_path):
         """Creates the json file to self.db_path"""
-        if DBJsonSetting.file_path in item:
-            f_name = rf_table_name(item[DBJsonSetting.file_path])
-        elif DBJsonSetting.library_module in item:
+        if DBJsonSetting.library_module in item:
             f_name = lib_table_name(item[DBJsonSetting.library_module])
+        elif DBJsonSetting.file_path in item:
+            f_name = rf_table_name(item[DBJsonSetting.file_path])
         f = open(path.join(db_path, f_name), 'w')
         f.write(json.dumps(item, indent=4))
         f.close()

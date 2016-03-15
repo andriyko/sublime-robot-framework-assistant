@@ -2,6 +2,7 @@ import unittest
 import env
 import os
 import shutil
+import re
 from time import sleep
 from queue.scanner import Scanner
 from test_runner_for_scanner import run_process
@@ -50,7 +51,15 @@ class TestRunner(unittest.TestCase):
         ]
         log_file = run_process(p_args)
         f = open(log_file)
-        self.assertFalse(f.readlines())
+        # Strip way S2L info messages
+        pattern = re.compile(
+            r'(?im)^INFO:.+Capture Page Screenshot will be run on failure\.$'
+        )
+        lines = []
+        for line in f.readlines():
+            if not pattern.search(line):
+                lines.append(line)
+        self.assertFalse(lines)
         f.close()
         files = os.listdir(self.index_path)
-        self.assertEqual(len(files), 10)
+        self.assertEqual(len(files), 11)

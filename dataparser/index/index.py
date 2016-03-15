@@ -8,6 +8,7 @@ from collections import namedtuple
 from parser_utils.file_formatter import rf_table_name, lib_table_name
 from parser_utils.util import get_index_name
 from queue.queue import ParsingQueue
+from data_parser.data_parser import DataParser
 from db_json_settings import DBJsonSetting
 
 logging.basicConfig(
@@ -20,6 +21,7 @@ class Index(object):
 
     def __init__(self):
         self.queue = ParsingQueue()
+        self.data_parser = DataParser()
 
     def index_all_tables(self, db_path, index_path):
         """Index all tables found from db_path"""
@@ -123,9 +125,11 @@ class Index(object):
         l = []
         for lib in data[DBJsonSetting.libraries]:
             if lib[DBJsonSetting.library_path]:
-                l.append(lib_table_name(lib[DBJsonSetting.library_path]))
+                lib_import = lib[DBJsonSetting.library_path]
             else:
-                l.append(lib_table_name(lib[DBJsonSetting.library_name]))
+                lib_import = lib[DBJsonSetting.library_name]
+            lib_data = self.data_parser.parse_library(lib_import)
+            l.append(lib_table_name(lib_data[DBJsonSetting.library_module]))
         return l
 
     def get_variables(self, data):
