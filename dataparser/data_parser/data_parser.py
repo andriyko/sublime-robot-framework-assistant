@@ -41,7 +41,12 @@ class DataParser():
     def parse_resource(self, file_path):
         self.file_path = file_path
         if path.exists(file_path):
-            model = parsing.ResourceFile(file_path).populate()
+            if '__init__.' in file_path:
+                folder = path.dirname(file_path)
+                print folder
+                model = parsing.TestDataDirectory(source=folder).populate()
+            else:
+                model = parsing.ResourceFile(file_path).populate()
             return self._parse_robot_data(file_path, model)
         else:
             raise ValueError(
