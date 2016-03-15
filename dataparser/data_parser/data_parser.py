@@ -6,7 +6,7 @@ from robot.libdocpkg.robotbuilder import LibraryDocBuilder
 from robot.utils.importer import Importer
 from robot.libraries import STDLIBS
 from robot.output import LOGGER as ROBOT_LOGGER
-from robot.utils.importer import DataError
+from robot.errors import DataError
 from os import path
 import xml.etree.ElementTree as ET
 from tempfile import mkdtemp
@@ -70,7 +70,11 @@ class DataParser():
         self.file_path = file_path
         setter = VariableFileSetter(self.rf_var_storage)
         var_list = []
-        for variable in setter.set(file_path, args):
+        try:
+            variables = setter.set(file_path, args)
+        except DataError:
+            variables = []
+        for variable in variables:
             var_list.append(variable[0])
         data[DBJsonSetting.variables] = sorted(var_list)
         return data
