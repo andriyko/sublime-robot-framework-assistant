@@ -234,6 +234,24 @@ class TestIndexing(unittest.TestCase):
         expected = [u'kwa1', '*list', '**kwargs']
         self.assertEqual(result, expected)
 
+    def test_real_suite(self):
+        db_dir = os.path.join(
+            env.RESULTS_DIR,
+            'db_dir'
+        )
+        suite_dir = os.path.join(
+            env.TEST_DATA_DIR,
+            'real_suite'
+        )
+        scanner = Scanner()
+        scanner.scan(
+            suite_dir,
+            'robot',
+            db_dir)
+        self.index.index_all_tables(db_dir, self.index_dir)
+        r_index_table_names = os.listdir(self.index_dir)
+        self.assertEqual(len(r_index_table_names), 8)
+
     @property
     def resource_b_table_name(self):
         return rf_table_name(

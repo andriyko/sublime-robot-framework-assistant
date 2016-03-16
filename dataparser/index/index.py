@@ -129,7 +129,17 @@ class Index(object):
                 lib_import = lib[DBJsonSetting.library_path]
             else:
                 lib_import = lib[DBJsonSetting.library_name]
-            lib_data = self.data_parser.parse_library(lib_import)
+            lib_args = lib[DBJsonSetting.library_arguments]
+            try:
+                lib_data = self.data_parser.parse_library(
+                    lib_import,
+                    lib_args
+                )
+            except:
+                message = ('Unable to parse library "{0}"'
+                           ', with args: "{1}"'.format(lib_import, lib_args))
+                logging.error(message)
+                raise
             l.append(lib_table_name(lib_data[DBJsonSetting.library_module]))
         return l
 

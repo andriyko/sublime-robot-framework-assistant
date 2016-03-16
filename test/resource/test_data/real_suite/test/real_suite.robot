@@ -1,5 +1,6 @@
 *** Settings ***
 Resource          ../resource/resource1/real_suite_resource.robot
+Test Setup        Real Suite User Keyword 3
 
 *** Test Cases ***
 Test 1

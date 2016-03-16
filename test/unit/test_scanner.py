@@ -73,7 +73,7 @@ class TestScanner(unittest.TestCase):
             'robot',
             self.db_dir
             )
-        self.assertEqual(len(self.scanner.queue.queue), 7)
+        self.assertEqual(len(self.scanner.queue.queue), 8)
         key = os.path.join(
             self.real_suite,
             'resource',
@@ -119,7 +119,7 @@ class TestScanner(unittest.TestCase):
             'robot',
             self.db_dir
             )
-        self.assertEqual(len(os.listdir(self.db_dir)), 7)
+        self.assertEqual(len(os.listdir(self.db_dir)), 8)
 
     def test_parse_all_rf(self):
         test_suite = os.path.join(

@@ -1,6 +1,6 @@
 *** Settings ***
 Library           ../../libs/SuiteLib.py    1
-
+Library           Selenium2Library
 
 *** Variables ***
 # Comment
