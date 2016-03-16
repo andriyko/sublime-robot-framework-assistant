@@ -48,6 +48,7 @@ class DataParser():
                 model = parsing.ResourceFile(file_path).populate()
             return self._parse_robot_data(file_path, model)
         else:
+            logging.error('File %s could not be found', file_path)
             raise ValueError(
                 'File does not exist: {0}'.format(file_path))
 
@@ -57,6 +58,7 @@ class DataParser():
             model = parsing.TestCaseFile(source=file_path).populate()
             return self._parse_robot_data(file_path, model)
         else:
+            logging.error('File %s could not be found', file_path)
             raise ValueError(
                 'File does not exist: {0}'.format(file_path))
 
@@ -119,6 +121,9 @@ class DataParser():
 
     def unregister_console_logger(self):
         ROBOT_LOGGER.unregister_console_logger()
+
+    def close_logger(self):
+        ROBOT_LOGGER.close()
 
     # Private
     def _parse_python_lib(self, library, args):

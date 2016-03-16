@@ -110,6 +110,8 @@ class Scanner(object):
         try:
             return self.parser.parse_resource(f)
         except DataError:
+            self.parser.close_logger()
+            self.parser.register_console_logger()
             return self.parser.parse_suite(f)
         finally:
             self.parser.register_console_logger()

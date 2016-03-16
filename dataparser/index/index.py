@@ -62,9 +62,12 @@ class Index(object):
                 keywords.extend(kw_index)
                 variables.extend(var)
             except ValueError:
-                read_status = False
-            if not read_status:
+                read_status = 2
+            if read_status == 1:
                 internal_logger()
+            elif read_status == 2:
+                logging.error('Unknow ValueError on %s', t_name)
+                logging.debug(data)
         return {
                     DBJsonSetting.keyword: keywords,
                     DBJsonSetting.variable: variables
@@ -85,11 +88,13 @@ class Index(object):
                 kw, args, t_name, object_name)
         else:
             kw_index = []
+        # logging.info('Adding table %s imports to queue', t_name)
         self.add_imports_to_queue(self.get_imports(data))
         self.queue.set(t_name)
         return var, kw_index
 
     def add_imports_to_queue(self, imports):
+        # logging.info('Adding imports %s to queue', imports)
         for import_ in imports:
             self.queue.add(import_, None, None)
 
@@ -200,13 +205,13 @@ class Index(object):
     def read_table(self, t_path):
         try:
             f = open(t_path)
-            status = True
+            status = 0
         except IOError:
             logging.warning('Could not open table: %s', t_path)
             similar = self.find_similar_table(t_path)
             logging.info('Instead of %s using: %s', t_path, similar)
             f = open(similar)
-            status = False
+            status = 1
         data = json_load(f)
         f.close()
         return data, status

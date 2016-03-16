@@ -235,22 +235,37 @@ class TestIndexing(unittest.TestCase):
         self.assertEqual(result, expected)
 
     def test_real_suite(self):
-        db_dir = os.path.join(
-            env.RESULTS_DIR,
-            'db_dir'
-        )
-        suite_dir = os.path.join(
+        self.real_suite_dir = os.path.join(
             env.TEST_DATA_DIR,
             'real_suite'
         )
         scanner = Scanner()
         scanner.scan(
-            suite_dir,
+            self.real_suite_dir,
             'robot',
-            db_dir)
-        self.index.index_all_tables(db_dir, self.index_dir)
+            self.db_dir)
+        self.index.index_all_tables(self.db_dir, self.index_dir)
         r_index_table_names = os.listdir(self.index_dir)
         self.assertEqual(len(r_index_table_names), 8)
+        real_suite_index = 'index-{0}'.format(self.real_suite_table_name)
+        f = open(os.path.join(self.index_dir, real_suite_index))
+        data = json.load(f)
+        f.close()
+        kw_names = [kw_list[0] for kw_list in data['keyword']]
+        self.assertIn('Run Keyword And Expect Error', kw_names)
+        self.assertIn('Open Browser', kw_names)
+
+    @property
+    def real_suite_table_name(self):
+        return rf_table_name(
+            os.path.normcase(
+                os.path.join(
+                    self.real_suite_dir,
+                    'test',
+                    'real_suite.robot'
+                )
+            )
+        )
 
     @property
     def resource_b_table_name(self):
