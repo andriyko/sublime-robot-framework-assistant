@@ -1,6 +1,6 @@
 *** Settings ***
 Library           ../../libs/SuiteLib.py    1
-Library           Selenium2Library
+Library           Selenium2Library    timeout=15.0    run_on_failure=Real Suite User Keyword 4
 
 *** Variables ***
 # Comment

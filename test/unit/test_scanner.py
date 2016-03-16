@@ -73,7 +73,7 @@ class TestScanner(unittest.TestCase):
             'robot',
             self.db_dir
             )
-        self.assertEqual(len(self.scanner.queue.queue), 8)
+        self.assertEqual(len(self.scanner.queue.queue), 10)
         key = os.path.join(
             self.real_suite,
             'resource',

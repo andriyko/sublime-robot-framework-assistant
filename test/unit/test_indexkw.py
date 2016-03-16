@@ -300,10 +300,6 @@ class TestIndexing(unittest.TestCase):
 
     @property
     def libnoclass_table_name(self):
-        file_path = os.path.join(
-            os.path.normcase(self.suite_dir),
-            'LibNoClass.py'
-        )
         return lib_table_name('LibNoClass')
 
     def get_resource_b(self):
