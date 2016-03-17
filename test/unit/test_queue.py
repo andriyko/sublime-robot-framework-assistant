@@ -117,7 +117,7 @@ class TestLibraryParsingQueue(unittest.TestCase):
         self.add_builtin()
         self.add_resource()
         self.assertEqual(len(self.queue.queue), 3)
-        resources = ['resource1.robot', 'resource2.robot', 'resource13.robot']
+        resources = ['resource1.robot', 'resource2.robot', 'resource3.robot']
         self.queue.force_set(resources[0])
         self.queue.force_set(resources[1])
         self.queue.force_set(resources[2])
@@ -129,6 +129,12 @@ class TestLibraryParsingQueue(unittest.TestCase):
                 self.assertEqual(index, first_index)
                 first_index += 1
                 self.assertEqual(self.queue.queue[key], status)
+        resource = 'resource.robot'
+        self.queue.force_set(resource)
+        for index, key in enumerate(self.queue.queue):
+            if key in resource:
+                self.assertEqual(self.queue.queue[key], status)
+                self.assertEqual(index, 5)
 
     def add_builtin(self):
         tmp = OrderedDict({})

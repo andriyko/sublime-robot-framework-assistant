@@ -51,7 +51,10 @@ class ParsingQueue(object):
 
     def force_set(self, data):
         """Adds items to the end of the queue with scanned == True"""
-        self.queue[data] = {'scanned': True, 'type': None, 'args': None}
+        status = {'scanned': True, 'type': None, 'args': None}
+        if data in self.queue:
+            del self.queue[data]
+        self.queue[data] = status
 
     def clear_queue(self):
         """Clears all items in the queue"""
