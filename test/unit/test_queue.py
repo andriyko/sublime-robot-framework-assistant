@@ -112,6 +112,24 @@ class TestLibraryParsingQueue(unittest.TestCase):
         self.queue.add('/path/to/robot.robot', 'resource', None)
         self.assertEqual(len(self.queue.queue), 1)
 
+    def test_force_set(self):
+        self.add_test_data()
+        self.add_builtin()
+        self.add_resource()
+        self.assertEqual(len(self.queue.queue), 3)
+        resources = ['resource1.robot', 'resource2.robot', 'resource13.robot']
+        self.queue.force_set(resources[0])
+        self.queue.force_set(resources[1])
+        self.queue.force_set(resources[2])
+        self.assertEqual(len(self.queue.queue), 6)
+        first_index = 3
+        status = {'scanned': True, 'type': None, 'args': None}
+        for index, key in enumerate(self.queue.queue):
+            if key in resources:
+                self.assertEqual(index, first_index)
+                first_index += 1
+                self.assertEqual(self.queue.queue[key], status)
+
     def add_builtin(self):
         tmp = OrderedDict({})
         tmp['BuiltIn'] = self.join_dict(
