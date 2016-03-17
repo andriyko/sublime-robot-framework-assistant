@@ -22,6 +22,7 @@ class Index(object):
     def __init__(self):
         self.queue = ParsingQueue()
         self.data_parser = DataParser()
+        self.cache = []
 
     def index_all_tables(self, db_path, index_path):
         """Index all tables found from db_path"""
@@ -30,16 +31,18 @@ class Index(object):
         makedirs(index_path)
         for table in listdir(db_path):
             logging.info('Creating index for: {0}'.format(table))
-            index_name = get_index_name(table)
-            f = open(path.join(index_path, index_name), 'w')
+            index_name = path.join(index_path, get_index_name(table))
+            f = open(index_name, 'w')
             data = self.create_index_for_table(db_path, table)
             json_dump(data, f, indent=4)
             f.close()
+            self.cache.append(index_name)
 
     def create_index_for_table(self, db_path, table_name):
         """Creates index for a single table.
 
-        Index contains all imported kw and variables"""
+        Index contains all imported kw and variables
+        """
         self.queue.clear_queue()
         self.queue.add(table_name, None, None)
         self.add_builtin_to_queue(db_path)

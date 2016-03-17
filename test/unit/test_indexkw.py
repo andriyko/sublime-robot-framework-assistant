@@ -255,6 +255,25 @@ class TestIndexing(unittest.TestCase):
         self.assertIn('Run Keyword And Expect Error', kw_names)
         self.assertIn('Open Browser', kw_names)
 
+    def test_cache_creation(self):
+        self.assertEqual(len(self.index.cache), 0)
+        self.index.index_all_tables(
+            self.db_dir,
+            self.index_dir
+        )
+        self.assertIn(self.common_table_name_index, self.index.cache)
+        self.assertIn(self.test_a_table_name_index, self.index.cache)
+
+    @property
+    def common_table_name_index(self):
+        index = 'index-{0}'.format(self.common_table_name)
+        return os.path.join(self.index_dir, index)
+
+    @property
+    def test_a_table_name_index(self):
+        index = 'index-{0}'.format(self.test_a_table_name)
+        return os.path.join(self.index_dir, index)
+
     @property
     def real_suite_table_name(self):
         return rf_table_name(
