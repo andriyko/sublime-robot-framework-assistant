@@ -75,7 +75,9 @@ class ScanIndexCommand(sublime_plugin.TextCommand):
                     '--db_path',
                     db_path,
                     '--index_path',
-                    get_setting(SettingObject.index_dir)
+                    get_setting(SettingObject.index_dir),
+                    '--module_search_path',
+                    get_setting(SettingObject.module_search_path)
                 ],
                 stderr=subprocess.STDOUT,
                 stdout=log_file,
