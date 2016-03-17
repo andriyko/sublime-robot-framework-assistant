@@ -12,11 +12,8 @@ from index.index import Index
 def index_all(db_path, index_path, module_search_path):
     for path_ in module_search_path:
         sys.path.append(path_)
-    index = Index()
-    index.index_all_tables(
-        db_path=db_path,
-        index_path=index_path
-    )
+    index = Index(index_path=index_path)
+    index.index_all_tables(db_path=db_path)
 
 if __name__ == '__main__':
     c_parser = argparse.ArgumentParser(

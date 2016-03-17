@@ -42,7 +42,7 @@ class TestIndexing(unittest.TestCase):
                 shutil.rmtree(self.index_dir)
                 sleep(0.1)
         os.makedirs(self.index_dir)
-        self.index = Index()
+        self.index = Index(self.index_dir)
 
     def test_parse_table_data(self):
         t_name = os.path.join(
@@ -207,7 +207,7 @@ class TestIndexing(unittest.TestCase):
         for table in os.listdir(self.db_dir):
             t_index_table_names.append(
                 'index-{0}'.format(table))
-        self.index.index_all_tables(self.db_dir, self.index_dir)
+        self.index.index_all_tables(self.db_dir)
         r_index_table_names = os.listdir(self.index_dir)
         self.assertEqual(r_index_table_names, t_index_table_names)
         for index_file in os.listdir(self.index_dir):
@@ -244,7 +244,7 @@ class TestIndexing(unittest.TestCase):
             self.real_suite_dir,
             'robot',
             self.db_dir)
-        self.index.index_all_tables(self.db_dir, self.index_dir)
+        self.index.index_all_tables(self.db_dir)
         r_index_table_names = os.listdir(self.index_dir)
         self.assertEqual(len(r_index_table_names), 8)
         real_suite_index = 'index-{0}'.format(self.real_suite_table_name)
@@ -257,12 +257,34 @@ class TestIndexing(unittest.TestCase):
 
     def test_cache_creation(self):
         self.assertEqual(len(self.index.cache), 0)
-        self.index.index_all_tables(
-            self.db_dir,
-            self.index_dir
-        )
+        self.index.index_all_tables(self.db_dir)
         self.assertIn(self.common_table_name_index, self.index.cache)
         self.assertIn(self.test_a_table_name_index, self.index.cache)
+
+    def test_get_data_from_created_index(self):
+        self.index.index_all_tables(self.db_dir)
+        keywords, variables, tables = self.index.get_data_from_created_index(
+            self.test_a_table_name_index)
+        self.assertIn(self.builtin_table_name, tables)
+        self.assertIn('${TEST_A}', variables)
+        test_a_keyword = [
+            'Test A Keyword',
+            [],
+            'test_a.robot',
+            self.test_a_table_name
+        ]
+        self.assertIn(test_a_keyword, keywords)
+
+    def test_add_table_to_index(self):
+        test_a_index = os.path.join(
+            env.TEST_DATA_DIR,
+            '..',
+            'index-test_a.robot-41883aa9e5af28925d37eba7d2313d57.json')
+        keywords, variables, tables = self.index.get_data_from_created_index(
+            test_a_index)
+        self.assertEqual(len(self.index.queue.queue), 0)
+        self.index.add_table_to_index(tables, self.db_dir)
+        self.assertEqual(len(self.index.queue.queue), 6)
 
     @property
     def common_table_name_index(self):

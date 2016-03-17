@@ -33,14 +33,12 @@ class TestGetKeywordFromResource(unittest.TestCase):
         mkdir(cls.db_dir)
         mkdir(cls.index_dir)
         scanner = Scanner()
-        index = Index()
+        index = Index(cls.index_dir)
         scanner.scan(
             cls.suite_dir,
             'robot',
             cls.db_dir)
-        index.index_all_tables(
-            cls.db_dir,
-            cls.index_dir)
+        index.index_all_tables(cls.db_dir)
         cls.rf_ext = 'robot'
 
     def setUp(self):

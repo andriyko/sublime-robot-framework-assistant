@@ -19,24 +19,25 @@ logging.basicConfig(
 class Index(object):
     """Reads the database and returns index's of keywords and variables"""
 
-    def __init__(self):
+    def __init__(self, index_path):
         self.queue = ParsingQueue()
         self.data_parser = DataParser()
         self.cache = []
+        self.index_path = index_path
 
-    def index_all_tables(self, db_path, index_path):
+    def index_all_tables(self, db_path):
         """Index all tables found from db_path"""
-        if path.exists(index_path):
-            shutil.rmtree(index_path)
-        makedirs(index_path)
+        if path.exists(self.index_path):
+            shutil.rmtree(self.index_path)
+        makedirs(self.index_path)
         for table in listdir(db_path):
             logging.info('Creating index for: {0}'.format(table))
-            index_name = path.join(index_path, get_index_name(table))
-            f = open(index_name, 'w')
+            index_path = self.get_index_path(table)
+            f = open(index_path, 'w')
             data = self.create_index_for_table(db_path, table)
             json_dump(data, f, indent=4)
             f.close()
-            self.cache.append(index_name)
+            self.cache.append(index_path)
 
     def create_index_for_table(self, db_path, table_name):
         """Creates index for a single table.
@@ -58,6 +59,9 @@ class Index(object):
             if not item:
                 break
             t_name = item[0]
+            index_path = self.get_index_path(t_name)
+            if index_path in self.cache:
+                pass
             try:
                 data, read_status = self.read_table(path.join(db_path, t_name))
                 var, kw_index = self.parse_table_data(
@@ -237,3 +241,31 @@ class Index(object):
             raise ValueError(
                 'Could not locate similar table to: {0}'.format(t_path))
         return similar_table
+
+    def get_index_path(self, table):
+        return path.join(self.index_path, get_index_name(table))
+
+    def get_data_from_created_index(self, index):
+        """Returns the keyword, variables indexes tables.
+
+        ``index`` - Path to index table
+
+        Used for caching purposes. If index is already created for a
+        table, there is no need re-index the data again. Instead
+        read the data from index table.
+        """
+        with open(index) as f:
+            data = json_load(f)
+        keywords = data[DBJsonSetting.keyword]
+        variables = data[DBJsonSetting.variable]
+        object_names = []
+        for keyword in keywords:
+            object_name = keyword[3]
+            if object_name not in object_names:
+                object_names.append(object_name)
+        return keywords, variables, object_names
+
+    def add_table_to_index(self, object_names, db_path):
+        """Adds object names from cache to the queue as scanned"""
+        for object_name in object_names:
+            self.queue.force_set(path.join(db_path, object_name))
