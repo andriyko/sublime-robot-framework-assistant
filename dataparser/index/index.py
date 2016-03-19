@@ -49,11 +49,6 @@ class Index(object):
         self.add_builtin_to_queue(db_path)
         keywords = []
         variables = []
-
-        def internal_logger():
-            logging.warning('Error finding: %s', path.join(db_path, t_name))
-            logging.debug('When creating index for: %s', table_name)
-
         while True:
             item = self.get_item_from_queue()
             if not item:
@@ -61,24 +56,51 @@ class Index(object):
             t_name = item[0]
             index_path = self.get_index_path(t_name)
             if index_path in self.cache:
-                pass
-            try:
-                data, read_status = self.read_table(path.join(db_path, t_name))
-                var, kw_index = self.parse_table_data(
-                    data, t_name)
-                keywords.extend(kw_index)
-                variables.extend(var)
-            except ValueError:
-                read_status = 2
-            if read_status == 1:
-                internal_logger()
-            elif read_status == 2:
-                logging.error('Unknow ValueError on %s', t_name)
-                logging.debug(data)
+                kws, vars_, t_names_index = \
+                    self.get_data_from_created_index(index_path)
+                self.add_table_to_index(t_names_index, db_path)
+                self.queue.set(t_name)
+            else:
+                kws, vars_ = self.create_index(
+                    db_path,
+                    t_name,
+                    table_name
+                )
+            if kws:
+                keywords.extend(kws)
+            if vars_:
+                variables.extend(vars_)
+
         return {
                     DBJsonSetting.keyword: keywords,
                     DBJsonSetting.variable: variables
                 }
+
+    def create_index(self, db_path, t_name, table_name):
+        """Returns single table data for indexing
+
+        `db_path`- Where database tables are found
+        `t_name` - From which table to read the data
+        `table_name`- Name of the table where index is created for
+        """
+        variables = []
+        keywords = []
+        data = None
+        try:
+            data, read_status = self.read_table(path.join(db_path, t_name))
+            variables, keywords = self.parse_table_data(data, t_name)
+        except ValueError:
+                read_status = 2
+        if read_status == 1:
+            logging.warning('Error finding: %s', path.join(db_path, t_name))
+            logging.debug('When creating index for: %s', table_name)
+        elif read_status == 2:
+            logging.error('Unknow ValueError on %s', t_name)
+            if data:
+                logging.debug(data)
+            else:
+                logging.debug('Looks like read_table error')
+        return keywords, variables
 
     def add_builtin_to_queue(self, db_path):
         for table in listdir(db_path):
@@ -258,14 +280,14 @@ class Index(object):
             data = json_load(f)
         keywords = data[DBJsonSetting.keyword]
         variables = data[DBJsonSetting.variable]
-        object_names = []
+        table_names = []
         for keyword in keywords:
-            object_name = keyword[3]
-            if object_name not in object_names:
-                object_names.append(object_name)
-        return keywords, variables, object_names
+            table_name = keyword[3]
+            if table_name not in table_names:
+                table_names.append(table_name)
+        return keywords, variables, table_names
 
-    def add_table_to_index(self, object_names, db_path):
+    def add_table_to_index(self, table_names, db_path):
         """Adds object names from cache to the queue as scanned"""
-        for object_name in object_names:
-            self.queue.force_set(path.join(db_path, object_name))
+        for table_name in table_names:
+            self.queue.force_set(table_name)
