@@ -89,7 +89,7 @@ class Scanner(object):
         elif DBJsonSetting.file_path in item:
             f_name = rf_table_name(item[DBJsonSetting.file_path])
         f = open(path.join(db_path, f_name), 'w')
-        f.write(json.dumps(item, indent=4))
+        json.dump(item, f)
         f.close()
 
     def parse_all(self, item):

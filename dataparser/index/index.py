@@ -35,7 +35,7 @@ class Index(object):
             index_path = self.get_index_path(table)
             f = open(index_path, 'w')
             data = self.create_index_for_table(db_path, table)
-            json_dump(data, f, indent=4)
+            json_dump(data, f)
             f.close()
             self.cache.append(index_path)
 
