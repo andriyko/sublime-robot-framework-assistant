@@ -42,7 +42,7 @@ class TestIndexing(unittest.TestCase):
                 shutil.rmtree(self.index_dir)
                 sleep(0.1)
         os.makedirs(self.index_dir)
-        self.index = Index(self.index_dir)
+        self.index = Index(self.db_dir, self.index_dir)
 
     def test_parse_table_data(self):
         t_name = os.path.join(
@@ -202,17 +202,20 @@ class TestIndexing(unittest.TestCase):
         self.assertEqual(len(r_index['keyword']), len(t_index['keyword']))
         self.assertEqual(r_index['keyword'].sort(), t_index['keyword'].sort())
 
-    def test_index_all_db(self):
-        t_index_table_names = []
-        for table in os.listdir(self.db_dir):
-            t_index_table_names.append(
-                'index-{0}'.format(table))
-        self.index.index_all_tables(self.db_dir)
-        r_index_table_names = os.listdir(self.index_dir)
-        self.assertEqual(r_index_table_names, t_index_table_names)
-        for index_file in os.listdir(self.index_dir):
-            size = os.path.getsize(os.path.join(self.index_dir, index_file))
-            self.assertGreater(size, 10)
+    def test_index_consturctor(self):
+        self.index.index_consturctor(self.resource_a_table_name)
+        files = os.listdir(self.index_dir)
+        self.assertEqual(len(files), 1)
+        with open(os.path.join(self.index_dir, files[0])) as f:
+            data = json.load(f)
+        self.assertIn('variable', data)
+        self.assertIn('keyword', data)
+        self.assertFalse(
+            any(kw[0] == 'Test A Keyword' for kw in data['keyword'])
+        )
+        self.assertTrue(
+            any(kw[0] == 'Resource A Keyword 1' for kw in data['keyword'])
+        )
 
     def test_get_kw_arguments(self):
         kw_args = [u'item', u'msg=None']
@@ -233,58 +236,6 @@ class TestIndexing(unittest.TestCase):
         result = self.index.get_kw_arguments(kw_args)
         expected = [u'kwa1', '*list', '**kwargs']
         self.assertEqual(result, expected)
-
-    def test_real_suite(self):
-        self.real_suite_dir = os.path.join(
-            env.TEST_DATA_DIR,
-            'real_suite'
-        )
-        scanner = Scanner()
-        scanner.scan(
-            self.real_suite_dir,
-            'robot',
-            self.db_dir)
-        self.index.index_all_tables(self.db_dir)
-        r_index_table_names = os.listdir(self.index_dir)
-        self.assertEqual(len(r_index_table_names), 8)
-        real_suite_index = 'index-{0}'.format(self.real_suite_table_name)
-        f = open(os.path.join(self.index_dir, real_suite_index))
-        data = json.load(f)
-        f.close()
-        kw_names = [kw_list[0] for kw_list in data['keyword']]
-        self.assertIn('Run Keyword And Expect Error', kw_names)
-        self.assertIn('Open Browser', kw_names)
-
-    def test_cache_creation(self):
-        self.assertEqual(len(self.index.cache), 0)
-        self.index.index_all_tables(self.db_dir)
-        self.assertIn(self.common_table_name_index, self.index.cache)
-        self.assertIn(self.test_a_table_name_index, self.index.cache)
-
-    def test_get_data_from_created_index(self):
-        self.index.index_all_tables(self.db_dir)
-        keywords, variables, tables = self.index.get_data_from_created_index(
-            self.test_a_table_name_index)
-        self.assertIn(self.builtin_table_name, tables)
-        self.assertIn('${TEST_A}', variables)
-        test_a_keyword = [
-            'Test A Keyword',
-            [],
-            'test_a.robot',
-            self.test_a_table_name
-        ]
-        self.assertIn(test_a_keyword, keywords)
-
-    def test_add_table_to_index(self):
-        test_a_index = os.path.join(
-            env.TEST_DATA_DIR,
-            '..',
-            'index-test_a.robot-41883aa9e5af28925d37eba7d2313d57.json')
-        keywords, variables, tables = self.index.get_data_from_created_index(
-            test_a_index)
-        self.assertEqual(len(self.index.queue.queue), 0)
-        self.index.add_table_to_index(tables, self.db_dir)
-        self.assertEqual(len(self.index.queue.queue), 6)
 
     @property
     def common_table_name_index(self):

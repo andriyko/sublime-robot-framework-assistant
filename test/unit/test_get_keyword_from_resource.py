@@ -2,7 +2,7 @@ import unittest
 import env
 import shutil
 from os import path, mkdir
-from index.index import Index
+from index_runner import index_all
 from queue.scanner import Scanner
 from parser_utils.file_formatter import rf_table_name
 from get_keyword import GetKeyword
@@ -33,12 +33,11 @@ class TestGetKeywordFromResource(unittest.TestCase):
         mkdir(cls.db_dir)
         mkdir(cls.index_dir)
         scanner = Scanner()
-        index = Index(cls.index_dir)
         scanner.scan(
             cls.suite_dir,
             'robot',
             cls.db_dir)
-        index.index_all_tables(cls.db_dir)
+        index_all(cls.db_dir, cls.index_dir)
         cls.rf_ext = 'robot'
 
     def setUp(self):

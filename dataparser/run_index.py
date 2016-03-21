@@ -1,19 +1,28 @@
 import argparse
 import sys
-from os import path
+import shutil
+import multiprocessing
+from os import path, listdir, makedirs
 
 ROOT_DIR = path.dirname(path.abspath(__file__))
 SETTING_DIR = path.join(ROOT_DIR, '..', 'setting')
 sys.path.append(SETTING_DIR)
 
-from index.index import Index
+from index.index import index_a_table
 
 
 def index_all(db_path, index_path, module_search_path):
     for path_ in module_search_path:
         sys.path.append(path_)
-    index = Index(index_path=index_path)
-    index.index_all_tables(db_path=db_path)
+    tables = listdir(db_path)
+    params = []
+    for table in tables:
+        params.append((db_path, table, index_path))
+    if path.exists(index_path):
+        shutil.rmtree(index_path)
+    makedirs(index_path)
+    pool = multiprocessing.Pool()
+    pool.map(index_a_table, params)
 
 if __name__ == '__main__':
     c_parser = argparse.ArgumentParser(

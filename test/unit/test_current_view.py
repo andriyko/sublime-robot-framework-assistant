@@ -5,7 +5,7 @@ import json
 import hashlib
 from os import path, makedirs, remove
 from time import sleep
-from index.index import Index
+from index_runner import index_all
 from queue.scanner import Scanner
 from current_view import CurrentView
 
@@ -33,8 +33,7 @@ class TestCurrentView(unittest.TestCase):
             cls.workspace,
             'robot',
             cls.db_dir)
-        index = Index(cls.index_dir)
-        index.index_all_tables(cls.db_dir)
+        index_all(cls.db_dir, cls.index_dir)
         cls.test_a_index = path.join(
             env.RESOURCES_DIR,
             'index-test_a.robot-41883aa9e5af28925d37eba7d2313d57.json')

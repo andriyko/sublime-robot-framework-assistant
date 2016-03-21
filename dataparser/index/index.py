@@ -1,7 +1,7 @@
-import shutil
 import logging
 import re
-from os import path, makedirs, listdir
+import multiprocessing
+from os import path, listdir
 from json import load as json_load
 from json import dump as json_dump
 from collections import namedtuple
@@ -16,27 +16,46 @@ logging.basicConfig(
     level=logging.DEBUG)
 
 
+def index_a_table(params):
+    """Index a table found from db_path.
+    `params` - Tuple of: db_dir, table_name and index_dir
+
+    This is a wrapper function for multiprocessing.Pool
+    to create index for tables in multiple processes.
+    """
+    name = multiprocessing.current_process().name
+    logging.info('Starting name: %s', name)
+    db_path, table_name, index_path = params
+    index = Index(db_path, index_path)
+    index.index_consturctor(table_name)
+
+
 class Index(object):
     """Reads the database and returns index's of keywords and variables"""
 
-    def __init__(self, index_path):
+    def __init__(self, db_path, index_path):
         self.queue = ParsingQueue()
         self.data_parser = DataParser()
-        self.cache = []
         self.index_path = index_path
+        self.db_path = db_path
 
-    def index_all_tables(self, db_path):
-        """Index all tables found from db_path"""
-        if path.exists(self.index_path):
-            shutil.rmtree(self.index_path)
-        makedirs(self.index_path)
-        for table in listdir(db_path):
-            logging.info('Creating index for: {0}'.format(table))
-            index_path = self.get_index_path(table)
-            f = open(index_path, 'w')
-            data = self.create_index_for_table(db_path, table)
-            json_dump(data, f)
-            f.close()
+    def index_consturctor(self, table):
+        """Creates a single table index.
+
+        `table` - name of the db table where index is created
+
+        Will walk on all imported resources and libraries and
+        adds all keyword and variables to the index file.
+        """
+        logging.info('Creating index for: {0}'.format(table))
+        index_table_path = self.get_index_path(table)
+        data = self.create_index_for_table(self.db_path, table)
+        self.write_data(index_table_path, data)
+
+    def write_data(self, index_table_path, data):
+        f = open(index_table_path, 'w')
+        json_dump(data, f)
+        f.close()
 
     def create_index_for_table(self, db_path, table_name):
         """Creates index for a single table.
@@ -53,14 +72,7 @@ class Index(object):
             if not item:
                 break
             t_name = item[0]
-            index_path = self.get_index_path(t_name)
-            if index_path in self.cache:
-                kws, vars_, t_names_index = \
-                    self.get_data_from_created_index(index_path)
-                self.add_table_to_index(t_names_index, db_path)
-                self.queue.set(t_name)
-            else:
-                kws, vars_ = self.create_index(
+            kws, vars_ = self.create_index(
                     db_path,
                     t_name,
                     table_name
@@ -263,28 +275,3 @@ class Index(object):
 
     def get_index_path(self, table):
         return path.join(self.index_path, get_index_name(table))
-
-    def get_data_from_created_index(self, index):
-        """Returns the keyword, variables indexes tables.
-
-        ``index`` - Path to index table
-
-        Used for caching purposes. If index is already created for a
-        table, there is no need re-index the data again. Instead
-        read the data from index table.
-        """
-        with open(index) as f:
-            data = json_load(f)
-        keywords = data[DBJsonSetting.keyword]
-        variables = data[DBJsonSetting.variable]
-        table_names = []
-        for keyword in keywords:
-            table_name = keyword[3]
-            if table_name not in table_names:
-                table_names.append(table_name)
-        return keywords, variables, table_names
-
-    def add_table_to_index(self, table_names, db_path):
-        """Adds object names from cache to the queue as scanned"""
-        for table_name in table_names:
-            self.queue.force_set(table_name)
