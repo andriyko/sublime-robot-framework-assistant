@@ -9,7 +9,9 @@ Robot Framework Data Editor provides IDE features to edit
 
 Installation
 ============
-To be done
+Not yet available in the Sublime Package Central, instead follow the
+[manual installation instructions](https://github.com/aaltat/robotframework-from-sublime/wiki/Installation-guide-for-pre-release)
+ in the Wiki.
 
 Configuration
 =============
