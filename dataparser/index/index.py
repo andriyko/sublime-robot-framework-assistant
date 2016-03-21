@@ -116,13 +116,11 @@ class Index(object):
                 kw, args, t_name, object_name)
         else:
             kw_index = []
-        # logging.info('Adding table %s imports to queue', t_name)
         self.add_imports_to_queue(self.get_imports(data))
         self.queue.set(t_name)
         return var, kw_index
 
     def add_imports_to_queue(self, imports):
-        # logging.info('Adding imports %s to queue', imports)
         for import_ in imports:
             self.queue.add(import_, None, None)
 
