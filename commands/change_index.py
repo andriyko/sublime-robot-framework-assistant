@@ -18,3 +18,7 @@ class DetectViewChange(sublime_plugin.EventListener):
             if cv.view_in_db(workspace, file_name, index_dir, extension):
                 view_path = get_setting(SettingObject.view_path)
                 cv.create_view(file_name, view_path, index_dir)
+                message = 'Updating index is done for file: {0} '.format(
+                    file_name
+                )
+                sublime.status_message(message)
