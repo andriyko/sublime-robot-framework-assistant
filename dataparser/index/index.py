@@ -37,7 +37,6 @@ class Index(object):
             data = self.create_index_for_table(db_path, table)
             json_dump(data, f)
             f.close()
-            self.cache.append(index_path)
 
     def create_index_for_table(self, db_path, table_name):
         """Creates index for a single table.
