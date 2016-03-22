@@ -1,5 +1,4 @@
 # [PackageDev] target_format: plist, ext: tmLanguage
----
 name: Robot Framework syntax highlighting for .robot and .txt files.
 scopeName: source.robot
 fileTypes: [robot]
@@ -20,7 +19,7 @@ patterns:
   begin: ((?<!\\)(@{)|(?<=\\\\)(@{))
   end: (}\[.+])|(})
 
-- comment:  Robot Framework data tables
+- comment: Robot Framework data tables
   name: string.robot.header
   match: (?i)^(\*{1,3} ?)(settings?|variables?|keywords?|test cases?)( ?\*{1,3})?
 
@@ -28,6 +27,11 @@ patterns:
   name: comment
   begin: (?i)^\s*\[?Documentation\]?\s+
   end: ^(?!\s*+\.\.\.)
+
+- comment: Comment character #
+  name: comment
+  begin: (^| {2,}|\t|\\| {1,})(?<!\\\\)#
+  end: $
 
 - comment: Tests case and keyword settings
   name: storage.type
@@ -41,4 +45,3 @@ patterns:
   name: keyword.control.robot
   begin: ^\S+
   end: \S$
-...

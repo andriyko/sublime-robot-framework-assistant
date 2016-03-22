@@ -57,6 +57,16 @@
 			<string>comment</string>
 		</dict>
 		<dict>
+			<key>begin</key>
+			<string>(^| {2,}|\t|\\| {1,})(?&lt;!\\\\)#</string>
+			<key>comment</key>
+			<string>Comment character</string>
+			<key>end</key>
+			<string>$</string>
+			<key>name</key>
+			<string>comment</string>
+		</dict>
+		<dict>
 			<key>comment</key>
 			<string>Tests case and keyword settings</string>
 			<key>match</key>
