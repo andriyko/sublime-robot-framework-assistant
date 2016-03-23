@@ -3,6 +3,7 @@ import sublime
 from ..command_helper.completions import get_completion_list
 from ..setting.setting import get_setting
 from ..setting.setting import SettingObject
+from ..setting.db_json_settings import DBJsonSetting
 from ..command_helper.current_view import CurrentView
 from ..command_helper.utils.get_text import get_line
 from ..command_helper.utils.get_text import get_prefix
@@ -13,6 +14,18 @@ from ..command_helper.get_metadata import get_rf_table_separator
 class RobotCompletion(sublime_plugin.EventListener):
 
     def on_query_completions(self, view, prefix, locations):
+        selection = view.sel()[0]
+        scope_name = view.scope_name(selection.a).strip()
+        if scope_name == DBJsonSetting.scope_name:
+            if view.score_selector(selection.a - 1, 'comment'):
+                return None
+            elif view.score_selector(selection.a - 1, 'keyword.control.robot'):
+                return None
+            else:
+                return self.return_kw_completions(view, prefix, locations)
+
+    def return_completions(self, view, prefix, locations):
+        """Returns keyword and variable completions"""
         current_view = CurrentView()
         workspace = get_setting(SettingObject.workspace)
         open_tab = view.file_name()
