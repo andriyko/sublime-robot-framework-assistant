@@ -22,7 +22,9 @@ class RobotCompletion(sublime_plugin.EventListener):
             elif view.score_selector(selection.a - 1, 'keyword.control.robot'):
                 return None
             else:
-                return self.return_kw_completions(view, prefix, locations)
+                return self.return_completions(view, prefix, locations)
+        else:
+            return None
 
     def return_completions(self, view, prefix, locations):
         """Returns keyword and variable completions"""
