@@ -65,7 +65,7 @@ class JumpToKeyword(sublime_plugin.TextCommand):
         if not new_view.is_loading():
             text = new_view.substr(sublime.Region(0, new_view.size()))
             match = re.search(regex, text)
-            region = sublime.Region(match.start(), match.end())
+            region = sublime.Region(match.end(), match.start())
             new_view.sel().clear()
             new_view.sel().add(region)
             new_view.show(region)

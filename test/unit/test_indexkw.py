@@ -516,7 +516,11 @@ class TestIndexing(unittest.TestCase):
         return l, kw_list, arg_list, object_name, table_name
 
     def get_common_kw_index(self, keywordrecord):
-        kw_list = [u'Common Keyword 2', u'common Keyword 1']
+        kw_list = [
+            u'Common Keyword 2',
+            u'common Keyword 1',
+            u'Really Long Keyword To Test With Jumping To Keyword Does Not Scroll The Visible Area To A Wrong Place Should There Be More Words'
+        ]
         table_name = self.common_table_name
         object_name = u'common.robot'
         l = []
