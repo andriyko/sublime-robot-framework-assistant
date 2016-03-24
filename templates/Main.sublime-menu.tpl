@@ -36,6 +36,10 @@
                             {
                                 "command": "scan_open_tab",
                                 "caption": "Create Database Table From Active Tab"
+                            },
+                            {
+                                "command": "index_open_tab",
+                                "caption": "Create Database Index From Active Tab"
                             }
 
                         ]

@@ -12,6 +12,10 @@
         "command": "scan_open_tab"
     },
     {
+        "caption": "Robot Framework: Create Database Index From Active Tab",
+        "command": "index_open_tab"
+    },
+    {
         "caption": "Robot Framework: Show Keyword Documentation",
         "command": "show_keyword_documentation"
     },
