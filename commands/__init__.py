@@ -1,4 +1,4 @@
-from .scan_index import ScanIndexCommand
+from .scan_and_index import ScanIndexCommand
 from .change_index import DetectViewChange
 from .query_completions import RobotCompletion
 from .show_documentation import ShowKeywordDocumentation
