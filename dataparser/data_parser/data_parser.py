@@ -291,7 +291,7 @@ class DataParser():
         return data
 
     def _format_resource(self, setting, file_path):
-        if path.isfile(setting.name):
+        if path.isabs(setting.name):
             return setting.name
         else:
             c_dir = path.dirname(self.file_path)
