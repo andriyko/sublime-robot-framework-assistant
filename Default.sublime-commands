@@ -8,6 +8,10 @@
         "command": "scan"
     },
     {
+        "caption": "Robot Framework: Create Database Table From Active Tab",
+        "command": "scan_open_tab"
+    },
+    {
         "caption": "Robot Framework: Show Keyword Documentation",
         "command": "show_keyword_documentation"
     },

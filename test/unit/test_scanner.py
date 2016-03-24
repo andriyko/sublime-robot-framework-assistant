@@ -262,6 +262,32 @@ class TestScanner(unittest.TestCase):
         self.assertTrue(operatingsystem in files)
         self.assertEqual(len(files), 11)
 
+    def test_single_file_scan(self):
+        self.assertEqual(len(os.listdir(self.db_dir)), 0)
+        self.scanner.scan_single_file(self.real_suite_robot_path, self.db_dir)
+        self.assertEqual(len(os.listdir(self.db_dir)), 1)
+        self.scanner.scan_single_file(self.real_suite_robot_path, self.db_dir)
+        self.assertEqual(len(os.listdir(self.db_dir)), 1)
+        self.scanner.scan_single_file(
+            self.real_suite_resource_robot_path,
+            self.db_dir
+        )
+        print os.listdir(self.db_dir)
+        self.assertEqual(len(os.listdir(self.db_dir)), 2)
+
+    @property
+    def real_suite_robot_path(self):
+        return os.path.join(self.real_suite, 'test', 'real_suite.robot')
+
+    @property
+    def real_suite_resource_robot_path(self):
+        return os.path.join(
+            self.real_suite,
+            'resource',
+            'resource1',
+            'real_suite_resource.robot'
+        )
+
     def suite_folder(self):
         return os.path.join(
             env.RESOURCES_DIR,

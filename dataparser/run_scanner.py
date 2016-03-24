@@ -21,6 +21,11 @@ def scan_all(workspace, extension, db_path,
     )
 
 
+def scan_single(file_path, db_path):
+    scanner = Scanner()
+    scanner.scan_single_file(file_path=file_path, db_path=db_path)
+
+
 if __name__ == '__main__':
     c_parser = argparse.ArgumentParser(
         description='Scanning Robot data from system Python')
@@ -46,6 +51,9 @@ if __name__ == '__main__':
         '--module_search_path',
         nargs='*',
         help='List of paths where libraries are searched when scanning')
+    c_parser.add_argument(
+        '--path_to_file',
+        help='Path to file which is scanned')
     args = c_parser.parse_args()
     module_search_path = []
     if args.module_search_path:
@@ -64,5 +72,11 @@ if __name__ == '__main__':
                 args.db_path,
                 module_search_path)
     elif args.mode == 'single':
-        """To scan single file"""
-        raise ValueError('Not implemented')
+        if not args.path_to_file:
+            raise ValueError(
+                '--path_to_file is needed with mode: {0}'.format(
+                    args.mode
+                )
+            )
+        else:
+            scan_single(args.path_to_file, args.db_path)

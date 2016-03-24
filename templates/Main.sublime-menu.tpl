@@ -27,11 +27,15 @@
                             { "caption": "-" },
                             {
                                 "command": "scan_index",
-                                "caption": "Scan and index all Robot data from workspace"
+                                "caption": "Create Database"
                             },
                             {
                                 "command": "scan",
-                                "caption": "Scan all Robot data from workspace"
+                                "caption": "Create Database Tables"
+                            },
+                            {
+                                "command": "scan_open_tab",
+                                "caption": "Create Database Table From Active Tab"
                             }
 
                         ]

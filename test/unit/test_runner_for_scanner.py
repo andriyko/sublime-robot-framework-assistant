@@ -22,6 +22,9 @@ def run_process(p_args):
 class TestRunnerForScanner(unittest.TestCase):
 
     def setUp(self):
+        self.real_suite = os.path.join(
+            env.TEST_DATA_DIR,
+            'real_suite')
         self.db_dir = os.path.join(
             env.RESULTS_DIR,
             'scanner',
@@ -75,13 +78,19 @@ class TestRunnerForScanner(unittest.TestCase):
         self.assertTrue(f.readlines()[-1].startswith('ValueError'))
         f.close()
 
+    def test_single_runner(self):
         p_args = [
             'python',
             self.runner,
             'single',
+            '--path_to_file',
+            self.real_suite_robot_path,
             '--db_path',
             self.db_dir]
-        log_file = run_process(p_args)
-        f = open(log_file)
-        self.assertTrue(f.readlines()[-1].startswith('ValueError'))
-        f.close()
+        run_process(p_args)
+        files = os.listdir(self.db_dir)
+        self.assertEqual(len(files), 1)
+
+    @property
+    def real_suite_robot_path(self):
+        return os.path.join(self.real_suite, 'test', 'real_suite.robot')

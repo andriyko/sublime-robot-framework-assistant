@@ -64,6 +64,22 @@ class Scanner(object):
                 finally:
                     self.queue.set(item[0])
 
+    def scan_single_file(self, file_path, db_path):
+        """Scan a single file and create the database table for the file
+
+        `file_path` -- Path to the file which is scanned.
+        `db_path`   -- Directory where scan result is saved.
+        """
+        if not path.exists(db_path):
+            makedirs(db_path)
+        logging.info('Creating table for: {0}'.format(file_path))
+        item = (file_path, {'scanned': False, 'type': None, 'args': None})
+        try:
+            data = self.parse_all(item)
+            self.put_item_to_db(data, db_path)
+        except ValueError:
+            logging.warning('Error in: %s', file_path)
+
     def get_item(self):
         item = self.queue.get()
         if not item:
