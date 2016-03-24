@@ -6,7 +6,6 @@ import hashlib
 from time import sleep
 import json
 from queue.scanner import Scanner
-from data_parser.data_parser import DataParser
 
 
 class TestScanner(unittest.TestCase):
