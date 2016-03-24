@@ -50,6 +50,50 @@ class TestRunner(unittest.TestCase):
             self.index_path
         ]
         log_file = run_process(p_args)
+        lines = self.clean_info_messages(log_file)
+        self.assertFalse(lines)
+        files = os.listdir(self.index_path)
+        self.assertEqual(len(files), 11)
+
+    def test_index_single(self):
+        db_files = os.listdir(self.db_dir)
+        p_args = [
+            'python',
+            self.runner,
+            'single',
+            '--db_path',
+            self.db_dir,
+            '--db_table',
+            db_files[0],
+            '--index_path',
+            self.index_path
+        ]
+        self.assertEqual(len(os.listdir(self.index_path)), 0)
+        log_file = run_process(p_args)
+        lines = self.clean_info_messages(log_file)
+        self.assertFalse(lines)
+        self.assertEqual(len(os.listdir(self.index_path)), 1)
+        log_file = run_process(p_args)
+        lines = self.clean_info_messages(log_file)
+        self.assertFalse(lines)
+        self.assertEqual(len(os.listdir(self.index_path)), 1)
+        p_args = [
+            'python',
+            self.runner,
+            'single',
+            '--db_path',
+            self.db_dir,
+            '--db_table',
+            db_files[1],
+            '--index_path',
+            self.index_path
+        ]
+        log_file = run_process(p_args)
+        lines = self.clean_info_messages(log_file)
+        self.assertFalse(lines)
+        self.assertEqual(len(os.listdir(self.index_path)), 2)
+
+    def clean_info_messages(self, log_file):
         f = open(log_file)
         # Strip way S2L info messages
         pattern = re.compile(
@@ -59,7 +103,5 @@ class TestRunner(unittest.TestCase):
         for line in f.readlines():
             if not pattern.search(line):
                 lines.append(line)
-        self.assertFalse(lines)
         f.close()
-        files = os.listdir(self.index_path)
-        self.assertEqual(len(files), 11)
+        return lines
