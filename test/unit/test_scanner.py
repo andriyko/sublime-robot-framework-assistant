@@ -272,7 +272,6 @@ class TestScanner(unittest.TestCase):
             self.real_suite_resource_robot_path,
             self.db_dir
         )
-        print os.listdir(self.db_dir)
         self.assertEqual(len(os.listdir(self.db_dir)), 2)
 
     @property
