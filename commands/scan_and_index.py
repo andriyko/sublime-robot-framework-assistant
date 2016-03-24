@@ -5,7 +5,7 @@ from platform import system
 from os import path, makedirs
 from hashlib import md5
 import json
-from ..command_helper.current_view import CurrentView
+from ..command_helper.update_current_view_json import update_current_view_index
 from ..setting.setting import get_setting
 from ..setting.setting import SettingObject
 from ..setting.db_json_settings import DBJsonSetting
@@ -27,7 +27,8 @@ class ScanIndexCommand(sublime_plugin.TextCommand):
                 file_
             ), 0)
         file_.close()
-        self.update_current_view_index()
+        message = update_current_view_index(self.view)
+        sublime.status_message(message)
 
     def run_index(self, python_binary, db_path, log_file):
         startupinfo = None
@@ -73,19 +74,3 @@ class ScanIndexCommand(sublime_plugin.TextCommand):
         f_table = open(table_path, 'w')
         json.dump(data, f_table, indent=4)
         f_table.close()
-
-    def update_current_view_index(self):
-        file_name = self.view.file_name()
-        if file_name:
-            cv = CurrentView()
-            workspace = get_setting(SettingObject.workspace)
-            index_dir = get_setting(SettingObject.index_dir)
-            extension = get_setting(SettingObject.extension)
-            if cv.view_in_db(workspace, file_name, index_dir, extension):
-                view_path = get_setting(SettingObject.view_path)
-                cv.create_view(file_name, view_path, index_dir)
-                message = 'Updating index is done for file: {0} '.format(
-                    file_name
-                )
-                sublime.status_message(message)
-                print(message)
