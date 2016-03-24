@@ -28,7 +28,6 @@ class ScanOpenTabCommand(sublime_plugin.TextCommand):
                     file_
                 ), 0)
             file_.close()
-            file_.close()
         else:
             message = 'Not able to scan file: {0}'.format(open_tab)
             sublime.status_message(message)
