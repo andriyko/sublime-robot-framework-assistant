@@ -18,12 +18,8 @@ class ScanIndexCommand(sublime_plugin.TextCommand):
         python_binary = get_setting(SettingObject.python_binary)
         table_dir = get_setting(SettingObject.table_dir)
         makedirs(path.dirname(log_file), exist_ok=True)
-        file_ = open(log_file, 'w')
-        sublime.set_timeout_async(self.run_scan(
-                python_binary,
-                table_dir,
-                file_
-            ), 0)
+        self.view.run_command('scan')
+        file_ = open(log_file, 'a')
         sublime.set_timeout_async(self.add_builtin_vars(table_dir))
         sublime.set_timeout_async(self.run_index(
                 python_binary,
@@ -32,37 +28,6 @@ class ScanIndexCommand(sublime_plugin.TextCommand):
             ), 0)
         file_.close()
         self.update_current_view_index()
-
-    def run_scan(self, python_binary, db_path, log_file):
-        startupinfo = None
-        if system() == 'Windows':
-            startupinfo = subprocess.STARTUPINFO()
-            startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
-        p = subprocess.Popen(
-                [
-                    python_binary,
-                    get_setting(SettingObject.scanner_runner),
-                    'all',
-                    '--workspace',
-                    get_setting(SettingObject.workspace),
-                    '--db_path',
-                    db_path,
-                    '--extension',
-                    get_setting(SettingObject.extension),
-                    '--module_search_path',
-                    get_setting(SettingObject.module_search_path)
-                ],
-                stderr=subprocess.STDOUT,
-                stdout=log_file,
-                startupinfo=startupinfo
-            )
-        rc = p.wait()
-        if not rc == 0:
-            print('See log file from database directory for details')
-            raise ValueError('Error in scanning result code: {0}'.format(rc))
-        message = 'Scaning done with rc: {0}'.format(rc)
-        sublime.status_message(message)
-        print(message)
 
     def run_index(self, python_binary, db_path, log_file):
         startupinfo = None

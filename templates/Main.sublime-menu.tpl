@@ -27,8 +27,13 @@
                             { "caption": "-" },
                             {
                                 "command": "scan_index",
-                                "caption": "Scan and index all Robot data from worksace"
+                                "caption": "Scan and index all Robot data from workspace"
+                            },
+                            {
+                                "command": "scan",
+                                "caption": "Scan all Robot data from workspace"
                             }
+
                         ]
                     }
                 ]
