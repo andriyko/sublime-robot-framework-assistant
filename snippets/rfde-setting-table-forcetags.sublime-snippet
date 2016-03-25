@@ -4,5 +4,5 @@
         <tabTrigger>*s</tabTrigger>
         <!-- scope to limit where the snippet will trigger -->
         <scope>source.robot</scope>
-        <description>Force Tags setting for settings table</description>
+        <description>Force Tags</description>
 </snippet>
