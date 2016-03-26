@@ -1,7 +1,0 @@
-[
-    { "keys": ["alt+enter"], "command": "robot_framework_go_to_item_source" },
-    { "keys": ["ctrl+alt+enter"], "command": "robot_framework_log_item" },
-    { "keys": ["ctrl+alt+s"], "command": "robot_framework_scan_current_file" },
-    { "keys": ["ctrl+alt+r"], "command": "robot_framework_recollect_data" },
-    { "keys": ["ctrl+alt+g"], "command": "robot_framework_open_item_doc" }
-]
