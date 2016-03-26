@@ -11,7 +11,7 @@ Installation
 ============
 Not yet available in the Sublime Package Central, instead follow the
 [manual installation instructions](https://github.com/aaltat/robotframework-from-sublime/wiki/Installation-guide-for-pre-release)
- in the Wiki.
+in the Wiki.
 
 Configuration
 =============
@@ -139,6 +139,13 @@ Robot Framework test data or in a Python library. Go to does not work
 on libraries written in other programming languages.
 * Pressing `Ctrl + Alt + Enter`or `Ctrl + Alt + Clicl` with mouse
 will display the keyword documentation.
+* Pressing `Ctrl + Alt + a` will run the `Robot Framework: Create Database` command
+* Pressing `Ctrl + Alt + s` will run the `Robot Framework: Create Database Tables` command
+* Pressing `Ctrl + Alt + t` will run the `Robot Framework: Create Database Table From Active Tab` command
+* Pressing `Ctrl + Alt + i` will run the `Robot Framework: Create Database Index From Active Tab` command
+
+The usage of the `Ctrl + Alt + a/s/t/i` commands is explained in the
+[Internal database for keywords and variables](https://github.com/andriyko/sublime-robot-framework-assistant/wiki/Internal-database-for-keywords-and-variables) wiki page
 
 Snippets
 ========

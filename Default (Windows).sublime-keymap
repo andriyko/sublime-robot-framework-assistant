@@ -1,5 +1,9 @@
 [
     { "keys": ["ctrl+alt+enter"], "command": "show_keyword_documentation" },
-    { "keys": ["alt+enter"], "command": "jump_to_keyword" }
+    { "keys": ["alt+enter"], "command": "jump_to_keyword" },
+    { "keys": ["ctrl+alt+a"], "command": "scan_index" },
+    { "keys": ["ctrl+alt+s"], "command": "scan" },
+    { "keys": ["ctrl+alt+t"], "command": "scan_open_tab" },
+    { "keys": ["ctrl+alt+i"], "command": "index_open_tab" }
 
 ]
