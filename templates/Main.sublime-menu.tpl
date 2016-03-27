@@ -40,8 +40,16 @@
                             {
                                 "command": "index_open_tab",
                                 "caption": "Create Database Index From Active Tab"
+                            },
+                            { "caption": "-" },
+                            {
+                                "caption": "Edit Build Config",
+                                "command": "open_file",
+                                "args":
+                                    {
+                                        "file": "${packages}/$package_folder/RobotFrameworkDataEditor.sublime-build"
+                                    }
                             }
-
                         ]
                     }
                 ]
