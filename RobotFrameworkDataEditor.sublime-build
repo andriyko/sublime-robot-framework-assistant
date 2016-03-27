@@ -1,0 +1,14 @@
+{
+    "cmd": ["pybot.bat", "$file"],
+    "selector": "source.robot",
+    "variants": [
+
+        { "name": "Selects the test cases by tag",
+          "cmd": ["pybot.bat", "--include", "REPLACE_WITH_TAG", "$file"],
+        },
+
+        { "name": "Selects the test cases by name",
+          "cmd": ["pybot.bat", "--test", "REPLACE_WITH_TEST_NAME", "$file"]
+        }
+    ]
+}
