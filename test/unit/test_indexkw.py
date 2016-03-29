@@ -77,10 +77,10 @@ class TestIndexing(unittest.TestCase):
         self.assertEqual(arg_list.sort(), expected_arg_list.sort())
 
         data = self.get_test_a()
-        expected_kw_list = ['Test A Keyword']
+        expected_kw_list = ['Test A Keyword', 'Keyword']
         kw_list, arg_list = self.index.get_keywords(data)
         self.assertEqual(kw_list, expected_kw_list)
-        self.assertEqual(arg_list, [[]])
+        self.assertEqual(arg_list, [[], []])
 
         data = self.get_s2l()
         parsed_kw, arg_list = self.index.get_keywords(data)
@@ -464,15 +464,21 @@ class TestIndexing(unittest.TestCase):
         return l, kw_list, arg_list, object_name, table_name
 
     def get_test_a_kw_index(self, keywordrecord):
-        kw_list = [u'Test A Keyword']
+        kw_list = [u'Test A Keyword', u'Keyword']
+        arg_list = [None, None]
         table_name = self.test_a_table_name
         object_name = u'test_a.robot'
-        l = [keywordrecord(
-            keyword=kw_list[0],
-            argument=None,
-            object_name=object_name,
-            table_name=table_name)]
-        return l, kw_list, [None], object_name, table_name
+        l = []
+        for kw, arg in zip(kw_list, arg_list):
+            l.append(
+                keywordrecord(
+                    keyword=kw,
+                    argument=arg,
+                    object_name=object_name,
+                    table_name=table_name
+                )
+            )
+        return l, kw_list, arg_list, object_name, table_name
 
     def get_test_b_kw_index(self, keywordrecord):
         kw_list = []
