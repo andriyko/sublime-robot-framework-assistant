@@ -7,7 +7,7 @@
 		<string>robot</string>
 	</array>
 	<key>name</key>
-	<string>Robot Framework syntax highlighting for .robot and .txt files.</string>
+	<string>Robot Framework syntax highlighting.</string>
 	<key>patterns</key>
 	<array>
 		<dict>
@@ -88,7 +88,7 @@
 			<key>comment</key>
 			<string>Keywords and test cases</string>
 			<key>end</key>
-			<string>\S$</string>
+			<string>$</string>
 			<key>name</key>
 			<string>keyword.control.robot</string>
 		</dict>

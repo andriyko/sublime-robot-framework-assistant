@@ -16,3 +16,7 @@ Test A Case A1
 Test A Keyword
     [Documentation]    Some Doc Here
     Log    Test A Here
+
+Keyword
+    [Documentation]    some doc
+    Log    1

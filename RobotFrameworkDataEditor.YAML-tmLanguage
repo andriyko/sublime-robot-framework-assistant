@@ -1,5 +1,5 @@
 # [PackageDev] target_format: plist, ext: tmLanguage
-name: Robot Framework syntax highlighting for .robot and .txt files.
+name: Robot Framework syntax highlighting.
 scopeName: source.robot
 fileTypes: [robot]
 uuid: 23650265-9dfb-4d5f-9ed0-0928ba59a796
@@ -44,4 +44,4 @@ patterns:
 - comment: Keywords and test cases
   name: keyword.control.robot
   begin: ^\S+
-  end: \S$
+  end: $
