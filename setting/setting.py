@@ -52,5 +52,5 @@ def get_setting(setting):
 
 def get_sublime_setting(setting):
     plugin_settings = sublime.load_settings(
-        'RobotFrameworkDataEditor.sublime-settings')
+        'Robot.sublime-settings')
     return plugin_settings.get(setting)

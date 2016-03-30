@@ -11,17 +11,17 @@
                 "children":
                 [
                     {
-                        "caption": "Robot Framework Data Editor",
+                        "caption": "Robot Framework Assistant",
                         "children":
                         [
                             {
                                 "command": "open_file",
-                                "args": {"file": "${packages}/$package_folder/RobotFrameworkDataEditor.sublime-settings"},
+                                "args": {"file": "${packages}/$package_folder/Robot.sublime-settings"},
                                 "caption": "Settings - Default"
                             },
                             {
                                 "command": "open_file",
-                                "args": {"file": "${packages}/User/RobotFrameworkDataEditor.sublime-settings"},
+                                "args": {"file": "${packages}/User/Robot.sublime-settings"},
                                 "caption": "Settings – User"
                             },
                             { "caption": "-" },
@@ -47,7 +47,7 @@
                                 "command": "open_file",
                                 "args":
                                     {
-                                        "file": "${packages}/$package_folder/RobotFrameworkDataEditor.sublime-build"
+                                        "file": "${packages}/$package_folder/Robot.sublime-build"
                                     }
                             }
                         ]

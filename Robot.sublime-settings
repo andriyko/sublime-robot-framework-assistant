@@ -1,5 +1,5 @@
 /*
-    Robot Framework Data Editor default settings
+    Robot Framework Assistant default settings
 */
 {
     /*
@@ -16,8 +16,8 @@
     /*
         Robot Framework Workspace
 
-        Defines a root folder where Robot Framework Data Editor starts looking
-        for Robot Framework data. Before the Robot Framework Data Editor
+        Defines a root folder where Robot Framework Assistant starts looking
+        for Robot Framework data. Before the Robot Framework Assistant
         can provide the keyword and variable completion features, it needs
         to scan and index the test suite and resource files. The argument
         defines the root folder where scanning of robot data is performed.
@@ -31,11 +31,11 @@
 
     /*
         File extension defines which types of files the Robot Framework
-        Data Editor plugin will search and index from the folder defined
+        Assistant plugin will search and index from the folder defined
         in the robot_framework_workspace option.
 
-        This only affect the scanning and indexing, other options in this
-        plugin are not affected by this option.
+        This setting does not affect to the which files are uses the
+        syntax highlight.
     */
 
     "robot_frameowrk_extension": "robot",
@@ -44,7 +44,7 @@
         Path to Python binary
 
         In order the scanning and indexing of keywords and variables to
-        work, path to python binary must be defined. It must be the same
+        work, path to Python binary must be defined. It must be the same
         Python binary where the Robot Framework is installed.
 
         In Linux like environments this could be like: /usr/bin/python
@@ -59,10 +59,10 @@
         a library with the library name, then module search path must
         contain the folder where the library can be located.
 
-        The Robot Framework Data Editor uses the Robot Framework API to parse
+        The Robot Framework Assistant uses the Robot Framework API to parse
         the test data and libraries. All changes, which are not system
         wide, to locate the libraries, must also be added in the
-        module search path in the Robot Framework Data Editor
+        module search path in the Robot Framework Assistant
 
         More details how libraries is searched in Robot Framework can be
         found from be the Robot Framework User guide:
@@ -81,7 +81,7 @@
         Robot Framework comes by default some predefined and built in
         variables. These variables names may change between different
         Robot Framework versions. Use this setting to define the
-        Robot Framework variables.
+        Robot Framework default variables.
 
         The variables in the default settings are from Robot Framework
         version 2.9.2

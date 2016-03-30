@@ -1,32 +1,39 @@
 [![Build Status](https://travis-ci.org/aaltat/robotframework-from-sublime.svg?branch=master)]
 (https://travis-ci.org/aaltat/robotframework-from-sublime)
 
-Robot Framework Data Editor
+Robot Framework Assistant
 ==========================
-Robot Framework Data Editor provides IDE features to edit
+Robot Framework Assistant provides IDE features to edit
 [Robot Framework](http://robotframework.org/) test data in the
 [Sublime Text 3](https://www.sublimetext.com/3).
 
 Installation
 ============
-Not yet available in the Sublime Package Central, instead follow the
-[manual installation instructions](https://github.com/aaltat/robotframework-from-sublime/wiki/Installation-guide-for-pre-release)
-in the Wiki.
+The easiest way to install is to use
+[Package Control](https://packagecontrol.io/) and search for:
+`Robot Framework Assistant`.
+
+Alternative installation methods
+--------------------------------
+Download the plugin as a zip. Open Sublime Text and click
+*** | Preferences | Browse Packages | *** to open the packages directory.
+Then create a directory named `Robot Framework Assistant` and
+unzip the plugin to the directory.
 
 Configuration
 =============
-Before yo can start using the Robot Framework Data Editor, you must
+Before yo can start using the Robot Framework Assistant, you must
 at least configure the settings in the
 [User package](http://docs.sublimetext.info/en/latest/customization/settings.html)
-`RobotFrameworkDataEditor.sublime-settings` file. To Open the file
+`Robot.sublime-settings` file. To Open the file
 navigate to: **Preferences | Package settings**
-**| Robot Framework Data Editor | Settings - User |**
+**| Robot Framework Assistant | Settings - User |**
 The default settings can be found from the **Preferences | Package settings**
-**| Robot Framework Data Editor | Settings - Default |**
+**| Robot Framework Assistant | Settings - Default |**
 
 robot_framework_workspace
 -------------------------
-Before the Robot Framework Data Editor can provide the keyword and
+Before the Robot Framework Assistant can provide the keyword and
 variable completion features, it needs to create a database from the test
 suite and resource files. The argument defines the root folder where
 scanning of robot data is performed.
@@ -41,7 +48,7 @@ In windows ow write double backslash to write literal backslash.
 robot_framework_extension
 -------------------------
 File extension defines which types of files the Robot Framework
-Data Editor plugin will search from the folder defined
+Assistant plugin will search from the folder defined
 in the robot_framework_workspace option.
 
 This setting affects the plugin commands and features but the theme
@@ -66,10 +73,10 @@ libraries are searched. Example if you have imported
 a library with the library name, then module search path must
 contain the folder where the library can be located.
 
-The Robot Framework Data Editor uses the Robot Framework API to parse
+The Robot Framework Assistant uses the Robot Framework API to parse
 the test data and libraries. All changes, which are not system
 wide, to locate the libraries, must also be added in the
-module search path in the Robot Framework Data Editor
+module search path in the Robot Framework Assistant
 
 More details how libraries is searched in Robot Framework can be
 found from be the
@@ -103,10 +110,10 @@ where the user settings should be saved.
 Change the file extension
 -------------------------
 The file extension is defined in the
-`RobotFrameworkDataEditor.tmLanguage` file. To change file extension,
+`Robot.tmLanguage` file. To change file extension,
 navigate to the
 [User package](http://docs.sublimetext.info/en/latest/basic_concepts.html#the-packages-directory)
-folder and open the `RobotFrameworkDataEditor.tmLanguage` file.
+folder and open the `Robot.tmLanguage` file.
 
 Look for the lines containing:
 ```xml
@@ -120,10 +127,10 @@ The `<string>` element contains the file type definition.
 Change the cell separator
 -------------------------
 The cell separator is defined in the
-`RobotFrameworkDataEditor.tmPreferences` file. To change the cell separator,
+`Robot.tmPreferences` file. To change the cell separator,
 navigate to the
 [User package](http://docs.sublimetext.info/en/latest/basic_concepts.html#the-packages-directory)
-folder and open the `RobotFrameworkDataEditor.tmPreferences` file.
+folder and open the `Robot.tmPreferences` file.
 
 Look for the line containing `<string><![CDATA[    ]]></string>` XML tag. There are four
 spaces inside of the `[    ]` characters and those four spaces defines the cell separator which is

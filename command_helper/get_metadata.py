@@ -1,5 +1,5 @@
 def get_rf_table_separator(view):
-    """Returns RF_CELL from RobotFrameworkDataEditor.tmPreferences
+    """Returns RF_CELL from Robot.tmPreferences
 
     ``view`` is sublime.View.
     """
