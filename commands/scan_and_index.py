@@ -28,7 +28,8 @@ class ScanIndexCommand(sublime_plugin.TextCommand):
             ), 0)
         file_.close()
         message = update_current_view_index(self.view)
-        sublime.status_message(message)
+        if message:
+            sublime.status_message(message)
 
     def run_index(self, python_binary, db_path, log_file):
         startupinfo = None
