@@ -14,6 +14,18 @@
     "draw_white_space": "all",
 
     /*
+        Same as the Sublime default in Build 3103 with one exception,
+        it does not contain the * character. When the * is not in
+        word_separators the snippets containing * in tabTrigger
+        work out of the box.
+
+        If * is needed as a word separator, then the snippets
+        should be accessed by pressing tab key multiple times.
+
+    */
+    "word_separators": "./\\()\"'-:,.;<>~!@#$%^&|+=[]{}`~?",
+
+    /*
         Robot Framework Workspace
 
         Defines a root folder where Robot Framework Assistant starts looking
