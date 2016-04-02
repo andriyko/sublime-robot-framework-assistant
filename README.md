@@ -1,5 +1,5 @@
-[![Build Status](https://travis-ci.org/aaltat/robotframework-from-sublime.svg?branch=master)]
-(https://travis-ci.org/aaltat/robotframework-from-sublime)
+[![Build Status](https://travis-ci.org/andriyko/sublime-robot-framework-assistant.svg?branch=rewrite_for_v2)]
+(https://travis-ci.org/andriyko/sublime-robot-framework-assistant)
 
 Robot Framework Assistant
 ==========================
