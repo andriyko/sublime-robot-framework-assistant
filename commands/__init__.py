@@ -6,6 +6,8 @@ from .change_index import DetectViewChange
 from .query_completions import RobotCompletion
 from .show_documentation import ShowKeywordDocumentation
 from .jump_to_keyword import JumpToKeyword
+from .setting_import_helper import SettingImporter
+from .setting_import_helper import InsertImport
 
 __all__ = [
     'ScanIndexCommand',
@@ -15,5 +17,7 @@ __all__ = [
     'DetectViewChange',
     'RobotCompletion',
     'ShowKeywordDocumentation',
-    'JumpToKeyword'
+    'JumpToKeyword',
+    'SettingImporter',
+    'InsertImport'
 ]

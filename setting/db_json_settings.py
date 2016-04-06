@@ -27,3 +27,7 @@ class DBJsonSetting(object):
 
     # Syntax definition
     scope_name = 'source.robot'
+
+    # Import setting types
+    variable_file = 'variable_file'
+    resource_file = 'resource_file'
