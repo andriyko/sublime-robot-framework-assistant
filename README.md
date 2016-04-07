@@ -45,6 +45,13 @@ on this setting.
 
 In windows ow write double backslash to write literal backslash.
 
+robot_framework_keyword_argument_format
+---------------------------------------
+Defines how keyword argument are formatted when keyword
+completion is used. When set to false, each argument is
+formatted to individual lines. If set to true keyword
+and arguments are returned in single line.
+
 robot_framework_extension
 -------------------------
 File extension defines which types of files the Robot Framework

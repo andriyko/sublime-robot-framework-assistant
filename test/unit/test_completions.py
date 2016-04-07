@@ -25,10 +25,10 @@ class TestCompletions(unittest.TestCase):
     def test_get_completion_list(self):
         prefix = 'Run'
         result = get_completion_list(self.test_a_index, prefix,
-                                     '', RF_CELL, None, RF_EXTENSION)
+                                     '', RF_CELL, None, RF_EXTENSION, False)
         self.assertEqual(len(result), 39)
         result = get_completion_list(self.test_a_index, '$',
-                                     '', RF_CELL, None, RF_EXTENSION)
+                                     '', RF_CELL, None, RF_EXTENSION, False)
         self.assertEqual(len(result), 29)
 
     def test_get_kw_re_string(self):
@@ -42,21 +42,21 @@ class TestCompletions(unittest.TestCase):
     def test_get_kw_completion_list_count(self):
         prefix = 'Run'
         kw_tuple = get_kw_completion_list(self.test_a_index, prefix,
-                                          RF_CELL, None, RF_EXTENSION)
+                                          RF_CELL, None, RF_EXTENSION, False)
         self.assertEqual(len(kw_tuple), 39)
         prefix = 'RunKeY'
         kw_tuple = get_kw_completion_list(self.test_a_index, prefix,
-                                          RF_CELL, None, RF_EXTENSION)
+                                          RF_CELL, None, RF_EXTENSION, False)
         self.assertEqual(len(kw_tuple), 19)
         prefix = 'BUI'
         kw_tuple = get_kw_completion_list(self.test_a_index, prefix,
-                                          RF_CELL, None, RF_EXTENSION)
+                                          RF_CELL, None, RF_EXTENSION, False)
         self.assertEqual(len(kw_tuple), 13)
 
     def test_get_kw_completion_list_structure(self):
         prefix = 'Run'
         kw_tuple = get_kw_completion_list(self.test_a_index, prefix,
-                                          RF_CELL, None, RF_EXTENSION)
+                                          RF_CELL, None, RF_EXTENSION, False)
         kw = 'Run Keyword And Expect Error'
         expected = (
             '{0}\tBuiltIn'.format(kw),
@@ -74,7 +74,8 @@ class TestCompletions(unittest.TestCase):
         prefix = 'test'
         kw = 'Test A Keyword'
         kw_tuple = get_kw_completion_list(self.test_a_index, prefix,
-                                          RF_CELL, object_name, RF_EXTENSION)
+                                          RF_CELL, object_name, RF_EXTENSION,
+                                          False)
         expected = [(
             '{0}\t{1}'.format(kw, object_name),
             '{0}'.format(kw)
@@ -88,14 +89,33 @@ class TestCompletions(unittest.TestCase):
         kw_completion = '{0}{1}expected_error{1}name{1}*args'.format(
             kw, '\n...    ')
         args = ['expected_error', 'name', '*args']
-        completion = create_kw_completion_item(kw, args, RF_CELL, lib)
+        completion = create_kw_completion_item(kw, args, RF_CELL, lib, False)
         trigger = '{0}\t{1}'.format(kw, lib)
         expected = (trigger, kw_completion)
         self.assertEqual(completion, expected)
         # kw not args
         kw = 'Unselect Frame'
         lib = 'Selenium2Library'
-        completion = create_kw_completion_item(kw, [], RF_CELL, lib)
+        completion = create_kw_completion_item(kw, [], RF_CELL, lib, False)
+        trigger = '{0}\t{1}'.format(kw, lib)
+        expected = (trigger, kw)
+        self.assertEqual(completion, expected)
+
+    def test_kw_create_completion_item_sinlge_line(self):
+        # kw with args
+        kw = 'Run Keyword And Expect Error'
+        lib = 'BuiltIn'
+        kw_completion = '{0}{1}expected_error{1}name{1}*args'.format(
+            kw, '    ')
+        args = ['expected_error', 'name', '*args']
+        completion = create_kw_completion_item(kw, args, RF_CELL, lib, True)
+        trigger = '{0}\t{1}'.format(kw, lib)
+        expected = (trigger, kw_completion)
+        self.assertEqual(completion, expected)
+        # kw not args
+        kw = 'Unselect Frame'
+        lib = 'Selenium2Library'
+        completion = create_kw_completion_item(kw, [], RF_CELL, lib, True)
         trigger = '{0}\t{1}'.format(kw, lib)
         expected = (trigger, kw)
         self.assertEqual(completion, expected)

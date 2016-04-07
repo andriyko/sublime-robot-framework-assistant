@@ -29,6 +29,7 @@ class SettingObject(object):
     module_search_path = 'robot_framework_module_search_path'
     view_completions = 'view_completions'
     view_path = 'view_path'
+    arg_format = 'robot_framework_keyword_argument_format'
 
 
 def get_setting(setting):

@@ -46,13 +46,15 @@ class RobotCompletion(sublime_plugin.EventListener):
             text_cursor_rigt = data['rside']
         if view_in_db:
             object_name = get_object_from_line(line, prefix, column)
+            arg_format = get_setting(SettingObject.arg_format)
             return get_completion_list(
                 view_completions,
                 prefix,
                 text_cursor_rigt,
                 rc_cell,
                 object_name,
-                extension
+                extension,
+                arg_format
             )
         else:
             return None

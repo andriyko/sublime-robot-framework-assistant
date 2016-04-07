@@ -21,7 +21,7 @@ class VarMode(object):
 
 
 def get_completion_list(view_index, prefix, text_cursor_rigt,
-                        rf_cell, object_name, extension):
+                        rf_cell, object_name, extension, one_line):
     """Returns completion list for variables and keywords
 
     ``view_index`` -- Path to current_view.json in database.
@@ -37,7 +37,7 @@ def get_completion_list(view_index, prefix, text_cursor_rigt,
         return get_var_completion_list(view_index, prefix, text_cursor_rigt)
     else:
         return get_kw_completion_list(
-            view_index, prefix, rf_cell, object_name, extension)
+            view_index, prefix, rf_cell, object_name, extension, one_line)
 
 
 def get_kw_re_string(prefix):
@@ -53,10 +53,10 @@ def get_kw_re_string(prefix):
 
 
 def get_kw_completion_list(view_index, prefix, rf_cell,
-                           object_name, extension):
+                           object_name, extension, one_line):
     def get_kw(kw, args, rf_cell, lib, match_keywords):
         if pattern.search(kw):
-            kw = create_kw_completion_item(kw, args, rf_cell, lib)
+            kw = create_kw_completion_item(kw, args, rf_cell, lib, one_line)
             match_keywords.append(kw)
             return match_keywords
 
@@ -71,11 +71,15 @@ def get_kw_completion_list(view_index, prefix, rf_cell,
             lib = lib.replace('.{0}'.format(extension), '')
         if not object_name:
             if pattern.search(kw):
-                kw = create_kw_completion_item(kw, args, rf_cell, lib)
+                kw = create_kw_completion_item(
+                    kw, args, rf_cell, lib, one_line
+                )
                 match_keywords.append(kw)
         elif lib == object_name and lib_with_ext != kw:
             if pattern.search(kw):
-                kw = create_kw_completion_item(kw, args, rf_cell, lib)
+                kw = create_kw_completion_item(
+                    kw, args, rf_cell, lib, one_line
+                )
                 match_keywords.append(kw)
     return match_keywords
 
@@ -137,15 +141,34 @@ def get_var_mode(prefix, text_cursor_rigt):
         return VarMode.no_brackets
 
 
-def create_kw_completion_item(kw, kw_args, rf_cell, source):
-    trigger = '{trigger}\t{hint}'.format(trigger=kw, hint=source)
+def multiline_kw_completion_item(kw, kw_args, rf_cell):
     if kw_args:
         completion = '{0}\n'.format(kw)
     else:
         completion = kw
     for arg in kw_args:
         completion = '{0}{1}{2}\n'.format(completion, '...' + rf_cell, arg)
-    return (trigger, completion.rstrip('\n'))
+    return completion.rstrip('\n')
+
+
+def oneline_kw_completion_item(kw, kw_args, rf_cell):
+    completion = kw
+    for arg in kw_args:
+        completion = '{0}{1}{2}'.format(completion, rf_cell, arg)
+    return completion
+
+
+def create_kw_completion_item(kw, kw_args, rf_cell, source, one_line):
+    """Returns single item to the completions list
+
+    `one_line` -- Are arguments returned in single or multi line format
+    """
+    trigger = '{trigger}\t{hint}'.format(trigger=kw, hint=source)
+    if one_line:
+        completion = oneline_kw_completion_item(kw, kw_args, rf_cell)
+    else:
+        completion = multiline_kw_completion_item(kw, kw_args, rf_cell)
+    return (trigger, completion)
 
 
 def create_var_completion_item(var, mode):
