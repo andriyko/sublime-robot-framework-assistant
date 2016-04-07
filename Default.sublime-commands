@@ -22,5 +22,9 @@
     {
         "caption": "Robot Framework: Jump To Keyword",
         "command": "jump_to_keyword"
+    },
+    {
+        "caption": "Robot Framework: Import Library/Resource/Variable",
+        "command": "setting_importer"
     }
 ]

@@ -150,6 +150,8 @@ will display the keyword documentation.
 * Pressing `Ctrl + Alt + s` will run the `Robot Framework: Create Database Tables` command
 * Pressing `Ctrl + Alt + t` will run the `Robot Framework: Create Database Table From Active Tab` command
 * Pressing `Ctrl + Alt + i` will run the `Robot Framework: Create Database Index From Active Tab` command
+* Pressing `Ctrl + Alt + r` will show available library, resource or variables imports in a popup menu. The popup
+menu is only displayed if cursor is in settings table and line contains `Libraries`, `Resource` or `Variables` setting.
 
 The usage of the `Ctrl + Alt + a/s/t/i` commands is explained in the
 [Internal database for keywords and variables](https://github.com/andriyko/sublime-robot-framework-assistant/wiki/Internal-database-for-keywords-and-variables) wiki page
@@ -160,9 +162,9 @@ Snippets
 are a Sublime Text feature to provide commonly used text templates
 and in this plugin, snippets offers quick access to
 the commonly used settings in the Robot Framework data. To gain access
-to the snippets write the required character combination and then
-press the `Tab` key to see the snippets completion list. The snippets
-can be accessed with following key combinations:
+to the snippets write the required character combination. If the snippet
+is not displayed press the `Tab` key to see the snippets completion list.
+The snippets can be accessed with following key combinations:
 * Write `:f` to access Robot Framework for loops. There currently
 are available the following snippets:
 [normal](http://robotframework.org/robotframework/latest/RobotFrameworkUserGuide.html#normal-for-loop),
