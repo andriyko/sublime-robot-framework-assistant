@@ -25,6 +25,10 @@ class IndexOpenTabCommand(sublime_plugin.TextCommand):
         table_dir = get_setting(SettingObject.table_dir)
         makedirs(path.dirname(log_file), exist_ok=True)
         open_tab = self.view.file_name()
+        if not open_tab:
+            message = 'Not able to index because no tabs are active'
+            sublime.status_message(message)
+            return
         db_table_name = self.get_table_name(open_tab)
         if db_table_name:
             file_ = open(log_file, 'a')
