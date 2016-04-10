@@ -1,0 +1,6 @@
+This is the final release of the 1.N.N series. Next release
+will be 2.N.N and it rewrite of the plugin.
+
+Fixes "goto source" for keywords with parenthesis
+https://github.com/andriyko/sublime-robot-framework-assistant/pull/42
+------------------------------------------------------
