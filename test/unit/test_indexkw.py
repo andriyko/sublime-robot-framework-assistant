@@ -31,6 +31,10 @@ class TestIndexing(unittest.TestCase):
             cls.suite_dir,
             'robot',
             cls.db_dir)
+        cls.xml_libs = os.path.join(
+            env.RESOURCES_DIR,
+            'library'
+            )
 
     def setUp(self):
         self.index_dir = os.path.join(
@@ -236,6 +240,41 @@ class TestIndexing(unittest.TestCase):
         result = self.index.get_kw_arguments(kw_args)
         expected = [u'kwa1', '*list', '**kwargs']
         self.assertEqual(result, expected)
+
+    def test_add_xml_libraries(self):
+        self.assertEqual(len(self.index.queue.queue), 0)
+        self.index.add_xml_libraries(self.xml_libs)
+        self.assertEqual(len(self.index.queue.queue), 2)
+
+    def test_index_with_xml_libraries(self):
+        xml_libs = os.path.join(
+            env.RESOURCES_DIR,
+            'library'
+            )
+        db_dir_with_xml = os.path.join(
+            env.RESULTS_DIR,
+            'db_dir_with_xml')
+        scanner = Scanner(xml_libs)
+        scanner.scan(
+            self.suite_dir,
+            'robot',
+            db_dir_with_xml
+        )
+        index = Index(db_dir_with_xml, self.index_dir, self.xml_libs)
+        index.index_consturctor(self.resource_a_table_name)
+        files = os.listdir(self.index_dir)
+        self.assertEqual(len(files), 1)
+        with open(os.path.join(self.index_dir, files[0])) as f:
+            data = json.load(f)
+        self.assertTrue(
+            any(kw[2] == 'SwingLibrary' for kw in data['keyword'])
+        )
+        self.assertTrue(
+            any(kw[0] == 'Add Table Cell Selection' for kw in data['keyword'])
+        )
+        self.assertTrue(
+            any(kw[0] == 'Select From Popup Menu' for kw in data['keyword'])
+        )
 
     @property
     def common_table_name_index(self):

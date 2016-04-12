@@ -1,6 +1,7 @@
 import logging
 import re
 import multiprocessing
+import xml.etree.ElementTree as ET
 from os import path, listdir
 from json import load as json_load
 from json import dump as json_dump
@@ -10,6 +11,7 @@ from parser_utils.util import get_index_name
 from queue.queue import ParsingQueue
 from data_parser.data_parser import DataParser
 from db_json_settings import DBJsonSetting
+from queue.finder import finder
 
 logging.basicConfig(
     format='%(levelname)s:%(asctime)s: %(message)s',
@@ -33,11 +35,12 @@ def index_a_table(params):
 class Index(object):
     """Reads the database and returns index's of keywords and variables"""
 
-    def __init__(self, db_path, index_path):
+    def __init__(self, db_path, index_path, xml_libraries=None):
         self.queue = ParsingQueue()
         self.data_parser = DataParser()
         self.index_path = index_path
         self.db_path = db_path
+        self.xml_libraries = xml_libraries
 
     def index_consturctor(self, table):
         """Creates a single table index.
@@ -65,6 +68,8 @@ class Index(object):
         self.queue.clear_queue()
         self.queue.add(table_name, None, None)
         self.add_builtin_to_queue(db_path)
+        if self.xml_libraries:
+            self.add_xml_libraries(self.xml_libraries)
         keywords = []
         variables = []
         while True:
@@ -118,6 +123,13 @@ class Index(object):
             if table.lower().startswith('builtin'):
                 self.queue.add(table, None, None)
                 return
+
+    def add_xml_libraries(self, path_to_xml):
+        """Adds the found xml libraries to the queue"""
+        for file_ in finder(path_to_xml, 'xml'):
+            root = ET.parse(file_).getroot()
+            if root.attrib['type'] == DBJsonSetting.library:
+                self.queue.add(lib_table_name(root.attrib['name']), None, None)
 
     def parse_table_data(self, data, t_name):
         var = self.get_variables(data)
