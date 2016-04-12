@@ -96,13 +96,15 @@ class DataParser():
                 arg_list.append(arg)
             data[DBJsonSetting.arguments] = arg_list
         if path.isfile(library):
-            data[DBJsonSetting.file_name] = path.basename(library)
             data[DBJsonSetting.file_path] = normalise_path(library)
-            data[DBJsonSetting.library_module] = path.splitext(
-                data[DBJsonSetting.file_name])[0]
             if library.endswith('.xml'):
-                data[DBJsonSetting.keywords] = self._parse_xml_doc(library)
+                library_module, keywords = self._parse_xml_doc(library)
+                data[DBJsonSetting.keywords] = keywords
+                data[DBJsonSetting.library_module] = library_module
             elif library.endswith('.py'):
+                data[DBJsonSetting.file_name] = path.basename(library)
+                data[DBJsonSetting.library_module] = path.splitext(
+                    data[DBJsonSetting.file_name])[0]
                 data[DBJsonSetting.keywords] = self._parse_python_lib(
                     library, data[DBJsonSetting.arguments])
             else:
@@ -213,9 +215,11 @@ class DataParser():
     def _parse_xml_doc(self, library):
         root = ET.parse(library).getroot()
         if ('type', DBJsonSetting.library) in root.items():
-            return self._parse_xml_lib(root)
+            return root.attrib['name'], self._parse_xml_lib(root)
         else:
-            ValueError('XML file is not library: {}'.format(root.items()))
+            raise ValueError('XML file is not library: {0}'.format(
+                root.attrib['name'])
+            )
 
     def _parse_xml_lib(self, root):
         kws = {}

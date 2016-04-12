@@ -63,7 +63,7 @@ Parser Should Be Able To Parse External Library From XML File
 
 Parser Should Be Not Able To Parse Resource File From XML File
     Run Keyword And Expect Error
-    ...    ValueError: Library did not contain keywords
+    ...    ValueError: XML file is not library: simple_resource
     ...    Parse Library
     ...    ${CURDIR}${/}..${/}resource${/}library${/}simple_resource.xml
 

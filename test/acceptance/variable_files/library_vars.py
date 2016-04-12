@@ -109,7 +109,7 @@ def get_othermylibrary(resource_dir):
 def get_mylibrary_xml(data):
     n_data = copy.deepcopy(data)
     n_data['file_path'] = n_data['file_path'].replace('.py', '.xml')
-    n_data['file_name'] = n_data['file_name'].replace('.py', '.xml')
+    del n_data['file_name']
     kws = n_data['keywords']
     tmp_kws = {}
     for kw_key in kws:
