@@ -1,6 +1,7 @@
 import shutil
 import logging
 import json
+import xml.etree.ElementTree as ET
 from os import path, makedirs
 from robot.errors import DataError
 from finder import finder
@@ -24,10 +25,11 @@ class Scanner(object):
 
     The database is folder where robot data is saved as json files.
     """
-    def __init__(self):
+    def __init__(self, xml_libraries=None):
         self.queue = ParsingQueue()
         self.parser = DataParser()
         self.rf_data_type = [None, 'test_suite', 'resource']
+        self.xml_libraries = xml_libraries
 
     def scan(self, workspace, ext, db_path):
         """Scan and create the database
@@ -47,6 +49,8 @@ class Scanner(object):
             shutil.rmtree(db_path)
             makedirs(db_path)
         self.add_builtin()
+        if self.xml_libraries:
+            self.add_xml_libraries(self.xml_libraries)
         for f in finder(workspace, ext):
             self.queue.add(normalise_path(f), None, None)
         while True:
@@ -159,3 +163,10 @@ class Scanner(object):
 
     def add_builtin(self):
         self.queue.add('BuiltIn', DBJsonSetting.library, [])
+
+    def add_xml_libraries(self, path_to_xml):
+        """Adds the found xml libraries to the queue"""
+        for file_ in finder(path_to_xml, 'xml'):
+            root = ET.parse(file_).getroot()
+            if root.attrib['type'] == DBJsonSetting.library:
+                self.queue.add(file_, DBJsonSetting.library, [])

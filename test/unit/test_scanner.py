@@ -50,6 +50,10 @@ class TestScanner(unittest.TestCase):
                 'args': []
             }
         )
+        self.xml_libs = os.path.join(
+            env.RESOURCES_DIR,
+            'library'
+            )
 
     def test_errors(self):
         with self.assertRaises(EnvironmentError):
@@ -273,6 +277,20 @@ class TestScanner(unittest.TestCase):
             self.db_dir
         )
         self.assertEqual(len(os.listdir(self.db_dir)), 2)
+
+    def test_add_xml_library(self):
+        self.assertEqual(len(self.scanner.queue.queue), 0)
+        self.scanner.add_xml_libraries(self.xml_libs)
+        self.assertEqual(len(self.scanner.queue.queue), 2)
+
+    def test_scan_with_xml_lib(self):
+        scaner = Scanner(self.xml_libs)
+        scaner.scan(
+            self.real_suite,
+            'robot',
+            self.db_dir
+        )
+        self.assertEqual(len(os.listdir(self.db_dir)), 10)
 
     @property
     def real_suite_robot_path(self):
