@@ -114,7 +114,7 @@ class Scanner(object):
             return self.scan_rf_data(item[0])
         elif data_type == DBJsonSetting.library:
             return self.parser.parse_library(item[0], item[1]['args'])
-        elif data_type == 'variable_file':
+        elif data_type == DBJsonSetting.variable_file:
             return self.parser.parse_variable_file(item[0], item[1]['args'])
         else:
             raise ValueError('{0} is not Robot Framework data'.format(
