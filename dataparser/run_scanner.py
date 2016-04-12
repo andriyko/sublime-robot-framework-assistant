@@ -10,10 +10,10 @@ from queue.scanner import Scanner
 
 
 def scan_all(workspace, extension, db_path,
-             module_search_path):
+             module_search_path, libs_in_xml):
     for path_ in module_search_path:
         sys.path.append(path_)
-    scanner = Scanner()
+    scanner = Scanner(libs_in_xml)
     scanner.scan(
         workspace=workspace,
         ext=extension,
@@ -21,8 +21,8 @@ def scan_all(workspace, extension, db_path,
     )
 
 
-def scan_single(file_path, db_path):
-    scanner = Scanner()
+def scan_single(file_path, db_path, libs_in_xml):
+    scanner = Scanner(libs_in_xml)
     scanner.scan_single_file(file_path=file_path, db_path=db_path)
 
 
@@ -54,6 +54,9 @@ if __name__ == '__main__':
     c_parser.add_argument(
         '--path_to_file',
         help='Path to file which is scanned')
+    c_parser.add_argument(
+        '--path_to_lib_in_xml',
+        help='Path to libraries in XML format')
     args = c_parser.parse_args()
     module_search_path = []
     if args.module_search_path:
@@ -70,7 +73,8 @@ if __name__ == '__main__':
                 args.workspace,
                 args.extension,
                 args.db_path,
-                module_search_path)
+                module_search_path,
+                args.path_to_lib_in_xml)
     elif args.mode == 'single':
         if not args.path_to_file:
             raise ValueError(
@@ -79,4 +83,8 @@ if __name__ == '__main__':
                 )
             )
         else:
-            scan_single(args.path_to_file, args.db_path)
+            scan_single(
+                args.path_to_file,
+                args.db_path,
+                args.path_to_lib_in_xml
+            )

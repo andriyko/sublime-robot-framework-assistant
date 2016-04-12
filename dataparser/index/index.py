@@ -27,8 +27,8 @@ def index_a_table(params):
     """
     name = multiprocessing.current_process().name
     logging.info('Starting name: %s', name)
-    db_path, table_name, index_path = params
-    index = Index(db_path, index_path)
+    db_path, table_name, index_path, xml_libraries = params
+    index = Index(db_path, index_path, xml_libraries)
     index.index_consturctor(table_name)
 
 

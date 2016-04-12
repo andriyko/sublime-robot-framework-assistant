@@ -12,13 +12,13 @@ from index.index import index_a_table
 from index.index import Index
 
 
-def index_all(db_path, index_path, module_search_path):
+def index_all(db_path, index_path, module_search_path, libs_in_xml):
     for path_ in module_search_path:
         sys.path.append(path_)
     tables = listdir(db_path)
     params = []
     for table in tables:
-        params.append((db_path, table, index_path))
+        params.append((db_path, table, index_path, libs_in_xml))
     if path.exists(index_path):
         shutil.rmtree(index_path)
     makedirs(index_path)
@@ -26,12 +26,12 @@ def index_all(db_path, index_path, module_search_path):
     pool.map(index_a_table, params)
 
 
-def index_single(db_path, db_table, index_path, module_search_path):
+def index_single(db_path, db_table, index_path, module_search_path, libs_in_xml):
     for path_ in module_search_path:
         sys.path.append(path_)
     if not path.exists(index_path):
         makedirs(index_path)
-    index = Index(db_path=db_path, index_path=index_path)
+    index = Index(db_path=db_path, index_path=index_path, xml_libraries=libs_in_xml)
     index.index_consturctor(table=db_table)
 
 if __name__ == '__main__':
@@ -60,16 +60,25 @@ if __name__ == '__main__':
         '--module_search_path',
         nargs='*',
         help='List of paths where libraries are searched when indexing')
+    c_parser.add_argument(
+        '--path_to_lib_in_xml',
+        help='Path to libraries in XML format')
     args = c_parser.parse_args()
     module_search_path = []
     if args.module_search_path:
         module_search_path = args.module_search_path
     if args.mode == 'all':
-        index_all(args.db_path, args.index_path, module_search_path)
+        index_all(
+            args.db_path,
+            args.index_path,
+            module_search_path,
+            args.path_to_lib_in_xml
+        )
     else:
         index_single(
             args.db_path,
             args.db_table,
             args.index_path,
-            module_search_path
+            module_search_path,
+            args.path_to_lib_in_xml
         )
