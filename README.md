@@ -221,6 +221,12 @@ Please refer to the Robot Framework
 [User Guide](http://robotframework.org/robotframework/latest/RobotFrameworkUserGuide.html)
 to locate the correct usage of the different available snippets.
 
+Go To Keyword
+=============
+Alternatively, use Sublime Text's
+[Goto Symbol](http://docs.sublimetext.info/en/latest/file_management/file_management.html#fm-goto-symbol)
+to go to the source of a Keyword.
+
 Creating a database
 =====================
 Once the plugin configuration is done, the plugin needs to scan the
