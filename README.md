@@ -53,6 +53,7 @@ Features
 
 * Syntax highlighting/automatic detection/activation for Robot Framework '.txt' and '.robot' files;
 * `Alt+Enter` or `Alt+Click` to go to source of item at caret (either *Library*, *Resource*, *Keyword* or *Variable*);
+*  Alternatively, use Sublime Text's `Goto Symbol` and `Goto Definition` to go to the source of a *Keyword*.
 * `Ctrl+Alt+Enter` or `Ctrl+Alt+Click` on item to log *Keyword* documentation or value of *Variable* into output panel.
 * `Ctrl+Space` to auto complete library/resource name, keywords (can start with any part/word of keyword). Using of '.' after library/resource name is also supported (limits keywords to given library/resource);
 * Autocomplete gives *Keyword* with its *arguments* formatted according to Robot Framework syntax. Jump through arguments with `TAB` key.
