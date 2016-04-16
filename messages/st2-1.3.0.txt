@@ -1,0 +1,6 @@
+This is the final (again) release of the 1.N.N series. Next release
+will be 2.N.N and it is a rewrite of the plugin.
+
+Provides support for Sublime Text 3 Go To Anything
+http://docs.sublimetext.info/en/latest/file_management/file_management.html#goto-anything-operators
+------------------------------------------------------
