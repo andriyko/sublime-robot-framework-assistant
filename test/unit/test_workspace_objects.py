@@ -33,8 +33,8 @@ class TestWorspaceObjects(unittest.TestCase):
 
     def test_get_libaries(self):
         libs = self.objects.get_libraries()
-        self.assertEqual(len(libs), 4)
-        self.assertTrue(['BuiltIn', 'BuiltIn'] in libs)
+        self.assertEqual(len(libs), 3)
+        self.assertFalse(['BuiltIn', 'BuiltIn'] in libs)
         self.assertTrue(['Selenium2Library', 'Selenium2Library'] in libs)
 
     def test_get_resources(self):
@@ -52,7 +52,7 @@ class TestWorspaceObjects(unittest.TestCase):
 
     def test_get_imports(self):
         imports = self.objects.get_imports('library')
-        self.assertEqual(len(imports), 4)
+        self.assertEqual(len(imports), 3)
         imports = self.objects.get_imports('variable_file')
         self.assertEqual(len(imports), 1)
         imports = self.objects.get_imports('resource_file')

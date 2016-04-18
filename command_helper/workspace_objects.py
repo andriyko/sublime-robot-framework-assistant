@@ -43,7 +43,8 @@ class WorkSpaceObjects(object):
         for file in listdir(self.view_db):
             data = get_data_from_json(path.join(self.view_db, file))
             if self.is_library(data):
-                libraries.append(self.get_library_import(data))
+                if 'BuiltIn' not in data[DBJsonSetting.library_module]:
+                    libraries.append(self.get_library_import(data))
         return libraries
 
     def is_library(self, data):
