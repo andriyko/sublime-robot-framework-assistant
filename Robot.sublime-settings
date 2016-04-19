@@ -1,0 +1,156 @@
+/*
+    Robot Framework Assistant default settings
+*/
+{
+    /*
+        Sublime settings to make Robot Framework data editing more
+        clearer and easier. Refer the Sublime default settings for
+        more details.
+    */
+    "translate_tabs_to_spaces": true,
+
+    "trim_trailing_white_space_on_save": true,
+
+    "draw_white_space": "all",
+
+    /*
+        Same as the Sublime default in Build 3103 with one exception,
+        it does not contain the * character. When the * is not in
+        word_separators the snippets containing * in tabTrigger
+        work out of the box.
+
+        If * is needed as a word separator, then the snippets
+        should be accessed by pressing tab key multiple times.
+
+    */
+    "word_separators": "./\\()\"'-:,.;<>~!@#$%^&|+=[]{}`~?",
+
+    /*
+        Robot Framework Workspace
+
+        Defines a root folder where Robot Framework Assistant starts looking
+        for Robot Framework data. Before the Robot Framework Assistant
+        can provide the keyword and variable completion features, it needs
+        to scan and index the test suite and resource files. The argument
+        defines the root folder where scanning of robot data is performed.
+
+        In windows the backslash is the folder separator and in json
+        backslash is the escape character. Therefore, in windows write
+        double backslash to write literal backslash.
+
+    */
+    "robot_framework_workspace": "/path/to/folder/containing/robot/data",
+
+    /*
+        Defines how keyword argument are formatted when keyword
+        completion is used. When set to false, each argument is
+        formatted to individual lines. If set to true keyword
+        and arguments are returned in single line.
+    */
+    "robot_framework_keyword_argument_format": false,
+
+    /*
+        File extension defines which types of files the Robot Framework
+        Assistant plugin will search and index from the folder defined
+        in the robot_framework_workspace option.
+
+        This setting does not affect to the which files are uses the
+        syntax highlight.
+    */
+
+    "robot_frameowrk_extension": "robot",
+
+    /*
+        Path to Python binary
+
+        In order the scanning and indexing of keywords and variables to
+        work, path to Python binary must be defined. It must be the same
+        Python binary where the Robot Framework is installed.
+
+        In Linux like environments this could be like: /usr/bin/python
+        and in Windows this could be like: C:\Python27\python.exe
+    */
+
+    "path_to_python": "/usr/bin/python",
+
+    /*
+        Module search path defines a list of paths where the
+        Robot Framework libraries are searched. Example if you have imported
+        a library with the library name, then module search path must
+        contain the folder where the library can be located.
+
+        The Robot Framework Assistant uses the Robot Framework API to parse
+        the test data and libraries. All changes, which are not system
+        wide, to locate the libraries, must also be added in the
+        module search path in the Robot Framework Assistant
+
+        More details how libraries is searched in Robot Framework can be
+        found from be the Robot Framework User guide:
+        http://robotframework.org/robotframework/latest/RobotFrameworkUserGuide.html#module-search-path
+
+    */
+    "robot_framework_module_search_path":
+        [
+            "/path/to/libs",
+            "/other/path/to/libraries"
+        ],
+
+    /*
+        Robot Framework libraries in XML
+
+        When the library is not available during parsing time,
+        example if library is imported with Remote library interface.
+        Then this setting can be used to import libraries in libdoc XML
+        format.
+
+        Libraries found from the this path are globally available, in
+        same manner as the BuiltIn library
+
+    */
+    "robot_framework_libraries_in_xml": "/path/to/library/documentation",
+
+    /*
+        Robot Framework variables
+
+        Robot Framework comes by default some predefined and built in
+        variables. These variables names may change between different
+        Robot Framework versions. Use this setting to define the
+        Robot Framework default variables.
+
+        The variables in the default settings are from Robot Framework
+        version 2.9.2
+
+    */
+    "robot_framework_builtin_variables":
+        [
+            "${/}",
+            "${:}",
+            "${\\n}",
+            "${DEBUG_FILE}",
+            "${EMPTY}",
+            "@{EMPTY}",
+            "&{EMPTY}",
+            "${EXECDIR}",
+            "${False}",
+            "${LOG_FILE}",
+            "${LOG_LEVEL}",
+            "${None}",
+            "${null}",
+            "${OUTPUT_DIR}",
+            "${OUTPUT_FILE}",
+            "${PREV_TEST_MESSAGE}",
+            "${PREV_TEST_NAME}",
+            "${PREV_TEST_STATUS}",
+            "${REPORT_FILE}",
+            "${SPACE}",
+            "${SUITE_DOCUMENTATION}",
+            "${SUITE_NAME}",
+            "${SUITE_SOURCE}",
+            "${TEMPDIR}",
+            "${TEST_DOCUMENTATION}",
+            "${TEST_NAME}",
+            "${True}",
+            "&{SUITE_METADATA}",
+            "@{TEST_TAGS}"
+        ]
+}

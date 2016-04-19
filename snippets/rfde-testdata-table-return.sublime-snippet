@@ -1,0 +1,8 @@
+<snippet>
+        <content><![CDATA[[Return]$RF_CELL]]></content>
+        <!-- how to trigger the snippet -->
+        <tabTrigger>:</tabTrigger>
+        <!-- scope to limit where the snippet will trigger -->
+        <scope>source.robot</scope>
+        <description>[Return] setting for keyword and test case table</description>
+</snippet>

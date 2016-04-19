@@ -1,82 +1,30 @@
 [
     {
-        "caption": "Robot Framework Assistant: rfdocs - Download manifest",
-        "command": "robot_framework_download_manifest"
+        "caption": "Robot Framework: Create Database",
+        "command": "scan_index"
     },
     {
-        "caption": "Robot Framework Assistant: rfdocs - Show manifest",
-        "command": "robot_framework_show_manifest"
+        "caption": "Robot Framework: Create Database Tables",
+        "command": "scan"
     },
     {
-        "caption": "Robot Framework Assistant: rfdocs - Download packages",
-        "command": "robot_framework_download_packages"
+        "caption": "Robot Framework: Create Database Table From Active Tab",
+        "command": "scan_open_tab"
     },
     {
-        "caption": "Robot Framework Assistant: rfdocs - Show packages",
-        "command": "robot_framework_show_packages"
+        "caption": "Robot Framework: Create Database Index From Active Tab",
+        "command": "index_open_tab"
     },
     {
-        "caption": "Robot Framework Assistant: Scan Python Libraries",
-        "command": "robot_framework_scan_python_libs"
+        "caption": "Robot Framework: Show Keyword Documentation",
+        "command": "show_keyword_documentation"
     },
     {
-        "caption": "Robot Framework Assistant: Scan Text Resources",
-        "command": "robot_framework_scan_resource_files"
+        "caption": "Robot Framework: Jump To Keyword",
+        "command": "jump_to_keyword"
     },
     {
-        "caption": "Robot Framework Assistant: Scan Python Libraries and Text Resources",
-        "command": "robot_framework_scan_python_libs_and_resource_files"
-    },
-    {
-        "caption": "Robot Framework Assistant: Scan current file",
-        "command": "robot_framework_scan_current_file"
-    },
-    {
-        "caption": "Robot Framework Assistant: Reindex packages",
-        "command": "robot_framework_recollect_data"
-    },
-    {
-        "caption": "Robot Framework Assistant: Settings",
-        "command": "open_file", "args":
-        {
-            "file": "${packages}/User/Robot Framework Assistant.sublime-settings"
-        }
-    },
-    {
-        "caption": "Robot Framework Assistant: Build Config",
-        "command": "open_file", "args":
-        {
-            "file": "${packages}/Robot Framework Assistant/robot.sublime-build"
-        }
-    },
-    {
-        "caption": "Robot Framework Assistant: Scanners",
-        "command": "open_file", "args":
-        {
-            "file": "${packages}/User/Robot Framework Assistant.scanners"
-        }
-    },
-    {
-        "caption": "Robot Framework Assistant: Help",
-        "command": "robot_framework_show_plugin_home_page"
-    },
-    {
-        "caption": "Robot Framework Assistant: rflint Open Tab",
-        "command": "robot_framework_rflint_open_tab"
-    },
-    {
-        "caption": "Robot Framework Assistant: rflint Git Staged And Changed Files",
-        "command": "robot_framework_rflint_git_staged_changed_files"
-    },
-    {
-        "caption": "Robot Framework Assistant: rflint Git Staged Changed And Untracked Files",
-        "command": "robot_framework_rflint_git_staged_changed_untracked_files"
-    },
-    {
-        "caption": "Robot Framework Assistant: rflint Settings",
-        "command": "open_file", "args":
-        {
-            "file": "${packages}/User/Robot Framework Assistant Rflint.sublime-settings"
-        }
+        "caption": "Robot Framework: Import Library/Resource/Variable",
+        "command": "setting_importer"
     }
 ]

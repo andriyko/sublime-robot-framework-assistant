@@ -1,5 +1,0 @@
-{
-    "draw_white_space": "all",
-    "auto_complete_triggers": [ {"selector": "text.robot", "characters": "$@["} ],
-    "trim_trailing_white_space_on_save": true
-}

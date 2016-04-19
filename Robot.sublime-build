@@ -1,0 +1,14 @@
+{
+    "cmd": ["python", "-m", "robot.run", "$file"],
+    "selector": "source.robot",
+    "variants": [
+
+        { "name": "Selects the test cases by tag",
+          "cmd": ["python", "-m", "robot.run", "--include", "REPLACE_WITH_TAG", "$file"],
+        },
+
+        { "name": "Selects the test cases by name",
+          "cmd": ["python", "-m", "robot.run", "--test", "REPLACE_WITH_TEST_NAME", "$file"]
+        }
+    ]
+}

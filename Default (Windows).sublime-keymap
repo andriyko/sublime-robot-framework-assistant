@@ -1,7 +1,10 @@
 [
-    { "keys": ["alt+enter"], "command": "robot_framework_go_to_item_source" },
-    { "keys": ["ctrl+alt+enter"], "command": "robot_framework_log_item" },
-    { "keys": ["ctrl+alt+s"], "command": "robot_framework_scan_current_file" },
-    { "keys": ["ctrl+alt+r"], "command": "robot_framework_recollect_data" },
-    { "keys": ["ctrl+alt+g"], "command": "robot_framework_open_item_doc" }
+    { "keys": ["ctrl+alt+enter"], "command": "show_keyword_documentation" },
+    { "keys": ["alt+enter"], "command": "jump_to_keyword" },
+    { "keys": ["ctrl+alt+a"], "command": "scan_index" },
+    { "keys": ["ctrl+alt+s"], "command": "scan" },
+    { "keys": ["ctrl+alt+t"], "command": "scan_open_tab" },
+    { "keys": ["ctrl+alt+i"], "command": "index_open_tab" },
+    { "keys": ["ctrl+alt+r"], "command": "setting_importer" }
+
 ]

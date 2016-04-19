@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<keywordspec generated="20151026 23:35:47" type="resource" name="simple_resource" format="ROBOT">
+<version></version>
+<scope></scope>
+<namedargs>yes</namedargs>
+<doc>foobar</doc>
+<kw name="My Kw 1">
+<arguments>
+<arg>arg1=${False}</arg>
+<arg>arg2=${True}</arg>
+</arguments>
+<doc>Some documentation</doc>
+<tags>
+<tag>other_tag</tag>
+<tag>some_tag</tag>
+</tags>
+</kw>
+<kw name="My Kw 2">
+<arguments>
+</arguments>
+<doc>*Creating keyword failed:* Invalid argument specification: Non-default argument after default arguments.</doc>
+<tags>
+</tags>
+</kw>
+</keywordspec>

@@ -1,0 +1,8 @@
+<snippet>
+        <content><![CDATA[*** Settings ***]]></content>
+        <!-- how to trigger the snippet -->
+        <tabTrigger>*s</tabTrigger>
+        <!-- scope to limit where the snippet will trigger -->
+        <scope>source.robot</scope>
+        <description>*** Settings *** table</description>
+</snippet>

@@ -1,12 +1,12 @@
 [
     {
-      "button": "button1", "count": 1, "modifiers": ["alt"],
-      "press_command": "drag_select",
-      "command": "robot_framework_go_to_item_source"
-    },
-    {
       "button": "button1", "count": 1, "modifiers": ["alt", "ctrl"],
       "press_command": "drag_select",
-      "command": "robot_framework_log_item"
+      "command": "show_keyword_documentation"
+    },
+    {
+      "button": "button1", "count": 1, "modifiers": ["alt"],
+      "press_command": "drag_select",
+      "command": "jump_to_keyword"
     }
 ]

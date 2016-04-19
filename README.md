@@ -1,294 +1,254 @@
-sublime-robot-framework-assistant
-=================================
+[![Build Status](https://travis-ci.org/andriyko/sublime-robot-framework-assistant.svg?branch=rewrite_for_v2)]
+(https://travis-ci.org/andriyko/sublime-robot-framework-assistant)
 
-*Robot Framework Assistant* - is a plugin for [Sublime Text 2](http://www.sublimetext.com/2) / [Sublime Text3](http://www.sublimetext.com/3) that provides some conveniences for working with [Robot Framework](http://robotframework.org/) test files (.txt and .robot).
-
-Optionally, can work with [http://rfdocs.org/](http://rfdocs.org/).
-
-- [Installation](#installation)
-    - [Alternative installation methods](#alternative-installation-methods)
-        - [From github](#from-github)
-        - [Manually](#manually)
-- [Features](#features)
-- [Configuration](#configuration)
-	- [Edit Settings](#edit-settings)
-	- [Edit Scanners](#edit-scanners)
-- [Usage](#usage)
-	- [Settings](#settings)
-	- [Scanners](#scanners)
-	- [Set Syntax](#set-syntax)
-	- [Scan](#scan)
-	- [Reindex data](#reindex-data)
-    - [RFDocs](#rfdocs)
-        - [Download Manifest](#download-manifest)
-        - [Download Packages](#download-packages)
-        - [Show manifest](#show-manifest)
-        - [Show packages](#show-packages)
-- [Rflint](#rflint)
-- [Screenshots](#screenshots)
+Robot Framework Assistant
+==========================
+Robot Framework Assistant provides IDE features to edit
+[Robot Framework](http://robotframework.org/) test data in the
+[Sublime Text 3](https://www.sublimetext.com/3).
 
 Installation
-------------
+============
+The easiest way to install is to use
+[Package Control](https://packagecontrol.io/) and search for:
+`Robot Framework Assistant`.
 
-The easiest way to install is to use [Package Control](http://wbond.net/sublime_packages/package_control) and search for `Robot Framework Assistant`.
-
-### Alternative installation methods
-
-Otherwise, open Sublime Text and click `Preferences -> Browse Packages` to open the packages directory. Then create a directory named **Robot Framework Assistant** containing the contents of this repository.
-
-#### From github
-
-To get the contents of this repository:
-
-    git clone git://github.com/andriyko/sublime-robot-framework-assistant.git
-
-#### Manually
-
-[Download](https://github.com/andriyko/sublime-robot-framework-assistant/archive/master.zip)
-the plugin as a zip. Copy the content of the downloaded archive into **Robot Framework Assistant** directory (see previous section).
-
-Features
---------
-**Note:** term *item* means either *Python Library*, *Resource File*, *Keyword* (from *Python Library* or *Resource File*) or *Variable*.
-
-* Syntax highlighting/automatic detection/activation for Robot Framework '.txt' and '.robot' files;
-* `Alt+Enter` or `Alt+Click` to go to source of item at caret (either *Library*, *Resource*, *Keyword* or *Variable*);
-*  Alternatively, use Sublime Text's `Goto Symbol` and `Goto Definition` to go to the source of a *Keyword*.
-* `Ctrl+Alt+Enter` or `Ctrl+Alt+Click` on item to log *Keyword* documentation or value of *Variable* into output panel.
-* `Ctrl+Space` to auto complete library/resource name, keywords (can start with any part/word of keyword). Using of '.' after library/resource name is also supported (limits keywords to given library/resource);
-* Autocomplete gives *Keyword* with its *arguments* formatted according to Robot Framework syntax. Jump through arguments with `TAB` key.
-* `$` or `@` for autocomplete of *Built-in* and *Resource* variables (NOTE: as for now reading of *Variables files* is not supported);
-* `:` and then `TAB` to get list of special Robot Framework syntax elements (like *[Arguments]*, *[Return]* etc);
-* `:f` and then `TAB` to insert *:FOR* loop template;
-* `*k`, `*s`, `*v` and then `TAB` to insert tables hedings templates (*\*\*\* Keywords \*\*\**, *\*\*\* Settings \*\*\**, *\*\*\* Variables \*\*\**)
-* Toggle comments with `Cmd+/`;
-* `Cmd+B` to run *pybot* with current file;
-* Separate `Robot Framework` menu in Sublime Text main menu.
-* `Robot Framework` context menu which allows to run *pybot* with current file, scan libraries/resources, insert snippets etc.
-
-Depending on your OS, you may have another key binding for autocomplete. For example in order to have autocomplete bound to `Ctrl+Space` on Linux, add these lines to User key bindings (`Preferences > Key Bindings - User`):
-
-```
-[
-	{ "keys": ["ctrl+space"], "command": "auto_complete" },
-	{ "keys": ["ctrl+space"], "command": "replace_completion_with_auto_complete", "context":
-	    [
-	        { "key": "last_command", "operator": "equal", "operand": "insert_best_completion" },
-	        { "key": "auto_complete_visible", "operator": "equal", "operand": false },
-	        { "key": "setting.tab_completion", "operator": "equal", "operand": true }
-	    ]
-	}
-]
-```
+Alternative installation methods
+--------------------------------
+Download the plugin as a zip. Open Sublime Text and click
+*** | Preferences | Browse Packages | *** to open the packages directory.
+Then create a directory named `Robot Framework Assistant` and
+unzip the plugin to the directory.
 
 Configuration
+=============
+Before yo can start using the Robot Framework Assistant, you must
+at least configure the settings in the
+[User package](http://docs.sublimetext.info/en/latest/customization/settings.html)
+`Robot.sublime-settings` file. To Open the file
+navigate to: **Preferences | Package settings**
+**| Robot Framework Assistant | Settings - User |**
+The default settings can be found from the **Preferences | Package settings**
+**| Robot Framework Assistant | Settings - Default |**
+
+robot_framework_workspace
+-------------------------
+Before the Robot Framework Assistant can provide the keyword and
+variable completion features, it needs to create a database from the test
+suite and resource files. The argument defines the root folder where
+scanning of robot data is performed.
+
+Must point to a folder and pointing to a file is not allowed. When
+the command `Robot Framework: Create database` is executed,
+the scanning of Robot Framework test data is performed based
+on this setting.
+
+In windows ow write double backslash to write literal backslash.
+
+robot_framework_keyword_argument_format
+---------------------------------------
+Defines how keyword argument are formatted when keyword
+completion is used. When set to false, each argument is
+formatted to individual lines. If set to true keyword
+and arguments are returned in single line.
+
+robot_framework_extension
+-------------------------
+File extension defines which types of files the Robot Framework
+Assistant plugin will search from the folder defined
+in the robot_framework_workspace option.
+
+This setting affects the plugin commands and features but the theme
+definition in this plugin is not affected by this option.
+
+If there library or variable file imports in the Robot Framework data,
+those imports are automatically parser and included in the scanning.
+
+path_to_python
 -------------
+In order the creating the database of keywords and variables to
+work, path to Python binary must be defined. It must be the same
+Python binary where the Robot Framework is installed.
 
-### Edit Settings
-(`Robot Framework > Settings` or use command palette).
-***You have to define `python_interpreter` option manually. Should point to Python installation with *Robot Framework* packages.***. An example of settings:
+In Linux like environments this could be like: /usr/bin/python
+and in Windows this could be like: C:\\Python27\\python.exe
 
+robot_framework_module_search_path
+----------------------------------
+Module search path defines a list of paths where the Robot Framework
+libraries are searched. Example if you have imported
+a library with the library name, then module search path must
+contain the folder where the library can be located.
+
+The Robot Framework Assistant uses the Robot Framework API to parse
+the test data and libraries. All changes, which are not system
+wide, to locate the libraries, must also be added in the
+module search path in the Robot Framework Assistant
+
+More details how libraries is searched in Robot Framework can be
+found from be the
+[Robot Framework User guide](http://robotframework.org/robotframework/latest/RobotFrameworkUserGuide.html#module-search-path)
+
+robot_framework_library_in_xml
+------------------------------
+
+When a library is not available during parsing time,
+example if library is imported with Remote library interface or
+it is not written in Python like the
+[SwingLibrary](https://github.com/robotframework/SwingLibrary)
+Then this setting can be used to import libraries in
+[libdoc](http://robotframework.org/robotframework/latest/RobotFrameworkUserGuide.html#library-documentation-tool-libdoc)
+XML format.
+
+Libraries found from the this path are globally available, like the
+BuiltIn library. Example the keyword completion will work although
+the library may not imported for that particular resource or test suite.
+
+robot_framework_builtin_variables
+---------------------------------
+Robot Framework comes by default some predefined and builtin variables.
+These variables names may change between different Robot Framework
+versions. Use this setting to define a list of the Robot Framework BuiltIn
+variables. The easiest way to see the list of the variables is to run
+Robot Framework with following test case:
+
+| *** Test Cases *** |   |
+| --- |--- |
+| Log All BuiltIn Vars |
+|   | Log Variables |
+
+Note: At least on Robot Framework 2.9.2 version, the following command
+did not list the empty variables, like ${EMPTY}.
+
+Syntax definitions
+==================
+
+By default this plugin will be used with files which extension is
+`.robot` and plugin will use four spaces as cell separator. The
+settings can be changed by user, but consult the
+[Sublime unofficial documentation](http://docs.sublimetext.info/en/latest/customization/customization.html)
+where the user settings should be saved.
+
+Change the file extension
+-------------------------
+The file extension is defined in the
+`Robot.tmLanguage` file. To change file extension,
+navigate to the
+[User package](http://docs.sublimetext.info/en/latest/basic_concepts.html#the-packages-directory)
+folder and open the `Robot.tmLanguage` file.
+
+Look for the lines containing:
+```xml
+<key>fileTypes</key>
+    <array>
+        <string>robot</string>
+    </array>
 ```
-{
-	"associated_file_extensions":
-	[
-		".txt",
-		".robot"
-	],
-	"log_level": "error",
-	"python_interpreter": "python",
-	"rfdocs_update_url": "http://rfdocs.org/dataset/download?",
-	"separator":
-	{
-		"between_args": "...  ",
-		"between_kw_and_args": "  ",
-		"kw_and_args_one_line": false
-	},
-	"show_version_in_autocomplete_box": true
-}
-```
-By defaults autocomplete formats keyword and arguments as below:
+The `<string>` element contains the file type definition.
 
-```
-Call Method
-...  object
-...  method_name
-...  *args
-```
-To have keyword and arguments all in one line change `separator` options:
+Change the cell separator
+-------------------------
+The cell separator is defined in the
+`Robot.tmPreferences` file. To change the cell separator,
+navigate to the
+[User package](http://docs.sublimetext.info/en/latest/basic_concepts.html#the-packages-directory)
+folder and open the `Robot.tmPreferences` file.
 
-```
-"separator":
-{
-    "between_args": "    ",
-	"between_kw_and_args": "    ",
-	"kw_and_args_one_line": true
-}
-```
-results to
+Look for the line containing `<string><![CDATA[    ]]></string>` XML tag. There are four
+spaces inside of the `[    ]` characters and those four spaces defines the cell separator which is
+user by the plugin. The cell separator is example used by the for loop
+[snippets](http://docs.sublimetext.info/en/latest/extensibility/snippets.html?highlight=snippets)
+to align and display snipped correctly.
 
-```
-Call Method    object    method_name    *args
-```
-or
+Hotkeys
+=======
+* Pressing `Alt + Enter` or `Alt + Click` with mouse, on top of the keyword
+will go to the keyword source. Source of the keyword can locate in
+Robot Framework test data or in a Python library. Go to does not work
+on libraries written in other programming languages.
+* Pressing `Ctrl + Alt + Enter`or `Ctrl + Alt + Clicl` with mouse
+will display the keyword documentation.
+* Pressing `Ctrl + Alt + a` will run the `Robot Framework: Create Database` command
+* Pressing `Ctrl + Alt + s` will run the `Robot Framework: Create Database Tables` command
+* Pressing `Ctrl + Alt + t` will run the `Robot Framework: Create Database Table From Active Tab` command
+* Pressing `Ctrl + Alt + i` will run the `Robot Framework: Create Database Index From Active Tab` command
+* Pressing `Ctrl + Alt + r` will show available library, resource or variables imports in a popup menu. The popup
+menu is only displayed if cursor is in settings table and line contains `Libraries`, `Resource` or `Variables` setting.
 
-```
-"separator":
-{
-    "between_args": " | ",
-	"between_kw_and_args": "  ",
-	"kw_and_args_one_line": true
-}
-```
-gives:
+The usage of the `Ctrl + Alt + a/s/t/i` commands is explained in the
+[Internal database for keywords and variables](https://github.com/andriyko/sublime-robot-framework-assistant/wiki/Internal-database-for-keywords-and-variables) wiki page
 
-```
-Call Method | object | method_name | *args
-```
+Snippets
+========
+[Snippets](http://docs.sublimetext.info/en/latest/extensibility/snippets.html?highlight=snippets)
+are a Sublime Text feature to provide commonly used text templates
+and in this plugin, snippets offers quick access to
+the commonly used settings in the Robot Framework data. To gain access
+to the snippets write the required character combination. If the snippet
+is not displayed press the `Tab` key to see the snippets completion list.
+The snippets can be accessed with following key combinations:
+* Write `:f` to access Robot Framework for loops. There currently
+are available the following snippets:
+[normal](http://robotframework.org/robotframework/latest/RobotFrameworkUserGuide.html#normal-for-loop),
+[enumerate](http://robotframework.org/robotframework/latest/RobotFrameworkUserGuide.html#for-in-enumerate-loop),
+[range](http://robotframework.org/robotframework/latest/RobotFrameworkUserGuide.html#for-in-range-loop)
+and [zip](http://robotframework.org/robotframework/latest/RobotFrameworkUserGuide.html#for-in-zip-loop)
+loops types.
+* Write `*k` to access `*** Keywords ***` table snippet.
+* Write `*s` to acess `*** Settings ***` table and it settings. There
+currently are available the following snippets:
+`Default Tags`, `Documentation`, `Library`, `Resource`,
+`*** Settings ***`, `Test Setup`, `Test Teardown`, `Test Template`
+and `Test Timeout`.
+* Write `*t` to access `*** Test Cases ***` table snippet.
+* Write `:`to access
+[Keyword](http://robotframework.org/robotframework/latest/RobotFrameworkUserGuide.html#id331)
+and
+[Test Case](http://robotframework.org/robotframework/latest/RobotFrameworkUserGuide.html#test-case-table)
+settings. There currently are available the following snippets::
+`[Arguments]`, `[Documentation]`, `[Return]` `[Tags]`, `[Teardown]`
+and `[Timeout]`.
+* Write `*v` to access `*** Variables ***` snippet.
 
-Ensure that `python_interpreter` option is correct:
+The different for loop snippets uses the
+[fields](http://docs.sublimetext.info/en/latest/extensibility/snippets.html?highlight=snippets#fields)
+feature from the snippets. After completing the for loop snippry, the different
+for loops fields can be accessed by pressing the `tab` key.
 
-```
-$ /Users/username/.virtualenvs/robotframework/bin/python
->>> import robot
->>> robot.__version__
-'2.8.3'
-```
+Please note that plugin does not prevent the user to place snippets
+in invalid places in the test data.
+Please refer to the Robot Framework
+[User Guide](http://robotframework.org/robotframework/latest/RobotFrameworkUserGuide.html)
+to locate the correct usage of the different available snippets.
 
-### Edit Scanners
-(`Robot Framework > Scanners` or use command palette)
+Go To Keyword
+=============
+Alternatively, use Sublime Text's
+[Go To Symbol](http://docs.sublimetext.info/en/latest/file_management/file_management.html#fm-goto-symbol)
+to go to the source of a Keyword.
 
-Basically you will need to define only `path` option for `resource_scanners` setting. Set `is_active` to *false* if you need to disable parser.
+Please note that `Go To Symbol` only works for keywords within the
+same file. It is not possible to use `Go To Symbol` to jump keyword
+in other resource files or in libraries.
 
-`paths` (optional) - defines list of paths to append with *sys.path.append*.
+Creating a database
+=====================
+Once the plugin configuration is done, the plugin needs to scan the
+test data to create a internal database to the package directory.
+The database will contain table for each test case, resource and
+library. Once the tables has been created, plugin will create a
+index for each test case, resource and library. Index will contain
+all keywords and variables, what the test case or resource has imported
+in the test data. Indexing allows plugin to provide completion
+to only those keyword or variables which has been imported for
+the currently opened test or resource file.
 
-`pylib_scanners` - defines what `parser` to use for `libraries` from `package`.
+The plugin will automatically update the pointer to the index in the
+database, when user will change between different tabs in the Sublime.
 
-First dictionary from example is equivalent to:
-
-```
->>> from robot.libraries import BuiltIn, OperatingSystem, Collections, Telnet, XML, Dialogs, String, Process, Screenshot, Remote
-```
-Second is equivalent to:
-
-```
->>> import SeleniumLibrary, SSHLibrary, Selenium2Library
-```
-
-`resource_scanners` - set `path` option that points to your *Robot Framework* resources directory.
-
-`testcase_scanner` - defines parser to use for currently opened '.txt' or '.robot' file.
-
-An example of scanners configuration:
-
-```
-{
-    "paths":
-        [
-        ],
-
-    "pylib_scanners": [
-            {
-                "parser": "scanners.standard.PythonLibsScannerStandard",
-                "libraries": ["BuiltIn", "OperatingSystem", "Collections",
-                              "Telnet", "XML", "Dialogs",
-                              "String", "Process", "Screenshot", "Remote"],
-                "is_active": true,
-                "package": "robot.libraries"
-            },
-            {
-                "parser": "user_scanners.external.PythonLibsScannerExternal",
-                "libraries": ["SeleniumLibrary", "SSHLibrary", "Selenium2Library"],
-                "is_active": false,
-                "package": ""
-            }
-        ],
-    "resource_scanners": [
-        {
-            "parser": "scanners.standard.ResourceFilesScannerStandard",
-            "path": "/path/to/resources/directory/or/file",
-            "is_active": false
-        }
-    ],
-    "testcase_scanner":
-        {
-            "parser": "scanners.standard.TestCaseFilesScannerStandard",
-            "is_active": true
-        }
-}
-```
-
-You can configure scanning of your own libraries in the same way as shown above. Or prepare customized scanner and put it under `user scanners` module.
-After changes made - either rescan and reindex data files or restart Sublime Text.
-
-Usage
------
-There are several ways to execute certain command:
-
-* *command palette* (`Tools > Command Palette` menu item or use keys binding `Ctrl+Shift+P`, type **Robot Framework Assistant**);
-* `Robot Framework` main menu;
-* `Robot Framework` menu item from context menu (right mouse click).
-
-
-### Settings
-Edit main settings.
-
-### Scanners
-Edit scanners file.
-
-### Set Syntax
-Set Robot Framework syntax highlighting (works for *.txt* and *.robot* files).
-
-### Scan
-Scan *Python libraries*, *Resource files* and *current test file*.
-In order to have *User Keywords* and *Variables* data from current file, first scan current file (`Robot Framework > Scan > Current file` or `Ctrl+Alt+S`) and then `Save File`.
-
-### Reindex data
-(Re)index all files under `robot_data` directory. Indexing of files is done automatically on plugin load (if current view is Robot Framework test file). Invoke this command manually if you need to update data for features like autocomplete.
-
-### RFDocs (optional)
-
-##### Download Manifest
-Download file that contains list of packages (libraries) from `rfdocs_update_url` URL.
-
-##### Download Packages
-Download packages (libraries) according to downloaded manifest file.
-
-##### Show manifest
-Shows manifest file that is currently used when downloading packages(libraries).
-
-##### Show packages
-Opens directory that contains files (*.json*) downloaded from rfdocs.org.
-
-Rflint
-------------
-It is also possible to run [rflint](https://github.com/boakley/robotframework-lint) directly from Sublime Text. For details about installation and configuration of the rflint see the [rflint wiki](https://github.com/boakley/robotframework-lint/wiki) and the rflint [readme file](https://github.com/boakley/robotframework-lint/blob/master/README.md).
-
-This plugin provides to different ways to use rflint:
-
-* There git integration which as two different options.
-    * Run rflint against changed and staged files in the git working space.
-    * Run rflint against the changed, staged and new files in the git working space.
-* It is possible to run rflint against the currently opened file.
-
-### Rflint specific configuration
-To install rflint, please refer to the rflint [readme file](https://github.com/boakley/robotframework-lint/blob/master/README.md).
-
-#### Git integration
-To be able to use the git integration, git must be available from the command line. In windows it is not enough to be able run git from the Git Bash, it must be able to run git from the command prompt.
-
-Also user must configure the path to the git repository (folder where the .git folder is located). To open the configuration file, select: `Robot Framework > Rflint > Rflint Settings` or use the command palette (`Ctrl + p` and type: `rflint settings`) to open the rflint settings file.
-
-In the file configure a path to your git repository where the robot framework test date is version controlled. Example:
-```
-{
-    "git_repo": "/path/to/git_repo"
-}
-```
-
-Screenshots
------------
-<a href="http://imgur.com/n5pNimh"><img src="http://i.imgur.com/n5pNimh.png" title="sublime-robot-framework-assistant screenshot" /></a>
-
-Some features in action.
-<a href="http://imgur.com/ebIk1Pk"><img src="http://i.imgur.com/ebIk1Pk.gif" title="sublime-robot-framework-assistant in action" /></a>
+Error investigation for database creation
+-----------------------------------------
+When creating the database, plugin will write a log file
+to the package installation directory: `database/scan_index.log`
+file. If there are errors when the database is created,
+please check the log and correct possible errors.
