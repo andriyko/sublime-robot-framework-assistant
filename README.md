@@ -1,5 +1,4 @@
-[![Build Status](https://travis-ci.org/andriyko/sublime-robot-framework-assistant.svg?branch=rewrite_for_v2)]
-(https://travis-ci.org/andriyko/sublime-robot-framework-assistant)
+[![Build Status](https://travis-ci.org/andriyko/sublime-robot-framework-assistant.svg?branch=master)](https://travis-ci.org/andriyko/sublime-robot-framework-assistant)
 
 Robot Framework Assistant
 ==========================
