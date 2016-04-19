@@ -224,8 +224,12 @@ to locate the correct usage of the different available snippets.
 Go To Keyword
 =============
 Alternatively, use Sublime Text's
-[Goto Symbol](http://docs.sublimetext.info/en/latest/file_management/file_management.html#fm-goto-symbol)
+[Go To Symbol](http://docs.sublimetext.info/en/latest/file_management/file_management.html#fm-goto-symbol)
 to go to the source of a Keyword.
+
+Please note that `Go To Symbol` only works for keywords within the
+same file. It is not possible to use `Go To Symbol` to jump keyword
+in other resource files or in libraries.
 
 Creating a database
 =====================

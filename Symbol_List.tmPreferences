@@ -5,7 +5,7 @@
    <key>name</key>
    <string>Symbol List</string>
    <key>scope</key>
-   <string>text.robot keyword.control.robot</string>
+   <string>source.robot keyword.control.robot</string>
    <key>settings</key>
    <dict>
       <key>showInSymbolList</key>
