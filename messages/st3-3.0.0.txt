@@ -1,0 +1,37 @@
+This is a total rewrite of the Robot Framework Assistant plugin.
+
+The highlights of the rewrite are:
+1) Less configuration.
+In the 1.X.X version of Robot Framework Assistant plugin, there
+is scanner configuration which can be which can be complex to maintain.
+From the version 3.0.0  onwards, there is only one setting,
+robot_framework_workspace, where the test data is searched.
+
+2) Provide keyword completion based the imported resources and libraries.
+In the 1.X.X version Robot Framework Assistant plugin the keyword
+competition will provide all found keywords and it doesn't take in
+account is the resource or/and library imported. The version 3.0.0 takes
+the imports in account and will provide keyword competition based
+on the imports. The only exception to this rule is if library
+is parsed from the libdoc XML format. The libraries parser
+from the XML format are globally available.
+
+3) Better variable completions
+The 1.X.X version provides only the built in variables completions.
+The version 3.0.0 also provides the built in variables, variables
+from variable tables and variable files. Also variable completion is
+based on the imports.
+
+4) Better library parsing
+The version 3.0.0 keyword and variable parsing relies on the
+Robot Framework API (public and not public). Plugin is able to parse
+the keywords also from the dynamic and hybrid libraries. If your
+libraries can produce keyword documentation with libdoc, there is
+a good change that plugin is able to parse the library based on
+the imports in the test data too. There is one limitation on the
+matter. The limitation is that if library import contains arguments
+as Robot Framework variables, plugin can not resolve those variables.
+Depending the library implementation this may prevent resolving
+the keywords from the library.
+
+------------------------------------------------------
