@@ -30,6 +30,7 @@ class SettingObject(object):
     view_completions = 'view_completions'
     view_path = 'view_path'
     arg_format = 'robot_framework_keyword_argument_format'
+    lib_in_xml = 'robot_framework_libraries_in_xml'
 
 
 def get_setting(setting):

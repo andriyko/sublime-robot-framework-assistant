@@ -62,7 +62,9 @@ class IndexOpenTabCommand(sublime_plugin.TextCommand):
                     '--index_path',
                     get_setting(SettingObject.index_dir),
                     '--module_search_path',
-                    get_setting(SettingObject.module_search_path)
+                    get_setting(SettingObject.module_search_path),
+                    '--path_to_lib_in_xml',
+                    get_setting(SettingObject.lib_in_xml)
                 ],
                 stderr=subprocess.STDOUT,
                 stdout=log_file,

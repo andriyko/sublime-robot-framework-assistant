@@ -89,6 +89,21 @@ More details how libraries is searched in Robot Framework can be
 found from be the
 [Robot Framework User guide](http://robotframework.org/robotframework/latest/RobotFrameworkUserGuide.html#module-search-path)
 
+robot_framework_library_in_xml
+------------------------------
+
+When a library is not available during parsing time,
+example if library is imported with Remote library interface or
+it is not written in Python like the
+[SwingLibrary](https://github.com/robotframework/SwingLibrary)
+Then this setting can be used to import libraries in
+[libdoc](http://robotframework.org/robotframework/latest/RobotFrameworkUserGuide.html#library-documentation-tool-libdoc)
+XML format.
+
+Libraries found from the this path are globally available, like the
+BuiltIn library. Example the keyword completion will work although
+the library may not imported for that particular resource or test suite.
+
 robot_framework_builtin_variables
 ---------------------------------
 Robot Framework comes by default some predefined and builtin variables.

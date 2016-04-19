@@ -47,6 +47,8 @@ class ScanOpenTabCommand(sublime_plugin.TextCommand):
                     open_tab,
                     '--db_path',
                     db_path,
+                    '--path_to_lib_in_xml',
+                    get_setting(SettingObject.lib_in_xml)
                 ],
                 stderr=subprocess.STDOUT,
                 stdout=log_file,

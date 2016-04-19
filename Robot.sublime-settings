@@ -96,6 +96,20 @@
         ],
 
     /*
+        Robot Framework libraries in XML
+
+        When the library is not available during parsing time,
+        example if library is imported with Remote library interface.
+        Then this setting can be used to import libraries in libdoc XML
+        format.
+
+        Libraries found from the this path are globally available, in
+        same manner as the BuiltIn library
+
+    */
+    "robot_framework_libraries_in_xml": "/path/to/library/documentation",
+
+    /*
         Robot Framework variables
 
         Robot Framework comes by default some predefined and built in

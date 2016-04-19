@@ -26,12 +26,14 @@ def index_all(db_path, index_path, module_search_path, libs_in_xml):
     pool.map(index_a_table, params)
 
 
-def index_single(db_path, db_table, index_path, module_search_path, libs_in_xml):
+def index_single(db_path, db_table, index_path, module_search_path,
+                 libs_in_xml):
     for path_ in module_search_path:
         sys.path.append(path_)
     if not path.exists(index_path):
         makedirs(index_path)
-    index = Index(db_path=db_path, index_path=index_path, xml_libraries=libs_in_xml)
+    index = Index(db_path=db_path, index_path=index_path,
+                  xml_libraries=libs_in_xml)
     index.index_consturctor(table=db_table)
 
 if __name__ == '__main__':
