@@ -58,7 +58,7 @@
         syntax highlight.
     */
 
-    "robot_frameowrk_extension": "robot",
+    "robot_framework_extension": "robot",
 
     /*
         Path to Python binary
