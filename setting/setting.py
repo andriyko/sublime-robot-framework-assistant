@@ -24,7 +24,7 @@ class SettingObject(object):
     log_file = 'log_file'
     python_binary = 'path_to_python'
     workspace = 'robot_framework_workspace'
-    extension = 'robot_frameowrk_extension'
+    extension = 'robot_framework_extension'
     builtin_variables = 'robot_framework_builtin_variables'
     module_search_path = 'robot_framework_module_search_path'
     view_completions = 'view_completions'
