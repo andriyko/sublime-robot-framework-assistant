@@ -6,6 +6,12 @@ Robot Framework Assistant provides IDE features to edit
 [Robot Framework](http://robotframework.org/) test data in the
 [Sublime Text 3](https://www.sublimetext.com/3).
 
+From release 3.0.0 onwards plugin is not anymore compatible with
+Sublime Text 2. The releases made before the 3.0.0 will serve
+the Sublime Text 2 users. The documentation for Sublime Text 2 user
+can be found from st2-maintenance branch
+[README](https://github.com/andriyko/sublime-robot-framework-assistant/blob/st2-maintenance/README.md)
+
 Installation
 ============
 The easiest way to install is to use
