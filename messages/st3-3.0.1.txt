@@ -1,0 +1,2 @@
+Fixes #70 by fixing the typo in the Robot.sublime-settings file
+---------------------------------------------------------------
