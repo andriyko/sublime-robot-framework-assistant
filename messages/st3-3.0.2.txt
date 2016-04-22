@@ -1,0 +1,6 @@
+Fixes #68 by setting properly the robot_framework_module_search_path
+
+There was bunch of bugs when the robot_framework_module_search_path
+was set in commands which did use the index and scanner runners.
+This minor release should address all those problems.
+--------------------------------------------------------------------
