@@ -8,6 +8,7 @@ from ..setting.setting import SettingObject
 from ..dataparser.parser_utils.file_formatter import rf_table_name
 from ..dataparser.parser_utils.util import normalise_path
 from ..command_helper.update_current_view_json import update_current_view_index
+from .scan_and_index import index_popen_arg_parser
 
 
 class IndexOpenTabCommand(sublime_plugin.TextCommand):
@@ -21,8 +22,6 @@ class IndexOpenTabCommand(sublime_plugin.TextCommand):
         files.
         """
         log_file = get_setting(SettingObject.log_file)
-        python_binary = get_setting(SettingObject.python_binary)
-        table_dir = get_setting(SettingObject.table_dir)
         makedirs(path.dirname(log_file), exist_ok=True)
         open_tab = self.view.file_name()
         if not open_tab:
@@ -32,12 +31,13 @@ class IndexOpenTabCommand(sublime_plugin.TextCommand):
         db_table_name = self.get_table_name(open_tab)
         if db_table_name:
             file_ = open(log_file, 'a')
-            sublime.set_timeout_async(self.run_single_index(
-                    python_binary,
-                    table_dir,
+            sublime.set_timeout_async(
+                self.run_single_index(
                     db_table_name,
                     file_
-                ), 0)
+                ),
+                0
+            )
             file_.close()
             message = update_current_view_index(self.view)
             sublime.status_message(message)
@@ -45,31 +45,20 @@ class IndexOpenTabCommand(sublime_plugin.TextCommand):
             message = 'Not able to index file: {0}'.format(open_tab)
             sublime.status_message(message)
 
-    def run_single_index(self, python_binary, db_path, db_table, log_file):
+    def run_single_index(self, db_table_name, log_file):
         startupinfo = None
         if system() == 'Windows':
             startupinfo = subprocess.STARTUPINFO()
             startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
+        p_args = index_popen_arg_parser('single')
+        p_args.append('--db_table')
+        p_args.append(db_table_name)
         p = subprocess.Popen(
-                [
-                    python_binary,
-                    get_setting(SettingObject.index_runner),
-                    'single',
-                    '--db_path',
-                    db_path,
-                    '--db_table',
-                    db_table,
-                    '--index_path',
-                    get_setting(SettingObject.index_dir),
-                    '--module_search_path',
-                    get_setting(SettingObject.module_search_path),
-                    '--path_to_lib_in_xml',
-                    get_setting(SettingObject.lib_in_xml)
-                ],
-                stderr=subprocess.STDOUT,
-                stdout=log_file,
-                startupinfo=startupinfo
-            )
+            p_args,
+            stderr=subprocess.STDOUT,
+            stdout=log_file,
+            startupinfo=startupinfo
+        )
         rc = p.wait()
         if not rc == 0:
             print('See log file from database directory for details')

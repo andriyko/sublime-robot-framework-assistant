@@ -7,6 +7,23 @@ from ..setting.setting import get_setting
 from ..setting.setting import SettingObject
 
 
+def scan_popen_arg_parser(mode):
+    arg_list = []
+    arg_list.append(get_setting(SettingObject.python_binary))
+    arg_list.append(get_setting(SettingObject.scanner_runner))
+    arg_list.append(mode)
+    arg_list.append('--db_path')
+    arg_list.append(get_setting(SettingObject.table_dir))
+    arg_list.append('--extension')
+    arg_list.append(get_setting(SettingObject.extension))
+    arg_list.append('--path_to_lib_in_xml')
+    arg_list.append(get_setting(SettingObject.lib_in_xml))
+    arg_list.append('--module_search_path')
+    for module in get_setting(SettingObject.module_search_path):
+        arg_list.append(module)
+    return arg_list
+
+
 class ScanCommand(sublime_plugin.TextCommand):
 
     def run(self, edit):
@@ -18,42 +35,25 @@ class ScanCommand(sublime_plugin.TextCommand):
         table is created also from imports.
         """
         log_file = get_setting(SettingObject.log_file)
-        python_binary = get_setting(SettingObject.python_binary)
-        table_dir = get_setting(SettingObject.table_dir)
         makedirs(path.dirname(log_file), exist_ok=True)
         file_ = open(log_file, 'w')
-        sublime.set_timeout_async(self.run_scan(
-                python_binary,
-                table_dir,
-                file_
-            ), 0)
+        sublime.set_timeout_async(self.run_scan(file_), 0)
         file_.close()
 
-    def run_scan(self, python_binary, db_path, log_file):
+    def run_scan(self, log_file):
         startupinfo = None
         if system() == 'Windows':
             startupinfo = subprocess.STARTUPINFO()
             startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
+        p_args = scan_popen_arg_parser('all')
+        p_args.append('--workspace')
+        p_args.append(get_setting(SettingObject.workspace))
         p = subprocess.Popen(
-                [
-                    python_binary,
-                    get_setting(SettingObject.scanner_runner),
-                    'all',
-                    '--workspace',
-                    get_setting(SettingObject.workspace),
-                    '--db_path',
-                    db_path,
-                    '--extension',
-                    get_setting(SettingObject.extension),
-                    '--module_search_path',
-                    get_setting(SettingObject.module_search_path),
-                    '--path_to_lib_in_xml',
-                    get_setting(SettingObject.lib_in_xml)
-                ],
-                stderr=subprocess.STDOUT,
-                stdout=log_file,
-                startupinfo=startupinfo
-            )
+            p_args,
+            stderr=subprocess.STDOUT,
+            stdout=log_file,
+            startupinfo=startupinfo
+        )
         rc = p.wait()
         if not rc == 0:
             print('See log file from database directory for details')
