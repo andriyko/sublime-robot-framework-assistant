@@ -5,6 +5,7 @@ from platform import system
 from os import path, makedirs
 from ..setting.setting import get_setting
 from ..setting.setting import SettingObject
+from .scan import scan_popen_arg_parser
 
 
 class ScanOpenTabCommand(sublime_plugin.TextCommand):
@@ -16,44 +17,36 @@ class ScanOpenTabCommand(sublime_plugin.TextCommand):
         from the currently open tab.
         """
         log_file = get_setting(SettingObject.log_file)
-        python_binary = get_setting(SettingObject.python_binary)
-        table_dir = get_setting(SettingObject.table_dir)
         makedirs(path.dirname(log_file), exist_ok=True)
         open_tab = self.view.file_name()
         if self.file_in_workspace(open_tab):
             file_ = open(log_file, 'w')
-            sublime.set_timeout_async(self.run_single_scan(
-                    python_binary,
-                    table_dir,
+            sublime.set_timeout_async(
+                self.run_single_scan(
+                    open_tab,
                     file_
-                ), 0)
+                ),
+                0
+            )
             file_.close()
         else:
             message = 'Not able to scan file: {0}'.format(open_tab)
             sublime.status_message(message)
 
-    def run_single_scan(self, python_binary, db_path, log_file):
-        open_tab = self.view.file_name()
+    def run_single_scan(self, open_tab, log_file):
         startupinfo = None
         if system() == 'Windows':
             startupinfo = subprocess.STARTUPINFO()
             startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
+        p_args = scan_popen_arg_parser('single')
+        p_args.append('--path_to_file')
+        p_args.append(open_tab)
         p = subprocess.Popen(
-                [
-                    python_binary,
-                    get_setting(SettingObject.scanner_runner),
-                    'single',
-                    '--path_to_file',
-                    open_tab,
-                    '--db_path',
-                    db_path,
-                    '--path_to_lib_in_xml',
-                    get_setting(SettingObject.lib_in_xml)
-                ],
-                stderr=subprocess.STDOUT,
-                stdout=log_file,
-                startupinfo=startupinfo
-            )
+            p_args,
+            stderr=subprocess.STDOUT,
+            stdout=log_file,
+            startupinfo=startupinfo
+        )
         rc = p.wait()
         if not rc == 0:
             print('See log file from database directory for details')
