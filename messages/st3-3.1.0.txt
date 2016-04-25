@@ -1,0 +1,15 @@
+# New features
+## Provides block commenting on test data, by using Ctrl+/
+Provides block commenting on test data, by using `Ctrl+/`
+
+# Bug fixes
+## Jump to library keyword did not work
+Jump to keyword or showing to keyword documentation did not work
+if the keyword was coming from a library which was imported
+with a file name. Example like path/to/LibraryName.py
+## Jump to resource file keyword did not work
+There was a similar problem if a keyword was coming from a
+resource file and was prefixed with the resource file name.
+Example: resource.Keyword Name
+## ${CURDIR} was missing from robot_framework_builtin_variables setting
+${CURDIR} was missing from `robot_framework_builtin_variables` setting
