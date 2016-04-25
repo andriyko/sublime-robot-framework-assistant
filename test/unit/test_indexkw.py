@@ -276,6 +276,16 @@ class TestIndexing(unittest.TestCase):
             any(kw[0] == 'Select From Popup Menu' for kw in data['keyword'])
         )
 
+    def test_get_object_name(self):
+        object_name = self.index.get_object_name(self.get_libnoclass())
+        self.assertEqual(object_name, 'LibNoClass')
+        object_name = self.index.get_object_name(self.get_resource_b())
+        self.assertEqual(object_name, 'resource_b')
+        object_name = self.index.get_object_name(self.get_os())
+        self.assertEqual(object_name, 'OperatingSystem')
+        object_name = self.index.get_object_name(self.get_s2l())
+        self.assertEqual(object_name, 'Selenium2Library')
+
     @property
     def common_table_name_index(self):
         index = 'index-{0}'.format(self.common_table_name)
@@ -488,8 +498,8 @@ class TestIndexing(unittest.TestCase):
         data = self.get_libnoclass()
         kw_list = self.index.get_keywords(data)[0]
         arg_list = self.get_kw_args(data)
-        object_name = 'BuiltIn'
-        table_name = self.builtin_table_name
+        object_name = 'LibNoClass'
+        table_name = self.libnoclass_table_name
         l = []
         for kw, arg in zip(kw_list, arg_list):
             l.append(

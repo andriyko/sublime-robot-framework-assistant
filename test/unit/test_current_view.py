@@ -36,7 +36,7 @@ class TestCurrentView(unittest.TestCase):
         index_all(cls.db_dir, cls.index_dir)
         cls.test_a_index = path.join(
             env.RESOURCES_DIR,
-            'index-test_a.robot-41883aa9e5af28925d37eba7d2313d57.json')
+            'index-test_a.robot-c6b0faa0427a2cf861a1acad630765ea.json')
 
     def setUp(self):
         self.current_view = path.join(

@@ -69,10 +69,7 @@ class ReturnKeywordAndObject(object):
         object_best_match = ''
         keyword_best_match = ''
         for kw_completion in completions:
-            # This leaves bug in code if the there class name imported like:
-            # com.company.object.robot In this case robot is stripped from
-            # class name without actually checking should it be.
-            object_name = kw_completion[2].rstrip('.' + self.rf_extension)
+            object_name = kw_completion[2]
             kw = kw_completion[0]
             if rf_cell.startswith(object_name):
                 if len(object_best_match) <= len(object_name):

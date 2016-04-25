@@ -21,7 +21,7 @@ class VarMode(object):
 
 
 def get_completion_list(view_index, prefix, text_cursor_rigt,
-                        rf_cell, object_name, extension, one_line):
+                        rf_cell, object_name, one_line):
     """Returns completion list for variables and keywords
 
     ``view_index`` -- Path to current_view.json in database.
@@ -29,7 +29,6 @@ def get_completion_list(view_index, prefix, text_cursor_rigt,
     ``text_cursor_rigt`` -- Text from cursor right side.
     ``rf_cell`` -- RF_CELL value from .tmPreferences
     ``object_name`` -- Library or resource object name
-    ``extension`` -- Rbot file extension, from .sublime-settings
 
     Entry point for getting Robot Framework completion in using
     on_query_completions API from Sublime Text 3."""
@@ -37,7 +36,7 @@ def get_completion_list(view_index, prefix, text_cursor_rigt,
         return get_var_completion_list(view_index, prefix, text_cursor_rigt)
     else:
         return get_kw_completion_list(
-            view_index, prefix, rf_cell, object_name, extension, one_line)
+            view_index, prefix, rf_cell, object_name, one_line)
 
 
 def get_kw_re_string(prefix):
@@ -53,7 +52,7 @@ def get_kw_re_string(prefix):
 
 
 def get_kw_completion_list(view_index, prefix, rf_cell,
-                           object_name, extension, one_line):
+                           object_name, one_line):
     def get_kw(kw, args, rf_cell, lib, match_keywords):
         if pattern.search(kw):
             kw = create_kw_completion_item(kw, args, rf_cell, lib, one_line)
@@ -66,16 +65,13 @@ def get_kw_completion_list(view_index, prefix, rf_cell,
         kw = keyword[0]
         args = keyword[1]
         lib = keyword[2]
-        lib_with_ext = lib
-        if lib.endswith(extension):
-            lib = lib.replace('.{0}'.format(extension), '')
         if not object_name:
             if pattern.search(kw):
                 kw = create_kw_completion_item(
                     kw, args, rf_cell, lib, one_line
                 )
                 match_keywords.append(kw)
-        elif lib == object_name and lib_with_ext != kw:
+        elif lib == object_name and lib != kw:
             if pattern.search(kw):
                 kw = create_kw_completion_item(
                     kw, args, rf_cell, lib, one_line
