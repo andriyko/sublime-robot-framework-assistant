@@ -23,12 +23,12 @@ class TestCompletions(unittest.TestCase):
             'current_view.json')
 
     def test_get_completion_list(self):
-        prefix = 'Run'
+        prefix = 'Runk'
         result = get_completion_list(self.test_a_index, prefix,
-                                     '', RF_CELL, None, RF_EXTENSION, False)
-        self.assertEqual(len(result), 39)
+                                     '', RF_CELL, None, False)
+        self.assertEqual(len(result), 21)
         result = get_completion_list(self.test_a_index, '$',
-                                     '', RF_CELL, None, RF_EXTENSION, False)
+                                     '', RF_CELL, None, False)
         self.assertEqual(len(result), 29)
 
     def test_get_kw_re_string(self):
@@ -42,25 +42,25 @@ class TestCompletions(unittest.TestCase):
     def test_get_kw_completion_list_count(self):
         prefix = 'Run'
         kw_tuple = get_kw_completion_list(self.test_a_index, prefix,
-                                          RF_CELL, None, RF_EXTENSION, False)
-        self.assertEqual(len(kw_tuple), 39)
+                                          RF_CELL, None, False)
+        self.assertEqual(len(kw_tuple), 70)
         prefix = 'RunKeY'
         kw_tuple = get_kw_completion_list(self.test_a_index, prefix,
-                                          RF_CELL, None, RF_EXTENSION, False)
-        self.assertEqual(len(kw_tuple), 19)
+                                          RF_CELL, None, False)
+        self.assertEqual(len(kw_tuple), 21)
         prefix = 'BUI'
         kw_tuple = get_kw_completion_list(self.test_a_index, prefix,
-                                          RF_CELL, None, RF_EXTENSION, False)
-        self.assertEqual(len(kw_tuple), 13)
+                                          RF_CELL, None, False)
+        self.assertEqual(len(kw_tuple), 24)
 
     def test_get_kw_completion_list_structure(self):
         prefix = 'Run'
         kw_tuple = get_kw_completion_list(self.test_a_index, prefix,
-                                          RF_CELL, None, RF_EXTENSION, False)
-        kw = 'Run Keyword And Expect Error'
+                                          RF_CELL, None, False)
+        kw = 'Get Table Row Count'
         expected = (
-            '{0}\tBuiltIn'.format(kw),
-            '{0}{1}expected_error{1}name{1}*args'.format(kw, '\n...' + RF_CELL)
+            '{0}\tSwingLibrary'.format(kw),
+            '{0}{1}identifier'.format(kw, '\n...' + RF_CELL)
         )
         self.assertEqual(kw_tuple[0], expected)
         kw = 'Run And Return Rc'
@@ -74,12 +74,28 @@ class TestCompletions(unittest.TestCase):
         prefix = 'test'
         kw = 'Test A Keyword'
         kw_tuple = get_kw_completion_list(self.test_a_index, prefix,
-                                          RF_CELL, object_name, RF_EXTENSION,
-                                          False)
+                                          RF_CELL, object_name, False)
         expected = [(
             '{0}\t{1}'.format(kw, object_name),
             '{0}'.format(kw)
         )]
+        self.assertEqual(kw_tuple, expected)
+        object_name = 'LibNoClass'
+        prefix = 'librarykeyword'
+        kw1 = 'Library Keyword 1'
+        kw2 = 'Library Keyword 2'
+        kw_tuple = get_kw_completion_list(self.test_a_index, prefix,
+                                          RF_CELL, object_name, False)
+        expected = [
+            (
+                '{0}\t{1}'.format(kw1, object_name),
+                '{0}{1}arg1'.format(kw1, '\n...' + RF_CELL)
+            ),
+            (
+                '{0}\t{1}'.format(kw2, object_name),
+                '{0}{1}arg1{1}arg2'.format(kw2, '\n...' + RF_CELL)
+            ),
+        ]
         self.assertEqual(kw_tuple, expected)
 
     def test_kw_create_completion_item(self):

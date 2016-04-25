@@ -20,3 +20,10 @@ Test A Keyword
 Keyword
     [Documentation]    some doc
     Log    1
+    resource_a.Resource A Keyword 1
+    ...    kwa1
+    Resource A Keyword 2
+    LibNoClass.Library Keyword 1
+    ...    ${EMPTY}
+    Library Keyword 1
+    ...    ${EMPTY}

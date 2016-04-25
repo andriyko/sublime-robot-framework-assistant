@@ -1,6 +1,1470 @@
 {
-    "view_md5": "41883aa9e5af28925d37eba7d2313d57",
+    "view_name": "d:\\workspace\\sublime-robot-framework-assistant\\test\\resource\\test_data\\suite_tree\\test_a.robot",
+    "variable": [
+        "${/}",
+        "${:}",
+        "${\\n}",
+        "${DEBUG_FILE}",
+        "${EMPTY}",
+        "@{EMPTY}",
+        "&{EMPTY}",
+        "${EXECDIR}",
+        "${False}",
+        "${LOG_FILE}",
+        "${LOG_LEVEL}",
+        "${None}",
+        "${null}",
+        "${OUTPUT_DIR}",
+        "${OUTPUT_FILE}",
+        "${PREV_TEST_MESSAGE}",
+        "${PREV_TEST_NAME}",
+        "${PREV_TEST_STATUS}",
+        "${REPORT_FILE}",
+        "${SPACE}",
+        "${SUITE_DOCUMENTATION}",
+        "${SUITE_NAME}",
+        "${SUITE_SOURCE}",
+        "${TEMPDIR}",
+        "${TEST_DOCUMENTATION}",
+        "${TEST_NAME}",
+        "${True}",
+        "&{SUITE_METADATA}",
+        "@{TEST_TAGS}",
+        "${TEST_A}",
+        "${COMMON_VARIABLE_1}",
+        "${COMMON_VARIABLE_2}",
+        "${RESOURCE_A}"
+    ],
     "completion": [
+        [
+            "Decrease Spinner Value",
+            [
+                "identifier",
+                "times"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "SwingLibrary",
+            [],
+            "SwingLibrary"
+        ],
+        [
+            "Click On Tree Node",
+            [
+                "identifier",
+                "nodeIdentifier",
+                "clickCount"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Collapse All Tree Nodes",
+            [
+                "identifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Get Table Row Count",
+            [
+                "identifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Get Tree Node Index",
+            [
+                "identifier",
+                "nodePath"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Table Cell Should Not Be Editable",
+            [
+                "identifier",
+                "row",
+                "columnIdentifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Get Selected Item From Combo Box",
+            [
+                "identifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Get Tree Node Count",
+            [
+                "identifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Clear Table Cell",
+            [
+                "identifier",
+                "row",
+                "columnIdentifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Menu Item Should Exist",
+            [
+                "menuPath"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Tree Node Should Be Collapsed",
+            [
+                "identifier",
+                "nodeIdentifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Get Text Field Value",
+            [
+                "identifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Component Should Not Be Visible",
+            [
+                "identifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Maximize Internal Frame",
+            [
+                "identifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Get Main Menu Item Name",
+            [
+                "index"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Push Radio Button",
+            [
+                "identifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Set Table Cell Value",
+            [
+                "identifier",
+                "row",
+                "columnIdentifier",
+                "newValue"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Get List Values",
+            [
+                "identifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Get Button Text",
+            [
+                "identifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Select From Menu",
+            [
+                "menuPath"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Tree Node Popup Menu Item Should Be Disabled",
+            [
+                "identifier",
+                "nodeIdentifier",
+                "menuPath"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Main Menu Item Should Be Checked",
+            [
+                "menuPath"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "De Iconify Internal Frame",
+            [
+                "identifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Push Toggle Button",
+            [
+                "identifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Collapse Tree Node",
+            [
+                "identifier",
+                "nodeIdentifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Combo Box Should Be Disabled",
+            [
+                "identifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Get Table Headers",
+            [
+                "identifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Main Menu Item Should Not Be Checked",
+            [
+                "menuPath"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Scroll Component To View",
+            [
+                "identifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Get Table Cell Value",
+            [
+                "identifier",
+                "row",
+                "columnIdentifier",
+                "source"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Spinner Should Not Exist",
+            [
+                "identifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Check Check Box",
+            [
+                "identifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Minimize Internal Frame",
+            [
+                "identifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Tree Node Should Be Leaf",
+            [
+                "identifier",
+                "nodeIdentifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Set Slider Value",
+            [
+                "identifier",
+                "value"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Toggle Button Should Not Be Selected",
+            [
+                "identifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Set Spinner String Value",
+            [
+                "identifier",
+                "value"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Select Tab Pane",
+            [
+                "tabPaneIdentifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Clear Table Selection",
+            [
+                "identifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Select From List",
+            [
+                "identifier",
+                "listItemIdentifier",
+                "*additionalItemIdentifiers"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Close Internal Frame",
+            [
+                "identifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Toggle Button Should Be Selected",
+            [
+                "identifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Check All Checkboxes",
+            [],
+            "SwingLibrary"
+        ],
+        [
+            "Get Tree Node Child Names",
+            [
+                "identifier",
+                "nodeIdentifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Get Tooltip Text",
+            [
+                "identifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Get Selected Value From List",
+            [
+                "identifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Get Spinner Value",
+            [
+                "identifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Select Tree Node",
+            [
+                "identifier",
+                "nodeIdentifier",
+                "*additionalNodeIdentifiers"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Clear Tree Selection",
+            [
+                "identifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Check Box Should Be Unchecked",
+            [
+                "identifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Select Window",
+            [
+                "identifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Check Box Should Be Disabled",
+            [
+                "identifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Start Application In Separate Thread",
+            [
+                "className",
+                "*args"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Radio Button Should Be Selected",
+            [
+                "identifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Push Button",
+            [
+                "identifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Click On Component",
+            [
+                "identifier",
+                "times"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "All Checkboxes Should Be Checked",
+            [],
+            "SwingLibrary"
+        ],
+        [
+            "Dialog Should Be Open",
+            [
+                "identifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Menu Item Should Be Enabled",
+            [
+                "menuPath"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Select All List Items",
+            [
+                "identifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Select From Table Cell Popup Menu",
+            [
+                "identifier",
+                "row",
+                "columnIdentifier",
+                "menuPath"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "List Should Contain",
+            [
+                "identifier",
+                "value"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Label Should Exist",
+            [
+                "identifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Combo Box Should Be Enabled",
+            [
+                "identifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Menu Item Should Not Be Checked",
+            [
+                "menuPath"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Insert Into Text Field",
+            [
+                "identifier",
+                "text"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Set Jemmy Timeout",
+            [
+                "timeoutName",
+                "timeoutInSeconds"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Component Should Be Visible",
+            [
+                "identifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Start Application",
+            [
+                "className",
+                "*args"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Set Spinner Number Value",
+            [
+                "identifier",
+                "value"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Get Label Content",
+            [
+                "identifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Click On List Item",
+            [
+                "identifier",
+                "listItemIdentifier",
+                "clickCount"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Focus To Component",
+            [
+                "identifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Set Jemmy Timeouts",
+            [
+                "timeoutInSeconds"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Find Table Row",
+            [
+                "identifier",
+                "text",
+                "columnIdentifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Check Box Should Not Be Checked",
+            [
+                "identifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Text Field Should Be Disabled",
+            [
+                "identifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Type Into Text Field",
+            [
+                "identifier",
+                "text"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Select From Table Cell Popup Menu On Selected Cells",
+            [
+                "identifier",
+                "menuPath"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Check Box Should Be Enabled",
+            [
+                "identifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Menu Item Should Not Exist",
+            [
+                "menuPath"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Internal Frame Should Exist",
+            [
+                "identifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Get Current Context",
+            [],
+            "SwingLibrary"
+        ],
+        [
+            "Select From Popup Menu",
+            [
+                "identifier",
+                "menuPath"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Component Should Exist",
+            [
+                "identifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Button Should Be Disabled",
+            [
+                "identifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Internal Frame Should Not Be Open",
+            [
+                "identifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "List Windows",
+            [],
+            "SwingLibrary"
+        ],
+        [
+            "Select From Dropdown Menu",
+            [
+                "menuIdentifier",
+                "menuItemIdentifier",
+                "*verificationDisabled"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Menu Item Should Be Checked",
+            [
+                "menuPath"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Tree Node Should Exist",
+            [
+                "identifier",
+                "nodeIdentifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Get Table Cell Property",
+            [
+                "identifier",
+                "row",
+                "columnIdentifier",
+                "propertyName"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Get Selected Tab Label",
+            [],
+            "SwingLibrary"
+        ],
+        [
+            "Menu Item Should Be Disabled",
+            [
+                "menuPath"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Table Cell Should Not Be Selected",
+            [
+                "identifier",
+                "row",
+                "columnIdentifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Select Table Cell Area",
+            [
+                "identifier",
+                "startRow",
+                "endRow",
+                "startColumn",
+                "endColumn"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Get Combobox Values",
+            [
+                "identifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Set System Property",
+            [
+                "name",
+                "value"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Launch Application",
+            [
+                "className",
+                "*args"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Main Menu Item Should Exist",
+            [
+                "menuPath"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Select From Popup Menu On Selected Tree Nodes",
+            [
+                "identifier",
+                "menuPath"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Type Into Table Cell",
+            [
+                "identifier",
+                "row",
+                "columnIdentifier",
+                "newValue"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Table Cell Should Be Editable",
+            [
+                "identifier",
+                "row",
+                "columnIdentifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Component Should Not Exist",
+            [
+                "identifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Label Text Should Be",
+            [
+                "identifier",
+                "expected"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Button Should Not Exist",
+            [
+                "identifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Click Table Header",
+            [
+                "identifier",
+                "columnIdentifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Get Menu Items From Popup Menu",
+            [
+                "identifier",
+                "menuPath"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Table Cell Popup Menu Should Be Enabled",
+            [
+                "identifier",
+                "row",
+                "columnIdentifier",
+                "menuPath"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Radio Button Should Be Enabled",
+            [
+                "identifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Send Keyboard Event",
+            [
+                "keyCode",
+                "*modifiers"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Uncheck Check Box",
+            [
+                "identifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Tree Node Should Be Selected",
+            [
+                "identifier",
+                "nodeIdentifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Table Cell Should Be Selected",
+            [
+                "identifier",
+                "row",
+                "columnIdentifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Tree Node Popup Menu Item Should Be Enabled",
+            [
+                "identifier",
+                "nodeIdentifier",
+                "menuPath"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Button Should Be Enabled",
+            [
+                "identifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Select From Menu And Wait",
+            [
+                "menuPath"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Radio Button Should Not Be Selected",
+            [
+                "identifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Get Selected Table Cell Value",
+            [
+                "identifier",
+                "source"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Get Slider Value",
+            [
+                "identifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Internal Frame Should Not Exist",
+            [
+                "identifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Get Internal Frames In Context",
+            [],
+            "SwingLibrary"
+        ],
+        [
+            "Select Context",
+            [
+                "identifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Label Should Not Exist",
+            [
+                "identifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Expand Tree Node",
+            [
+                "identifier",
+                "nodeIdentifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Clear Selection From List",
+            [
+                "identifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Get Tree Node Label",
+            [
+                "identifier",
+                "nodeIndex"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Select From Tree Node Popup Menu In Separate Thread",
+            [
+                "identifier",
+                "nodeIdentifier",
+                "menuPath"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Close Dialog",
+            [
+                "identifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Select Main Window",
+            [],
+            "SwingLibrary"
+        ],
+        [
+            "All Checkboxes Should Be Unchecked",
+            [],
+            "SwingLibrary"
+        ],
+        [
+            "Slider Should Exist",
+            [
+                "identifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Table Cell Popup Menu Should Be Disabled",
+            [
+                "identifier",
+                "row",
+                "columnIdentifier",
+                "menuPath"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Get Table Column Count",
+            [
+                "identifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Close All Dialogs",
+            [],
+            "SwingLibrary"
+        ],
+        [
+            "Dialog Should Not Be Open",
+            [
+                "identifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Click Hyper Link",
+            [
+                "identifier",
+                "linkText"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Tree Node Should Not Be Visible",
+            [
+                "identifier",
+                "nodeIdentifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Select From Main Menu And Wait",
+            [
+                "menuPath"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Get Table Row Values",
+            [
+                "identifier",
+                "row"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Clear Text Field",
+            [
+                "identifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Cancel File Chooser",
+            [],
+            "SwingLibrary"
+        ],
+        [
+            "Get Table Column Values",
+            [
+                "identifier",
+                "columnIdentifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Tree Node Should Not Be Leaf",
+            [
+                "identifier",
+                "nodeIdentifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Click On Table Cell",
+            [
+                "identifier",
+                "row",
+                "column",
+                "clickCountString",
+                "buttonString",
+                "*keyModifierStrings"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Add Table Cell Selection",
+            [
+                "identifier",
+                "row",
+                "cellIdentifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "List Components In Context",
+            [
+                "formatted"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Select Tab As Context",
+            [
+                "tabIdentifier",
+                "tabPaneIdentifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Select From Combo Box",
+            [
+                "identifier",
+                "comboItemIdentifier",
+                "*verifySelection"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Call Component Method",
+            [
+                "identifier",
+                "method",
+                "*args"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Run Keyword In Separate Thread",
+            [
+                "keywordName",
+                "*arguments"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Close Window",
+            [
+                "identifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Expand All Tree Nodes",
+            [
+                "identifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Tree Node Should Not Exist",
+            [
+                "identifier",
+                "nodeIdentifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Uncheck All Checkboxes",
+            [],
+            "SwingLibrary"
+        ],
+        [
+            "Check Box Should Be Checked",
+            [
+                "identifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Select From Tree Node Popup Menu",
+            [
+                "identifier",
+                "nodeIdentifier",
+                "menuPath"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Spinner Should Exist",
+            [
+                "identifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Set Jemmy Dispatch Model",
+            [
+                "dispatch model"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Internal Frame Should Be Open",
+            [
+                "identifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Right Click On Component",
+            [
+                "identifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Main Menu Item Should Not Exist",
+            [
+                "menuPath"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Get List Item Count",
+            [
+                "identifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "List Should Not Contain",
+            [
+                "identifier",
+                "value"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Menu Item Should Not Be Enabled",
+            [
+                "menuPath"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Select Radio Button",
+            [
+                "identifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Button Should Exist",
+            [
+                "identifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Get Table Values",
+            [
+                "identifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Tree Node Should Be Expanded",
+            [
+                "identifier",
+                "nodeIdentifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Select Tab",
+            [
+                "tabIdentifier",
+                "tabPaneIdentifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Tree Node Should Not Be Selected",
+            [
+                "identifier",
+                "nodeIdentifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Select Table Cell",
+            [
+                "identifier",
+                "row",
+                "cellIdentifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Select From Main Menu",
+            [
+                "menuPath"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Get Selected Window Title",
+            [],
+            "SwingLibrary"
+        ],
+        [
+            "Slider Should Not Exist",
+            [
+                "identifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Tree Node Should Be Visible",
+            [
+                "identifier",
+                "nodeIdentifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Increase Spinner Value",
+            [
+                "identifier",
+                "times"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Get Selected Item From Dropdown Menu",
+            [
+                "identifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Text Field Should Be Enabled",
+            [
+                "identifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Get Main Menu Item Names",
+            [],
+            "SwingLibrary"
+        ],
+        [
+            "Get Menu Item Names",
+            [
+                "menuPath"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "List Component Methods",
+            [
+                "identifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Unselect Tree Node",
+            [
+                "identifier",
+                "nodeIdentifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Iconify Internal Frame",
+            [
+                "identifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Type Into Combobox",
+            [
+                "identifier",
+                "text"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Choose From File Chooser",
+            [
+                "fileName"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Select Dialog",
+            [
+                "identifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Radio Button Should Be Disabled",
+            [
+                "identifier"
+            ],
+            "SwingLibrary"
+        ],
+        [
+            "Keyword 1",
+            [
+                "arg1"
+            ],
+            "MyLibrary"
+        ],
+        [
+            "MyLibrary",
+            [],
+            "MyLibrary"
+        ],
+        [
+            "Keyword 2",
+            [
+                "arg2",
+                "arg3"
+            ],
+            "MyLibrary"
+        ],
         [
             "Run Keyword And Expect Error",
             [
@@ -13,6 +1477,13 @@
         [
             "BuiltIn",
             [],
+            "BuiltIn"
+        ],
+        [
+            "Set Tags",
+            [
+                "*tags"
+            ],
             "BuiltIn"
         ],
         [
@@ -54,10 +1525,9 @@
             "BuiltIn"
         ],
         [
-            "Variable Should Exist",
+            "Catenate",
             [
-                "name",
-                "msg"
+                "*items"
             ],
             "BuiltIn"
         ],
@@ -85,13 +1555,6 @@
             [
                 "input",
                 "input_type"
-            ],
-            "BuiltIn"
-        ],
-        [
-            "Set Tags",
-            [
-                "*tags"
             ],
             "BuiltIn"
         ],
@@ -290,6 +1753,13 @@
             "BuiltIn"
         ],
         [
+            "Reload Library",
+            [
+                "name_or_instance"
+            ],
+            "BuiltIn"
+        ],
+        [
             "Run Keyword",
             [
                 "name",
@@ -332,9 +1802,10 @@
             "BuiltIn"
         ],
         [
-            "Catenate",
+            "Variable Should Exist",
             [
-                "*items"
+                "name",
+                "msg"
             ],
             "BuiltIn"
         ],
@@ -414,12 +1885,9 @@
             "BuiltIn"
         ],
         [
-            "Should Not Match Regexp",
+            "Convert To String",
             [
-                "string",
-                "pattern",
-                "msg",
-                "values"
+                "item"
             ],
             "BuiltIn"
         ],
@@ -518,12 +1986,11 @@
             "BuiltIn"
         ],
         [
-            "Should Not Be Equal As Strings",
+            "Length Should Be",
             [
-                "first",
-                "second",
-                "msg",
-                "values"
+                "item",
+                "length",
+                "msg"
             ],
             "BuiltIn"
         ],
@@ -534,14 +2001,6 @@
                 "second",
                 "msg",
                 "values"
-            ],
-            "BuiltIn"
-        ],
-        [
-            "Should Not Be True",
-            [
-                "condition",
-                "msg"
             ],
             "BuiltIn"
         ],
@@ -639,11 +2098,12 @@
             "BuiltIn"
         ],
         [
-            "Length Should Be",
+            "Should Not Be Equal As Strings",
             [
-                "item",
-                "length",
-                "msg"
+                "first",
+                "second",
+                "msg",
+                "values"
             ],
             "BuiltIn"
         ],
@@ -769,16 +2229,19 @@
             "BuiltIn"
         ],
         [
-            "Reload Library",
+            "Set Library Search Order",
             [
-                "name_or_instance"
+                "*search_order"
             ],
             "BuiltIn"
         ],
         [
-            "Convert To String",
+            "Should Not Match Regexp",
             [
-                "item"
+                "string",
+                "pattern",
+                "msg",
+                "values"
             ],
             "BuiltIn"
         ],
@@ -835,9 +2298,10 @@
             "BuiltIn"
         ],
         [
-            "Set Library Search Order",
+            "Should Not Be True",
             [
-                "*search_order"
+                "condition",
+                "msg"
             ],
             "BuiltIn"
         ],
@@ -852,27 +2316,37 @@
         [
             "Test A Keyword",
             [],
-            "test_a.robot"
+            "test_a"
         ],
         [
-            "test_a.robot",
+            "test_a",
             [],
-            "test_a.robot"
+            "test_a"
+        ],
+        [
+            "Keyword",
+            [],
+            "test_a"
         ],
         [
             "Common Keyword 2",
             [],
-            "common.robot"
+            "common"
         ],
         [
-            "common.robot",
+            "common",
             [],
-            "common.robot"
+            "common"
         ],
         [
             "Common Keyword 1",
             [],
-            "common.robot"
+            "common"
+        ],
+        [
+            "Really Long Keyword To Test With Jumping To Keyword Does Not Scroll The Visible Area To A Wrong Place Should There Be More Words",
+            [],
+            "common"
         ],
         [
             "Set Window Position",
@@ -2112,17 +3586,37 @@
             [
                 "kwa1"
             ],
-            "resource_a.robot"
+            "resource_a"
         ],
         [
-            "resource_a.robot",
+            "resource_a",
             [],
-            "resource_a.robot"
+            "resource_a"
         ],
         [
             "Resource A Keyword 2",
             [],
-            "resource_a.robot"
+            "resource_a"
+        ],
+        [
+            "Library Keyword 1",
+            [
+                "arg1"
+            ],
+            "LibNoClass"
+        ],
+        [
+            "LibNoClass",
+            [],
+            "LibNoClass"
+        ],
+        [
+            "Library Keyword 2",
+            [
+                "arg1",
+                "arg2"
+            ],
+            "LibNoClass"
         ],
         [
             "Move Directory",
@@ -2568,26 +4062,6 @@
             "OperatingSystem"
         ],
         [
-            "Library Keyword 1",
-            [
-                "arg1"
-            ],
-            "LibNoClass.py"
-        ],
-        [
-            "LibNoClass.py",
-            [],
-            "LibNoClass.py"
-        ],
-        [
-            "Library Keyword 2",
-            [
-                "arg1",
-                "arg2"
-            ],
-            "LibNoClass.py"
-        ],
-        [
             "My Long Keyword",
             [
                 "arg1",
@@ -2621,40 +4095,5 @@
             "com.company.library.special.long.OtherLibrary"
         ]
     ],
-    "variable": [
-        "${/}",
-        "${:}",
-        "${\\n}",
-        "${DEBUG_FILE}",
-        "${EMPTY}",
-        "@{EMPTY}",
-        "&{EMPTY}",
-        "${EXECDIR}",
-        "${False}",
-        "${LOG_FILE}",
-        "${LOG_LEVEL}",
-        "${None}",
-        "${null}",
-        "${OUTPUT_DIR}",
-        "${OUTPUT_FILE}",
-        "${PREV_TEST_MESSAGE}",
-        "${PREV_TEST_NAME}",
-        "${PREV_TEST_STATUS}",
-        "${REPORT_FILE}",
-        "${SPACE}",
-        "${SUITE_DOCUMENTATION}",
-        "${SUITE_NAME}",
-        "${SUITE_SOURCE}",
-        "${TEMPDIR}",
-        "${TEST_DOCUMENTATION}",
-        "${TEST_NAME}",
-        "${True}",
-        "&{SUITE_METADATA}",
-        "@{TEST_TAGS}",
-        "${TEST_A}",
-        "${COMMON_VARIABLE_1}",
-        "${COMMON_VARIABLE_2}",
-        "${RESOURCE_A}"
-    ],
-    "view_name": "d:\\workspace\\robotframework-from-sublime\\test\\resource\\test_data\\suite_tree\\test_a.robot"
+    "view_md5": "c6b0faa0427a2cf861a1acad630765ea"
 }

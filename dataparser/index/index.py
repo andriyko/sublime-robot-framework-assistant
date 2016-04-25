@@ -158,8 +158,8 @@ class Index(object):
             return {}
 
     def get_object_name(self, data):
-        if DBJsonSetting.file_name in data:
-            return data[DBJsonSetting.file_name]
+        if DBJsonSetting.library_module not in data:
+            return data[DBJsonSetting.file_name].split('.')[0]
         elif DBJsonSetting.library_module in data:
             return data[DBJsonSetting.library_module]
         else:

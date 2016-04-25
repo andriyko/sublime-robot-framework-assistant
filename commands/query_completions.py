@@ -53,7 +53,6 @@ class RobotCompletion(sublime_plugin.EventListener):
                 text_cursor_rigt,
                 rc_cell,
                 object_name,
-                extension,
                 arg_format
             )
         else:
