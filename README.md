@@ -252,6 +252,11 @@ the currently opened test or resource file.
 The plugin will automatically update the pointer to the index in the
 database, when user will change between different tabs in the Sublime.
 
+More detailed description how to update the internal database can
+be found from the
+[Internal database for keywords and variables](https://github.com/andriyko/sublime-robot-framework-assistant/wiki/Internal-database-for-keywords-and-variables)
+wiki page.
+
 Error investigation for database creation
 -----------------------------------------
 When creating the database, plugin will write a log file
