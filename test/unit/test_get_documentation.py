@@ -44,8 +44,7 @@ class GetDocumentation(unittest.TestCase):
         self.get_doc = GetKeywordDocumentation(
             table_dir=self.db_dir,
             index_dir=self.index_dir,
-            open_tab=self.test_a_file,
-            rf_extension=self.rf_extension
+            open_tab=self.test_a_file
         )
 
     def test_kw_only(self):

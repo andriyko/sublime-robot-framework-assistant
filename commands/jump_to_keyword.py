@@ -25,11 +25,7 @@ class JumpToKeyword(sublime_plugin.TextCommand):
         if view_in_db:
             line, column = get_line(self.view)
             view_completions = get_setting(SettingObject.view_completions)
-            self.get_kw = ReturnKeywordAndObject(
-                view_completions,
-                rf_cell,
-                rf_extension
-            )
+            self.get_kw = ReturnKeywordAndObject(view_completions, rf_cell)
             keyword, object_name = self.get_kw.normalize(line, column)
             if not keyword:
                 message = ('Cursor location did not contain keyword '
