@@ -173,6 +173,7 @@ Robot Framework test data or in a Python library. Go to does not work
 on libraries written in other programming languages.
 * Pressing `Ctrl + Alt + Enter`or `Ctrl + Alt + Clicl` with mouse
 will display the keyword documentation.
+* Pressing `Ctrl + /` or `Ctrl + Shift + /` will togle comment on and off
 * Pressing `Ctrl + Alt + a` will run the `Robot Framework: Create Database` command
 * Pressing `Ctrl + Alt + s` will run the `Robot Framework: Create Database Tables` command
 * Pressing `Ctrl + Alt + t` will run the `Robot Framework: Create Database Table From Active Tab` command
