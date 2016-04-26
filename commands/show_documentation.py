@@ -27,18 +27,9 @@ class ShowKeywordDocumentation(sublime_plugin.TextCommand):
             SettingObject.view_completions)
         if view_in_db:
             line, column = get_line(self.view)
-            get_kw = ReturnKeywordAndObject(
-                view_completions,
-                rf_cell,
-                rf_extension
-            )
+            get_kw = ReturnKeywordAndObject(view_completions, rf_cell)
             keyword, object_name = get_kw.normalize(line, column)
-            get_doc = GetKeywordDocumentation(
-                db_dir,
-                index_db,
-                open_tab,
-                rf_extension
-            )
+            get_doc = GetKeywordDocumentation(db_dir, index_db, open_tab)
             doc = get_doc.return_documentation(object_name, keyword)
             if not doc:
                 doc = 'No documentation found for keyword: "{0}"'.format(

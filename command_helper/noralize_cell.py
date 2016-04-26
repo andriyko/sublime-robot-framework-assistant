@@ -14,10 +14,9 @@ class ReturnKeywordAndObject(object):
     name and object name. So that keyword documentation can be found
     database.
     """
-    def __init__(self, current_view, rf_cell, rf_extension):
+    def __init__(self, current_view, rf_cell):
         self.current_view = current_view  # Path to current_view.json
         self.rf_cell = rf_cell
-        self.rf_extension = rf_extension
 
     def normalize(self, line, column):
         """Returns the keyword and object from the line.

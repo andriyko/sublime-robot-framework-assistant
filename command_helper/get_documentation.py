@@ -15,11 +15,10 @@ except:
 
 class GetKeywordDocumentation(object):
     """Returns the keyword documentation from the database file"""
-    def __init__(self, table_dir, index_dir, open_tab, rf_extension):
+    def __init__(self, table_dir, index_dir, open_tab):
         self.table_dir = table_dir
         self.index_dir = index_dir
         self.open_tab = open_tab
-        self.rf_extension = rf_extension
 
     def return_documentation(self, object_name, keyword):
         """Returns the keyword documentation from the database.
@@ -60,10 +59,7 @@ class GetKeywordDocumentation(object):
         )
         for keyword_ in index_data[DBJsonSetting.keyword]:
             kw = keyword_[0]
-            # This leaves bug in code if the there class name imported like:
-            # com.company.object.robot In this case robot is stripped from
-            # class name without actually checking should it be.
-            kw_object_name = keyword_[2].rstrip('.' + self.rf_extension)
+            kw_object_name = keyword_[2]
             kw_table_name = keyword_[3]
             if object_name and object_name == kw_object_name:
                 if kw_equals_kw_candite(keyword, kw):

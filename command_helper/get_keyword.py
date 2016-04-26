@@ -28,8 +28,7 @@ class GetKeyword(object):
         self.get_doc = GetKeywordDocumentation(
             table_dir=table_dir,
             index_dir=index_dir,
-            open_tab=open_tab,
-            rf_extension=rf_extension
+            open_tab=open_tab
         )
 
     def return_file_and_patter(self, object_name, keyword):

@@ -9,13 +9,11 @@ class TestCompletions(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        cls.rf_ext = 'robot'
         cls.current_view = path.join(env.RESOURCES_DIR, 'current_view.json')
         cls.rf_cell = '    '
         cls.rkao = ReturnKeywordAndObject(
             cls.current_view,
-            cls.rf_cell,
-            cls.rf_ext
+            cls.rf_cell
         )
 
     def test_get_rf_cell(self):
