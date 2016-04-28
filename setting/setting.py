@@ -2,17 +2,56 @@ from os import path
 from ..command_helper.current_view import VIEW_FILE_NAME
 import sublime
 
-settings_dir = path.dirname(path.realpath(__file__))
-package_dir = path.realpath(path.join(settings_dir, '..'))
-datapraser = path.join(package_dir, 'dataparser')
-SCANNER_RUNNER = path.join(datapraser, 'run_scanner.py')
-INDEX_RUNNER = path.join(datapraser, 'run_index.py')
-DATABASE_DIR = path.join(package_dir, 'database')
-SCANNER_DIR = path.join(DATABASE_DIR, 'scanner')
-INDEX_DIR = path.join(DATABASE_DIR, 'index')
-LOG_FILE = path.join(DATABASE_DIR, 'scan_index.log')
-VIEW_PATH = path.join(DATABASE_DIR, 'view_db')
-CURRENT_VIEW_PATH = path.join(VIEW_PATH, VIEW_FILE_NAME)
+
+class PathResolver(object):
+    """Provides default paths for plugin"""
+    curr_dir = path.dirname(path.realpath(__file__))
+    package_dir = path.realpath(path.join(curr_dir, '..'))
+    database_folder = path.join(package_dir, 'database')
+    index_folder = 'index'
+    scanner_folder = 'scanner'
+    view_folder = 'view_db'
+    log_file_name = 'scan_index.log'
+
+    @property
+    def default_db_dir(self):
+        return path.join(self.package_dir, self.database_folder)
+
+    @property
+    def default_scanner_dir(self):
+        return path.join(self.default_db_dir, self.scanner_folder)
+
+    @property
+    def default_index_dir(self):
+        return path.join(self.default_db_dir, self.index_folder)
+
+    @property
+    def default_view_folder(self):
+        return path.join(self.default_db_dir, self.view_folder)
+
+    @property
+    def default_current_view(self):
+        return path.join(self.default_view_folder, VIEW_FILE_NAME)
+
+    @property
+    def default_log_file(self):
+        return path.join(self.default_db_dir, self.log_file_name)
+
+    @property
+    def datapraser_folder(self):
+        return path.join(self.package_dir, 'dataparser')
+
+    @property
+    def scanner_runner(self):
+        return path.join(self.datapraser_folder, 'run_scanner.py')
+
+    @property
+    def index_runner(self):
+        return path.join(self.datapraser_folder, 'run_index.py')
+
+    @property
+    def log_file(self):
+        return path.join(self.default_db_dir, self.log_file_name)
 
 
 class SettingObject(object):
@@ -31,28 +70,90 @@ class SettingObject(object):
     view_path = 'view_path'
     arg_format = 'robot_framework_keyword_argument_format'
     lib_in_xml = 'robot_framework_libraries_in_xml'
+    project_setting = 'robot_framework_assistant'
+    db_dir = 'robot_framework_database_path'
+
+
+def get_scanner_dir():
+    project_setting = parse_project(SettingObject.db_dir)
+    if not project_setting:
+        return PathResolver().default_scanner_dir
+    else:
+        return path.join(project_setting, PathResolver().scanner_folder)
+
+
+def get_index_dir():
+    project_setting = parse_project(SettingObject.db_dir)
+    if not project_setting:
+        return PathResolver().default_index_dir
+    else:
+        return path.join(project_setting, PathResolver.index_folder)
+
+
+def get_log_file():
+    project_setting = parse_project(SettingObject.db_dir)
+    if not project_setting:
+        return PathResolver().log_file
+    else:
+        return path.join(project_setting, PathResolver().log_file_name)
+
+
+def get_view_file():
+    project_setting = parse_project(SettingObject.db_dir)
+    if not project_setting:
+        return PathResolver().default_current_view
+    else:
+        return path.join(
+            project_setting,
+            PathResolver().view_folder,
+            VIEW_FILE_NAME)
+
+
+def get_view_path():
+    project_setting = parse_project(SettingObject.db_dir)
+    if not project_setting:
+        return PathResolver().default_view_folder
+    else:
+        return path.join(project_setting, PathResolver().view_folder)
 
 
 def get_setting(setting):
     if setting.lower() == SettingObject.table_dir:
-        return SCANNER_DIR
+        return get_scanner_dir()
     elif setting.lower() == SettingObject.index_dir:
-        return INDEX_DIR
+        return get_index_dir()
     elif setting.lower() == SettingObject.scanner_runner:
-        return SCANNER_RUNNER
+        return PathResolver().scanner_runner
     elif setting.lower() == SettingObject.index_runner:
-        return INDEX_RUNNER
+        return PathResolver().index_runner
     elif setting.lower() == SettingObject.log_file:
-        return LOG_FILE
+        return get_log_file()
     elif setting.lower() == SettingObject.view_completions:
-        return CURRENT_VIEW_PATH
+        return get_view_file()
     elif setting.lower() == SettingObject.view_path:
-        return VIEW_PATH
+        return get_view_path()
     else:
         return get_sublime_setting(setting)
 
 
+def parse_project(setting):
+    rf_project_setting = None
+    window = sublime.active_window()
+    project_data = window.project_data()
+    if SettingObject.project_setting in project_data:
+        rf_project_data = project_data[SettingObject.project_setting]
+        if setting in rf_project_data:
+            rf_project_setting = rf_project_data[setting]
+    if setting == SettingObject.db_dir:
+        if not path.isdir(setting):
+            rf_project_setting = None
+    return rf_project_setting
+
+
 def get_sublime_setting(setting):
-    plugin_settings = sublime.load_settings(
-        'Robot.sublime-settings')
-    return plugin_settings.get(setting)
+    project_setting = parse_project(setting)
+    if not project_setting:
+        plugin_settings = sublime.load_settings('Robot.sublime-settings')
+        return plugin_settings.get(setting)
+    else:
+        return project_setting
