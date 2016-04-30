@@ -24,7 +24,7 @@
         "command": "jump_to_keyword"
     },
     {
-        "caption": "Robot Framework: Import Library/Resource/Variable",
+        "caption": "Robot Framework: Setting Importer",
         "command": "setting_importer"
     }
 ]

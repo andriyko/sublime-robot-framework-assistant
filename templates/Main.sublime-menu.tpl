@@ -43,6 +43,11 @@
                             },
                             { "caption": "-" },
                             {
+                                "command": "setting_importer",
+                                "caption": "Setting Importer"
+                            },
+                            { "caption": "-" },
+                            {
                                 "caption": "Edit Build Config",
                                 "command": "open_file",
                                 "args":
