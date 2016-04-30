@@ -153,5 +153,26 @@
             "${True}",
             "&{SUITE_METADATA}",
             "@{TEST_TAGS}"
-        ]
+        ],
+
+    /*
+        Path to internal database
+
+        By default internal database is created in plugin installation
+        directory, in database folder. Sometimes it could be useful to
+        change the default database location.
+
+        Example if the robot_framework_workspace is defined in the
+        Sublime workspace file and user wants to change between
+        different projects. Then it is useful to define
+        robot_framework_database_path setting also be project specific.
+        When the internal database is project specific, user does not
+        recreate the database when the project is changed.
+
+        The robot_framework_database_path must be a path to a folder.
+        If the setting is not path to a folder, then the database
+        is created in the plugin installation directory.
+
+    */
+    "robot_framework_database_path": false
 }

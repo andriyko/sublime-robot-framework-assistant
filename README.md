@@ -125,6 +125,24 @@ Robot Framework with following test case:
 Note: At least on Robot Framework 2.9.2 version, the following command
 did not list the empty variables, like ${EMPTY}.
 
+robot_framework_database_path
+-----------------------------
+
+By default internal database is created in plugin installation
+directory, in database folder. Sometimes it could be useful to
+change the default database location.
+
+Example if the robot_framework_workspace is defined in the
+Sublime workspace file and user wants to change between
+different projects. Then it is useful to define
+robot_framework_database_path setting also be project specific.
+When the internal database is project specific, user does not
+recreate the database when the project is changed.
+
+The robot_framework_database_path must be a path to a folder.
+If the setting is not path to a folder, then the database
+is created in the plugin installation directory.
+
 Syntax definitions
 ==================
 
@@ -263,3 +281,30 @@ When creating the database, plugin will write a log file
 to the package installation directory: `database/scan_index.log`
 file. If there are errors when the database is created,
 please check the log and correct possible errors.
+
+Project specific settings
+=========================
+
+It is also possible to use project specific setting when configuring
+the Robot Framework Assistant.
+
+Open the project setting and add `robot_framework_assistant` dictionary
+to the settings file:
+```
+"robot_framework_assistant":
+    {
+
+    }
+
+```
+Example if configuring project specific workspace and database paths,
+the `robot_framework_assistant` dictionary should look like this:
+
+```
+"robot_framework_assistant":
+    {
+        "robot_framework_workspace": "/path/to/folder/containing/robot/data",
+        "robot_framework_database_path": "/path/to/project/database"
+    }
+
+```
