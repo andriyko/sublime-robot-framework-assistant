@@ -1,0 +1,8 @@
+The core team members over the years:
+Andriy Hrytskiv                2013 -
+Tatu Aalto                     2015 -
+
+
+Other contributors:
+GLMeece:                       Changed misspelling of robot_frameowrk_extension (3.1.0)
+manycoding:                    Added missing ${CURRDIR} (3.1.0)
