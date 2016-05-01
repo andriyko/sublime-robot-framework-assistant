@@ -1,0 +1,7 @@
+New features:
+    1) Provides support for project specific setting
+    2) Provides possibility to change the internal database location
+
+Bug fixes:
+    1) Unifies command structure
+    2) Documentation updates
