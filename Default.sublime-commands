@@ -26,5 +26,9 @@
     {
         "caption": "Robot Framework: Setting Importer",
         "command": "setting_importer"
+    },
+    {
+        "caption": "Robot Framework: Enable Command Logging",
+        "command": "log_commands"
     }
 ]

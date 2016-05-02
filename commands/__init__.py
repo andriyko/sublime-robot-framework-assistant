@@ -8,6 +8,7 @@ from .show_documentation import ShowKeywordDocumentation
 from .jump_to_keyword import JumpToKeyword
 from .setting_import_helper import SettingImporter
 from .setting_import_helper import InsertImport
+from .command_logging import LogCommands
 
 __all__ = [
     'ScanIndexCommand',
@@ -19,5 +20,6 @@ __all__ = [
     'ShowKeywordDocumentation',
     'JumpToKeyword',
     'SettingImporter',
-    'InsertImport'
+    'InsertImport',
+    'LogCommands'
 ]
