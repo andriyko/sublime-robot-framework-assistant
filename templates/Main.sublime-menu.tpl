@@ -54,7 +54,12 @@
                                     {
                                         "file": "${packages}/$package_folder/Robot.sublime-build"
                                     }
-                            }
+                            },
+                            { "caption": "-" },
+                            {
+                                "command": "log_commands",
+                                "caption": "Enable Command Logging"
+                            },
                         ]
                     }
                 ]
