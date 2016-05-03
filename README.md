@@ -146,7 +146,7 @@ is created in the plugin installation directory.
 robot_framework_log_commands
 ----------------------------
 
-Setting controls will the 'Robot Framework: Command Logging'
+Setting controls will the `Robot Framework: Command Logging`
 command enable or disable the Sublime Text log_commands API call.
 If the robot_framework_log_commands setting evaluates as Python
 True, then log_commands API call is enabled. If setting
