@@ -143,6 +143,18 @@ The robot_framework_database_path must be a path to a folder.
 If the setting is not path to a folder, then the database
 is created in the plugin installation directory.
 
+robot_framework_log_commands
+----------------------------
+
+Setting controls will the 'Robot Framework: Command Logging'
+command enable or disable the Sublime Text log_commands API call.
+If the robot_framework_log_commands setting evaluates as Python
+True, then log_commands API call is enabled. If setting
+evaluates as Python False, log_commands API call is disabled.
+
+If log_commands API call is enabled. all commands run from key
+bindings and the menu will be logged to the console.
+
 Syntax definitions
 ==================
 
