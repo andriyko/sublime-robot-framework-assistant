@@ -58,7 +58,7 @@
                             { "caption": "-" },
                             {
                                 "command": "log_commands",
-                                "caption": "Enable Command Logging"
+                                "caption": "Command Logging"
                             },
                         ]
                     }

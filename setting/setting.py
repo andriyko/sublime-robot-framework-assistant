@@ -72,6 +72,7 @@ class SettingObject(object):
     lib_in_xml = 'robot_framework_libraries_in_xml'
     project_setting = 'robot_framework_assistant'
     db_dir = 'robot_framework_database_path'
+    log_commands = 'robot_framework_log_commands'
 
 
 def get_scanner_dir():
