@@ -1,0 +1,11 @@
+New features:
+    1) Sublime Text Go To Symbol now works with variables
+    2) Command to enable and disable Sublime Text log_command API
+
+Bug fixes:
+    1) Create Database Index From Active Tab did not add buildin variables
+       to the database index.
+    2) Documentation updates
+
+Full list of changes:
+https://github.com/andriyko/sublime-robot-framework-assistant/issues?q=milestone%3A3.3.0
