@@ -9,6 +9,7 @@ from ..dataparser.parser_utils.file_formatter import rf_table_name
 from ..dataparser.parser_utils.util import normalise_path
 from ..command_helper.update_current_view_json import update_current_view_index
 from .scan_and_index import index_popen_arg_parser
+from .scan_and_index import add_builtin_vars
 
 
 class IndexOpenTabCommand(sublime_plugin.TextCommand):
@@ -29,6 +30,8 @@ class IndexOpenTabCommand(sublime_plugin.TextCommand):
             sublime.status_message(message)
             return
         db_table_name = self.get_table_name(open_tab)
+        db_dir = get_setting(SettingObject.table_dir)
+        sublime.set_timeout_async(add_builtin_vars(db_dir))
         if db_table_name:
             file_ = open(log_file, 'a')
             sublime.set_timeout_async(
