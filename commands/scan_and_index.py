@@ -77,4 +77,3 @@ class ScanIndexCommand(sublime_plugin.TextCommand):
         f_table = open(table_path, 'w')
         json.dump(data, f_table, indent=4)
         f_table.close()
-
