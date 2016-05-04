@@ -1,7 +1,6 @@
 [![Build Status](https://travis-ci.org/andriyko/sublime-robot-framework-assistant.svg?branch=master)](https://travis-ci.org/andriyko/sublime-robot-framework-assistant)
 
-Robot Framework Assistant
-==========================
+# Robot Framework Assistant
 Robot Framework Assistant provides IDE features to edit
 [Robot Framework](http://robotframework.org/) test data in the
 [Sublime Text 3](https://www.sublimetext.com/3).
@@ -12,21 +11,18 @@ the Sublime Text 2 users. The documentation for Sublime Text 2 user
 can be found from st2-maintenance branch
 [README](https://github.com/andriyko/sublime-robot-framework-assistant/blob/st2-maintenance/README.md)
 
-Installation
-============
+# Installation
 The easiest way to install is to use
 [Package Control](https://packagecontrol.io/) and search for:
 `Robot Framework Assistant`.
 
-Alternative installation methods
---------------------------------
+## Alternative installation methods
 Download the plugin as a zip. Open Sublime Text and click
 *** | Preferences | Browse Packages | *** to open the packages directory.
 Then create a directory named `Robot Framework Assistant` and
 unzip the plugin to the directory.
 
-Configuration
-=============
+# Configuration
 Before yo can start using the Robot Framework Assistant, you must
 at least configure the settings in the
 [User package](http://docs.sublimetext.info/en/latest/customization/settings.html)
@@ -36,8 +32,7 @@ navigate to: **Preferences | Package settings**
 The default settings can be found from the **Preferences | Package settings**
 **| Robot Framework Assistant | Settings - Default |**
 
-robot_framework_workspace
--------------------------
+## robot_framework_workspace
 Before the Robot Framework Assistant can provide the keyword and
 variable completion features, it needs to create a database from the test
 suite and resource files. The argument defines the root folder where
@@ -50,15 +45,13 @@ on this setting.
 
 In windows ow write double backslash to write literal backslash.
 
-robot_framework_keyword_argument_format
----------------------------------------
+## robot_framework_keyword_argument_format
 Defines how keyword argument are formatted when keyword
 completion is used. When set to false, each argument is
 formatted to individual lines. If set to true keyword
 and arguments are returned in single line.
 
-robot_framework_extension
--------------------------
+## robot_framework_extension
 File extension defines which types of files the Robot Framework
 Assistant plugin will search from the folder defined
 in the robot_framework_workspace option.
@@ -69,8 +62,7 @@ definition in this plugin is not affected by this option.
 If there library or variable file imports in the Robot Framework data,
 those imports are automatically parser and included in the scanning.
 
-path_to_python
--------------
+## path_to_python
 In order the creating the database of keywords and variables to
 work, path to Python binary must be defined. It must be the same
 Python binary where the Robot Framework is installed.
@@ -78,8 +70,7 @@ Python binary where the Robot Framework is installed.
 In Linux like environments this could be like: /usr/bin/python
 and in Windows this could be like: C:\\Python27\\python.exe
 
-robot_framework_module_search_path
-----------------------------------
+## robot_framework_module_search_path
 Module search path defines a list of paths where the Robot Framework
 libraries are searched. Example if you have imported
 a library with the library name, then module search path must
@@ -94,9 +85,7 @@ More details how libraries is searched in Robot Framework can be
 found from be the
 [Robot Framework User guide](http://robotframework.org/robotframework/latest/RobotFrameworkUserGuide.html#module-search-path)
 
-robot_framework_library_in_xml
-------------------------------
-
+## robot_framework_library_in_xml
 When a library is not available during parsing time,
 example if library is imported with Remote library interface or
 it is not written in Python like the
@@ -109,8 +98,7 @@ Libraries found from the this path are globally available, like the
 BuiltIn library. Example the keyword completion will work although
 the library may not imported for that particular resource or test suite.
 
-robot_framework_builtin_variables
----------------------------------
+## robot_framework_builtin_variables
 Robot Framework comes by default some predefined and builtin variables.
 These variables names may change between different Robot Framework
 versions. Use this setting to define a list of the Robot Framework BuiltIn
@@ -125,9 +113,7 @@ Robot Framework with following test case:
 Note: At least on Robot Framework 2.9.2 version, the following command
 did not list the empty variables, like ${EMPTY}.
 
-robot_framework_database_path
------------------------------
-
+## robot_framework_database_path
 By default internal database is created in plugin installation
 directory, in database folder. Sometimes it could be useful to
 change the default database location.
@@ -143,9 +129,7 @@ The robot_framework_database_path must be a path to a folder.
 If the setting is not path to a folder, then the database
 is created in the plugin installation directory.
 
-robot_framework_log_commands
-----------------------------
-
+## robot_framework_log_commands
 Setting controls will the `Robot Framework: Command Logging`
 command enable or disable the Sublime Text log_commands API call.
 If the robot_framework_log_commands setting evaluates as Python
@@ -155,17 +139,14 @@ evaluates as Python False, log_commands API call is disabled.
 If log_commands API call is enabled. all commands run from key
 bindings and the menu will be logged to the console.
 
-Syntax definitions
-==================
-
+# Syntax definitions
 By default this plugin will be used with files which extension is
 `.robot` and plugin will use four spaces as cell separator. The
 settings can be changed by user, but consult the
 [Sublime unofficial documentation](http://docs.sublimetext.info/en/latest/customization/customization.html)
 where the user settings should be saved.
 
-Change the file extension
--------------------------
+## Change the file extension
 The file extension is defined in the
 `Robot.tmLanguage` file. To change file extension,
 navigate to the
@@ -181,8 +162,7 @@ Look for the lines containing:
 ```
 The `<string>` element contains the file type definition.
 
-Change the cell separator
--------------------------
+## Change the cell separator
 The cell separator is defined in the
 `Robot.tmPreferences` file. To change the cell separator,
 navigate to the
@@ -195,8 +175,7 @@ user by the plugin. The cell separator is example used by the for loop
 [snippets](http://docs.sublimetext.info/en/latest/extensibility/snippets.html?highlight=snippets)
 to align and display snipped correctly.
 
-Hotkeys
-=======
+# Hotkeys
 * Pressing `Alt + Enter` or `Alt + Click` with mouse, on top of the keyword
 will go to the keyword source. Source of the keyword can locate in
 Robot Framework test data or in a Python library. Go to does not work
@@ -214,8 +193,7 @@ menu is only displayed if cursor is in settings table and line contains `Librari
 The usage of the `Ctrl + Alt + a/s/t/i` commands is explained in the
 [Internal database for keywords and variables](https://github.com/andriyko/sublime-robot-framework-assistant/wiki/Internal-database-for-keywords-and-variables) wiki page
 
-Snippets
-========
+# Snippets
 [Snippets](http://docs.sublimetext.info/en/latest/extensibility/snippets.html?highlight=snippets)
 are a Sublime Text feature to provide commonly used text templates
 and in this plugin, snippets offers quick access to
@@ -257,8 +235,7 @@ Please refer to the Robot Framework
 [User Guide](http://robotframework.org/robotframework/latest/RobotFrameworkUserGuide.html)
 to locate the correct usage of the different available snippets.
 
-Go To Keyword
-=============
+# Go To Keyword
 Alternatively, use Sublime Text's
 [Go To Symbol](http://docs.sublimetext.info/en/latest/file_management/file_management.html#fm-goto-symbol)
 to go to the source of a Keyword or a variable.
@@ -267,8 +244,7 @@ Please note that `Go To Symbol` only works for keywords and variables
 within the same file. It is not possible to use `Go To Symbol` to
 jump a keyword or a variable in other resource files or in libraries.
 
-Creating a database
-=====================
+# Creating a database
 Once the plugin configuration is done, the plugin needs to scan the
 test data to create a internal database to the package directory.
 The database will contain table for each test case, resource and
@@ -287,16 +263,13 @@ be found from the
 [Internal database for keywords and variables](https://github.com/andriyko/sublime-robot-framework-assistant/wiki/Internal-database-for-keywords-and-variables)
 wiki page.
 
-Error investigation for database creation
------------------------------------------
+## Error investigation for database creation
 When creating the database, plugin will write a log file
 to the package installation directory: `database/scan_index.log`
 file. If there are errors when the database is created,
 please check the log and correct possible errors.
 
-Project specific settings
-=========================
-
+# Project specific settings
 It is also possible to use project specific setting when configuring
 the Robot Framework Assistant.
 
