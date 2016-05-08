@@ -48,7 +48,7 @@
                             },
                             { "caption": "-" },
                             {
-                                "caption": "Edit Build Config",
+                                "caption": "Edit Build Configuration",
                                 "command": "open_file",
                                 "args":
                                     {
