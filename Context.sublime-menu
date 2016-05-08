@@ -1,0 +1,273 @@
+[
+    {
+        "caption": "Robot Framework",
+        "children": [
+            {
+                "caption": "Jump To Keyword",
+                "command": "jump_to_keyword"
+            },
+            {
+                "caption": "Show Keyword Documentation",
+                "command": "show_keyword_documentation"
+            },
+            {
+                "caption": "Setting Importer",
+                "command": "setting_importer"
+            },
+            {
+                "caption": "Database",
+                "children": [
+                    {
+                        "caption": "Create Database",
+                        "command": "scan_index"
+                    },
+                    {
+                        "caption": "Create Database Tables",
+                        "command": "scan"
+                    },
+                    {
+                        "caption": "Create Database Table From Active Tab",
+                        "command": "scan_open_tab"
+                    },
+                    {
+                        "caption": "Create Database Index From Active Tab",
+                        "command": "index_open_tab"
+                    }
+                ]
+            },
+            {
+                "caption": "Snippets",
+                "children": [
+                    {
+                        "caption": "Documentation",
+                        "command": "insert_snippet",
+                        "args": {
+                            "name": "Packages/Robot Framework Assistant/snippets/rfde-setting-table-documentation.sublime-snippet"
+                        }
+                    },
+                    {
+                        "caption": "Library",
+                        "command": "insert_snippet",
+                        "args": {
+                            "name": "Packages/Robot Framework Assistant/snippets/rfde-setting-table-library.sublime-snippet"
+                        }
+                    },
+                    {
+                        "caption": "Resource",
+                        "command": "insert_snippet",
+                        "args": {
+                            "name": "Packages/Robot Framework Assistant/snippets/rfde-setting-table-resource.sublime-snippet"
+                        }
+                    },
+                    {
+                        "caption": "Default Tags",
+                        "command": "insert_snippet",
+                        "args": {
+                            "name": "Packages/Robot Framework Assistant/snippets/rfde-setting-table-defaulttags.sublime-snippet"
+                        }
+                    },
+                    {
+                        "caption": "Force Tags",
+                        "command": "insert_snippet",
+                        "args": {
+                            "name": "Packages/Robot Framework Assistant/snippets/rfde-setting-table-forcetags.sublime-snippet"
+                        }
+                    },
+                    {
+                        "caption": "Suite Setup",
+                        "command": "insert_snippet",
+                        "args": {
+                            "name": "Packages/Robot Framework Assistant/snippets/rfde-setting-table-suitesetup.sublime-snippet"
+                        }
+                    },
+                    {
+                        "caption": "Suite Teardown",
+                        "command": "insert_snippet",
+                        "args": {
+                            "name": "Packages/Robot Framework Assistant/snippets/rfde-setting-table-suiteteardown.sublime-snippet"
+                        }
+                    },
+                    {
+                        "caption": "Test Setup",
+                        "command": "insert_snippet",
+                        "args": {
+                            "name": "Packages/Robot Framework Assistant/snippets/rfde-setting-table-testsetup.sublime-snippet"
+                        }
+                    },
+                    {
+                        "caption": "Test Teardown",
+                        "command": "insert_snippet",
+                        "args": {
+                            "name": "Packages/Robot Framework Assistant/snippets/rfde-setting-table-testteardown.sublime-snippet"
+                        }
+                    },
+                    {
+                        "caption": "Test Template",
+                        "command": "insert_snippet",
+                        "args": {
+                            "name": "Packages/Robot Framework Assistant/snippets/rfde-setting-table-testtemplate.sublime-snippet"
+                        }
+                    },
+                    {
+                        "caption": "Test Timeout",
+                        "command": "insert_snippet",
+                        "args": {
+                            "name": "Packages/Robot Framework Assistant/snippets/rfde-setting-table-testtimeout.sublime-snippet"
+                        }
+                    },
+                    {
+                        "caption": "Variables",
+                        "command": "insert_snippet",
+                        "args": {
+                            "name": "Packages/Robot Framework Assistant/snippets/rfde-setting-table-variables.sublime-snippet"
+                        }
+                    },
+                    {
+                        "caption": "For In",
+                        "command": "insert_snippet",
+                        "args": {
+                            "name": "Packages/Robot Framework Assistant/snippets/rfde-for-loop-in.sublime-snippet"
+                        }
+                    },
+                    {
+                        "caption": "For In Range",
+                        "command": "insert_snippet",
+                        "args": {
+                            "name": "Packages/Robot Framework Assistant/snippets/rfde-for-loop-inrange.sublime-snippet"
+                        }
+                    },
+                    {
+                        "caption": "For In Zip",
+                        "command": "insert_snippet",
+                        "args": {
+                            "name": "Packages/Robot Framework Assistant/snippets/rfde-for-loop-inzip.sublime-snippet"
+                        }
+                    },
+                    {
+                        "caption": "For In Enumerate",
+                        "command": "insert_snippet",
+                        "args": {
+                            "name": "Packages/Robot Framework Assistant/snippets/rfde-for-loop-inenumerate.sublime-snippet"
+                        }
+                    },
+                    {
+                        "caption": "*** Settings ***",
+                        "command": "insert_snippet",
+                        "args": {
+                            "name": "Packages/Robot Framework Assistant/snippets/rfde-setting-table-setting.sublime-snippet"
+                        }
+                    },
+                    {
+                        "caption": "*** Keywords ***",
+                        "command": "insert_snippet",
+                        "args": {
+                            "name": "Packages/Robot Framework Assistant/snippets/rfde-keywords-table-keywords.sublime-snippet"
+                        }
+                    },
+                    {
+                        "caption": "*** Test Cases ***",
+                        "command": "insert_snippet",
+                        "args": {
+                            "name": "Packages/Robot Framework Assistant/snippets/rfde-keywords-table-keywords.sublime-snippet"
+                        }
+                    },
+                    {
+                        "caption": "*** Variables ***",
+                        "command": "insert_snippet",
+                        "args": {
+                            "name": "Packages/Robot Framework Assistant/snippets/rfde-variable-table-variable.sublime-snippet"
+                        }
+                    },
+                    {
+                        "caption": "[Arguments]",
+                        "command": "insert_snippet",
+                        "args": {
+                            "name": "Packages/Robot Framework Assistant/snippets/rfde-testdata-table-arguments.sublime-snippet"
+                        }
+                    },
+                    {
+                        "caption": "[Documentation]",
+                        "command": "insert_snippet",
+                        "args": {
+                            "name": "Packages/Robot Framework Assistant/snippets/rfde-testdata-table-documentation.sublime-snippet"
+                        }
+                    },
+                    {
+                        "caption": "[Return]",
+                        "command": "insert_snippet",
+                        "args": {
+                            "name": "Packages/Robot Framework Assistant/snippets/rfde-testdata-table-return.sublime-snippet"
+                        }
+                    },
+                    {
+                        "caption": "[Tags]",
+                        "command": "insert_snippet",
+                        "args": {
+                            "name": "Packages/Robot Framework Assistant/snippets/rfde-testdata-table-tags.sublime-snippet"
+                        }
+                    },
+                    {
+                        "caption": "[Teardown]",
+                        "command": "insert_snippet",
+                        "args": {
+                            "name": "Packages/Robot Framework Assistant/snippets/rfde-testdata-table-teardown.sublime-snippet"
+                        }
+                    },
+                    {
+                        "caption": "[Timeout]",
+                        "command": "insert_snippet",
+                        "args": {
+                            "name": "Packages/Robot Framework Assistant/snippets/rfde-testdata-table-timeout.sublime-snippet"
+                        }
+                    }
+                ]
+            },
+            {
+                "caption": "Build System",
+                "children": [
+                    {
+                        "caption": "Run default build",
+                        "command": "build"
+                    },
+                    {
+                        "caption": "Run ‘Run’ build task",
+                        "command": "build",
+                        "args": {
+                            "select": true
+                        }
+                    },
+                    {
+                        "caption": "Edit Build Configuration",
+                        "command": "open_file",
+                        "args": {
+                            "file": "${packages}/Robot Framework Assistant/Robot.sublime-build"
+                        }
+                    }
+                ]
+            },
+            {
+                "caption": "Setting",
+                "children": [
+                    {
+                        "caption": "Settings - Default",
+                        "command": "open_file",
+                        "args": {
+                            "file": "${packages}/Robot Framework Assistant/Robot.sublime-settings"
+                        }
+                    },
+                    {
+                        "caption": "Settings - User",
+                        "command": "open_file",
+                        "args": {
+                            "file": "${packages}/User/Robot.sublime-settings"
+                        }
+                    }
+                ]
+            },
+            {
+                "caption": "Command Logging",
+                "command": "log_commands"
+            }
+        ]
+    }
+]
