@@ -141,7 +141,7 @@ def parse_project(setting):
     rf_project_setting = None
     window = sublime.active_window()
     project_data = window.project_data()
-    if SettingObject.project_setting in project_data:
+    if project_data and SettingObject.project_setting in project_data:
         rf_project_data = project_data[SettingObject.project_setting]
         if setting in rf_project_data:
             rf_project_setting = rf_project_data[setting]
