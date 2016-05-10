@@ -115,6 +115,26 @@
     "robot_framework_database_table": true,
 
     /*
+        Automatic indexing for test data
+
+        The robot_framework_automatic_indexing setting controls is
+        a test data file automatically indexed. The automatic indexing
+        can happen after these events:
+        1) After a file is saved
+        2) Jump To Keyword command is done
+
+        The index is always forcefully updated when a existing file
+        is opened from the robot_framework_workspace. Opening here means
+        by using some other ways than using Jump To Keyword command.
+        Example by using OS file explorer and opening file to sublime.
+        If the robot_framework_automatic_indexing is set to false, the
+        force indexing will happen when the a existing file is opened
+        from the robot_framework_workspace.
+
+    */
+    "robot_framework_automatic_indexing": true,
+
+    /*
         Robot Framework libraries in XML
 
         When the library is not available during parsing time,
