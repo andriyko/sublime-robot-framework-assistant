@@ -56,6 +56,7 @@ class JumpToKeyword(sublime_plugin.TextCommand):
     def go_to_kw(self, file_path, regex):
         new_view = self.view.window().open_file(file_path)
         sublime.set_timeout(lambda: self.select_keyword(new_view, regex), 10)
+        new_view.run_command('index_open_tab')
 
     def select_keyword(self, new_view, regex):
         if not new_view.is_loading():
