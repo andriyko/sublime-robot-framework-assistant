@@ -73,6 +73,7 @@ class SettingObject(object):
     project_setting = 'robot_framework_assistant'
     db_dir = 'robot_framework_database_path'
     log_commands = 'robot_framework_log_commands'
+    automatic_table_creation = 'robot_framework_database_table'
 
 
 def get_scanner_dir():
