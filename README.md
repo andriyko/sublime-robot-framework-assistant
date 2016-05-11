@@ -85,8 +85,8 @@ More details how libraries is searched in Robot Framework can be
 found from be the
 [Robot Framework User guide](http://robotframework.org/robotframework/latest/RobotFrameworkUserGuide.html#module-search-path)
 
-## robot_framework_database_table
-The robot_framework_database_table setting controls the
+## robot_framework_automatic_database_table
+The robot_framework_automatic_database_table setting controls the
 internal database updating. If the set to true, the internal
 database tables are created after a Robot Framework test data
 file is saved. If set to false, the internal database tables are
@@ -97,6 +97,21 @@ The setting only controls the Robot Framework test data. If a
 libraries or a variable files are updated, then `Create Database`,
 `Create Database Tables` or `Create Database Table From Active Tab`
 commands must be run to update the internal database.
+
+## robot_framework_automatic_indexing
+The robot_framework_automatic_indexing setting controls is
+a test data file automatically indexed. The automatic indexing
+can happen after these events:
+ * After a file is saved
+ * Jump To Keyword command is done
+
+The index is always forcefully updated when a existing file
+is opened from the robot_framework_workspace. Opening here means
+by using some other ways than using Jump To Keyword command.
+Example by using OS file explorer and opening file to sublime.
+If the robot_framework_automatic_indexing is set to false, the
+force indexing will happen when the a existing file is opened
+from the robot_framework_workspace.
 
 ## robot_framework_library_in_xml
 When a library is not available during parsing time,
