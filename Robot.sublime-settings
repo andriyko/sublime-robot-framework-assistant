@@ -98,7 +98,7 @@
     /*
         Database table creation
 
-        The robot_framework_database_table setting controls the
+        The robot_framework_automatic_database_table setting controls the
         internal database updating. If the set to true, the internal
         database tables are created after a Robot Framework test data
         file is saved. If set to false, the internal database tables are
@@ -112,7 +112,7 @@
         commands must be run to update the internal database.
 
     */
-    "robot_framework_database_table": true,
+    "robot_framework_automatic_database_table": true,
 
     /*
         Automatic indexing for test data
