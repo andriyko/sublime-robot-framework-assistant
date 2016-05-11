@@ -104,14 +104,7 @@ a test data file automatically indexed. The automatic indexing
 can happen after these events:
  * After a file is saved
  * Jump To Keyword command is done
-
-The index is always forcefully updated when a existing file
-is opened from the robot_framework_workspace. Opening here means
-by using some other ways than using Jump To Keyword command.
-Example by using OS file explorer and opening file to sublime.
-If the robot_framework_automatic_indexing is set to false, the
-force indexing will happen when the a existing file is opened
-from the robot_framework_workspace.
+ * Robot Framework data file is changed
 
 ## robot_framework_library_in_xml
 When a library is not available during parsing time,
