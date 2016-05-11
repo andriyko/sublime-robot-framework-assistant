@@ -1,0 +1,12 @@
+New features:
+    1) Automatic internal database table creation
+    2) Automatic internal database index creation
+    3) Custom context menu item allowing access command and snippets
+
+Bug fixes:
+    1) Suite Setup and Suite Teardown where in wrong snippets
+    2) If project did not exist, plugin was not able to function
+       correctly
+
+Full list of changes:
+https://github.com/andriyko/sublime-robot-framework-assistant/issues?q=milestone%3A4.0.0
