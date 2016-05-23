@@ -32,6 +32,13 @@ navigate to: **Preferences | Package settings**
 The default settings can be found from the **Preferences | Package settings**
 **| Robot Framework Assistant | Settings - Default |**
 
+The only mandatory settings which user needs to define are the
+[robot_framework_workspace](https://github.com/andriyko/sublime-robot-framework-assistant#robot_framework_workspace)
+and the
+[path_to_python](https://github.com/andriyko/sublime-robot-framework-assistant#path_to_python).
+The rest of the parameters can be safely left in their default values,
+when trying out the plugin.
+
 ## robot_framework_workspace
 Before the Robot Framework Assistant can provide the keyword and
 variable completion features, it needs to create a database from the test
