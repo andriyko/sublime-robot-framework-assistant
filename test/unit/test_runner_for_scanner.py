@@ -51,7 +51,7 @@ class TestRunnerForScanner(unittest.TestCase):
             self.db_dir]
         run_process(p_args)
         files = os.listdir(self.db_dir)
-        self.assertEqual(len(files), 11)
+        self.assertEqual(len(files), 12)
 
     def test_scan_errors(self):
         p_args = [

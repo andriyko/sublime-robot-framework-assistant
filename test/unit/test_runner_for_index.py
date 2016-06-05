@@ -53,7 +53,7 @@ class TestRunner(unittest.TestCase):
         lines = self.clean_info_messages(log_file)
         self.assertFalse(lines)
         files = os.listdir(self.index_path)
-        self.assertEqual(len(files), 11)
+        self.assertEqual(len(files), 12)
 
     def test_index_single(self):
         db_files = os.listdir(self.db_dir)
