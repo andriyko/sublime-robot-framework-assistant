@@ -28,15 +28,18 @@
     /*
         Robot Framework Workspace
 
-        Defines a root folder where Robot Framework Assistant starts looking
-        for Robot Framework data. Before the Robot Framework Assistant
-        can provide the keyword and variable completion features, it needs
-        to scan and index the test suite and resource files. The argument
-        defines the root folder where scanning of robot data is performed.
+    Defines a root folder where Test Suite located. 
+    Before the Robot Framework Assistant can provide the keyword 
+    and variable completion features, it needs to scan and index 
+    the test suite and resource files. The argument defines the root folder 
+    where scanning of robot data is performed.
 
-        In windows the backslash is the folder separator and in json
-        backslash is the escape character. Therefore, in windows write
-        double backslash to write literal backslash.
+    In windows the backslash is the folder separator and in json
+    backslash is the escape character. Therefore, in windows write
+    double backslash to write literal backslash.
+
+    Linux example: "/home/User/myRobotTests"
+    Windows example: "c:\\Users\\User\\Desktop\\myRobotTests"
 
     */
     "robot_framework_workspace": "/path/to/folder/containing/robot/data",
