@@ -167,6 +167,10 @@ evaluates as Python False, log_commands API call is disabled.
 If log_commands API call is enabled. all commands run from key
 bindings and the menu will be logged to the console.
 
+To enabled the logging, set the `robot_framework_log_commands` to value
+`true`. Then run the `Robot Framework: Command Logging` command
+from command palette.
+
 # Syntax definitions
 By default this plugin will be used with files which extension is
 `.robot` and plugin will use four spaces as cell separator. The
