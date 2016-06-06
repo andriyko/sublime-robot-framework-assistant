@@ -41,6 +41,7 @@ class Index(object):
         self.index_path = index_path
         self.db_path = db_path
         self.xml_libraries = xml_libraries
+        self.library_alias = []
 
     def index_consturctor(self, table):
         """Creates a single table index.
@@ -54,6 +55,7 @@ class Index(object):
         index_table_path = self.get_index_path(table)
         data = self.create_index_for_table(self.db_path, table)
         self.write_data(index_table_path, data)
+        self.library_alias = []
 
     def write_data(self, index_table_path, data):
         f = open(index_table_path, 'w')
@@ -78,19 +80,18 @@ class Index(object):
                 break
             t_name = item[0]
             kws, vars_ = self.create_index(
-                    db_path,
-                    t_name,
-                    table_name
-                )
+                db_path,
+                t_name,
+                table_name
+            )
             if kws:
                 keywords.extend(kws)
             if vars_:
                 variables.extend(vars_)
-
         return {
-                    DBJsonSetting.keyword: keywords,
-                    DBJsonSetting.variable: variables
-                }
+            DBJsonSetting.keyword: keywords,
+            DBJsonSetting.variable: variables
+        }
 
     def create_index(self, db_path, t_name, table_name):
         """Returns single table data for indexing
@@ -158,12 +159,15 @@ class Index(object):
             return {}
 
     def get_object_name(self, data):
+        object_name = None
         if DBJsonSetting.library_module not in data:
-            return data[DBJsonSetting.file_name].split('.')[0]
+            object_name = data[DBJsonSetting.file_name].split('.')[0]
         elif DBJsonSetting.library_module in data:
-            return data[DBJsonSetting.library_module]
-        else:
+            object_name = data[DBJsonSetting.library_module]
+        if not object_name:
             raise ValueError('Parsing error: {0}'.format(data))
+        else:
+            return object_name
 
     def get_imports(self, data):
         result = []
@@ -196,8 +200,12 @@ class Index(object):
                            ', with args: "{1}"'.format(lib_import, lib_args))
                 logging.error(message)
             if lib_data:
-                l.append(
-                    lib_table_name(lib_data[DBJsonSetting.library_module])
+                table_name = lib_table_name(
+                    lib_data[DBJsonSetting.library_module]
+                )
+                l.append(table_name)
+                self.library_alias.append(
+                    (table_name, lib[DBJsonSetting.library_alias])
                 )
         return l
 
@@ -244,6 +252,9 @@ class Index(object):
             'KeywordRecord',
             'keyword argument object_name table_name')
         kw_index = []
+        library_alias = self.get_library_alias(table_name)
+        if library_alias:
+            object_name = library_alias
         for kw, argument in zip(kw_list, argument_list):
             kw_index.append(
                 KeywordRecord(
@@ -254,6 +265,11 @@ class Index(object):
                 )
             )
         return kw_index
+
+    def get_library_alias(self, table_name):
+        for library_alias in self.library_alias:
+            if library_alias[0] == table_name and library_alias[1]:
+                return library_alias[1]
 
     def read_table(self, t_path):
         try:

@@ -131,10 +131,8 @@ class TestIndexing(unittest.TestCase):
         KeywordRecord = namedtuple(
             'KeywordRecord',
             'keyword argument object_name table_name')
-        table_name = self.resource_b_table_name
         l, kw_list, arg_list, object_name, table_name = \
             self.get_resource_b_kw_index(KeywordRecord)
-
         self.assertEqual(
             self.index.get_kw_for_index(
                 kw_list, arg_list, table_name, object_name), l)
@@ -164,6 +162,7 @@ class TestIndexing(unittest.TestCase):
         kw_list.extend(self.get_os_kw_index(KeywordRecord)[0])
         kw_list.extend(self.get_builtin_kw_index(KeywordRecord)[0])
         kw_list.extend(self.get_LibNoClass_kw_index(KeywordRecord)[0])
+        kw_list.extend(self.get_LongName_kw_index(KeywordRecord)[0])
         var_list = [
             u'${TEST_A}',
             u'${RESOURCE_A}',
@@ -191,6 +190,7 @@ class TestIndexing(unittest.TestCase):
         kw_list.extend(self.get_s2l_kw_index(KeywordRecord)[0])
         kw_list.extend(self.get_process_kw_index(KeywordRecord)[0])
         kw_list.extend(self.get_builtin_kw_index(KeywordRecord)[0])
+        kw_list.extend(self.get_LongName_kw_index(KeywordRecord)[0])
         var_list = [
             u'${TEST_B}',
             u'${RESOURCE_B}',
@@ -250,7 +250,7 @@ class TestIndexing(unittest.TestCase):
         xml_libs = os.path.join(
             env.RESOURCES_DIR,
             'library'
-            )
+        )
         db_dir_with_xml = os.path.join(
             env.RESULTS_DIR,
             'db_dir_with_xml')
@@ -285,6 +285,14 @@ class TestIndexing(unittest.TestCase):
         self.assertEqual(object_name, 'OperatingSystem')
         object_name = self.index.get_object_name(self.get_s2l())
         self.assertEqual(object_name, 'Selenium2Library')
+
+    def test_library_with_alias(self):
+        data = self.index.create_index_for_table(self.db_dir,
+                                                 self.common_table_name)
+        for kw in data['keyword']:
+            if 'Long Name Keyword' == kw.keyword:
+                print kw
+                self.assertEqual(kw.object_name, 'LongName')
 
     @property
     def common_table_name_index(self):
@@ -358,16 +366,22 @@ class TestIndexing(unittest.TestCase):
     def libnoclass_table_name(self):
         return lib_table_name('LibNoClass')
 
+    @property
+    def longname_table_name(self):
+        return lib_table_name('LibraryWithReallyTooLongName')
+
     def get_resource_b(self):
-        f = open(os.path.join(
-                    self.db_dir,
-                    self.resource_b_table_name
-                )
+        f = open(
+            os.path.join(
+                self.db_dir,
+                self.resource_b_table_name
             )
+        )
         return json.load(f)
 
     def get_common(self):
-        f = open(os.path.join(
+        f = open(
+            os.path.join(
                 self.db_dir,
                 self.common_table_name
             )
@@ -375,7 +389,8 @@ class TestIndexing(unittest.TestCase):
         return json.load(f)
 
     def get_test_a(self):
-        f = open(os.path.join(
+        f = open(
+            os.path.join(
                 self.db_dir,
                 self.test_a_table_name
             )
@@ -383,7 +398,8 @@ class TestIndexing(unittest.TestCase):
         return json.load(f)
 
     def get_s2l(self):
-        f = open(os.path.join(
+        f = open(
+            os.path.join(
                 self.db_dir,
                 self.s2l_table_name
             )
@@ -391,7 +407,8 @@ class TestIndexing(unittest.TestCase):
         return json.load(f)
 
     def get_os(self):
-        f = open(os.path.join(
+        f = open(
+            os.path.join(
                 self.db_dir,
                 self.os_table_name
             )
@@ -399,7 +416,8 @@ class TestIndexing(unittest.TestCase):
         return json.load(f)
 
     def get_process(self):
-        f = open(os.path.join(
+        f = open(
+            os.path.join(
                 self.db_dir,
                 self.process_table_name
             )
@@ -407,7 +425,8 @@ class TestIndexing(unittest.TestCase):
         return json.load(f)
 
     def getbuiltin(self):
-        f = open(os.path.join(
+        f = open(
+            os.path.join(
                 self.db_dir,
                 self.builtin_table_name
             )
@@ -415,9 +434,19 @@ class TestIndexing(unittest.TestCase):
         return json.load(f)
 
     def get_libnoclass(self):
-        f = open(os.path.join(
+        f = open(
+            os.path.join(
                 self.db_dir,
                 self.libnoclass_table_name
+            )
+        )
+        return json.load(f)
+
+    def get_longname(self):
+        f = open(
+            os.path.join(
+                self.db_dir,
+                self.longname_table_name
             )
         )
         return json.load(f)
@@ -499,6 +528,24 @@ class TestIndexing(unittest.TestCase):
         kw_list = self.index.get_keywords(data)[0]
         arg_list = self.get_kw_args(data)
         object_name = 'LibNoClass'
+        table_name = self.libnoclass_table_name
+        l = []
+        for kw, arg in zip(kw_list, arg_list):
+            l.append(
+                keywordrecord(
+                    keyword=kw,
+                    argument=arg,
+                    object_name=object_name,
+                    table_name=table_name
+                )
+            )
+        return l, kw_list, arg_list, object_name, table_name
+
+    def get_LongName_kw_index(self, keywordrecord):
+        data = self.get_longname()
+        kw_list = self.index.get_keywords(data)[0]
+        arg_list = self.get_kw_args(data)
+        object_name = 'LibraryWithReallyTooLongName'
         table_name = self.libnoclass_table_name
         l = []
         for kw, arg in zip(kw_list, arg_list):

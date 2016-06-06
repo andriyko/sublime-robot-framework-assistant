@@ -264,7 +264,7 @@ class TestScanner(unittest.TestCase):
             'OperatingSystem',
             hashlib.md5('OperatingSystem').hexdigest())
         self.assertTrue(operatingsystem in files)
-        self.assertEqual(len(files), 11)
+        self.assertEqual(len(files), 12)
 
     def test_single_file_scan(self):
         self.assertEqual(len(os.listdir(self.db_dir)), 0)
