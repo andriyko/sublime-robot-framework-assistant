@@ -1,0 +1,7 @@
+New features:
+    1) Support for keyword completion when keyword is imported by
+       using WITH NAME syntax. If library is used with WITH NAME
+       prefix, then jump to keyword does not work.
+
+Bug fixes:
+    1) Documentation improvements
