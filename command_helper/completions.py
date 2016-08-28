@@ -1,10 +1,10 @@
 import re
 from json import load as json_load
 try:
-    from current_view import KW_COMPLETION
+    from noralize_cell import KW_COMPLETION
     from db_json_settings import DBJsonSetting
 except:
-    from .current_view import KW_COMPLETION
+    from .noralize_cell import KW_COMPLETION
     from ..setting.db_json_settings import DBJsonSetting
 
 VAR_RE_STRING = '[\$\@\&]\{?\w*$'

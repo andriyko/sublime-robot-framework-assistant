@@ -1,10 +1,11 @@
 import re
 try:
-    from current_view import KW_COMPLETION
     from utils.util import get_data_from_json, kw_equals_kw_candite
 except:
-    from .current_view import KW_COMPLETION
     from .utils.util import get_data_from_json, kw_equals_kw_candite
+
+
+KW_COMPLETION = 'completion'
 
 
 class ReturnKeywordAndObject(object):
