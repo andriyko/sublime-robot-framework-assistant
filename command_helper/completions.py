@@ -24,8 +24,8 @@ def get_completion_list(view_index, prefix, text_cursor_rigt,
                         rf_cell, object_name, one_line):
     """Returns completion list for variables and keywords
 
-    ``view_index`` -- Path to current_view.json in database.
-    ``prefix`` -- Prefix for the completion
+    ``view_index`` -- Path to open tab index file in database.
+    ``prefix`` -- Prefix from Sublime for the completion
     ``text_cursor_rigt`` -- Text from cursor right side.
     ``rf_cell`` -- RF_CELL value from .tmPreferences
     ``object_name`` -- Library or resource object name
@@ -182,8 +182,8 @@ def _get_data(view_index):
 
 
 def get_keywords(view_index):
-    return _get_data(view_index)[KW_COMPLETION]
+    return _get_data(view_index)[DBJsonSetting.keywords]
 
 
 def get_variables(view_index):
-    return _get_data(view_index)[DBJsonSetting.variable]
+    return _get_data(view_index)[DBJsonSetting.variables]
