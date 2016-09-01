@@ -34,7 +34,7 @@ class TestIndexing(unittest.TestCase):
         cls.xml_libs = os.path.join(
             env.RESOURCES_DIR,
             'library'
-            )
+        )
 
     def setUp(self):
         self.index_dir = os.path.join(
@@ -170,13 +170,16 @@ class TestIndexing(unittest.TestCase):
             u'${COMMON_VARIABLE_2}'
         ]
         t_index = {
-            'keyword': kw_list,
-            'variable': var_list}
+            'keywords': kw_list,
+            'variables': var_list}
         r_index = self.index.create_index_for_table(self.db_dir, table_name)
         self.assertEqual(
-            r_index['variable'].sort(), t_index['variable'].sort())
-        self.assertEqual(len(r_index['keyword']), len(t_index['keyword']))
-        self.assertEqual(r_index['keyword'].sort(), t_index['keyword'].sort())
+            r_index['variables'].sort(), t_index['variables'].sort())
+        self.assertEqual(len(r_index['keywords']), len(t_index['keywords']))
+        self.assertEqual(
+            r_index['keywords'].sort(),
+            t_index['keywords'].sort()
+        )
 
     def test_index_creation_test_b(self):
         table_name = self.test_b_table_name
@@ -198,13 +201,16 @@ class TestIndexing(unittest.TestCase):
             u'${COMMON_VARIABLE_2}'
         ]
         t_index = {
-            'keyword': kw_list,
-            'variable': var_list}
+            'keywords': kw_list,
+            'variables': var_list}
         r_index = self.index.create_index_for_table(self.db_dir, table_name)
         self.assertEqual(
-            r_index['variable'].sort(), t_index['variable'].sort())
-        self.assertEqual(len(r_index['keyword']), len(t_index['keyword']))
-        self.assertEqual(r_index['keyword'].sort(), t_index['keyword'].sort())
+            r_index['variables'].sort(), t_index['variables'].sort())
+        self.assertEqual(len(r_index['keywords']), len(t_index['keywords']))
+        self.assertEqual(
+            r_index['keywords'].sort(),
+            t_index['keywords'].sort()
+        )
 
     def test_index_consturctor(self):
         self.index.index_consturctor(self.resource_a_table_name)
@@ -212,13 +218,13 @@ class TestIndexing(unittest.TestCase):
         self.assertEqual(len(files), 1)
         with open(os.path.join(self.index_dir, files[0])) as f:
             data = json.load(f)
-        self.assertIn('variable', data)
-        self.assertIn('keyword', data)
+        self.assertIn('variables', data)
+        self.assertIn('keywords', data)
         self.assertFalse(
-            any(kw[0] == 'Test A Keyword' for kw in data['keyword'])
+            any(kw[0] == 'Test A Keyword' for kw in data['keywords'])
         )
         self.assertTrue(
-            any(kw[0] == 'Resource A Keyword 1' for kw in data['keyword'])
+            any(kw[0] == 'Resource A Keyword 1' for kw in data['keywords'])
         )
 
     def test_get_kw_arguments(self):
@@ -267,13 +273,13 @@ class TestIndexing(unittest.TestCase):
         with open(os.path.join(self.index_dir, files[0])) as f:
             data = json.load(f)
         self.assertTrue(
-            any(kw[2] == 'SwingLibrary' for kw in data['keyword'])
+            any(kw[2] == 'SwingLibrary' for kw in data['keywords'])
         )
         self.assertTrue(
-            any(kw[0] == 'Add Table Cell Selection' for kw in data['keyword'])
+            any(kw[0] == 'Add Table Cell Selection' for kw in data['keywords'])
         )
         self.assertTrue(
-            any(kw[0] == 'Select From Popup Menu' for kw in data['keyword'])
+            any(kw[0] == 'Select From Popup Menu' for kw in data['keywords'])
         )
 
     def test_get_object_name(self):
@@ -289,7 +295,7 @@ class TestIndexing(unittest.TestCase):
     def test_library_with_alias(self):
         data = self.index.create_index_for_table(self.db_dir,
                                                  self.common_table_name)
-        for kw in data['keyword']:
+        for kw in data['keywords']:
             if 'Long Name Keyword' == kw.keyword:
                 print kw
                 self.assertEqual(kw.object_name, 'LongName')

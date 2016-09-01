@@ -1,7 +1,6 @@
 from .scan_and_index import ScanIndexCommand
 from .scan import ScanCommand
 from .scan_open_tab import ScanOpenTabCommand
-from .index_open_tab import IndexOpenTabCommand
 from .change_index import DetectViewChange
 from .query_completions import RobotCompletion
 from .show_documentation import ShowKeywordDocumentation
@@ -15,7 +14,6 @@ __all__ = [
     'ScanIndexCommand',
     'ScanCommand',
     'ScanOpenTabCommand',
-    'IndexOpenTabCommand',
     'DetectViewChange',
     'RobotCompletion',
     'ShowKeywordDocumentation',

@@ -5,7 +5,6 @@ from platform import system
 from os import path, makedirs
 from hashlib import md5
 import json
-from ..command_helper.update_current_view_json import update_current_view_index
 from ..setting.setting import get_setting
 from ..setting.setting import SettingObject
 from ..setting.db_json_settings import DBJsonSetting
@@ -54,9 +53,6 @@ class ScanIndexCommand(sublime_plugin.TextCommand):
         sublime.set_timeout_async(add_builtin_vars(db_dir))
         sublime.set_timeout_async(self.run_index(file_), 0)
         file_.close()
-        message = update_current_view_index(self.view)
-        if message:
-            sublime.status_message(message)
 
     def run_index(self, log_file):
         startupinfo = None
