@@ -15,8 +15,10 @@ class ReturnKeywordAndObject(object):
     name and object name. So that keyword documentation can be found
     database.
     """
-    def __init__(self, current_view, rf_cell):
-        self.current_view = current_view  # Path to current_view.json
+    def __init__(self, current_index, rf_cell):
+        # Path to index file for the currently
+        # open tab in sublime text
+        self.current_index = current_index
         self.rf_cell = rf_cell
 
     def normalize(self, line, column):

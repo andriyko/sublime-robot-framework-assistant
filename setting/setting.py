@@ -1,5 +1,4 @@
 from os import path
-from ..command_helper.current_view import VIEW_FILE_NAME
 import sublime
 
 
@@ -10,7 +9,6 @@ class PathResolver(object):
     database_folder = path.join(package_dir, 'database')
     index_folder = 'index'
     scanner_folder = 'scanner'
-    view_folder = 'view_db'
     log_file_name = 'scan_index.log'
 
     @property
@@ -28,10 +26,6 @@ class PathResolver(object):
     @property
     def default_view_folder(self):
         return path.join(self.default_db_dir, self.view_folder)
-
-    @property
-    def default_current_view(self):
-        return path.join(self.default_view_folder, VIEW_FILE_NAME)
 
     @property
     def default_log_file(self):
@@ -99,17 +93,6 @@ def get_log_file():
         return PathResolver().log_file
     else:
         return path.join(project_setting, PathResolver().log_file_name)
-
-
-def get_view_file():
-    project_setting = parse_project(SettingObject.db_dir)
-    if not project_setting:
-        return PathResolver().default_current_view
-    else:
-        return path.join(
-            project_setting,
-            PathResolver().view_folder,
-            VIEW_FILE_NAME)
 
 
 def get_view_path():
