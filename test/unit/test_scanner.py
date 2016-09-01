@@ -53,7 +53,7 @@ class TestScanner(unittest.TestCase):
         self.xml_libs = os.path.join(
             env.RESOURCES_DIR,
             'library'
-            )
+        )
 
     def test_errors(self):
         with self.assertRaises(EnvironmentError):
@@ -61,33 +61,33 @@ class TestScanner(unittest.TestCase):
                 '/not/here',
                 'robot',
                 self.db_dir
-                )
+            )
         curr_file = os.path.realpath(__file__)
         with self.assertRaises(EnvironmentError):
             self.scanner.scan(
                 self.workspace,
                 'robot',
                 curr_file
-                )
+            )
 
     def test_queue_populated(self):
         self.scanner.scan(
             self.real_suite,
             'robot',
             self.db_dir
-            )
+        )
         self.assertEqual(len(self.scanner.queue.queue), 10)
         key = os.path.join(
             self.real_suite,
             'resource',
             'reosurce2',
             'real_suite_resource.robot'
-            )
+        )
         key = os.path.normcase(key)
         self.assertEqual(
             self.scanner.queue.queue[key],
             {'scanned': True, 'type': None, 'args': None}
-            )
+        )
 
     def test_add_libraries_queue(self):
         libs = [{'library_name': u'OperatingSystem',
@@ -121,7 +121,7 @@ class TestScanner(unittest.TestCase):
             self.real_suite,
             'robot',
             self.db_dir
-            )
+        )
         self.assertEqual(len(os.listdir(self.db_dir)), 8)
 
     def test_parse_all_rf(self):
@@ -129,7 +129,7 @@ class TestScanner(unittest.TestCase):
             env.RESOURCES_DIR,
             'test_data',
             'simple_test.robot'
-            )
+        )
         item = (test_suite, {'scanned': False, 'type': None})
         data = self.scanner.parse_all(item)
         self.assertNotEqual(data, None)
@@ -137,7 +137,7 @@ class TestScanner(unittest.TestCase):
             env.RESOURCES_DIR,
             'test_data',
             'simple_resource.robot'
-            )
+        )
         item = (resource, {'scanned': False, 'type': 'resource'})
         data = self.scanner.parse_all(item)
         self.assertNotEqual(data, None)
@@ -147,7 +147,7 @@ class TestScanner(unittest.TestCase):
             env.RESOURCES_DIR,
             'library',
             'MyLibrary.py'
-            )
+        )
         item = (library, {'scanned': False, 'type': 'library', 'args': None})
         data = self.scanner.parse_all(item)
         self.assertNotEqual(data, None)
@@ -157,7 +157,7 @@ class TestScanner(unittest.TestCase):
             env.RESOURCES_DIR,
             'test_data',
             'simple_variable_file.py'
-            )
+        )
         item = (var, {
             'scanned': False,
             'type': 'variable_file',
@@ -172,7 +172,7 @@ class TestScanner(unittest.TestCase):
         self.assertEqual(len(
             self.scanner.queue.queue),
             4
-            )
+        )
 
     def test_scanning_same_resource_two_times_does_not_change_queue(self):
         item = self.create_resource_item()
@@ -181,12 +181,12 @@ class TestScanner(unittest.TestCase):
         self.assertEqual(len(
             self.scanner.queue.queue),
             4
-            )
+        )
         self.scanner.add_to_queue(data)
         self.assertEqual(len(
             self.scanner.queue.queue),
             4
-            )
+        )
 
     def test_put_item_to_db(self):
         item = self.create_resource_item()
@@ -227,7 +227,7 @@ class TestScanner(unittest.TestCase):
             hashlib.md5(
                 os.path.normcase(
                     os.path.join(workspace, '__init__.robot'))).hexdigest()
-                )
+        )
         self.assertTrue(init in files)
         suite = '{0}-{1}.json'.format(
             'test_with_libs.robot',
@@ -235,7 +235,7 @@ class TestScanner(unittest.TestCase):
                 os.path.normcase(
                     os.path.join(
                         workspace, 'test_with_libs.robot'))).hexdigest()
-            )
+        )
         self.assertTrue(suite in files)
         operatingsystem = '{0}-{1}.json'.format(
             'OperatingSystem',
@@ -310,14 +310,14 @@ class TestScanner(unittest.TestCase):
             env.RESOURCES_DIR,
             'test_data',
             'init_structure'
-            )
+        )
 
     def create_resource_item(self):
         resource = os.path.join(
             env.RESOURCES_DIR,
             'test_data',
             'simple_resource.robot'
-            )
+        )
         return (resource, {'scanned': False, 'type': 'resource', 'args': None})
 
     def create_resource_item2(self):
@@ -325,7 +325,7 @@ class TestScanner(unittest.TestCase):
             env.RESOURCES_DIR,
             'test_data',
             'simple_resrouce2.robot'
-            )
+        )
         return (resource, {'scanned': False, 'type': 'resource', 'args': None})
 
     def add_test_data(self):
@@ -337,5 +337,5 @@ class TestScanner(unittest.TestCase):
         file_name = '{realname}-{md5}.json'.format(
             realname=os.path.basename(data['file_path']),
             md5=hashlib.md5(data['file_path']).hexdigest()
-            )
+        )
         return os.path.join(db_dir, file_name)
