@@ -9,7 +9,10 @@ class TestCompletions(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        cls.current_view = path.join(env.RESOURCES_DIR, 'current_view.json')
+        cls.current_view = path.join(
+            env.RESOURCES_DIR,
+            'index-test_a.robot-c6b0faa0427a2cf861a1acad630765ea.json'
+        )
         cls.rf_cell = '    '
         cls.rkao = ReturnKeywordAndObject(
             cls.current_view,
@@ -112,7 +115,8 @@ class TestCompletions(unittest.TestCase):
 
     def test_get_data(self):
         self.rkao._get_data()
-        self.assertTrue('completion' in self.rkao.data)
+        self.assertTrue('keywords' in self.rkao.data)
+        self.assertGreater(len(self.rkao.data['keywords']), 1)
 
     @property
     def add_dolibrary_kw1(self):
@@ -120,7 +124,7 @@ class TestCompletions(unittest.TestCase):
             "My Long Keyword", [
                 "arg1",
                 "arg2"
-                ],
+            ],
             "com.company.library.DoLibrary"
         ]
 
@@ -131,7 +135,7 @@ class TestCompletions(unittest.TestCase):
                 "arg1",
                 "arg2",
                 "arg3"
-                ],
+            ],
             "com.company.library.DoLibrary"
         ]
 
@@ -141,7 +145,7 @@ class TestCompletions(unittest.TestCase):
             "My Long Keyword", [
                 "arg1",
                 "arg2"
-                ],
+            ],
             "com.company.library.OtherLibrary"
         ]
 
@@ -151,7 +155,7 @@ class TestCompletions(unittest.TestCase):
             "My Long Keyword", [
                 "arg1",
                 "arg2"
-                ],
+            ],
             "com.company.library.special.long.OtherLibrary"
         ]
 

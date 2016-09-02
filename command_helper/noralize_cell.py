@@ -1,11 +1,10 @@
 import re
 try:
     from utils.util import get_data_from_json, kw_equals_kw_candite
+    from db_json_settings import DBJsonSetting
 except:
     from .utils.util import get_data_from_json, kw_equals_kw_candite
-
-
-KW_COMPLETION = 'completion'
+    from ..setting.db_json_settings import DBJsonSetting
 
 
 class ReturnKeywordAndObject(object):
@@ -63,16 +62,16 @@ class ReturnKeywordAndObject(object):
         ``rf_cell`` must be a valid valid keyword. Example
         BuiltIn.Comment or Comment. ``rf_cell`` is separated based
         on the object names and keywords found from the
-        current_view.json file. If object and/or keyword can not be
+        index file. If object and/or keyword can not be
         found from the rf_cell, empty values are returned.
         """
         self._get_data()
-        completions = self.data[KW_COMPLETION]
+        keywords = self.data[DBJsonSetting.keywords]
         object_best_match = ''
         keyword_best_match = ''
-        for kw_completion in completions:
-            object_name = kw_completion[2]
-            kw = kw_completion[0]
+        for kw_detail in keywords:
+            object_name = kw_detail[2]
+            kw = kw_detail[0]
             if rf_cell.startswith(object_name):
                 if len(object_best_match) <= len(object_name):
                     object_canditate = object_name
@@ -89,4 +88,4 @@ class ReturnKeywordAndObject(object):
         return object_best_match, keyword_best_match
 
     def _get_data(self):
-        self.data = get_data_from_json(self.current_view)
+        self.data = get_data_from_json(self.current_index)

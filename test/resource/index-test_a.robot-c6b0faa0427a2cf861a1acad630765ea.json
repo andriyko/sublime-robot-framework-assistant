@@ -2925,6 +2925,39 @@
             ],
             "OperatingSystem",
             "OperatingSystem-3f475567566b93c16c76ae4f3daaca1a.json"
+        ],
+         [
+            "My Long Keyword",
+            [
+                "arg1",
+                "arg2"
+            ],
+            "com.company.library.DoLibrary"
+        ],
+        [
+            "My Other Keyword",
+            [
+                "arg1",
+                "arg2",
+                "arg3"
+            ],
+            "com.company.library.DoLibrary"
+        ],
+        [
+            "My Long Keyword",
+            [
+                "arg1",
+                "arg2"
+            ],
+            "com.company.library.OtherLibrary"
+        ],
+        [
+            "My Long Keyword",
+            [
+                "arg1",
+                "arg2"
+            ],
+            "com.company.library.special.long.OtherLibrary"
         ]
     ]
 }
