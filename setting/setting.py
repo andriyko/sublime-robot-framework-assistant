@@ -24,10 +24,6 @@ class PathResolver(object):
         return path.join(self.default_db_dir, self.index_folder)
 
     @property
-    def default_view_folder(self):
-        return path.join(self.default_db_dir, self.view_folder)
-
-    @property
     def default_log_file(self):
         return path.join(self.default_db_dir, self.log_file_name)
 
@@ -60,8 +56,6 @@ class SettingObject(object):
     extension = 'robot_framework_extension'
     builtin_variables = 'robot_framework_builtin_variables'
     module_search_path = 'robot_framework_module_search_path'
-    view_completions = 'view_completions'
-    view_path = 'view_path'
     arg_format = 'robot_framework_keyword_argument_format'
     lib_in_xml = 'robot_framework_libraries_in_xml'
     project_setting = 'robot_framework_assistant'
@@ -114,10 +108,6 @@ def get_setting(setting):
         return PathResolver().index_runner
     elif setting.lower() == SettingObject.log_file:
         return get_log_file()
-    elif setting.lower() == SettingObject.view_completions:
-        return get_view_file()
-    elif setting.lower() == SettingObject.view_path:
-        return get_view_path()
     else:
         return get_sublime_setting(setting)
 
