@@ -1,7 +1,7 @@
 import sublime_plugin
 import sublime
 import re
-from os import path, pathsep
+from os import path
 from ..setting.setting import get_setting
 from ..setting.setting import SettingObject
 from ..command_helper.utils.get_text import get_line
@@ -48,7 +48,7 @@ class SettingImporter(sublime_plugin.TextCommand):
             message = (
                 'Cursor should have been in settings table '
                 'Resource, Library or Variables import, but it was not'
-                )
+            )
             sublime.status_message(message)
 
 
