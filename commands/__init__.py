@@ -9,6 +9,7 @@ from .setting_import_helper import SettingImporter
 from .setting_import_helper import InsertImport
 from .command_logging import LogCommands
 from .on_save_create_table import OnSaveCreateTable
+from .scan_index_open_tab import ScanAndIndexOpenTab
 
 __all__ = [
     'ScanIndexCommand',
@@ -21,5 +22,6 @@ __all__ = [
     'SettingImporter',
     'InsertImport',
     'LogCommands',
-    'OnSaveCreateTable'
+    'OnSaveCreateTable',
+    'ScanAndIndexOpenTab'
 ]
