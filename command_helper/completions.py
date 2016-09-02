@@ -61,6 +61,7 @@ def get_kw_completion_list(view_index, prefix, rf_cell,
 
     pattern = re.compile(get_kw_re_string(prefix))
     match_keywords = []
+    match_objects = []
     for keyword in get_keywords(view_index):
         kw = keyword[0]
         args = keyword[1]
@@ -77,6 +78,13 @@ def get_kw_completion_list(view_index, prefix, rf_cell,
                     kw, args, rf_cell, lib, one_line
                 )
                 match_keywords.append(kw)
+        if not object_name and pattern.search(lib):
+            if lib not in match_objects:
+                lib_comletion = create_kw_completion_item(
+                    lib, '.', '', lib, True
+                )
+                match_objects.append(lib)
+                match_keywords.append(lib_comletion)
     return match_keywords
 
 

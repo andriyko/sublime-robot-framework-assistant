@@ -20,7 +20,8 @@ class TestCompletions(unittest.TestCase):
     def setUpClass(cls):
         cls.test_a_index = path.join(
             env.RESOURCES_DIR,
-            'index-test_a.robot-c6b0faa0427a2cf861a1acad630765ea.json')
+            'index-test_a.robot-c6b0faa0427a2cf861a1acad630765ea.json'
+        )
 
     def test_get_completion_list(self):
         prefix = 'Runk'
@@ -30,6 +31,24 @@ class TestCompletions(unittest.TestCase):
         result = get_completion_list(self.test_a_index, '$',
                                      '', RF_CELL, None, False)
         self.assertEqual(len(result), 30)
+
+    def test_object_name_included(self):
+        prefix = 'uilt'
+        result = get_completion_list(
+            self.test_a_index,
+            prefix,
+            '',
+            RF_CELL,
+            None,
+            False
+        )
+        self.assertEqual(len(result), 23)
+        builtin = 'BuiltIn'
+        expected = (
+            '{0}\t{0}'.format(builtin),
+            '{0}.'.format(builtin,)
+        )
+        self.assertEqual(result[0], expected)
 
     def test_get_kw_re_string(self):
         re_string = get_kw_re_string('1')
@@ -51,7 +70,7 @@ class TestCompletions(unittest.TestCase):
         prefix = 'BUI'
         kw_tuple = get_kw_completion_list(self.test_a_index, prefix,
                                           RF_CELL, None, False)
-        self.assertEqual(len(kw_tuple), 12)
+        self.assertEqual(len(kw_tuple), 13)
 
     def test_get_kw_completion_list_structure(self):
         prefix = 'Run'
@@ -97,6 +116,12 @@ class TestCompletions(unittest.TestCase):
             ),
         ]
         self.assertEqual(kw_tuple, expected)
+        object_name = 'BuiltIn'
+        prefix = 'lo'
+        kw_tuple = get_kw_completion_list(self.test_a_index, prefix,
+                                          RF_CELL, object_name, False)
+        for completion in kw_tuple:
+            self.assertRegexpMatches(completion[0], object_name)
 
     def test_kw_create_completion_item(self):
         # kw with args
