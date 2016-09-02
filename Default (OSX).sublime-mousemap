@@ -5,7 +5,7 @@
       "command": "show_keyword_documentation"
     },
     {
-      "button": "button1", "count": 1, "modifiers": ["alt"],
+      "button": "button1", "count": 1, "modifiers": ["shift"],
       "press_command": "drag_select",
       "command": "jump_to_keyword"
     }
