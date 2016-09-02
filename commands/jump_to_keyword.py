@@ -1,9 +1,9 @@
 import sublime_plugin
 import sublime
 import re
+from .query_completions import get_index_file
 from ..setting.setting import get_setting
 from ..setting.setting import SettingObject
-from ..command_helper.current_view import CurrentView
 from ..command_helper.utils.get_text import get_line
 from ..command_helper.noralize_cell import ReturnKeywordAndObject
 from ..command_helper.get_metadata import get_rf_table_separator
@@ -18,14 +18,10 @@ class JumpToKeyword(sublime_plugin.TextCommand):
         index_db = get_setting(SettingObject.index_dir)
         rf_cell = get_rf_table_separator(self.view)
         rf_extension = get_setting(SettingObject.extension)
-        workspace = get_setting(SettingObject.workspace)
-        current_view = CurrentView()
-        view_in_db = current_view.view_in_db(workspace, open_tab,
-                                             index_db, rf_extension)
-        if view_in_db:
+        index_file = get_index_file(open_tab)
+        if index_file:
             line, column = get_line(self.view)
-            view_completions = get_setting(SettingObject.view_completions)
-            self.get_kw = ReturnKeywordAndObject(view_completions, rf_cell)
+            self.get_kw = ReturnKeywordAndObject(index_file, rf_cell)
             keyword, object_name = self.get_kw.normalize(line, column)
             if not keyword:
                 message = ('Cursor location did not contain keyword '

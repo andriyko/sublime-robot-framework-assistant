@@ -13,6 +13,18 @@ from ..command_helper.utils.get_text import get_object_from_line
 from ..command_helper.get_metadata import get_rf_table_separator
 
 
+def get_index_file(open_tab):
+    db_table = rf_table_name(normalise_path(open_tab))
+    index_name = get_index_name(db_table)
+    index_file = path.join(
+        get_setting(SettingObject.index_dir),
+        index_name
+    )
+    if not path.exists(index_file):
+        index_file = None
+    return index_file
+
+
 class RobotCompletion(sublime_plugin.EventListener):
 
     def on_query_completions(self, view, prefix, locations):
@@ -32,22 +44,11 @@ class RobotCompletion(sublime_plugin.EventListener):
         """Returns keyword and variable completions"""
         # workspace = get_setting(SettingObject.workspace)
         open_tab = view.file_name()
-        index_file = self.get_index_file(open_tab)
+        index_file = get_index_file(open_tab)
         if index_file:
             return self.get_completions(view, prefix, index_file)
         else:
             return None
-
-    def get_index_file(self, open_tab):
-        db_table = rf_table_name(normalise_path(open_tab))
-        index_name = get_index_name(db_table)
-        index_file = path.join(
-            get_setting(SettingObject.index_dir),
-            index_name
-        )
-        if not path.exists(index_file):
-            index_file = None
-        return index_file
 
     def get_completions(self, view, prefix, index_file):
         line, column = get_line(view)
