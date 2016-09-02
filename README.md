@@ -183,9 +183,10 @@ The file extension is defined in the
 `Robot.tmLanguage` file. To change file extension,
 navigate to the
 [User package](http://docs.sublimetext.info/en/latest/basic_concepts.html#the-packages-directory)
-folder and open the `Robot.tmLanguage` file.
+folder and copy the `Robot.tmLanguage` file in to the
+user settings folder.
 
-Look for the lines containing:
+In the `Robot.tmLanguage` file in user settings,  look for the lines containing:
 ```xml
 <key>fileTypes</key>
     <array>
@@ -217,12 +218,11 @@ will display the keyword documentation.
 * Pressing `Ctrl + /` or `Ctrl + Shift + /` will togle comment on and off
 * Pressing `Ctrl + Alt + a` will run the `Robot Framework: Create Database` command
 * Pressing `Ctrl + Alt + s` will run the `Robot Framework: Create Database Tables` command
-* Pressing `Ctrl + Alt + t` will run the `Robot Framework: Create Database Table From Active Tab` command
-* Pressing `Ctrl + Alt + i` will run the `Robot Framework: Create Database Index From Active Tab` command
+* Pressing `Ctrl + Alt + i` will run the `Robot Framework: Update Internal Database For Active Tab` command
 * Pressing `Ctrl + Alt + r` will show available library, resource or variables imports in a popup menu. The popup
 menu is only displayed if cursor is in settings table and line contains `Libraries`, `Resource` or `Variables` setting.
 
-The usage of the `Ctrl + Alt + a/s/t/i` commands is explained in the
+The usage of the `Ctrl + Alt + a/s/i` commands is explained in the
 [Internal database for keywords and variables](https://github.com/andriyko/sublime-robot-framework-assistant/wiki/Internal-database-for-keywords-and-variables) wiki page
 
 # Snippets
