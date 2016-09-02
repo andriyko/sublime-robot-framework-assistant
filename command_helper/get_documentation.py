@@ -57,7 +57,7 @@ class GetKeywordDocumentation(object):
         index_data = get_data_from_json(
             path.join(self.index_dir, index_name)
         )
-        for keyword_ in index_data[DBJsonSetting.keyword]:
+        for keyword_ in index_data[DBJsonSetting.keywords]:
             kw = keyword_[0]
             kw_object_name = keyword_[2]
             kw_table_name = keyword_[3]

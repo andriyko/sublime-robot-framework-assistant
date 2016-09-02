@@ -20,16 +20,35 @@ class TestCompletions(unittest.TestCase):
     def setUpClass(cls):
         cls.test_a_index = path.join(
             env.RESOURCES_DIR,
-            'current_view.json')
+            'index-test_a.robot-c6b0faa0427a2cf861a1acad630765ea.json'
+        )
 
     def test_get_completion_list(self):
         prefix = 'Runk'
         result = get_completion_list(self.test_a_index, prefix,
                                      '', RF_CELL, None, False)
-        self.assertEqual(len(result), 21)
+        self.assertEqual(len(result), 20)
         result = get_completion_list(self.test_a_index, '$',
                                      '', RF_CELL, None, False)
-        self.assertEqual(len(result), 29)
+        self.assertEqual(len(result), 30)
+
+    def test_object_name_included(self):
+        prefix = 'uilt'
+        result = get_completion_list(
+            self.test_a_index,
+            prefix,
+            '',
+            RF_CELL,
+            None,
+            False
+        )
+        self.assertEqual(len(result), 23)
+        builtin = 'BuiltIn'
+        expected = (
+            '{0}\t{0}'.format(builtin),
+            '{0}.'.format(builtin,)
+        )
+        self.assertEqual(result[0], expected)
 
     def test_get_kw_re_string(self):
         re_string = get_kw_re_string('1')
@@ -43,24 +62,24 @@ class TestCompletions(unittest.TestCase):
         prefix = 'Run'
         kw_tuple = get_kw_completion_list(self.test_a_index, prefix,
                                           RF_CELL, None, False)
-        self.assertEqual(len(kw_tuple), 70)
+        self.assertEqual(len(kw_tuple), 40)
         prefix = 'RunKeY'
         kw_tuple = get_kw_completion_list(self.test_a_index, prefix,
                                           RF_CELL, None, False)
-        self.assertEqual(len(kw_tuple), 21)
+        self.assertEqual(len(kw_tuple), 20)
         prefix = 'BUI'
         kw_tuple = get_kw_completion_list(self.test_a_index, prefix,
                                           RF_CELL, None, False)
-        self.assertEqual(len(kw_tuple), 24)
+        self.assertEqual(len(kw_tuple), 13)
 
     def test_get_kw_completion_list_structure(self):
         prefix = 'Run'
         kw_tuple = get_kw_completion_list(self.test_a_index, prefix,
                                           RF_CELL, None, False)
-        kw = 'Get Table Row Count'
+        kw = 'Run Keyword And Expect Error'
         expected = (
-            '{0}\tSwingLibrary'.format(kw),
-            '{0}{1}identifier'.format(kw, '\n...' + RF_CELL)
+            '{0}\tBuiltIn'.format(kw),
+            '{0}{1}expected_error{1}name{1}*args'.format(kw, '\n...' + RF_CELL)
         )
         self.assertEqual(kw_tuple[0], expected)
         kw = 'Run And Return Rc'
@@ -97,6 +116,12 @@ class TestCompletions(unittest.TestCase):
             ),
         ]
         self.assertEqual(kw_tuple, expected)
+        object_name = 'BuiltIn'
+        prefix = 'lo'
+        kw_tuple = get_kw_completion_list(self.test_a_index, prefix,
+                                          RF_CELL, object_name, False)
+        for completion in kw_tuple:
+            self.assertRegexpMatches(completion[0], object_name)
 
     def test_kw_create_completion_item(self):
         # kw with args
@@ -153,11 +178,16 @@ class TestCompletions(unittest.TestCase):
 
     def test_get_var_completion_list(self):
         vars_in_completion = [
+            '${TEST_A}',
+            '${COMMON_VARIABLE_1}',
+            '${COMMON_VARIABLE_2}',
+            '${RESOURCE_A}',
             '${/}',
             '${:}',
             '${\\n}',
+            '${CURDIR}',
             '${DEBUG_FILE}',
-            "${EMPTY}",
+            '${EMPTY}',
             '${EXECDIR}',
             '${False}',
             '${LOG_FILE}',
@@ -177,11 +207,7 @@ class TestCompletions(unittest.TestCase):
             '${TEMPDIR}',
             '${TEST_DOCUMENTATION}',
             '${TEST_NAME}',
-            '${True}',
-            '${TEST_A}',
-            '${COMMON_VARIABLE_1}',
-            '${COMMON_VARIABLE_2}',
-            '${RESOURCE_A}'
+            '${True}'
         ]
         var_l = []
         for var in vars_in_completion:

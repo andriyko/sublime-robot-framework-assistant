@@ -1,7 +1,7 @@
 import unittest
 import env
 import shutil
-from os import path, mkdir
+from os import path, makedirs
 from index_runner import index_all
 from queue.scanner import Scanner
 from parser_utils.file_formatter import rf_table_name, lib_table_name
@@ -30,9 +30,8 @@ class GetDocumentation(unittest.TestCase):
         )
         if path.exists(db_base):
             shutil.rmtree(db_base)
-        mkdir(db_base)
-        mkdir(cls.db_dir)
-        mkdir(cls.index_dir)
+        makedirs(cls.db_dir)
+        makedirs(cls.index_dir)
         scanner = Scanner()
         scanner.scan(
             cls.suite_dir,

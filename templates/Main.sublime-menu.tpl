@@ -34,12 +34,8 @@
                                 "caption": "Create Database Tables"
                             },
                             {
-                                "command": "scan_open_tab",
-                                "caption": "Create Database Table From Active Tab"
-                            },
-                            {
-                                "command": "index_open_tab",
-                                "caption": "Create Database Index From Active Tab"
+                                "command": "scan_and_index_open_tab",
+                                "caption": "Update Internal Database For Active Tab"
                             },
                             { "caption": "-" },
                             {

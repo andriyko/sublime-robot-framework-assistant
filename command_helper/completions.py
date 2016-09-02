@@ -1,10 +1,8 @@
 import re
 from json import load as json_load
 try:
-    from current_view import KW_COMPLETION
     from db_json_settings import DBJsonSetting
 except:
-    from .current_view import KW_COMPLETION
     from ..setting.db_json_settings import DBJsonSetting
 
 VAR_RE_STRING = '[\$\@\&]\{?\w*$'
@@ -24,8 +22,8 @@ def get_completion_list(view_index, prefix, text_cursor_rigt,
                         rf_cell, object_name, one_line):
     """Returns completion list for variables and keywords
 
-    ``view_index`` -- Path to current_view.json in database.
-    ``prefix`` -- Prefix for the completion
+    ``view_index`` -- Path to open tab index file in database.
+    ``prefix`` -- Prefix from Sublime for the completion
     ``text_cursor_rigt`` -- Text from cursor right side.
     ``rf_cell`` -- RF_CELL value from .tmPreferences
     ``object_name`` -- Library or resource object name
@@ -61,6 +59,7 @@ def get_kw_completion_list(view_index, prefix, rf_cell,
 
     pattern = re.compile(get_kw_re_string(prefix))
     match_keywords = []
+    match_objects = []
     for keyword in get_keywords(view_index):
         kw = keyword[0]
         args = keyword[1]
@@ -77,6 +76,13 @@ def get_kw_completion_list(view_index, prefix, rf_cell,
                     kw, args, rf_cell, lib, one_line
                 )
                 match_keywords.append(kw)
+        if not object_name and pattern.search(lib):
+            if lib not in match_objects:
+                lib_comletion = create_kw_completion_item(
+                    lib, '.', '', lib, True
+                )
+                match_objects.append(lib)
+                match_keywords.append(lib_comletion)
     return match_keywords
 
 
@@ -182,8 +188,8 @@ def _get_data(view_index):
 
 
 def get_keywords(view_index):
-    return _get_data(view_index)[KW_COMPLETION]
+    return _get_data(view_index)[DBJsonSetting.keywords]
 
 
 def get_variables(view_index):
-    return _get_data(view_index)[DBJsonSetting.variable]
+    return _get_data(view_index)[DBJsonSetting.variables]

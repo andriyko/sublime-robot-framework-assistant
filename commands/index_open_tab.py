@@ -7,7 +7,6 @@ from ..setting.setting import get_setting
 from ..setting.setting import SettingObject
 from ..dataparser.parser_utils.file_formatter import rf_table_name
 from ..dataparser.parser_utils.util import normalise_path
-from ..command_helper.update_current_view_json import update_current_view_index
 from .scan_and_index import index_popen_arg_parser
 from .scan_and_index import add_builtin_vars
 
@@ -15,8 +14,7 @@ from .scan_and_index import add_builtin_vars
 class IndexOpenTabCommand(sublime_plugin.TextCommand):
 
     def run(self, edit):
-        """Command to index open tab RF file and create db index table.
-
+        """Command to index open tab RF file and create a index table.
         Purpose of the command is create index, from the open tab.
         Index should contain all the resource and library imports and
         all global variables from variable tables and imported variable
@@ -29,7 +27,7 @@ class IndexOpenTabCommand(sublime_plugin.TextCommand):
             message = 'Not able to index because no tabs are active'
             sublime.status_message(message)
             return
-        db_table_name = self.get_table_name(open_tab)
+        db_table_name = rf_table_name(normalise_path(open_tab))
         db_dir = get_setting(SettingObject.table_dir)
         sublime.set_timeout_async(add_builtin_vars(db_dir))
         if db_table_name:
@@ -42,8 +40,6 @@ class IndexOpenTabCommand(sublime_plugin.TextCommand):
                 0
             )
             file_.close()
-            message = update_current_view_index(self.view)
-            sublime.status_message(message)
         else:
             message = 'Not able to index file: {0}'.format(open_tab)
             sublime.status_message(message)
@@ -71,14 +67,3 @@ class IndexOpenTabCommand(sublime_plugin.TextCommand):
         message = 'Indexing done with rc: {0}'.format(rc)
         sublime.status_message(message)
         print(message)
-
-    def get_table_name(self, open_tab):
-        workspace = get_setting(SettingObject.workspace)
-        workspace_norm = path.normcase(workspace)
-        open_tab_norm = path.normcase(open_tab)
-        extension = get_setting(SettingObject.extension)
-        if open_tab_norm.endswith(extension):
-            if open_tab_norm.startswith(workspace_norm):
-                return rf_table_name(normalise_path(open_tab))
-        else:
-            return False

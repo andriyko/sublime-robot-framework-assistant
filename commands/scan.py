@@ -55,7 +55,7 @@ class ScanCommand(sublime_plugin.TextCommand):
             startupinfo=startupinfo
         )
         rc = p.wait()
-        if not rc == 0:
+        if rc != 0:
             print('See log file from database directory for details')
             raise ValueError('Error in scanning result code: {0}'.format(rc))
         message = 'Scaning done with rc: {0}'.format(rc)

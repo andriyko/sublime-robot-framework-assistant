@@ -1,5 +1,4 @@
 from os import path
-from ..command_helper.current_view import VIEW_FILE_NAME
 import sublime
 
 
@@ -10,7 +9,6 @@ class PathResolver(object):
     database_folder = path.join(package_dir, 'database')
     index_folder = 'index'
     scanner_folder = 'scanner'
-    view_folder = 'view_db'
     log_file_name = 'scan_index.log'
 
     @property
@@ -24,14 +22,6 @@ class PathResolver(object):
     @property
     def default_index_dir(self):
         return path.join(self.default_db_dir, self.index_folder)
-
-    @property
-    def default_view_folder(self):
-        return path.join(self.default_db_dir, self.view_folder)
-
-    @property
-    def default_current_view(self):
-        return path.join(self.default_view_folder, VIEW_FILE_NAME)
 
     @property
     def default_log_file(self):
@@ -66,8 +56,6 @@ class SettingObject(object):
     extension = 'robot_framework_extension'
     builtin_variables = 'robot_framework_builtin_variables'
     module_search_path = 'robot_framework_module_search_path'
-    view_completions = 'view_completions'
-    view_path = 'view_path'
     arg_format = 'robot_framework_keyword_argument_format'
     lib_in_xml = 'robot_framework_libraries_in_xml'
     project_setting = 'robot_framework_assistant'
@@ -75,6 +63,7 @@ class SettingObject(object):
     log_commands = 'robot_framework_log_commands'
     automatic_table_creation = 'robot_framework_automatic_database_table'
     automatic_index_creation = 'robot_framework_automatic_indexing'
+    automatic_database_update = 'robot_framework_automatic_database_update'
 
 
 def get_scanner_dir():
@@ -101,17 +90,6 @@ def get_log_file():
         return path.join(project_setting, PathResolver().log_file_name)
 
 
-def get_view_file():
-    project_setting = parse_project(SettingObject.db_dir)
-    if not project_setting:
-        return PathResolver().default_current_view
-    else:
-        return path.join(
-            project_setting,
-            PathResolver().view_folder,
-            VIEW_FILE_NAME)
-
-
 def get_view_path():
     project_setting = parse_project(SettingObject.db_dir)
     if not project_setting:
@@ -131,10 +109,6 @@ def get_setting(setting):
         return PathResolver().index_runner
     elif setting.lower() == SettingObject.log_file:
         return get_log_file()
-    elif setting.lower() == SettingObject.view_completions:
-        return get_view_file()
-    elif setting.lower() == SettingObject.view_path:
-        return get_view_path()
     else:
         return get_sublime_setting(setting)
 

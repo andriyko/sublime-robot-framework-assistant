@@ -89,8 +89,8 @@ class Index(object):
             if vars_:
                 variables.extend(vars_)
         return {
-            DBJsonSetting.keyword: keywords,
-            DBJsonSetting.variable: variables
+            DBJsonSetting.keywords: keywords,
+            DBJsonSetting.variables: variables
         }
 
     def create_index(self, db_path, t_name, table_name):

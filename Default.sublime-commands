@@ -8,12 +8,8 @@
         "command": "scan"
     },
     {
-        "caption": "Robot Framework: Create Database Table From Active Tab",
-        "command": "scan_open_tab"
-    },
-    {
-        "caption": "Robot Framework: Create Database Index From Active Tab",
-        "command": "index_open_tab"
+        "caption": "Robot Framework: Update Internal Database For Active Tab",
+        "command": "scan_and_index_open_tab"
     },
     {
         "caption": "Robot Framework: Show Keyword Documentation",
