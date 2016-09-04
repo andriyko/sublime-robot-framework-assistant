@@ -110,6 +110,10 @@ def get_var_re_string(prefix):
 
 
 def get_var_completion_list(view_index, prefix, text_cursor_rigt):
+    # Get last variable from ${CURDIR}${}
+    m = re.search('[\$\@\&]\{?[^\$\{\}]*\}?\Z', prefix)
+    if m:
+        prefix = m.group()
     pattern = re.compile(get_var_re_string(prefix))
     match_vars = []
     mode = get_var_mode(prefix, text_cursor_rigt)

@@ -177,38 +177,7 @@ class TestCompletions(unittest.TestCase):
         self.assertEqual(result, expected)
 
     def test_get_var_completion_list(self):
-        vars_in_completion = [
-            '${TEST_A}',
-            '${COMMON_VARIABLE_1}',
-            '${COMMON_VARIABLE_2}',
-            '${RESOURCE_A}',
-            '${/}',
-            '${:}',
-            '${\\n}',
-            '${CURDIR}',
-            '${DEBUG_FILE}',
-            '${EMPTY}',
-            '${EXECDIR}',
-            '${False}',
-            '${LOG_FILE}',
-            '${LOG_LEVEL}',
-            '${None}',
-            '${null}',
-            '${OUTPUT_DIR}',
-            '${OUTPUT_FILE}',
-            '${PREV_TEST_MESSAGE}',
-            '${PREV_TEST_NAME}',
-            '${PREV_TEST_STATUS}',
-            '${REPORT_FILE}',
-            '${SPACE}',
-            '${SUITE_DOCUMENTATION}',
-            '${SUITE_NAME}',
-            '${SUITE_SOURCE}',
-            '${TEMPDIR}',
-            '${TEST_DOCUMENTATION}',
-            '${TEST_NAME}',
-            '${True}'
-        ]
+        vars_in_completion = self.vars_in_test_a
         var_l = []
         for var in vars_in_completion:
             if var.startswith('$'):
@@ -247,6 +216,13 @@ class TestCompletions(unittest.TestCase):
         self.assertEqual(result, [('@{EMPTY}', 'EMPTY'),
                                   ('@{TEST_TAGS}', 'TEST_TAGS')])
 
+    def test_variable_concatenation(self):
+        result = get_var_completion_list(self.test_a_index, '${CURDIR}$', '')
+        self.assertEqual(len(result), len(self.vars_in_test_a))
+        result = get_var_completion_list(
+            self.test_a_index, '${CURDIR}${Tru', '')
+        self.assertEqual(result, [('${True}', 'True}')])
+
     def test_get_var_mode(self):
         result = get_var_mode('$', '')
         self.assertEqual(result, 1)
@@ -274,3 +250,38 @@ class TestCompletions(unittest.TestCase):
         expected = '(?i)\\@\\{.*l.*i'
         self.assertEqual(get_var_re_string('@{li'), expected)
         self.assertEqual(get_var_re_string('var_subtition@{li'), expected)
+
+    @property
+    def vars_in_test_a(self):
+        return [
+            '${TEST_A}',
+            '${COMMON_VARIABLE_1}',
+            '${COMMON_VARIABLE_2}',
+            '${RESOURCE_A}',
+            '${/}',
+            '${:}',
+            '${\\n}',
+            '${CURDIR}',
+            '${DEBUG_FILE}',
+            '${EMPTY}',
+            '${EXECDIR}',
+            '${False}',
+            '${LOG_FILE}',
+            '${LOG_LEVEL}',
+            '${None}',
+            '${null}',
+            '${OUTPUT_DIR}',
+            '${OUTPUT_FILE}',
+            '${PREV_TEST_MESSAGE}',
+            '${PREV_TEST_NAME}',
+            '${PREV_TEST_STATUS}',
+            '${REPORT_FILE}',
+            '${SPACE}',
+            '${SUITE_DOCUMENTATION}',
+            '${SUITE_NAME}',
+            '${SUITE_SOURCE}',
+            '${TEMPDIR}',
+            '${TEST_DOCUMENTATION}',
+            '${TEST_NAME}',
+            '${True}'
+        ]
