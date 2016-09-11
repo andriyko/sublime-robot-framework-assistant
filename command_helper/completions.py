@@ -1,40 +1,55 @@
 import re
+import difflib
 from json import load as json_load
 try:
     from db_json_settings import DBJsonSetting
+    from utils.get_text import get_prefix
 except:
     from ..setting.db_json_settings import DBJsonSetting
-
-VAR_RE_STRING = '[\$\@\&]\{?\w*$'
-
-
-class VarMode(object):
-    """Which contents mode is used for variables
-
-    Describes how variable is found from the Sublime prefix
-    """
-    no_brackets = 1
-    two_brackets = 2
-    start_bracket = 3
+    from ..command_helper.utils.get_text import get_prefix
 
 
-def get_completion_list(view_index, prefix, text_cursor_rigt,
-                        rf_cell, object_name, one_line):
+def check_prefix(line, column, prefix):
+    data = get_prefix(line, column)
+    cell = '{0}{1}'.format(data['match'], data['rside'])
+    match = re.search(r'(?i)[\$\@\&]\{{{0}\}}'.format(prefix), cell)
+    if match:
+        new_prefix = match.group()
+    else:
+        possible_prefix = line[column - 2: column + 1]
+        possible_macth = re.search(r'(?i)[\$\@\&]\{?\}?', possible_prefix)
+        if possible_macth:
+            new_prefix = possible_macth.group()
+        else:
+            new_prefix = prefix
+    s = difflib.SequenceMatcher(None, data['match'], new_prefix)
+    column = s.find_longest_match(0, len(data['match']), 0, len(new_prefix))[2]
+    return new_prefix, column
+
+
+def get_completion_list(view_index, prefix, column, object_name,
+                        one_line, rf_cell):
     """Returns completion list for variables and keywords
 
     ``view_index`` -- Path to open tab index file in database.
     ``prefix`` -- Prefix from Sublime for the completion
-    ``text_cursor_rigt`` -- Text from cursor right side.
-    ``rf_cell`` -- RF_CELL value from .tmPreferences
+    ``column`` -- Cursor position in prefix
     ``object_name`` -- Library or resource object name
+    ``one_line`` -- How keyword arguments are formatted
+    ``rf_cell`` -- RF_CELL value from .tmPreferences
 
     Entry point for getting Robot Framework completion in using
     on_query_completions API from Sublime Text 3."""
-    if re.search(VAR_RE_STRING, prefix):
-        return get_var_completion_list(view_index, prefix, text_cursor_rigt)
+    if re.search(r'[\$\@\&]', prefix):
+        return get_var_completion_list(view_index, prefix, column)
     else:
         return get_kw_completion_list(
-            view_index, prefix, rf_cell, object_name, one_line)
+            view_index=view_index,
+            prefix=prefix,
+            rf_cell=rf_cell,
+            object_name=object_name,
+            one_line=one_line
+        )
 
 
 def get_kw_re_string(prefix):
@@ -88,63 +103,44 @@ def get_kw_completion_list(view_index, prefix, rf_cell,
 
 def get_var_re_string(prefix):
     prefix = str(prefix)
-    ignore_case = '(?i)'
-    if not re.search(VAR_RE_STRING, prefix):
-        re_string = '{0}\\{1}'.format(ignore_case, prefix)
+    re_string = r'(?i)'
+    prefix_len = len(prefix)
+    re_string = r'{0}\{1}'.format(re_string, prefix[:1])
+    if prefix_len == 1:  # Assumed: $
+        re_string = r'{0}.*'.format(re_string)
+    elif prefix_len == 2:  # Assumed: ${
+        re_string = r'{0}\{{.*'.format(re_string)
+    elif prefix_len == 3:
+        re_string = r'{0}\{{.*\}}'.format(re_string)
     else:
-        re_string = ignore_case
-        pattern = re.compile('[\$\@\&]')
-        var_position = 0
-        for index in prefix:
-            if var_position == 0 and pattern.search(index):
-                var_position = 1
-            if var_position == 1:  # @ or $ & character
-                re_string = '{0}\\{1}'.format(re_string, index)
-                var_position = 2
-            elif var_position == 2:  # { character
-                re_string = '{0}\\{1}'.format(re_string, index)
-                var_position = 3
-            elif var_position == 3:  # rest of the variable
-                re_string = '{0}.*{1}'.format(re_string, index)
+        re_string = r'{0}\{{.*'.format(re_string)
+        for char in prefix[2:-1]:
+            re_string = r'{0}{1}.*'.format(re_string, char)
+        re_string = r'{0}\}}'.format(re_string)
     return re_string
 
 
-def get_var_completion_list(view_index, prefix, text_cursor_rigt):
-    # Get last variable from ${CURDIR}${}
-    m = re.search('[\$\@\&]\{?[^\$\{\}]*\}?\Z', prefix)
-    if m:
-        prefix = m.group()
+def get_var_completion_list(view_index, prefix, column):
     pattern = re.compile(get_var_re_string(prefix))
     match_vars = []
-    mode = get_var_mode(prefix, text_cursor_rigt)
+    mode = get_var_mode(prefix)
     for var in get_variables(view_index):
         if pattern.search(var):
             match_vars.append(create_var_completion_item(var, mode))
     return match_vars
 
 
-def get_var_mode(prefix, text_cursor_rigt):
-    """Returns hwo variable prefix is written when completion is done.
+def get_var_mode(prefix):
+    """Returns False if { in prefix.
 
     ``prefix`` -- Prefix for the completion
-    ``text_cursor_rigt`` -- Text from cursor right side.
 
-    Variable completion can be done in thee ways and completion
+    Variable completion can be done in two ways and completion
     depends on which way variable is written. Possible variable
-    complations are: $, ${ and ${}. In last cursor is between
+    complations are: $ and ${}. In last cursor is between
     curly braces.
     """
-    one_character = '[\@\$\&]'
-    two_characters = '{0}\\{{'.format(one_character)
-    if (re.search(two_characters, prefix) and
-            text_cursor_rigt.startswith('}')):
-        return VarMode.two_brackets
-    elif re.search(two_characters, prefix) and not text_cursor_rigt:
-        return VarMode.start_bracket
-    elif re.search(one_character, prefix) and not text_cursor_rigt:
-        return VarMode.no_brackets
-    else:
-        return VarMode.no_brackets
+    return False if '{' in prefix else True
 
 
 def multiline_kw_completion_item(kw, kw_args, rf_cell):
@@ -178,12 +174,10 @@ def create_kw_completion_item(kw, kw_args, rf_cell, source, one_line):
 
 
 def create_var_completion_item(var, mode):
-    if mode == VarMode.no_brackets:
+    if mode:
         return (var, '{0}'.format(var[1:]))
-    elif mode == VarMode.two_brackets:
+    else:
         return (var, '{0}'.format(var[2:-1]))
-    elif mode == VarMode.start_bracket:
-        return (var, '{0}'.format(var[2:]))
 
 
 def _get_data(view_index):

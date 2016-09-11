@@ -9,6 +9,7 @@ from completions import get_var_completion_list
 from completions import get_var_re_string
 from completions import get_completion_list
 from completions import get_var_mode
+from completions import check_prefix
 
 RF_CELL = '    '
 RF_EXTENSION = 'robot'
@@ -25,11 +26,14 @@ class TestCompletions(unittest.TestCase):
 
     def test_get_completion_list(self):
         prefix = 'Runk'
-        result = get_completion_list(self.test_a_index, prefix,
-                                     '', RF_CELL, None, False)
+        result = get_completion_list(
+            self.test_a_index, prefix, len(prefix), None, False, RF_CELL)
         self.assertEqual(len(result), 20)
-        result = get_completion_list(self.test_a_index, '$',
-                                     '', RF_CELL, None, False)
+        result = get_completion_list(
+            self.test_a_index, '$', 1, None, False, RF_CELL)
+        self.assertEqual(len(result), 30)
+        result = get_completion_list(
+            self.test_a_index, '${}', 2, None, False, RF_CELL)
         self.assertEqual(len(result), 30)
 
     def test_object_name_included(self):
@@ -37,10 +41,10 @@ class TestCompletions(unittest.TestCase):
         result = get_completion_list(
             self.test_a_index,
             prefix,
+            4,
             '',
-            RF_CELL,
-            None,
-            False
+            False,
+            RF_CELL
         )
         self.assertEqual(len(result), 23)
         builtin = 'BuiltIn'
@@ -163,17 +167,13 @@ class TestCompletions(unittest.TestCase):
 
     def test_create_variable_completion_item(self):
         scalar = '${var}'
-        # Mode 1
+        # Mode is True == $
         expected = (scalar, '{0}'.format(scalar[1:]))
-        result = create_var_completion_item(scalar, 1)
+        result = create_var_completion_item(scalar, True)
         self.assertEqual(result, expected)
-        # Mode 2
-        expected = (scalar, '{0}'.format(scalar[2:5]))
-        result = create_var_completion_item(scalar, 2)
-        self.assertEqual(result, expected)
-        # Mode 3
-        expected = (scalar, '{0}'.format(scalar[2:]))
-        result = create_var_completion_item(scalar, 3)
+        # Mode is False == {} or {
+        expected = (scalar, '{0}'.format(scalar[2:-1]))
+        result = create_var_completion_item(scalar, False)
         self.assertEqual(result, expected)
 
     def test_get_var_completion_list(self):
@@ -191,10 +191,10 @@ class TestCompletions(unittest.TestCase):
             self.assertEqual(r, e)
         self.assertEqual(len(result), len(var_l))
         # Single var
-        result = get_var_completion_list(self.test_a_index, '${RESO', '')
-        self.assertEqual(result, [('${RESOURCE_A}', 'RESOURCE_A}')])
-        result = get_var_completion_list(self.test_a_index, '${reso', '')
-        self.assertEqual(result, [('${RESOURCE_A}', 'RESOURCE_A}')])
+        result = get_var_completion_list(self.test_a_index, '${RESO}', '')
+        self.assertEqual(result, [('${RESOURCE_A}', 'RESOURCE_A')])
+        result = get_var_completion_list(self.test_a_index, '${reso}', '')
+        self.assertEqual(result, [('${RESOURCE_A}', 'RESOURCE_A')])
         result = get_var_completion_list(self.test_a_index, '@', '')
         self.assertEqual(result, [('@{EMPTY}', '{EMPTY}'),
                                   ('@{TEST_TAGS}', '{TEST_TAGS}')])
@@ -204,52 +204,69 @@ class TestCompletions(unittest.TestCase):
         # No match
         result = get_var_completion_list(self.test_a_index, '${NOT_HERE', '')
         self.assertEqual(result, [])
-
-    def test_text_before_var(self):
-        result = get_var_completion_list(self.test_a_index, 'text@', '')
-        self.assertEqual(result, [('@{EMPTY}', '{EMPTY}'),
-                                  ('@{TEST_TAGS}', '{TEST_TAGS}')])
-        result = get_var_completion_list(self.test_a_index, 'text@{', '')
-        self.assertEqual(result, [('@{EMPTY}', 'EMPTY}'),
-                                  ('@{TEST_TAGS}', 'TEST_TAGS}')])
-        result = get_var_completion_list(self.test_a_index, 'text@{', '}')
-        self.assertEqual(result, [('@{EMPTY}', 'EMPTY'),
-                                  ('@{TEST_TAGS}', 'TEST_TAGS')])
-
-    def test_variable_concatenation(self):
-        result = get_var_completion_list(self.test_a_index, '${CURDIR}$', '')
-        self.assertEqual(len(result), len(self.vars_in_test_a))
-        result = get_var_completion_list(
-            self.test_a_index, '${CURDIR}${Tru', '')
-        self.assertEqual(result, [('${True}', 'True}')])
+        # Text inside of var
+        result = get_var_completion_list(self.test_a_index, '${Tru}', '')
+        self.assertEqual(len(result), 1)
 
     def test_get_var_mode(self):
-        result = get_var_mode('$', '')
-        self.assertEqual(result, 1)
-        result = get_var_mode('${', '}')
-        self.assertEqual(result, 2)
-        result = get_var_mode('${', '')
-        self.assertEqual(result, 3)
+        self.assertTrue(get_var_mode('$'))
+        self.assertTrue(get_var_mode('@'))
+        self.assertTrue(get_var_mode('&'))
+        self.assertFalse(get_var_mode('${}'))
+        self.assertFalse(get_var_mode('${CUR}'))
 
     def test_get_var_re_string(self):
-        var = '${var}'
-        self.assertEqual(get_var_re_string(var), '(?i)\\{0}'.format(var))
-        var = '@{var}'
-        self.assertEqual(get_var_re_string(var), '(?i)\\{0}'.format(var))
-        var = '&{var}'
-        self.assertEqual(get_var_re_string(var), '(?i)\\{0}'.format(var))
-        expected = '(?i)\\$\{.*v.*a.*r'
-        self.assertEqual(get_var_re_string('${var'), expected)
-        self.assertEqual(get_var_re_string('var_subtition${var'), expected)
-        expected = '(?i)\\$\\{'
-        self.assertEqual(get_var_re_string('${'), expected)
-        expected = '(?i)\\@\\{'
-        self.assertEqual(get_var_re_string('@{'), expected)
-        expected = '(?i)\\&\\{'
-        self.assertEqual(get_var_re_string('&{'), expected)
-        expected = '(?i)\\@\\{.*l.*i'
-        self.assertEqual(get_var_re_string('@{li'), expected)
-        self.assertEqual(get_var_re_string('var_subtition@{li'), expected)
+        self.assertEqual(get_var_re_string('$'), '(?i)\$.*')
+        self.assertEqual(get_var_re_string('${'), '(?i)\$\{.*')
+        self.assertEqual(get_var_re_string('${}'), '(?i)\$\{.*\}')
+        self.assertEqual(get_var_re_string('${var}'), '(?i)\$\{.*v.*a.*r.*\}')
+        self.assertEqual(get_var_re_string('@{var}'), '(?i)\@\{.*v.*a.*r.*\}')
+        self.assertEqual(get_var_re_string('&{var}'), '(?i)\&\{.*v.*a.*r.*\}')
+        expected = '(?i)\\@\\{.*l.*i.*\}'
+        self.assertEqual(get_var_re_string('@{li}'), expected)
+
+    def test_check_prefix(self):
+        prefix = ''
+        line = '    ${}'
+        column = 6
+        result_prefix, result_column = check_prefix(line, column, prefix)
+        self.assertEqual(result_prefix, '${}')
+        self.assertEqual(result_column, 2)
+
+        prefix = 'C'
+        line = '    ${C}'
+        column = 7
+        result_prefix, result_column = check_prefix(line, column, prefix)
+        self.assertEqual(result_prefix, '${C}')
+        self.assertEqual(result_column, 3)
+
+        prefix = 'Run'
+        line = '    Run'
+        column = 7
+        result_prefix, result_column = check_prefix(line, column, prefix)
+        self.assertEqual(result_prefix, prefix)
+        self.assertEqual(result_column, 3)
+
+        prefix = 'C'
+        line = '    ${CURDIR}${C}${PATH_TO}'
+        column = 16
+        result_prefix, result_column = check_prefix(line, column, prefix)
+        self.assertEqual(result_prefix, '${C}')
+        self.assertEqual(result_column, 3)
+
+        prefix = ''
+        line = '    ${CURDIR}${}'
+        column = 15
+        result_prefix, result_column = check_prefix(line, column, prefix)
+        self.assertEqual(result_prefix, '${}')
+        self.assertEqual(result_column, 2)
+
+        prefix = ''
+        line = '    $'
+        column = len(line)
+        result_prefix, result_column = check_prefix(line, column, prefix)
+        self.assertEqual(result_prefix, '$')
+        self.assertEqual(result_column, 1)
 
     @property
     def vars_in_test_a(self):
