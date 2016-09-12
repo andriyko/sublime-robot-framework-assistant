@@ -2,7 +2,7 @@ import shutil
 import logging
 import json
 import os
-import subprocess
+import sys
 import xml.etree.ElementTree as ET
 from robot.errors import DataError
 from finder import finder
@@ -44,9 +44,9 @@ class Scanner(object):
         if not os.path.exists(db_path):
             os.makedirs(db_path)
         else:
-            if os.platform == 'win32':
+            if sys.platform == 'win32':
                 # Because win and rmtree do not work with long filenames
-                subprocess.call(['rmdir' '/S' '/Q' '\"{}\"'.format(db_path)])
+                os.system('rmdir /S /Q \"{}\"'.format(db_path))
             else:
                 shutil.rmtree(db_path)
             os.makedirs(db_path)
