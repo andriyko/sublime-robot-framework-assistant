@@ -1,0 +1,29 @@
+New features:
+    1) No new features
+
+Bug fixes:
+    1) Speed improvement
+
+       In the past there used to be small but but really annoying
+       lag when changing between Robot Framework resource or test
+       suite files. This lag does not anymore exist. The speed
+       improvement is done by refactoring the internal database
+       logic and removing the need of the open_tab index file.
+
+    2) Better variable completion
+
+       Now it is possible to use variable completion example with
+       this: ${PATH}${TO}${} and when the cursor is between last
+       curly brackets.
+
+Backwards incompatible changes:
+    1) Combined Robot Framework commands
+
+       The `Robot Framework: Create Database Table From Active Tab`
+       and `Robot Framework: Create Database Index From Active Tab`
+       commands has been deleted, along with the keyboard
+       shortcut `Ctrl + Alt + t`. These commands are replaced with
+       a `Robot Framework: Update Internal Database For Active Tab`
+       command. The
+       `Robot Framework: Update Internal Database For Active Tab`
+       uses the old shortcut `Ctrl + Alt + i`.
