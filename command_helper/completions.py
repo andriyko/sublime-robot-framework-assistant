@@ -143,7 +143,12 @@ def get_var_mode(prefix):
     return False if '{' in prefix else True
 
 
+def _replace(matchobj):
+    return matchobj.group().replace('$', '\$')
+
+
 def multiline_kw_completion_item(kw, kw_args, rf_cell):
+    kw = re.sub(r'\$\{.*\}', _replace, kw)
     if kw_args:
         completion = '{0}\n'.format(kw)
     else:
@@ -154,7 +159,7 @@ def multiline_kw_completion_item(kw, kw_args, rf_cell):
 
 
 def oneline_kw_completion_item(kw, kw_args, rf_cell):
-    completion = kw
+    completion = re.sub(r'\$\{.*\}', _replace, kw)
     for arg in kw_args:
         completion = '{0}{1}{2}'.format(completion, rf_cell, arg)
     return completion

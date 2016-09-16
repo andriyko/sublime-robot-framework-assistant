@@ -23,6 +23,10 @@ class TestCompletions(unittest.TestCase):
             env.RESOURCES_DIR,
             'index-test_a.robot-c6b0faa0427a2cf861a1acad630765ea.json'
         )
+        cls.test_b_index = path.join(
+            env.RESOURCES_DIR,
+            'index-test_b.robot-28dc4d6e222a03bbc3db1fe62743ce94.json'
+        )
 
     def test_get_completion_list(self):
         prefix = 'Runk'
@@ -91,6 +95,17 @@ class TestCompletions(unittest.TestCase):
             '{0}\tOperatingSystem'.format(kw),
             '{0}{1}command'.format(kw, '\n...' + RF_CELL))
         self.assertEqual(kw_tuple[-1], expected)
+        kw_tuple = get_kw_completion_list(self.test_b_index, 'Embedding',
+                                          RF_CELL, None, False)
+        expected = (
+            'Embedding ${arg} To Keyword Name\tresource_b',
+            'Embedding \\${arg} To Keyword Name'
+        )
+        self.assertEqual(kw_tuple[0], expected)
+        kw_tuple = get_kw_completion_list(self.test_b_index, 'Embedding',
+                                          RF_CELL, None, True)
+        self.assertEqual(kw_tuple[0], expected)
+        self.assertEqual(len(kw_tuple), 1)
 
     def test_get_kw_completion_list_structure_with_object(self):
         object_name = 'test_a'

@@ -12,3 +12,6 @@ Resource B Keyword 1
 
 Resource B Keyword 2
     Log    ${RESOURCE_B}
+
+Embedding ${arg} To Keyword Name
+    Log    ${arg}

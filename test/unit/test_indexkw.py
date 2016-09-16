@@ -74,7 +74,11 @@ class TestIndexing(unittest.TestCase):
 
     def test_get_keywords_resource(self):
         data = self.get_resource_b()
-        expected_kw_list = ['Resource B Keyword 2', 'Resource B Keyword 1']
+        expected_kw_list = [
+            'Embedding ${arg} To Keyword Name',
+            'Resource B Keyword 2',
+            'Resource B Keyword 1'
+        ]
         expected_arg_list = [['kwb1'], []]
         kw_list, arg_list = self.index.get_keywords(data)
         self.assertEqual(kw_list, expected_kw_list)
@@ -607,8 +611,11 @@ class TestIndexing(unittest.TestCase):
         return l, kw_list, arg_list, object_name, table_name
 
     def get_resource_b_kw_index(self, keywordrecord):
-        kw_list = [u'Resource B Keyword 1', u'resource B Keyword 2']
-        arg_list = ['kwb1', None]
+        kw_list = [
+            u'Resource B Keyword 1',
+            u'resource B Keyword 2',
+            u'Embedding ${arg} To Keyword Name']
+        arg_list = ['kwb1', None, 'arg']
         table_name = self.resource_b_table_name
         object_name = u'resource_b.robot'
         l = []
