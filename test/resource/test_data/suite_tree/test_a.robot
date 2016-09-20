@@ -27,3 +27,7 @@ Keyword
     ...    ${EMPTY}
     Library Keyword 1
     ...    ${EMPTY}
+    Other Name Here
+    ...    ${True}
+    LongName.Other Name Here
+    ...    ${True}
