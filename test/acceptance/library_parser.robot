@@ -1,6 +1,8 @@
 *** Settings ***
 Library           data_parser.data_parser.DataParser
 Library           Collections
+Library           OperatingSystem
+Library           String
 Variables         variable_files/library_vars.py
 
 *** Test Cases ***
@@ -37,6 +39,18 @@ Parser Should Be Able To Parse External Library From Module
     Dictionaries Should Be Equal
     ...    ${result}
     ...    ${LIB_FROM_MODULE}
+
+Parser Should Be Able To Parse Library With Robot API Keyword Decorator
+    ${lib_path} =    OperatingSystem.Normalize Path    ${CURDIR}${/}..${/}resource${/}test_data${/}suite_tree${/}LibraryWithReallyTooLongName.py
+    ${result} =    Parse Library    ${lib_path}
+    Log Many    ${result}
+    ${kws} =    Set Variable    &{result}[keywords]
+    ${kw_with_deco} =    Set Variable    &{kws}[other_name_here]
+    ${lib_path} =    String.Convert To Lowercase    ${lib_path}
+    ${lib_path_from_parser} =    String.Convert To Lowercase    &{kw_with_deco}[keyword_file]
+    Should Be Equal As Strings
+    ...    ${lib_path_from_parser}
+    ...    ${lib_path}
 
 Parser Should Be Able To Parse External Library From Custom Location
     ${result} =    Parse Library
