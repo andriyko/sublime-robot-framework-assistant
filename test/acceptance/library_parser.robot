@@ -43,7 +43,6 @@ Parser Should Be Able To Parse External Library From Module
 Parser Should Be Able To Parse Library With Robot API Keyword Decorator
     ${lib_path} =    OperatingSystem.Normalize Path    ${CURDIR}${/}..${/}resource${/}test_data${/}suite_tree${/}LibraryWithReallyTooLongName.py
     ${result} =    Parse Library    ${lib_path}
-    Log Many    ${result}
     ${kws} =    Set Variable    &{result}[keywords]
     ${kw_with_deco} =    Set Variable    &{kws}[other_name_here]
     ${lib_path} =    String.Convert To Lowercase    ${lib_path}
