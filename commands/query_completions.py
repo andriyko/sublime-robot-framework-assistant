@@ -11,6 +11,8 @@ from ..command_helper.utils.get_text import get_line
 from ..command_helper.utils.get_text import get_object_from_line
 from ..command_helper.get_metadata import get_rf_table_separator
 
+SNIPPET_TRIGGER = [':f', '*', ':']
+
 
 def get_index_file(open_tab):
     db_table = rf_table_name(normalise_path(open_tab))
@@ -51,6 +53,10 @@ class RobotCompletion(sublime_plugin.EventListener):
 
     def get_completions(self, view, prefix, index_file):
         line, column = get_line(view)
+        snippet = line[column - 2:column].strip()
+        # To allow snippets to be triggered
+        if snippet in SNIPPET_TRIGGER:
+            return None
         new_prefix, new_column = check_prefix(line, column, prefix)
         rf_cell = get_rf_table_separator(view)
         object_name = get_object_from_line(line, prefix, column)
