@@ -38,8 +38,7 @@ def clean_results():
     print 'Clean: {0}'.format(env.RESULTS_DIR)
     if os.path.exists(env.RESULTS_DIR):
         shutil.rmtree(env.RESULTS_DIR)
-    else:
-        os.mkdir(env.RESULTS_DIR)
+    os.mkdir(env.RESULTS_DIR)
 
 
 def unit_test():
