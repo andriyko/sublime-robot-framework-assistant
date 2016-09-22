@@ -65,7 +65,8 @@ class GetDocumentation(unittest.TestCase):
     def test_error_conditions(self):
         cell = '${TEST_A}'
         object_name = None
-        doc = self.get_doc.return_documentation(object_name, cell)
+        doc = self.get_doc.return_documentation(
+            object_name, cell)
         self.assertEqual(doc, None)
         object_name = ''
         doc = self.get_doc.return_documentation(object_name, cell)
@@ -94,22 +95,32 @@ class GetDocumentation(unittest.TestCase):
     def test_get_table_name_from_index(self):
         cell = 'No Operation'
         object_name = 'BuiltIn'
-        table_name = self.get_doc.get_table_name_from_index(object_name, cell)
+        table_name, kw_canditate = self.get_doc.get_table_name_from_index(
+            object_name, cell)
         self.assertEqual(table_name, self.builtin_table_name)
+        self.assertEqual(kw_canditate, cell)
         cell = 'Test A Keyword'
         object_name = None
-        table_name = self.get_doc.get_table_name_from_index(object_name, cell)
+        table_name, kw_canditate = self.get_doc.get_table_name_from_index(
+            object_name, cell)
         self.assertEqual(table_name, self.test_a_table_name)
+        self.assertEqual(kw_canditate, cell)
         object_name = ''
-        table_name = self.get_doc.get_table_name_from_index(object_name, cell)
+        table_name, kw_canditate = self.get_doc.get_table_name_from_index(
+            object_name, cell)
         self.assertEqual(table_name, self.test_a_table_name)
+        self.assertEqual(kw_canditate, cell)
         object_name = 'test_a'
-        table_name = self.get_doc.get_table_name_from_index(object_name, cell)
+        table_name, kw_canditate = self.get_doc.get_table_name_from_index(
+            object_name, cell)
         self.assertEqual(table_name, self.test_a_table_name)
+        self.assertEqual(kw_canditate, cell)
         cell = 'Resource A Keyword 1'
         object_name = None
-        table_name = self.get_doc.get_table_name_from_index(object_name, cell)
+        table_name, kw_canditate = self.get_doc.get_table_name_from_index(
+            object_name, cell)
         self.assertEqual(table_name, self.resource_a_table_name)
+        self.assertEqual(kw_canditate, cell)
 
     def test_get_keyword_documentation(self):
         cell = 'No Operation'
@@ -128,13 +139,46 @@ class GetDocumentation(unittest.TestCase):
             cell)
         self.assertTrue(doc.startswith(expected_doc))
 
+    def test_embedding_arg_kw_doc(self):
+        _get_doc = GetKeywordDocumentation(
+            table_dir=self.db_dir,
+            index_dir=self.index_dir,
+            open_tab=self.test_b_file
+        )
+        doc = _get_doc.return_documentation(
+            '',
+            'Embedding arg To Keyword Name'
+        )
+        self.assertEqual(doc, 'Keyword with embedding arg to keyword name')
+
+    def test_get_table_name_from_index_with_embedding_arg_kw(self):
+        _get_doc = GetKeywordDocumentation(
+            table_dir=self.db_dir,
+            index_dir=self.index_dir,
+            open_tab=self.test_b_file
+        )
+        kw_table_name, kw_canditate = _get_doc.get_table_name_from_index(
+            '',
+            'Embedding arg To Keyword Name'
+        )
+        self.assertEqual(kw_table_name, self.resource_b_table_name)
+        self.assertEqual(kw_canditate, 'Embedding ${arg} To Keyword Name')
+
     @property
     def test_a_file(self):
         return path.normcase(path.join(self.suite_dir, 'test_a.robot'))
 
     @property
+    def test_b_file(self):
+        return path.normcase(path.join(self.suite_dir, 'test_b.robot'))
+
+    @property
     def resource_a_table_file(self):
         return path.normcase(path.join(self.suite_dir, 'resource_a.robot'))
+
+    @property
+    def resource_b_table_file(self):
+        return path.normcase(path.join(self.suite_dir, 'resource_b.robot'))
 
     @property
     def test_a_table_name(self):
@@ -143,6 +187,10 @@ class GetDocumentation(unittest.TestCase):
     @property
     def resource_a_table_name(self):
         return rf_table_name(self.resource_a_table_file)
+
+    @property
+    def resource_b_table_name(self):
+        return rf_table_name(self.resource_b_table_file)
 
     @property
     def builtin_table_name(self):

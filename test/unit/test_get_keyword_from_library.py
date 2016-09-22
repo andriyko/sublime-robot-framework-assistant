@@ -108,6 +108,23 @@ class TestGetKeywordFromResource(unittest.TestCase):
             regex,
             r'(?im)(def press_?key\()|(\@keyword.+name=[\'"]press[_ ]key)'
         )
+        kw = 'Embedding ${arg} To Keyword Name'
+        regex = self.get_kw.get_regex_library(kw)
+        self.assertEqual(
+            regex,
+            (
+                r'(?i)(\@keyword.+name=[\'"]'
+                r'embedding[_ ]?\$\{.+\}[_ ]?to[_ ]?keyword[_ ]?name)'
+            )
+        )
+        regex = self.get_kw.get_regex_library('Other ${arg1} and ${arg2} Too')
+        self.assertEqual(
+            regex,
+            (
+                r'(?i)(\@keyword.+name=[\'"]'
+                r'other[_ ]?\$\{.+\}[_ ]?and[_ ]?\$\{.+\}[_ ]?too)'
+            )
+        )
 
     @property
     def s2l(self):

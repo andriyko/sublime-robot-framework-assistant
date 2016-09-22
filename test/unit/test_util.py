@@ -19,3 +19,14 @@ class TestUtil(unittest.TestCase):
         kw1 = 'My Long Keyword'
         kw2 = '.myLONGkeyword'
         self.assertTrue(kw_equals_kw_candite(kw1, kw2))
+
+    def test_embedded_arg_kw(self):
+        kw1 = 'Embedding arg To Keyword Name'
+        kw2 = 'Embedding ${arg} To Keyword Name'
+        self.assertTrue(kw_equals_kw_candite(kw1, kw2))
+        kw1 = 'EMBEDDING_ARG_TO_KEYWORD_NAME'
+        kw2 = 'Embedding ${arg} To Keyword Name'
+        self.assertTrue(kw_equals_kw_candite(kw1, kw2))
+        kw1 = 'embedding_arg_to_keyword_name'
+        kw2 = 'Embedding ${arg} To Keyword Name'
+        self.assertTrue(kw_equals_kw_candite(kw1, kw2))

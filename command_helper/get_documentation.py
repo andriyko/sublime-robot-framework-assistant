@@ -36,7 +36,10 @@ class GetKeywordDocumentation(object):
         the database.
         """
         documentation = None
-        table_name = self.get_table_name_from_index(object_name, keyword)
+        table_name, kw_canditate = self.get_table_name_from_index(
+            object_name,
+            keyword
+        )
         if table_name:
             table_path = path.join(self.table_dir, table_name)
             documentation = self.get_keyword_documentation(
@@ -52,21 +55,28 @@ class GetKeywordDocumentation(object):
         ``keyword``     -- Keyword documentation to search from database.
         ``object_name`` -- Library or resource object name.
         """
+        return_kw = None
+        return_table_name = None
         open_tab = normalise_path(self.open_tab)
         index_name = get_index_name(rf_table_name(open_tab))
         index_data = get_data_from_json(
             path.join(self.index_dir, index_name)
         )
         for keyword_ in index_data[DBJsonSetting.keywords]:
-            kw = keyword_[0]
+            kw_canditate = keyword_[0]
             kw_object_name = keyword_[2]
             kw_table_name = keyword_[3]
             if object_name and object_name == kw_object_name:
-                if kw_equals_kw_candite(keyword, kw):
-                    return kw_table_name
+                if kw_equals_kw_candite(keyword, kw_canditate):
+                    return_kw = kw_canditate
+                    return_table_name = kw_table_name
+                    break
             elif not object_name:
-                if kw_equals_kw_candite(keyword, kw):
-                    return kw_table_name
+                if kw_equals_kw_candite(keyword, kw_canditate):
+                    return_kw = kw_canditate
+                    return_table_name = kw_table_name
+                    break
+        return return_table_name, return_kw
 
     def get_keyword_documentation(self, table_path, object_name, keyword):
         """Returns the keyword documentation from the table

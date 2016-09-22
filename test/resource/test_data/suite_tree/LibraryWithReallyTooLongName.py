@@ -15,3 +15,8 @@ class LibraryWithReallyTooLongName(object):
     def not_name(self, arg):
         """def not_name kw name Other Name Here"""
         print arg
+
+    @keyword(name='Other ${arg1} and ${arg2} Too')
+    def keyword_deco(self, arg1, arg2):
+        """lib keyword with emmedded args"""
+        print arg1, arg2

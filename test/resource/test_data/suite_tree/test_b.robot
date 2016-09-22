@@ -9,4 +9,5 @@ ${TEST_B}         AAA
 Test A Case A1
     Resource B Keyword 1    ${TEST_A}
     Common Keyword 1    ${TEST_A}
-    Embedding ${arg} To Keyword Name
+    Embedding arg To Keyword Name
+    Other arg1 and arg2 Too

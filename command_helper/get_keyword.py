@@ -20,6 +20,8 @@ class GetKeyword(object):
     Also returns the regex patters which can be used to search the
     file from the documentation.
     """
+    emebeded_re = '\\$\\{.+\\}'
+
     def __init__(self, table_dir, index_dir, open_tab, rf_extension):
         self.table_dir = table_dir
         self.index_dir = index_dir
@@ -44,8 +46,10 @@ class GetKeyword(object):
         """
         regex = None
         file_path = None
-        table_name = self.get_doc.get_table_name_from_index(object_name,
-                                                            keyword)
+        table_name, kw_canditate = self.get_doc.get_table_name_from_index(
+            object_name,
+            keyword
+        )
         if not table_name:
             return regex, file_path
         table_path = path.join(self.table_dir, table_name)
@@ -55,14 +59,14 @@ class GetKeyword(object):
         else:
             file_path_table = None
         if self.rf_data(file_path_table):
-            regex = self.get_regex_resource(keyword)
+            regex = self.get_regex_resource(kw_canditate)
             file_path = file_path_table
             return regex, file_path
         else:
             return self.get_lib_keyword(
                 table_path,
                 object_name,
-                keyword
+                kw_canditate
             )
 
     def get_lib_keyword(self, table_path, object_name, keyword):
@@ -86,25 +90,55 @@ class GetKeyword(object):
 
     def get_regex_library(self, keyword):
         """Returns the regex patters for library keywords"""
+        if re.search(self.emebeded_re, keyword):
+            return self._get_regex_lib_embedded(keyword)
+        else:
+            return self._get_regex_lib_no_embedded(keyword)
+
+    def _get_regex_lib_embedded(self, keyword):
+        """returns regex for lib keyword with embedded args"""
+        regex_from_deco = r'(?i)(\@keyword.+name=[\'"]'
+        words = self.split_kw_to_words(keyword)
+        for word in words:
+            if re.search(self.emebeded_re, word):
+                regex_from_deco = '{0}{1}[_ ]?'.format(
+                    regex_from_deco,
+                    self.emebeded_re
+                )
+            else:
+                regex_from_deco = '{0}{1}[_ ]?'.format(
+                    regex_from_deco,
+                    word.lower()
+                )
+        return '{0})'.format(regex_from_deco.rstrip('[_ ]?'))
+
+    def _get_regex_lib_no_embedded(self, keyword):
+        """returns regex for lib keyword with no embedded args"""
         words = self.split_kw_to_words(keyword)
         regex_from_func = '(?im)(def '
         regex_from_deco = r'(\@keyword.+name=[\'"]'
         for word in words:
             regex_from_func = '{0}{1}_?'.format(regex_from_func, word.lower())
             regex_from_deco = '{0}{1}[_ ]'.format(
-                regex_from_deco, word.lower())
+                regex_from_deco, word.lower()
+            )
         regex_from_func = regex_from_func.rstrip('_?')
         regex_from_deco = regex_from_deco.rstrip('[_ ]')
         return r'{0}\()|{1})'.format(regex_from_func, regex_from_deco)
 
     def get_regex_resource(self, keyword):
-        """Returns the regex patters for user defined keywords"""
+        """Returns the regex for user defined keywords"""
         words = self.split_kw_to_words(keyword)
         regex_patter = '(?im)^'
         for word in words:
-            regex_patter = '{0}{1}[_ ]?'.format(regex_patter, word.lower())
+            if re.search(self.emebeded_re, word):
+                regex_patter = '{0}{1}[_ ]?'.format(
+                    regex_patter, self.emebeded_re)
+            else:
+                regex_patter = '{0}{1}[_ ]?'.format(regex_patter, word.lower())
         regex_patter = regex_patter.rstrip('[_ ]?')
-        return '{0}$'.format(regex_patter)
+        regex_patter = '{0}$'.format(regex_patter)
+        return regex_patter
 
     def split_kw_to_words(self, keyword):
         words = []

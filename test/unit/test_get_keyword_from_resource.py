@@ -41,7 +41,7 @@ class TestGetKeywordFromResource(unittest.TestCase):
         cls.rf_ext = 'robot'
 
     def setUp(self):
-        self.get_kw = GetKeyword(
+        self._get_kw = GetKeyword(
             table_dir=self.db_dir,
             index_dir=self.index_dir,
             open_tab=self.get_common_robot_path,
@@ -52,27 +52,27 @@ class TestGetKeywordFromResource(unittest.TestCase):
         kw = 'Common Keyword 2'
         object_name = None
         expected_path = path.normcase(self.get_common_robot_path)
-        regex, file_path = self.get_kw.return_file_and_patter(object_name, kw)
+        regex, file_path = self._get_kw.return_file_and_patter(object_name, kw)
         self.assertEqual(regex, self.get_common_keyword_2_regex)
         self.assertEqual(file_path, expected_path)
         object_name = 'common'
-        regex, file_path = self.get_kw.return_file_and_patter(object_name, kw)
+        regex, file_path = self._get_kw.return_file_and_patter(object_name, kw)
         self.assertEqual(regex, self.get_common_keyword_2_regex)
         self.assertEqual(file_path, expected_path)
         kw = 'common keyword 2'
-        regex, file_path = self.get_kw.return_file_and_patter(object_name, kw)
+        regex, file_path = self._get_kw.return_file_and_patter(object_name, kw)
         self.assertEqual(regex, self.get_common_keyword_2_regex)
         self.assertEqual(file_path, expected_path)
         kw = 'COMMON KEYWORD 2'
-        regex, file_path = self.get_kw.return_file_and_patter(object_name, kw)
+        regex, file_path = self._get_kw.return_file_and_patter(object_name, kw)
         self.assertEqual(regex, self.get_common_keyword_2_regex)
         self.assertEqual(file_path, expected_path)
         kw = 'Common_Keyword_2'
-        regex, file_path = self.get_kw.return_file_and_patter(object_name, kw)
+        regex, file_path = self._get_kw.return_file_and_patter(object_name, kw)
         self.assertEqual(regex, self.get_common_keyword_2_regex)
         self.assertEqual(file_path, expected_path)
         kw = 'CommonKeyword2'
-        regex, file_path = self.get_kw.return_file_and_patter(object_name, kw)
+        regex, file_path = self._get_kw.return_file_and_patter(object_name, kw)
         self.assertEqual(regex, self.get_common_keyword_2_regex)
         self.assertEqual(file_path, expected_path)
 
@@ -91,27 +91,62 @@ class TestGetKeywordFromResource(unittest.TestCase):
 
     def test_get_regex_resource(self):
         kw = 'Common Keyword 2'
-        regex = self.get_kw.get_regex_resource(kw)
+        regex = self._get_kw.get_regex_resource(kw)
         self.assertEqual(regex, self.get_common_keyword_2_regex)
         kw = 'RUN'
-        regex = self.get_kw.get_regex_resource(kw)
+        regex = self._get_kw.get_regex_resource(kw)
         self.assertEqual(regex, '(?im)^run$')
         kw = 'Common_Keyword_2'
-        regex = self.get_kw.get_regex_resource(kw)
+        regex = self._get_kw.get_regex_resource(kw)
         self.assertEqual(regex, self.get_common_keyword_2_regex)
         kw = 'CommonKeyword2'
-        regex = self.get_kw.get_regex_resource(kw)
+        regex = self._get_kw.get_regex_resource(kw)
         self.assertEqual(regex, self.get_common_keyword_2_regex)
         kw = 'commonKeyword2'
-        regex = self.get_kw.get_regex_resource(kw)
+        regex = self._get_kw.get_regex_resource(kw)
         self.assertEqual(regex, self.get_common_keyword_2_regex)
         kw = 'COMMON KEYWORD 2'
-        regex = self.get_kw.get_regex_resource(kw)
+        regex = self._get_kw.get_regex_resource(kw)
         self.assertEqual(regex, self.get_common_keyword_2_regex)
+        kw = 'Embedding ${arg} To Keyword Name'
+        regex = self._get_kw.get_regex_resource(kw)
+        self.assertEqual(
+            regex,
+            '(?im)^embedding[_ ]?\$\{.+\}[_ ]?to[_ ]?keyword[_ ]?name$'
+        )
+        kw = 'Embedding ${arg1} And ${arg2} To Keyword Name'
+        regex = self._get_kw.get_regex_resource(kw)
+        self.assertEqual(
+            regex,
+            (
+                '(?im)^embedding[_ ]?'
+                '\$\{.+\}[_ ]?'
+                'and[_ ]?'
+                '\$\{.+\}[_ ]?'
+                'to[_ ]?'
+                'keyword[_ ]?'
+                'name$'
+            )
+        )
 
     def test_rf_data(self):
-        self.assertTrue(self.get_kw.rf_data(self.get_common_robot_path))
-        self.assertFalse(self.get_kw.rf_data(self.get_common_variables_path))
+        self.assertTrue(self._get_kw.rf_data(self.get_common_robot_path))
+        self.assertFalse(self._get_kw.rf_data(self.get_common_variables_path))
+
+    def test_embedding_arg_kw(self):
+        _get_kw = GetKeyword(
+            table_dir=self.db_dir,
+            index_dir=self.index_dir,
+            open_tab=self.test_b_file,
+            rf_extension=self.rf_ext
+        )
+        regex, file_path = _get_kw.return_file_and_patter(
+            '', 'Embedding arg To Keyword Name')
+        self.assertEqual(file_path, self.resource_b_table_file)
+        self.assertEqual(
+            regex,
+            '(?im)^embedding[_ ]?\$\{.+\}[_ ]?to[_ ]?keyword[_ ]?name$'
+        )
 
     @property
     def get_common_robot(self):
@@ -136,6 +171,14 @@ class TestGetKeywordFromResource(unittest.TestCase):
     @property
     def resource_a_table_file(self):
         return path.normcase(path.join(self.suite_dir, 'resource_a.robot'))
+
+    @property
+    def test_b_file(self):
+        return path.normcase(path.join(self.suite_dir, 'test_b.robot'))
+
+    @property
+    def resource_b_table_file(self):
+        return path.normcase(path.join(self.suite_dir, 'resource_b.robot'))
 
     @property
     def test_a_table_name(self):
