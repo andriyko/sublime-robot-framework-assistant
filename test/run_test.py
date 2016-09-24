@@ -63,6 +63,7 @@ def _help():
 def _exit(rc):
     sys.exit(rc)
 
+
 if __name__ == '__main__':
     if '--help' in sys.argv or '-h' in sys.argv:
         _exit(_help())
