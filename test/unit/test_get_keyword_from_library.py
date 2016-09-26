@@ -6,6 +6,7 @@ from os import path, mkdir
 from index_runner import index_all
 from queue.scanner import Scanner
 from get_keyword import GetKeyword
+from parser_utils.file_formatter import rf_table_name
 
 
 class TestGetKeywordFromResource(unittest.TestCase):
@@ -126,6 +127,16 @@ class TestGetKeywordFromResource(unittest.TestCase):
             )
         )
 
+    def test_keyword_lib_with_alias(self):
+        regex, file_path = self.get_kw.return_file_and_patter(
+            'LongName',
+            'Long Name Keyword'
+        )
+        self.assertEqual(
+            file_path,
+            self.long_name_file
+        )
+
     @property
     def s2l(self):
         if platform.system() == 'Windows':
@@ -159,3 +170,9 @@ class TestGetKeywordFromResource(unittest.TestCase):
     @property
     def get_common_robot_path(self):
         return path.join(self.suite_dir, self.get_common_robot)
+
+    @property
+    def long_name_file(self):
+        return path.join(
+            path.normcase(self.suite_dir), 'LibraryWithReallyTooLongName.py'
+        )

@@ -50,14 +50,13 @@ class GetKeyword(object):
             object_name,
             keyword
         )
+        table_object_name = table_name.split('-')[0]
         if not table_name:
             return regex, file_path
         table_path = path.join(self.table_dir, table_name)
         data = get_data_from_json(table_path)
         if DBJsonSetting.file_path in data:
             file_path_table = data[DBJsonSetting.file_path]
-        else:
-            file_path_table = None
         if self.rf_data(file_path_table):
             regex = self.get_regex_resource(kw_canditate)
             file_path = file_path_table
@@ -65,7 +64,7 @@ class GetKeyword(object):
         else:
             return self.get_lib_keyword(
                 table_path,
-                object_name,
+                table_object_name,
                 kw_canditate
             )
 
