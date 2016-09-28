@@ -102,7 +102,7 @@ class TestIndexing(unittest.TestCase):
 
     def test_get_imports(self):
         data = self.get_resource_b()
-        import_list = [self.process_table_name]
+        import_list = [self.process_table_name, self.lib_longer_100_characters]
         self.assertEqual(self.index.get_imports(data), import_list)
 
         data = self.get_test_a()
@@ -198,6 +198,7 @@ class TestIndexing(unittest.TestCase):
         kw_list.extend(self.get_process_kw_index(KeywordRecord)[0])
         kw_list.extend(self.get_builtin_kw_index(KeywordRecord)[0])
         kw_list.extend(self.get_LongName_kw_index(KeywordRecord)[0])
+        kw_list.extend(self.get_OtherNameLib_kw_index(KeywordRecord)[0])
         var_list = [
             u'${TEST_B}',
             u'${RESOURCE_B}',
@@ -377,6 +378,14 @@ class TestIndexing(unittest.TestCase):
         return lib_table_name('LibNoClass')
 
     @property
+    def lib_longer_100_characters(self):
+        return lib_table_name(
+            'LibraryNameWhichIsLongerThan100CharactersButItSeems'
+            'ThatItRequiresQuiteAlotLettersInTheFileNameAndIsNot'
+            'GoodRealLifeExample'
+        )
+
+    @property
     def longname_table_name(self):
         return lib_table_name('LibraryWithReallyTooLongName')
 
@@ -457,6 +466,15 @@ class TestIndexing(unittest.TestCase):
             os.path.join(
                 self.db_dir,
                 self.longname_table_name
+            )
+        )
+        return json.load(f)
+
+    def get_other_name_lib(self):
+        f = open(
+            os.path.join(
+                self.db_dir,
+                self.lib_longer_100_characters
             )
         )
         return json.load(f)
@@ -559,6 +577,29 @@ class TestIndexing(unittest.TestCase):
         table_name = self.libnoclass_table_name
         l = []
         for kw, arg in zip(kw_list, arg_list):
+            l.append(
+                keywordrecord(
+                    keyword=kw,
+                    argument=arg,
+                    object_name=object_name,
+                    table_name=table_name
+                )
+            )
+        return l, kw_list, arg_list, object_name, table_name
+
+    def get_OtherNameLib_kw_index(self, keywordrecord):
+        data = self.get_other_name_lib()
+        kw_list = self.index.get_keywords(data)[0]
+        arg_list = ['argument']
+        object_name = (
+            'LibraryNameWhichIsLongerThan100CharactersBut'
+            'ItSeemsThatItRequiresQuiteAlotLettersInThe'
+            'FileNameAndIsNotGoodRealLifeExample'
+        )
+        table_name = self.lib_longer_100_characters
+        l = []
+        for kw, arg in zip(kw_list, arg_list):
+            print kw, arg
             l.append(
                 keywordrecord(
                     keyword=kw,

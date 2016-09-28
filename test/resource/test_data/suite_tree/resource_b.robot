@@ -1,5 +1,6 @@
 *** Settings ***
 Library           Process
+Library           LibraryNameWhichIsLongerThan100CharactersButItSeemsThatItRequiresQuiteAlotLettersInTheFileNameAndIsNotGoodRealLifeExample.py    WITH NAME    OtherNameLib
 
 *** Variables ***
 ${RESOURCE_B}     B1B1B1B1B1
@@ -16,3 +17,4 @@ Resource B Keyword 2
 Embedding ${arg} To Keyword Name
     [Documentation]    Keyword with embedding arg to keyword name
     Log    ${arg}
+    OtherNameLib.Keyword Which Also Has Really Long Name But Not As Long The Class Name By 1234 In Keyword
