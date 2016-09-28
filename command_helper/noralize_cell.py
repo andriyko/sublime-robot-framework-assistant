@@ -71,7 +71,7 @@ class ReturnKeywordAndObject(object):
         keyword_best_match = ''
         for kw_detail in keywords:
             object_name = kw_detail[2]
-            kw = kw_detail[0]
+            kw_canditate = kw_detail[0]
             if rf_cell.startswith(object_name):
                 if len(object_best_match) <= len(object_name):
                     object_canditate = object_name
@@ -79,12 +79,12 @@ class ReturnKeywordAndObject(object):
                     object_re = '(?:{0}\\.)(.+)'.format(object_re)
                     match = re.search(object_re, rf_cell)
                     if match:
-                        keyword_canditate = match.group(1)
+                        keyword_from_line = match.group(1)
                     else:
-                        keyword_canditate = ''
-                    if kw_equals_kw_candite(kw, keyword_canditate):
+                        keyword_from_line = ''
+                    if kw_equals_kw_candite(keyword_from_line, kw_canditate):
                         object_best_match = object_canditate
-                        keyword_best_match = keyword_canditate
+                        keyword_best_match = keyword_from_line
         return object_best_match, keyword_best_match
 
     def _get_data(self):

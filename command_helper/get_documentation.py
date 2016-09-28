@@ -64,9 +64,9 @@ class GetKeywordDocumentation(object):
         )
         for keyword_ in index_data[DBJsonSetting.keywords]:
             kw_canditate = keyword_[0]
-            kw_object_name = keyword_[2]
+            kw_object_name_alias = keyword_[2]
             kw_table_name = keyword_[3]
-            if object_name and object_name == kw_object_name:
+            if object_name and object_name == kw_object_name_alias:
                 if kw_equals_kw_candite(keyword, kw_canditate):
                     return_kw = kw_canditate
                     return_table_name = kw_table_name

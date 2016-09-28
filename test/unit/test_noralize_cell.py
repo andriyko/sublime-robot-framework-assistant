@@ -118,6 +118,24 @@ class TestCompletions(unittest.TestCase):
         self.assertTrue('keywords' in self.rkao.data)
         self.assertGreater(len(self.rkao.data['keywords']), 1)
 
+    def test_library_too_long_name(self):
+        current_view_ = path.join(
+            env.RESOURCES_DIR,
+            'index-test_b.robot-28dc4d6e222a03bbc3db1fe62743ce94.json'
+        )
+        rkao_ = ReturnKeywordAndObject(
+            current_view_,
+            '    '
+        )
+        line = (
+            '    OtherNameLib.Keyword Which Also Has Really Long Name But '
+            'Not As Long The Class Name By 1234 In Keyword'
+        )
+        column = 30
+        keyword, object_name = rkao_.normalize(line, column)
+        self.assertEqual(keyword, line.replace('    OtherNameLib.', ''))
+        self.assertEqual(object_name, 'OtherNameLib')
+
     @property
     def add_dolibrary_kw1(self):
         return [

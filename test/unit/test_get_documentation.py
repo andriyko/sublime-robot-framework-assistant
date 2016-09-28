@@ -122,6 +122,23 @@ class GetDocumentation(unittest.TestCase):
         self.assertEqual(table_name, self.resource_a_table_name)
         self.assertEqual(kw_canditate, cell)
 
+    def test_get_table_name_from_index_with_test_b(self):
+        _get_doc = GetKeywordDocumentation(
+            table_dir=self.db_dir,
+            index_dir=self.index_dir,
+            open_tab=self.test_b_file
+        )
+        cell = (
+            'Keyword Which Also Has Really Long Name But '
+            'Not As Long The Class Name By 1234 In Keyword'
+        )
+        object_name = 'OtherNameLib'
+        table_name, kw_canditate = _get_doc.get_table_name_from_index(
+            object_name, cell
+        )
+        self.assertEqual(table_name, self.othernamelib_table_name)
+        self.assertEqual(kw_canditate, cell.replace('1234', '${argument}'))
+
     def test_get_keyword_documentation(self):
         cell = 'No Operation'
         object_name = 'BuiltIn'
@@ -150,6 +167,16 @@ class GetDocumentation(unittest.TestCase):
             'Embedding arg To Keyword Name'
         )
         self.assertEqual(doc, 'Keyword with embedding arg to keyword name')
+
+        kw = (
+            'Keyword Which Also Has Really Long Name But Not As'
+            ' Long The Class Name By 1234 In Keyword'
+        )
+        doc = _get_doc.return_documentation(
+            'OtherNameLib',
+            kw
+        )
+        self.assertEqual(doc, 'Documentation is here')
 
     def test_get_table_name_from_index_with_embedding_arg_kw(self):
         _get_doc = GetKeywordDocumentation(
@@ -203,3 +230,10 @@ class GetDocumentation(unittest.TestCase):
     @property
     def builtin_table_path(self):
         return path.join(self.db_dir, self.builtin_table_name)
+
+    @property
+    def othernamelib_table_name(self):
+        return lib_table_name(
+            'LibraryNameWhichIsLongerThan100CharactersButItSeemsThatItRequires'
+            'QuiteAlotLettersInTheFileNameAndIsNotGoodRealLifeExample'
+        )
