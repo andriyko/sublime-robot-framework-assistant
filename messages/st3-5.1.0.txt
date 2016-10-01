@@ -1,0 +1,31 @@
+New features
+    1) Support for keywords using embedded arguments
+
+       This release brings support for keyword using
+       embedded arguments syntax. In the previous releases
+       it was not possible to see keyword documentation or
+       jump to keyword if the keyword was using embedded
+       arguments syntax. Also the previous release the
+       embedded arguments syntax was not completed correctly
+       by the plugin. In this release the plugin is able show
+       keyword documentation and jump to keyword also from
+       keyword using embedded arguments syntax. Also the
+       plugin supports keyword embedded arguments syntax
+       coming from libraries and keyword tables in resource
+       or test data files.
+
+Bug fixes
+    1) Snippets using `:f` did not work
+       There always have been snippets to provide templates
+       for different kind of for loops. It in some previous
+       release the keyword completion feature did start to
+       overwrite the snippets using `:f`. In this release,
+       the `:f` snippets works normally again.
+
+Backwards incompatible changes
+    This release should not contain changes which would
+    be backwards incompatible.
+
+Full list of changes
+    Please see full list of changed from:
+    https://github.com/andriyko/sublime-robot-framework-assistant/milestone/11?closed=1
