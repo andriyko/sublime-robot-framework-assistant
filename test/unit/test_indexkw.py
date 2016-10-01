@@ -134,7 +134,7 @@ class TestIndexing(unittest.TestCase):
     def test_get_kw_for_index(self):
         KeywordRecord = namedtuple(
             'KeywordRecord',
-            'keyword argument object_name table_name')
+            'keyword argument object_name table_name object_alias')
         l, kw_list, arg_list, object_name, table_name = \
             self.get_resource_b_kw_index(KeywordRecord)
         self.assertEqual(
@@ -157,7 +157,7 @@ class TestIndexing(unittest.TestCase):
         table_name = self.test_a_table_name
         KeywordRecord = namedtuple(
             'KeywordRecord',
-            'keyword argument object_name table_name')
+            'keyword argument object_name table_name object_alias')
         kw_list = []
         kw_list.extend(self.get_test_a_kw_index(KeywordRecord)[0])
         kw_list.extend(self.get_common_kw_index(KeywordRecord)[0])
@@ -189,7 +189,7 @@ class TestIndexing(unittest.TestCase):
         table_name = self.test_b_table_name
         KeywordRecord = namedtuple(
             'KeywordRecord',
-            'keyword argument object_name table_name')
+            'keyword argument object_name table_name object_alias')
         kw_list = []
         kw_list.extend(self.get_test_b_kw_index(KeywordRecord)[0])
         kw_list.extend(self.get_common_kw_index(KeywordRecord)[0])
@@ -302,8 +302,13 @@ class TestIndexing(unittest.TestCase):
                                                  self.common_table_name)
         for kw in data['keywords']:
             if 'Long Name Keyword' == kw.keyword:
-                print kw
-                self.assertEqual(kw.object_name, 'LongName')
+                self.assertEqual(
+                    kw.object_name,
+                    'LibraryWithReallyTooLongName'
+                )
+                self.assertEqual(
+                    kw.object_alias,
+                    'LongName')
 
     @property
     def common_table_name_index(self):
@@ -492,7 +497,8 @@ class TestIndexing(unittest.TestCase):
                     keyword=kw,
                     argument=arg,
                     object_name=object_name,
-                    table_name=table_name
+                    table_name=table_name,
+                    object_alias=None
                 )
             )
         return l, kw_list, arg_list, object_name, table_name
@@ -510,7 +516,8 @@ class TestIndexing(unittest.TestCase):
                     keyword=kw,
                     argument=arg,
                     object_name=object_name,
-                    table_name=table_name
+                    table_name=table_name,
+                    object_alias=None
                 )
             )
         return l, kw_list, arg_list, object_name, table_name
@@ -528,7 +535,8 @@ class TestIndexing(unittest.TestCase):
                     keyword=kw,
                     argument=arg,
                     object_name=object_name,
-                    table_name=table_name
+                    table_name=table_name,
+                    object_alias=None
                 )
             )
         return l, kw_list, arg_list, object_name, table_name
@@ -546,7 +554,8 @@ class TestIndexing(unittest.TestCase):
                     keyword=kw,
                     argument=arg,
                     object_name=object_name,
-                    table_name=table_name
+                    table_name=table_name,
+                    object_alias=None
                 )
             )
         return l, kw_list, arg_list, object_name, table_name
@@ -564,7 +573,8 @@ class TestIndexing(unittest.TestCase):
                     keyword=kw,
                     argument=arg,
                     object_name=object_name,
-                    table_name=table_name
+                    table_name=table_name,
+                    object_alias=None
                 )
             )
         return l, kw_list, arg_list, object_name, table_name
@@ -582,7 +592,8 @@ class TestIndexing(unittest.TestCase):
                     keyword=kw,
                     argument=arg,
                     object_name=object_name,
-                    table_name=table_name
+                    table_name=table_name,
+                    object_alias='LongName'
                 )
             )
         return l, kw_list, arg_list, object_name, table_name
@@ -605,7 +616,8 @@ class TestIndexing(unittest.TestCase):
                     keyword=kw,
                     argument=arg,
                     object_name=object_name,
-                    table_name=table_name
+                    table_name=table_name,
+                    object_alias='OtherNameLib'
                 )
             )
         return l, kw_list, arg_list, object_name, table_name
@@ -622,7 +634,8 @@ class TestIndexing(unittest.TestCase):
                     keyword=kw,
                     argument=arg,
                     object_name=object_name,
-                    table_name=table_name
+                    table_name=table_name,
+                    object_alias=None
                 )
             )
         return l, kw_list, arg_list, object_name, table_name
@@ -646,7 +659,8 @@ class TestIndexing(unittest.TestCase):
                     keyword=kw,
                     argument=arg,
                     object_name=object_name,
-                    table_name=table_name
+                    table_name=table_name,
+                    object_alias=None
                 )
             )
         return l, kw_list, arg_list, object_name, table_name
@@ -666,7 +680,8 @@ class TestIndexing(unittest.TestCase):
                     keyword=kw,
                     argument=arg,
                     object_name=object_name,
-                    table_name=table_name
+                    table_name=table_name,
+                    object_alias=None
                 )
             )
         return l, kw_list, arg_list, object_name, table_name
@@ -686,7 +701,8 @@ class TestIndexing(unittest.TestCase):
                     keyword=kw,
                     argument=None,
                     object_name=object_name,
-                    table_name=table_name
+                    table_name=table_name,
+                    object_alias=None
                 )
             )
         return l, kw_list, [None], object_name, table_name

@@ -250,18 +250,17 @@ class Index(object):
             self, kw_list, argument_list, table_name, object_name):
         KeywordRecord = namedtuple(
             'KeywordRecord',
-            'keyword argument object_name table_name')
+            'keyword argument object_name table_name object_alias')
         kw_index = []
         library_alias = self.get_library_alias(table_name)
-        if library_alias:
-            object_name = library_alias
         for kw, argument in zip(kw_list, argument_list):
             kw_index.append(
                 KeywordRecord(
                     keyword=kw,
                     argument=argument,
                     object_name=object_name,
-                    table_name=table_name
+                    table_name=table_name,
+                    object_alias=library_alias
                 )
             )
         return kw_index

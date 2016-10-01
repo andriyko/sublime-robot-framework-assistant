@@ -6,10 +6,9 @@ from os import path, mkdir
 from index_runner import index_all
 from queue.scanner import Scanner
 from get_keyword import GetKeyword
-from parser_utils.file_formatter import rf_table_name
 
 
-class TestGetKeywordFromResource(unittest.TestCase):
+class TestGetKeywordFromLibrary(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
@@ -128,14 +127,41 @@ class TestGetKeywordFromResource(unittest.TestCase):
         )
 
     def test_keyword_lib_with_alias(self):
-        regex, file_path = self.get_kw.return_file_and_patter(
-            'LongName',
-            'Long Name Keyword'
+        get_kw_ = GetKeyword(
+            table_dir=self.db_dir,
+            index_dir=self.index_dir,
+            open_tab=self.get_resource_b_robot_path,
+            rf_extension=self.rf_ext
+        )
+        # regex, file_path = get_kw_.return_file_and_patter(
+        #     'LongName',
+        #     'Long Name Keyword'
+        # )
+        # self.assertEqual(
+        #     file_path,
+        #     self.long_name_file
+        # )
+
+        kw = (
+            'Keyword Which Also Has Really Long Name But Not As'
+            ' Long The Class Name By 1234 In Keyword'
+        )
+        regex, file_path = get_kw_.return_file_and_patter(
+            'OtherNameLib',
+            kw
+        )
+        expected_re = (
+            '(?i)(\\@keyword.+name=[\\\'"]'
+            'keyword[_ ]?which[_ ]?also[_ ]?has[_ ]?really'
+            '[_ ]?long[_ ]?name[_ ]?but[_ ]?not[_ ]?as'
+            '[_ ]?long[_ ]?the[_ ]?class[_ ]?name[_ ]?by'
+            '[_ ]?\\$\\{.+\\}[_ ]?in[_ ]?keyword)'
         )
         self.assertEqual(
             file_path,
-            self.long_name_file
+            self.get_resource_lib_longer_than_100_chars
         )
+        self.assertEqual(regex, expected_re)
 
     @property
     def s2l(self):
@@ -175,4 +201,19 @@ class TestGetKeywordFromResource(unittest.TestCase):
     def long_name_file(self):
         return path.join(
             path.normcase(self.suite_dir), 'LibraryWithReallyTooLongName.py'
+        )
+
+    @property
+    def get_resource_b_robot_path(self):
+        return path.join(self.suite_dir, 'resource_b.robot')
+
+    @property
+    def get_resource_lib_longer_than_100_chars(self):
+        return path.join(
+            path.normcase(self.suite_dir),
+            (
+                'LibraryNameWhichIsLongerThan100CharactersButItSeemsThatIt'
+                'RequiresQuiteAlotLettersInTheFileNameAndIsNotGoodReal'
+                'LifeExample.py'
+            )
         )

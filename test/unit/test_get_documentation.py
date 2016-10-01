@@ -95,32 +95,39 @@ class GetDocumentation(unittest.TestCase):
     def test_get_table_name_from_index(self):
         cell = 'No Operation'
         object_name = 'BuiltIn'
-        table_name, kw_canditate = self.get_doc.get_table_name_from_index(
+        kw_details = self.get_doc.get_table_name_from_index(
             object_name, cell)
-        self.assertEqual(table_name, self.builtin_table_name)
-        self.assertEqual(kw_canditate, cell)
+        self.assertEqual(kw_details.table_name, self.builtin_table_name)
+        self.assertEqual(kw_details.kw, cell)
+        self.assertEqual(kw_details.kw_object_name, object_name)
         cell = 'Test A Keyword'
         object_name = None
-        table_name, kw_canditate = self.get_doc.get_table_name_from_index(
+        kw_details = self.get_doc.get_table_name_from_index(
             object_name, cell)
-        self.assertEqual(table_name, self.test_a_table_name)
-        self.assertEqual(kw_canditate, cell)
+        self.assertEqual(kw_details.table_name, self.test_a_table_name)
+        self.assertEqual(kw_details.kw, cell)
+        self.assertEqual(kw_details.kw_object_name, 'test_a')
         object_name = ''
-        table_name, kw_canditate = self.get_doc.get_table_name_from_index(
-            object_name, cell)
-        self.assertEqual(table_name, self.test_a_table_name)
-        self.assertEqual(kw_canditate, cell)
+        kw_details = self.get_doc.get_table_name_from_index(
+            object_name,
+            cell
+        )
+        self.assertEqual(kw_details.table_name, self.test_a_table_name)
+        self.assertEqual(kw_details.kw, cell)
+        self.assertEqual(kw_details.kw_object_name, 'test_a')
         object_name = 'test_a'
-        table_name, kw_canditate = self.get_doc.get_table_name_from_index(
+        kw_details = self.get_doc.get_table_name_from_index(
             object_name, cell)
-        self.assertEqual(table_name, self.test_a_table_name)
-        self.assertEqual(kw_canditate, cell)
+        self.assertEqual(kw_details.table_name, self.test_a_table_name)
+        self.assertEqual(kw_details.kw, cell)
+        self.assertEqual(kw_details.kw_object_name, object_name)
         cell = 'Resource A Keyword 1'
         object_name = None
-        table_name, kw_canditate = self.get_doc.get_table_name_from_index(
+        kw_details = self.get_doc.get_table_name_from_index(
             object_name, cell)
-        self.assertEqual(table_name, self.resource_a_table_name)
-        self.assertEqual(kw_canditate, cell)
+        self.assertEqual(kw_details.table_name, self.resource_a_table_name)
+        self.assertEqual(kw_details.kw, cell)
+        self.assertEqual(kw_details.kw_object_name, 'resource_a')
 
     def test_get_table_name_from_index_with_test_b(self):
         _get_doc = GetKeywordDocumentation(
@@ -133,11 +140,19 @@ class GetDocumentation(unittest.TestCase):
             'Not As Long The Class Name By 1234 In Keyword'
         )
         object_name = 'OtherNameLib'
-        table_name, kw_canditate = _get_doc.get_table_name_from_index(
+        kw_details = _get_doc.get_table_name_from_index(
             object_name, cell
         )
-        self.assertEqual(table_name, self.othernamelib_table_name)
-        self.assertEqual(kw_canditate, cell.replace('1234', '${argument}'))
+        self.assertEqual(kw_details.table_name, self.othernamelib_table_name)
+        self.assertEqual(kw_details.kw, cell.replace('1234', '${argument}'))
+        self.assertEqual(
+            kw_details.kw_object_name,
+            (
+                'LibraryNameWhichIsLongerThan100CharactersButItSeemsThatIt'
+                'RequiresQuiteAlotLettersInTheFileName'
+                'AndIsNotGoodRealLifeExample'
+            )
+        )
 
     def test_get_keyword_documentation(self):
         cell = 'No Operation'
@@ -184,12 +199,13 @@ class GetDocumentation(unittest.TestCase):
             index_dir=self.index_dir,
             open_tab=self.test_b_file
         )
-        kw_table_name, kw_canditate = _get_doc.get_table_name_from_index(
+        kw_details = _get_doc.get_table_name_from_index(
             '',
             'Embedding arg To Keyword Name'
         )
-        self.assertEqual(kw_table_name, self.resource_b_table_name)
-        self.assertEqual(kw_canditate, 'Embedding ${arg} To Keyword Name')
+        self.assertEqual(kw_details.table_name, self.resource_b_table_name)
+        self.assertEqual(kw_details.kw, 'Embedding ${arg} To Keyword Name')
+        self.assertEqual(kw_details.kw_object_name, 'resource_b')
 
     @property
     def test_a_file(self):

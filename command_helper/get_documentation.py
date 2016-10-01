@@ -1,3 +1,4 @@
+import collections
 from os import path
 try:
     from parser_utils.file_formatter import rf_table_name
@@ -36,16 +37,17 @@ class GetKeywordDocumentation(object):
         the database.
         """
         documentation = None
-        table_name, kw_canditate = self.get_table_name_from_index(
+        # table_name, kw_canditate, kw_object_name
+        kw_details = self.get_table_name_from_index(
             object_name,
             keyword
         )
-        if table_name:
-            table_path = path.join(self.table_dir, table_name)
+        if kw_details.table_name:
+            table_path = path.join(self.table_dir, kw_details.table_name)
             documentation = self.get_keyword_documentation(
                 table_path,
-                object_name,
-                keyword
+                kw_details.kw_object_name,
+                kw_details.kw
             )
         return documentation
 
@@ -57,6 +59,15 @@ class GetKeywordDocumentation(object):
         """
         return_kw = None
         return_table_name = None
+        kw_object_name = None
+        KwDetails = collections.namedtuple(
+            'KwDetails',
+            [
+                'table_name',
+                'kw',
+                'kw_object_name'
+            ]
+        )
         open_tab = normalise_path(self.open_tab)
         index_name = get_index_name(rf_table_name(open_tab))
         index_data = get_data_from_json(
@@ -64,9 +75,13 @@ class GetKeywordDocumentation(object):
         )
         for keyword_ in index_data[DBJsonSetting.keywords]:
             kw_canditate = keyword_[0]
-            kw_object_name_alias = keyword_[2]
+            kw_object_name_alias = keyword_[4]
             kw_table_name = keyword_[3]
-            if object_name and object_name == kw_object_name_alias:
+            kw_object_name = keyword_[2]
+            if (object_name and
+                    object_name == kw_object_name_alias or
+                    object_name == kw_object_name):
+                # Test kw if object names are equal
                 if kw_equals_kw_candite(keyword, kw_canditate):
                     return_kw = kw_canditate
                     return_table_name = kw_table_name
@@ -76,7 +91,11 @@ class GetKeywordDocumentation(object):
                     return_kw = kw_canditate
                     return_table_name = kw_table_name
                     break
-        return return_table_name, return_kw
+        return KwDetails(
+            table_name=return_table_name,
+            kw=return_kw,
+            kw_object_name=kw_object_name
+        )
 
     def get_keyword_documentation(self, table_path, object_name, keyword):
         """Returns the keyword documentation from the table

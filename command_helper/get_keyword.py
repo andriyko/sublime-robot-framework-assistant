@@ -46,26 +46,27 @@ class GetKeyword(object):
         """
         regex = None
         file_path = None
-        table_name, kw_canditate = self.get_doc.get_table_name_from_index(
+        kw_details = self.get_doc.get_table_name_from_index(
             object_name,
             keyword
         )
-        table_object_name = table_name.split('-')[0]
-        if not table_name:
+        if not kw_details.table_name:
             return regex, file_path
-        table_path = path.join(self.table_dir, table_name)
+        table_path = path.join(self.table_dir, kw_details.table_name)
         data = get_data_from_json(table_path)
         if DBJsonSetting.file_path in data:
             file_path_table = data[DBJsonSetting.file_path]
+        else:
+            file_path_table = None
         if self.rf_data(file_path_table):
-            regex = self.get_regex_resource(kw_canditate)
+            regex = self.get_regex_resource(kw_details.kw)
             file_path = file_path_table
             return regex, file_path
         else:
             return self.get_lib_keyword(
                 table_path,
-                table_object_name,
-                kw_canditate
+                kw_details.kw_object_name,
+                kw_details.kw
             )
 
     def get_lib_keyword(self, table_path, object_name, keyword):
