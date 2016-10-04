@@ -1,0 +1,5 @@
+No new features
+
+Bug fixes:
+    1) Fixes problem with modules doing imports
+       that may be expoced as keywords
