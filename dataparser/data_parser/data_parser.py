@@ -168,8 +168,12 @@ class DataParser():
         kw_deco = {}
         for key in libcode.__dict__:
             if callable(libcode.__dict__[key]):
-                if 'robot_name' in libcode.__dict__[key].__dict__:
-                    kw_deco[libcode.__dict__[key].__dict__['robot_name']] = key
+                try:
+                    if 'robot_name' in libcode.__dict__[key].__dict__:
+                        kw = libcode.__dict__[key].__dict__['robot_name']
+                        kw_deco[kw] = key
+                except AttributeError:
+                    pass
         return kw_deco
 
     def _get_library_kw_source(self, libcode, keyword):
