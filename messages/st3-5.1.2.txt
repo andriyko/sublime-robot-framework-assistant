@@ -1,0 +1,8 @@
+No new features
+
+Bug fixes:
+    1) Project specifc settings where not used
+
+       Plugin had a bug and the project specific
+       settings where not used. This hotfix
+       release fixes that problem.
