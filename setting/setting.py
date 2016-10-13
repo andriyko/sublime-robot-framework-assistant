@@ -121,9 +121,6 @@ def parse_project(setting):
         rf_project_data = project_data[SettingObject.project_setting]
         if setting in rf_project_data:
             rf_project_setting = rf_project_data[setting]
-    if setting == SettingObject.db_dir:
-        if not path.isdir(setting):
-            rf_project_setting = None
     return rf_project_setting
 
 
