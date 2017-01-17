@@ -233,18 +233,32 @@ class Index(object):
         pattern = re.compile('(?:[\@\$\&]\{)(.+)(?:\})')
         comletion_args = []
         for arg in kw_args:
-            match = pattern.search(arg)
+            arg_name, arg_default = self.split_arg(arg)
+            match = pattern.search(arg_name)
             if not match:
-                comletion_args.append(arg.split('=')[0])
+                comletion_args.append(arg_name)
             else:
                 arg_text = match.group(1)
-                if arg.startswith('$'):
+                if arg.startswith('$') and arg_default:
+                    comletion_args.append(
+                        '{}={}'.format(
+                            arg_text, arg_default
+                        )
+                    )
+                elif arg.startswith('$') and not arg_default:
                     comletion_args.append(arg_text)
                 elif arg.startswith('@'):
                     comletion_args.append('*{0}'.format(arg_text))
                 else:
                     comletion_args.append('**{0}'.format(arg_text))
         return comletion_args
+
+    def split_arg(self, arg):
+        arg_name = arg
+        arg_default = None
+        if '=' in arg:
+            arg_name, arg_default = arg.split('=', 1)
+        return arg_name, arg_default
 
     def get_kw_for_index(
             self, kw_list, argument_list, table_name, object_name):

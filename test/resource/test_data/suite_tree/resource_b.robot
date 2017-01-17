@@ -18,3 +18,7 @@ Embedding ${arg} To Keyword Name
     [Documentation]    Keyword with embedding arg to keyword name
     Log    ${arg}
     OtherNameLib.Keyword Which Also Has Really Long Name But Not As Long The Class Name By 1234 In Keyword
+
+Resource B Keyword 3 Many Args
+    [Arguments]    ${arg1}=${True}    ${arg2}=Text_here    ${arg3}=${False}
+    Log    ${arg1}

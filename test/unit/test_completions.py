@@ -283,6 +283,21 @@ class TestCompletions(unittest.TestCase):
         self.assertEqual(result_prefix, '$')
         self.assertEqual(result_column, 1)
 
+    def test_arguments_defaults(self):
+        prefix = 'ResourceBKeyword3ManyArg'
+        result = get_completion_list(
+            self.test_b_index, prefix, len(prefix), None, False, RF_CELL)
+        expected = [(
+            'Resource B Keyword 3 Many Args\tresource_b',
+            (
+                'Resource B Keyword 3 Many Args\n'
+                '...    arg1=${True}\n'
+                '...    arg2\n'
+                '...    arg3=${False}'
+            )
+        )]
+        self.assertEqual(result, expected)
+
     @property
     def vars_in_test_a(self):
         return [

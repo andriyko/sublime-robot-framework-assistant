@@ -75,13 +75,14 @@ class TestIndexing(unittest.TestCase):
     def test_get_keywords_resource(self):
         data = self.get_resource_b()
         expected_kw_list = [
+            'Resource B Keyword 3 Many Args'
             'Embedding ${arg} To Keyword Name',
             'Resource B Keyword 2',
             'Resource B Keyword 1'
         ]
         expected_arg_list = [['kwb1'], []]
         kw_list, arg_list = self.index.get_keywords(data)
-        self.assertEqual(kw_list, expected_kw_list)
+        self.assertEqual(kw_list.sort(), expected_kw_list.sort())
         self.assertEqual(arg_list.sort(), expected_arg_list.sort())
 
         data = self.get_test_a()
@@ -250,6 +251,10 @@ class TestIndexing(unittest.TestCase):
         kw_args = [u'${kwa1}', '@{list}', '&{kwargs}']
         result = self.index.get_kw_arguments(kw_args)
         expected = [u'kwa1', '*list', '**kwargs']
+        self.assertEqual(result, expected)
+        kw_args = ['${arg1}=${True}', '${arg2}=Text_here', '${arg3}=${False}']
+        result = self.index.get_kw_arguments(kw_args)
+        expected = ['arg1=${True}', 'arg2=Text_here', 'arg3=${False}']
         self.assertEqual(result, expected)
 
     def test_add_xml_libraries(self):
@@ -610,7 +615,6 @@ class TestIndexing(unittest.TestCase):
         table_name = self.lib_longer_100_characters
         l = []
         for kw, arg in zip(kw_list, arg_list):
-            print kw, arg
             l.append(
                 keywordrecord(
                     keyword=kw,
@@ -669,8 +673,9 @@ class TestIndexing(unittest.TestCase):
         kw_list = [
             u'Resource B Keyword 1',
             u'resource B Keyword 2',
-            u'Embedding ${arg} To Keyword Name']
-        arg_list = ['kwb1', None, 'arg']
+            u'Embedding ${arg} To Keyword Name',
+            u'Resource B Keyword 3 Many Args']
+        arg_list = ['kwb1', None, 'arg', ['arg1', 'arg2', 'arg3']]
         table_name = self.resource_b_table_name
         object_name = u'resource_b.robot'
         l = []
