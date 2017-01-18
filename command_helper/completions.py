@@ -66,12 +66,6 @@ def get_kw_re_string(prefix):
 
 def get_kw_completion_list(view_index, prefix, rf_cell,
                            object_name, one_line):
-    def get_kw(kw, args, rf_cell, lib, match_keywords):
-        if pattern.search(kw):
-            kw = create_kw_completion_item(kw, args, rf_cell, lib, one_line)
-            match_keywords.append(kw)
-            return match_keywords
-
     pattern = re.compile(get_kw_re_string(prefix))
     match_keywords = []
     match_objects = []
@@ -79,6 +73,7 @@ def get_kw_completion_list(view_index, prefix, rf_cell,
         kw = keyword[0]
         args = keyword[1]
         lib = keyword[2]
+        lib_alias = keyword[4]
         if not object_name:
             if pattern.search(kw):
                 kw = create_kw_completion_item(
@@ -91,7 +86,20 @@ def get_kw_completion_list(view_index, prefix, rf_cell,
                     kw, args, rf_cell, lib, one_line
                 )
                 match_keywords.append(kw)
-        if not object_name and pattern.search(lib):
+        elif lib_alias == object_name and lib_alias != kw:
+            if pattern.search(kw):
+                kw = create_kw_completion_item(
+                    kw, args, rf_cell, lib_alias, one_line
+                )
+                match_keywords.append(kw)
+        if not object_name and lib_alias and pattern.search(lib_alias):
+            if lib_alias not in match_objects:
+                lib_comletion = create_kw_completion_item(
+                    lib_alias, '.', '', lib_alias, True
+                )
+                match_objects.append(lib_alias)
+                match_keywords.append(lib_comletion)
+        elif not object_name and pattern.search(lib):
             if lib not in match_objects:
                 lib_comletion = create_kw_completion_item(
                     lib, '.', '', lib, True

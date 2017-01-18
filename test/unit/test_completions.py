@@ -298,6 +298,32 @@ class TestCompletions(unittest.TestCase):
         )]
         self.assertEqual(result, expected)
 
+    def test_lib_with_name(self):
+        prefix = 'othername'
+        result = get_completion_list(
+            self.test_b_index, prefix, len(prefix), None, False, RF_CELL
+        )
+        expected = [('OtherNameLib\tOtherNameLib', 'OtherNameLib.')]
+        self.assertEqual(result, expected)
+
+    def test_kw_from_lib_with_name(self):
+        prefix = 'Keyword'
+        object_name = 'OtherNameLib'
+        result = get_completion_list(
+            self.test_b_index, prefix, len(prefix), object_name, False, RF_CELL
+        )
+        expected = [(
+            (
+                'Keyword Which Also Has Really Long Name But Not As Long '
+                'The Class Name By ${argument} In Keyword\tOtherNameLib'
+            ),
+            (
+                'Keyword Which Also Has Really Long Name But Not As Long '
+                'The Class Name By \\${argument} In Keyword'
+            )
+        )]
+        self.assertEqual(result, expected)
+
     @property
     def vars_in_test_a(self):
         return [
