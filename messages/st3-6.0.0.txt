@@ -1,0 +1,19 @@
+New features
+    1) Keyword completion provides also completion to WITH NAME syntax
+
+Bug fixes:
+    1) Add missing [Setup] snippet
+    2) Keywords arguments with two default values are not completed correctly
+
+    If keyword contained two or more arguments which did have a variables
+    as a default value, then the keyword argument variables where not
+    completed correctly.
+
+    3) Libraries imported WITH NAME syntax where not working correctly
+
+    When library was imported WITH NAME syntax, then the keyword completion
+    did not provide completions correctly.
+
+    4) On Mac OS plugin mouse map did break the shift click.
+
+    This is backwards incompatible change.
