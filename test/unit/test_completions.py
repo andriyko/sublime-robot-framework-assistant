@@ -10,6 +10,7 @@ from completions import get_var_re_string
 from completions import get_completion_list
 from completions import get_var_mode
 from completions import check_prefix
+from completions import add_with_name
 
 RF_CELL = '    '
 RF_EXTENSION = 'robot'
@@ -323,6 +324,14 @@ class TestCompletions(unittest.TestCase):
             )
         )]
         self.assertEqual(result, expected)
+
+    def test_with_name_in_import(self):
+        result = add_with_name('WIT', None, RF_CELL)
+        self.assertEqual(result, ('WITH NAME\tWITH NAME', 'WITH NAME'))
+        result = add_with_name('NOT', None, RF_CELL)
+        self.assertEqual(result, None)
+        result = add_with_name('wi', None, RF_CELL)
+        self.assertEqual(result, None)
 
     @property
     def vars_in_test_a(self):

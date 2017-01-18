@@ -106,6 +106,9 @@ def get_kw_completion_list(view_index, prefix, rf_cell,
                 )
                 match_objects.append(lib)
                 match_keywords.append(lib_comletion)
+    with_name = add_with_name(prefix, object_name, rf_cell)
+    if with_name:
+        match_keywords.append(with_name)
     return match_keywords
 
 
@@ -204,3 +207,12 @@ def get_keywords(view_index):
 
 def get_variables(view_index):
     return _get_data(view_index)[DBJsonSetting.variables]
+
+
+def add_with_name(prefix, object_name, rf_cell):
+    with_name = 'WITH NAME'
+    if not object_name:
+        if with_name.startswith(prefix):
+            return create_kw_completion_item(
+                with_name, '', rf_cell, with_name, True
+            )
