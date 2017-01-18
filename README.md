@@ -244,7 +244,7 @@ and `Test Timeout`.
 and
 [Test Case](http://robotframework.org/robotframework/latest/RobotFrameworkUserGuide.html#test-case-table)
 settings. There currently are available the following snippets::
-`[Arguments]`, `[Documentation]`, `[Return]` `[Tags]`, `[Teardown]`
+`[Arguments]`, `[Documentation]`, `[Return]`, `[Setup]` `[Tags]`, `[Teardown]`
 and `[Timeout]`.
 * Write `*v` to access `*** Variables ***` snippet.
 
@@ -262,7 +262,7 @@ to locate the correct usage of the different available snippets.
 # Go To Keyword
 Alternatively, use Sublime Text's
 [Go To Symbol](http://docs.sublimetext.info/en/latest/file_management/file_management.html#fm-goto-symbol)
-to go to the source of a Keyword or a variable.
+to go to the source of a keyword or a variable.
 
 Please note that `Go To Symbol` only works for keywords and variables
 within the same file. It is not possible to use `Go To Symbol` to
