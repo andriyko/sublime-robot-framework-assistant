@@ -164,7 +164,7 @@
                         "caption": "*** Test Cases ***",
                         "command": "insert_snippet",
                         "args": {
-                            "name": "Packages/Robot Framework Assistant/snippets/rfde-keywords-table-keywords.sublime-snippet"
+                            "name": "Packages/Robot Framework Assistant/snippets/rfde-testcases-table-testcases.sublime-snippet"
                         }
                     },
                     {
