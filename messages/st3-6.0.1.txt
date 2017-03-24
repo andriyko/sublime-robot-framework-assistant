@@ -1,0 +1,5 @@
+New features
+    No new features
+
+Bug fixes:
+    1) The snippet for Test Cases is wrong (#-181)
