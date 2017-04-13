@@ -11,3 +11,4 @@ Test A Case A1
     Common Keyword 1    ${TEST_A}
     Embedding arg To Keyword Name
     Other arg1 and arg2 Too
+    Log    My User name is "%{USER}"" in OS

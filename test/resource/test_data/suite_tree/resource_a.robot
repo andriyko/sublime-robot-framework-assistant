@@ -13,3 +13,4 @@ Resource A Keyword 1
 Resource A Keyword 2
     Log    ${RESOURCE_A}
     Library Keyword 1    Some Text Here
+    Log    %{USER}

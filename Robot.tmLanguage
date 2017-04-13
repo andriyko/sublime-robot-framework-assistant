@@ -19,6 +19,14 @@
 			<string>constant.numeric.robot</string>
 		</dict>
 		<dict>
+			<key>comment</key>
+			<string>Robot Framework environment variable, like %{USER}</string>
+			<key>match</key>
+			<string>(?i)(%\{[\w|\s]+\})</string>
+			<key>name</key>
+			<string>variable.parameter.robot</string>
+		</dict>
+		<dict>
 			<key>begin</key>
 			<string>((?&lt;!\\)([$&amp;]{)|(?&lt;=\\\\)([$&amp;]{))</string>
 			<key>comment</key>

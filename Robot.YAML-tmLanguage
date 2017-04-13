@@ -9,6 +9,10 @@ patterns:
   name: constant.numeric.robot
   match: \$\{(\d+|\d+\.\d*|0[bB][01]+|0[oO][0-7]+|0[xX][0-9a-fA-F]+)\}
 
+- comment: Robot Framework environment variable, like %{USER}
+  name: constant.numeric.robot
+  match: (?i)(%\{[\w|\s]+\})
+
 - comment: Robot Framework scalar and dictionary variables
   name: entity.name.class
   begin: ((?<!\\)([$&]{)|(?<=\\\\)([$&]{))
@@ -28,7 +32,7 @@ patterns:
   begin: (?i)^\s*\[?Documentation\]?\s+
   end: ^(?!\s*+\.\.\.)
 
-- comment: Comment character #
+- comment: Comment character
   name: comment
   begin: (^| {2,}|\t|\\| {1,})(?<!\\\\)#
   end: $
@@ -39,7 +43,8 @@ patterns:
 
 - comment: Settings table settings, like Library
   name: constant.language
-  match: (?i)^(Library|Resource|Test Timeout|Test Template|Test Teardown|Test Setup|Default Tags|Force Tags|Metadata|Variables|Suite Setup|Suite Teardown)(?:(  )|( \| ))
+  match: (?i)^(Library|Resource|Test Timeout|Test Template|Test Teardown|Test Setup|Default
+    Tags|Force Tags|Metadata|Variables|Suite Setup|Suite Teardown)(?:(  )|( \| ))
 
 - comment: Keywords and test cases
   name: keyword.control.robot
