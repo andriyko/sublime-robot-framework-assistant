@@ -1,13 +1,16 @@
+import re
+
 import sublime_plugin
 import sublime
-import re
-from .query_completions import get_index_file
+
+from ..command_helper.get_keyword import GetKeyword
+from ..command_helper.get_metadata import get_rf_table_separator
+from ..command_helper.jump_to_file import JumpToFile
+from ..command_helper.noralize_cell import ReturnKeywordAndObject
+from ..command_helper.utils.get_text import get_line
 from ..setting.setting import get_setting
 from ..setting.setting import SettingObject
-from ..command_helper.utils.get_text import get_line
-from ..command_helper.noralize_cell import ReturnKeywordAndObject
-from ..command_helper.get_metadata import get_rf_table_separator
-from ..command_helper.get_keyword import GetKeyword
+from .query_completions import get_index_file
 
 
 class JumpToKeyword(sublime_plugin.TextCommand):
@@ -19,8 +22,17 @@ class JumpToKeyword(sublime_plugin.TextCommand):
         rf_cell = get_rf_table_separator(self.view)
         rf_extension = get_setting(SettingObject.extension)
         index_file = get_index_file(open_tab)
-        if index_file:
-            line, column = get_line(self.view)
+        jump_to_file = JumpToFile()
+        line, column = get_line(self.view)
+        if jump_to_file.is_import(line=line):
+            imported = jump_to_file.get_import(line=line)
+            file_path = jump_to_file.get_import_path(
+                import_=imported,
+                open_tab=open_tab,
+                db_dir=db_dir
+            )
+            self.view.window().open_file(file_path)
+        elif index_file:
             self.get_kw = ReturnKeywordAndObject(index_file, rf_cell)
             keyword, object_name = self.get_kw.normalize(line, column)
             if not keyword:
