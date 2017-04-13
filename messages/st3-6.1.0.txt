@@ -1,0 +1,9 @@
+New features
+    1) Provides syntax highlight for Robot Framework environment variables,
+       example like %{USER}
+    2) From library or resource import, it is possible to jump to the
+       imported file. Jump is done by using the same command which
+       is used to jump in to the keyword source.
+
+Bug fixes:
+    No fixes to existing features
