@@ -48,5 +48,5 @@ patterns:
 
 - comment: Keywords and test cases
   name: keyword.control.robot
-  begin: ^\S+
+  begin: ^[^\.{3}]\S+
   end: $

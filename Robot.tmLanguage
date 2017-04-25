@@ -92,7 +92,7 @@
 		</dict>
 		<dict>
 			<key>begin</key>
-			<string>^\S+</string>
+			<string>^[^\.{3}]\S+</string>
 			<key>comment</key>
 			<string>Keywords and test cases</string>
 			<key>end</key>
