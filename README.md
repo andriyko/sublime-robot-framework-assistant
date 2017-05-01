@@ -18,7 +18,7 @@ The easiest way to install is to use
 
 ## Alternative installation methods
 Download the plugin as a zip. Open Sublime Text and click
-*** | Preferences | Browse Packages | *** to open the packages directory.
+**| Preferences | Browse Packages |** to open the packages directory.
 Then create a directory named `Robot Framework Assistant` and
 unzip the plugin to the directory.
 
