@@ -205,6 +205,8 @@ to align and display snipped correctly.
 will go to the keyword source. Source of the keyword can locate in
 Robot Framework test data or in a Python library. Go to does not work
 on libraries written in other programming languages.
+* Pressing `Alt + Enter` or `Alt + Click` with mouse, on top of the resource
+or library import will open the imported resource or library file.
 * Pressing `Ctrl + Alt + Enter`or `Ctrl + Alt + Clicl` with mouse
 will display the keyword documentation.
 * Pressing `Ctrl + /` or `Ctrl + Shift + /` will togle comment on and off
