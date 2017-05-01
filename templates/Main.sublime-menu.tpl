@@ -56,6 +56,10 @@
                                 "command": "log_commands",
                                 "caption": "Command Logging"
                             },
+                            {
+                                "command": "open_log_file",
+                                "caption": "Open Log File"
+                            },
                         ]
                     }
                 ]

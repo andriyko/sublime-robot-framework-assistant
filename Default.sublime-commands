@@ -26,5 +26,9 @@
     {
         "caption": "Robot Framework: Command Logging",
         "command": "log_commands"
+    },
+    {
+        "caption": "Robot Framework: Open Log File",
+        "command": "open_log_file"
     }
 ]
