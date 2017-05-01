@@ -20,7 +20,7 @@ class ScanOpenTabCommand(sublime_plugin.TextCommand):
         makedirs(path.dirname(log_file), exist_ok=True)
         open_tab = self.view.file_name()
         if self.file_in_workspace(open_tab):
-            file_ = open(log_file, 'w')
+            file_ = open(log_file, 'a')
             sublime.set_timeout_async(
                 self.run_single_scan(
                     open_tab,

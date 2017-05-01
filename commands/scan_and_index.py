@@ -49,7 +49,7 @@ class ScanIndexCommand(sublime_plugin.TextCommand):
         db_dir = get_setting(SettingObject.table_dir)
         makedirs(path.dirname(log_file), exist_ok=True)
         self.view.run_command('scan')
-        file_ = open(log_file, 'a')
+        file_ = open(log_file, 'w')
         sublime.set_timeout_async(add_builtin_vars(db_dir))
         sublime.set_timeout_async(self.run_index(file_), 0)
         file_.close()

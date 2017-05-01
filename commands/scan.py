@@ -36,7 +36,7 @@ class ScanCommand(sublime_plugin.TextCommand):
         """
         log_file = get_setting(SettingObject.log_file)
         makedirs(path.dirname(log_file), exist_ok=True)
-        file_ = open(log_file, 'w')
+        file_ = open(log_file, 'a')
         sublime.set_timeout_async(self.run_scan(file_), 0)
         file_.close()
 
