@@ -6,3 +6,4 @@ Tatu Aalto                     2015 -
 Other contributors:
 GLMeece:                       Changed misspelling of robot_frameowrk_extension (3.1.0)
 manycoding:                    Added missing ${CURRDIR} (3.1.0)
+sukanyaw:                      Added [template] snippet and improved documentation
