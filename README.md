@@ -246,7 +246,7 @@ and `Test Timeout`.
 and
 [Test Case](http://robotframework.org/robotframework/latest/RobotFrameworkUserGuide.html#test-case-table)
 settings. There currently are available the following snippets::
-`[Arguments]`, `[Documentation]`, `[Return]`, `[Setup]` `[Tags]`, `[Teardown]`
+`[Arguments]`, `[Documentation]`, `[Return]`, `[Setup]`, `[Tags]`, `[Template]`, `[Teardown]`
 and `[Timeout]`.
 * Write `*v` to access `*** Variables ***` snippet.
 

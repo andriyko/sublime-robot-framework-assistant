@@ -71,7 +71,7 @@
         Python binary where the Robot Framework is installed.
 
         In Linux like environments this could be like: /usr/bin/python
-        and in Windows this could be like: C:\Python27\python.exe
+        and in Windows this could be like: C:\\Python27\\python.exe
     */
 
     "path_to_python": "/usr/bin/python",

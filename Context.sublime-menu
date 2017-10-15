@@ -203,6 +203,13 @@
                         }
                     },
                     {
+                        "caption": "[Template]",
+                        "command": "insert_snippet",
+                        "args": {
+                            "name": "Packages/Robot Framework Assistant/snippets/rfde-testdata-table-template.sublime-snippet"
+                        }
+                    },
+                    {
                         "caption": "[Teardown]",
                         "command": "insert_snippet",
                         "args": {
