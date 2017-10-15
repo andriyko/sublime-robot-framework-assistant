@@ -1,0 +1,7 @@
+New features:
+    - Added [TEMPLATE] snippet.
+    - Added command to view the internal log file.
+
+Bug fixes:
+    - Fixes when internal log file is truncated.
+    - Variables defined in multiple lines where not properly higlighted.
