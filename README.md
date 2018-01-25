@@ -163,6 +163,15 @@ To enabled the logging, set the `robot_framework_log_commands` to value
 `true`. Then run the `Robot Framework: Command Logging` command
 from command palette.
 
+## robot_framework_keyword_prefixes
+Prefixes that are ignored in `jump to keyword` command.
+
+When writing testcases in Gherkin keywords have prefixes like `given`, `when` and `then`.
+Such prefixes are testcase specific and must be ignored when looking up a keyword.
+
+Configuration for typical Gherkin stories:
+"robot_framework_keyword_prefixes" : ["Given","When","Then","And","But"]
+
 # Syntax definitions
 By default this plugin will be used with files which extension is
 `.robot` and plugin will use four spaces as cell separator. The
