@@ -64,6 +64,7 @@ class SettingObject(object):
     automatic_table_creation = 'robot_framework_automatic_database_table'
     automatic_index_creation = 'robot_framework_automatic_indexing'
     automatic_database_update = 'robot_framework_automatic_database_update'
+    kw_prefixes = 'robot_framework_keyword_prefixes'
 
 
 def get_scanner_dir():

@@ -210,5 +210,16 @@
         If log_commands API call is enabled. all commands run from key
         bindings and the menu will be logged to the console.
     */
-    "robot_framework_log_commands": false
+    "robot_framework_log_commands": false,
+
+    /*
+        Prefixes that are ignored in 'jump to keyword'
+
+        When writing testcases in Gherkin keywords have prefixes like 'given','when' and 'then'.
+        Such prefixes are testcase specific and must be ignored when looking up a keyword.
+
+        Configuration for typical Gherkin stories:
+        "robot_framework_keyword_prefixes" : ["Given","When","Then","And","But"]
+    */
+    "robot_framework_keyword_prefixes" : []
 }

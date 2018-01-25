@@ -24,6 +24,7 @@ class JumpToKeyword(sublime_plugin.TextCommand):
         index_file = get_index_file(open_tab)
         jump_to_file = JumpToFile()
         line, column = get_line(self.view)
+        line = self.filter_given_when_then(line)
         if jump_to_file.is_import(line=line):
             imported = jump_to_file.get_import(line=line)
             file_path = jump_to_file.get_import_path(
@@ -60,6 +61,16 @@ class JumpToKeyword(sublime_plugin.TextCommand):
             sublime.status_message(
                 'File: "{0}" is not found from db'.format(open_tab)
             )
+
+    def filter_given_when_then(self, line):
+        kw_prefixes = get_setting(SettingObject.kw_prefixes)
+        if kw_prefixes:
+            joined_kw_prefixes = "|".join(kw_prefixes)
+            regex = r'(^| {4}|\t)(?i)(%s) (.*)$' % joined_kw_prefixes
+            findings = re.search(regex, line)
+            return findings.group(3) if findings else line
+        else:
+            return line
 
     def go_to_kw(self, file_path, regex):
         new_view = self.view.window().open_file(file_path)
