@@ -9,6 +9,9 @@ Common Keyword 1
     # This is a comment
 
 Common Keyword 2
+    [Documentation]    Multi line documentation.
+    ...                Line two.
+    ...                Line three
     Log    2
 
 Really Long Keyword To Test With Jumping To Keyword Does Not Scroll The Visible Area To A Wrong Place Should There Be More Words

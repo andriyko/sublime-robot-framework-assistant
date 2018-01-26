@@ -9,8 +9,15 @@ ${TEST_A}         AAA
 Test A Case A1
     Resource A Keyword 1    ${TEST_A}
     Common Keyword 1    ${TEST_A}
+    Common Keyword 2
     test_a.Test A Keyword
     Really Long Keyword To Test With Jumping To Keyword Does Not Scroll The Visible Area To A Wrong Place Should There Be More Words
+
+Test A Case A2
+    [Documentation]    Given, When, Then tests.
+    Given Common Keyword 2
+    When Common Keyword 1
+    Then Keyword
 
 *** Keywords ***
 Test A Keyword
