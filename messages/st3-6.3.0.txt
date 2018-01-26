@@ -1,0 +1,2 @@
+New features:
+    - Added possibility to ignore a prefix when jumping to a keyword
