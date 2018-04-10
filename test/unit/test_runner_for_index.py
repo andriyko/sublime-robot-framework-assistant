@@ -1,10 +1,11 @@
-import unittest
-import env
 import os
 import shutil
 import re
-from time import sleep
+import time
+import unittest
+
 from queue.scanner import Scanner
+from test import env
 from test_runner_for_scanner import run_process
 
 
@@ -31,13 +32,11 @@ class TestRunner(unittest.TestCase):
         if os.path.exists(self.index_path):
             while os.path.exists(self.index_path):
                 shutil.rmtree(self.index_path)
-                sleep(0.1)
+                time.sleep(0.1)
             os.mkdir(self.index_path)
         self.runner = os.path.join(env.SRC_DIR, 'run_index.py')
-        self.index_path = os.path.join(
-            env.RESULTS_DIR,
-            'index_dir'
-        )
+        self.index_path = os.path.join(env.RESULTS_DIR,
+                                       'index_dir')
 
     def test_index_all_runner(self):
         p_args = [
@@ -96,9 +95,7 @@ class TestRunner(unittest.TestCase):
     def clean_info_messages(self, log_file):
         f = open(log_file)
         # Strip way S2L info messages
-        pattern = re.compile(
-            r'(?im)^INFO:'
-        )
+        pattern = re.compile(r'(?im)^INFO:')
         lines = []
         for line in f.readlines():
             if not pattern.search(line):

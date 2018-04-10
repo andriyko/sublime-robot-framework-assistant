@@ -15,7 +15,7 @@ Parser Should Be Able To Parse Internal Library
 
 Parser Should Be Able To Parse External Library From Python Path
     ${result} =    Parse Library
-    ...    Selenium2Library
+    ...    SeleniumLibrary
     ${result_keys} =    Get Dictionary Keys    ${result}
     Lists Should Be Equal
     ...    ${result_keys}

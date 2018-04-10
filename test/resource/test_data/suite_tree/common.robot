@@ -1,5 +1,5 @@
 *** Settings ***
-Library           Selenium2Library    timeout=5.0    run_on_failure=Common Keyword 1
+Library           SeleniumLibrary    timeout=5.0    run_on_failure=Common Keyword 1
 Library           LibraryWithReallyTooLongName.py    WITH NAME    LongName
 Variables         common_variables.py    one    two
 
