@@ -1,3 +1,5 @@
+from __future__ import print_function
+
 import env
 import os
 import sys
@@ -13,7 +15,7 @@ def acceptance_test(options):
         if '-s' in options or '--suite' in options:
             return _acceptance_include(options[1:])
         else:
-            print 'Only "-s" or "--suite" supported'
+            print('Only "-s" or "--suite" supported')
             _exit(255)
 
 
@@ -35,20 +37,20 @@ def _acceptance_include(options):
 
 
 def clean_results():
-    print 'Clean: {0}'.format(env.RESULTS_DIR)
+    print('Clean: {0}'.format(env.RESULTS_DIR))
     if os.path.exists(env.RESULTS_DIR):
         shutil.rmtree(env.RESULTS_DIR)
     os.mkdir(env.RESULTS_DIR)
 
 
 def unit_test():
-    print 'Running unit test'
+    print('Running unit test')
     sys.path.insert(0, env.COMMAND_HELPER_DIR)
     sys.path.insert(0, env.SETTING_DIR)
     sys.path.insert(0, env.SRC_DIR)
     sys.path.append(env.UNIT_TEST_DIR)
     # suite = unittest.TestLoader().loadTestsFromName(
-    #     'test_current_view.TestIndexing.test_create_view')
+    #     'test_runner_for_index.TestRunner')
     suite = unittest.TestLoader().discover(
         start_dir=env.UNIT_TEST_DIR,
         pattern='test*.py')
@@ -56,7 +58,7 @@ def unit_test():
 
 
 def _help():
-    print 'Usage: python run_test.py [-s suite_name]'
+    print('Usage: python run_test.py [-s suite_name]')
     return 255
 
 
@@ -71,13 +73,13 @@ if __name__ == '__main__':
     u_result = unit_test()
     a_result = acceptance_test(sys.argv[1:])
     if u_result.errors or u_result.failures:
-        print 'Unit tests failed'
-        print 'errors: ', u_result.errors
-        print 'failures: ', u_result.failures
+        print('Unit tests failed')
+        print('errors: %s' % u_result.errors)
+        print('failures: %s' % u_result.failures)
         _exit(u_result.errors)
     elif a_result != 0:
-        print 'Acceptance tests failed'
+        print('Acceptance tests failed')
         _exit(a_result)
     else:
-        print 'All passed'
+        print('All passed')
         _exit(0)
