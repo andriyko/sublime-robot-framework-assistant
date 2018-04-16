@@ -1,8 +1,9 @@
-import unittest
-import env
-import shutil
 import platform
+import shutil
+import unittest
 from os import path, mkdir
+
+import env
 from index_runner import index_all
 from queue.scanner import Scanner
 from get_keyword import GetKeyword
@@ -50,7 +51,7 @@ class TestGetKeywordFromLibrary(unittest.TestCase):
 
     def test_get_lib_kw(self):
         regex, file_path = self.get_kw.get_lib_keyword(
-            self.s2l_table_file,
+            self.sl_table_file,
             None,
             'Simulate'
         )
@@ -59,37 +60,37 @@ class TestGetKeywordFromLibrary(unittest.TestCase):
 
     def test_get_lib_keyword_file(self):
         kw_file = self.get_kw.get_lib_keyword_file(
-            self.s2l_table_file,
+            self.sl_table_file,
             None,
             'Simulate'
-        )
-        self.assertIn(self.s2l_simulate, kw_file)
+)
+        self.assertIn(self.sl_simulate, kw_file)
         kw_file = self.get_kw.get_lib_keyword_file(
-            self.s2l_table_file,
+            self.sl_table_file,
             None,
             'textarea_value_should_be'
         )
-        self.assertIn(self.s2l_textarea_value_should_be, kw_file)
+        self.assertIn(self.sl_textarea_value_should_be, kw_file)
         kw_file = self.get_kw.get_lib_keyword_file(
-            self.s2l_table_file,
+            self.sl_table_file,
             None,
             'PressKey'
         )
-        self.assertIn(self.s2l_press_key, kw_file)
+        self.assertIn(self.sl_press_key, kw_file)
         kw_file = self.get_kw.get_lib_keyword_file(
-            self.s2l_table_file,
+            self.sl_table_file,
             'SeleniumLibrary',
             'PressKey'
         )
-        self.assertIn(self.s2l_press_key, kw_file)
+        self.assertIn(self.sl_press_key, kw_file)
         kw_file = self.get_kw.get_lib_keyword_file(
-            self.s2l_table_file,
+            self.sl_table_file,
             'NotHere',
             'PressKey'
         )
         self.assertEqual(kw_file, None)
         kw_file = self.get_kw.get_lib_keyword_file(
-            self.s2l_table_file,
+            self.sl_table_file,
             None,
             'NotKeyword'
         )
@@ -155,30 +156,29 @@ class TestGetKeywordFromLibrary(unittest.TestCase):
         self.assertEqual(regex, expected_re)
 
     @property
-    def s2l(self):
+    def sl(self):
         if platform.system() == 'Windows':
             return 'seleniumlibrary'
         else:
             return 'SeleniumLibrary'
 
     @property
-    def s2l_simulate(self):
-        return path.join(self.s2l, 'keywords', '_element.py')
+    def sl_simulate(self):
+        return path.join(self.sl, 'keywords', 'element.py')
 
     @property
-    def s2l_press_key(self):
-        return path.join(self.s2l, 'keywords', '_element.py')
+    def sl_press_key(self):
+        return path.join(self.sl, 'keywords', 'element.py')
 
     @property
-    def s2l_textarea_value_should_be(self):
-        return path.join(self.s2l, 'keywords', '_formelement.py')
+    def sl_textarea_value_should_be(self):
+        return path.join(self.sl, 'keywords', 'formelement.py')
 
     @property
-    def s2l_table_file(self):
+    def sl_table_file(self):
         return path.join(
             self.db_dir,
-            'SeleniumLibrary-ac72a5ed5dae4edc06e58114b7c0ce92.json'
-        )
+            'SeleniumLibrary-ed5a6b78e6f238da896f2d5aad33b8b8.json')
 
     @property
     def get_common_robot(self):

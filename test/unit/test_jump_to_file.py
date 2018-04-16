@@ -57,15 +57,15 @@ class TestJumpToFile(unittest.TestCase):
         self.assertTrue(status)
 
     def test_is_library(self):
-        line = 'Library          Selenium2Library'
+        line = 'Library          SeleniumLibrary'
         status = self.jump.is_import(line)
         self.assertTrue(status)
 
-        line = '| Library      | Selenium2Library |'
+        line = '| Library      | SeleniumLibrary |'
         status = self.jump.is_import(line)
         self.assertTrue(status)
 
-        line = '| Library | Selenium2Library |'
+        line = '| Library | SeleniumLibrary |'
         status = self.jump.is_import(line)
         self.assertTrue(status)
 

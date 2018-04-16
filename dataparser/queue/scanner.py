@@ -5,11 +5,11 @@ import os
 import xml.etree.ElementTree as ET
 from robot.errors import DataError
 from finder import finder
-from data_parser.data_parser import DataParser
+from dataparser.data_parser.data_parser import DataParser
 from queue import ParsingQueue
-from parser_utils.file_formatter import rf_table_name, lib_table_name
-from parser_utils.util import normalise_path
-from db_json_settings import DBJsonSetting
+from dataparser.parser_utils.file_formatter import rf_table_name, lib_table_name
+from dataparser.parser_utils.util import normalise_path
+from dataparser import DBJsonSetting
 
 logging.basicConfig(
     format='%(levelname)s:%(asctime)s: %(message)s',
@@ -40,11 +40,9 @@ class Scanner(object):
         if not os.path.dirname(workspace):
             raise EnvironmentError(
                 'Workspace must be folder: {0}'.format(str(workspace)))
-        if not os.path.exists(db_path):
-            os.makedirs(db_path)
-        else:
+        if os.path.exists(db_path):
             shutil.rmtree(db_path)
-            os.makedirs(db_path)
+        os.makedirs(db_path)
         self.add_builtin()
         if self.xml_libraries:
             self.add_xml_libraries(self.xml_libraries)
@@ -141,8 +139,7 @@ class Scanner(object):
             self.queue.add(
                 lib_module,
                 DBJsonSetting.library,
-                lib[DBJsonSetting.library_arguments]
-            )
+                lib[DBJsonSetting.library_arguments])
 
     def add_var_files_queue(self, var_files):
         for var_file in var_files:
@@ -150,8 +147,7 @@ class Scanner(object):
             self.queue.add(
                 file_name,
                 'variable_file',
-                var_file[file_name]['variable_file_arguments']
-            )
+                var_file[file_name]['variable_file_arguments'])
 
     def add_resources_queue(self, resources):
         for resource in resources:

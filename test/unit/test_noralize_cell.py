@@ -11,7 +11,7 @@ class TestCompletions(unittest.TestCase):
     def setUpClass(cls):
         cls.current_view = path.join(
             env.RESOURCES_DIR,
-            'index-test_a.robot-c6b0faa0427a2cf861a1acad630765ea.json'
+            'index-test_a.robot-874795cab732d103f0b26c5926b17843.json'
         )
         cls.rf_cell = '    '
         cls.rkao = ReturnKeywordAndObject(
@@ -121,16 +121,12 @@ class TestCompletions(unittest.TestCase):
     def test_library_too_long_name(self):
         current_view_ = path.join(
             env.RESOURCES_DIR,
-            'index-test_b.robot-28dc4d6e222a03bbc3db1fe62743ce94.json'
-        )
+            'index-test_b.robot-4fa2106cbefa24c4a8ca823c65601719.json')
         rkao_ = ReturnKeywordAndObject(
             current_view_,
-            '    '
-        )
-        line = (
-            '    OtherNameLib.Keyword Which Also Has Really Long Name But '
-            'Not As Long The Class Name By 1234 In Keyword'
-        )
+            '    ')
+        line = ('    OtherNameLib.Keyword Which Also Has Really Long Name But '
+                'Not As Long The Class Name By 1234 In Keyword')
         column = 30
         keyword, object_name = rkao_.normalize(line, column)
         self.assertEqual(keyword, line.replace('    OtherNameLib.', ''))

@@ -1,19 +1,20 @@
+import logging
+import xml.etree.ElementTree as ET
+from os import path
+from tempfile import mkdtemp
+
+from robot.errors import DataError
 from robot import parsing
+from robot.libdocpkg.robotbuilder import LibraryDocBuilder
+from robot.libraries import STDLIBS
+from robot.output import LOGGER as ROBOT_LOGGER
 from robot.variables.filesetter import VariableFileSetter
 from robot.variables.store import VariableStore
 from robot.variables.variables import Variables
-from robot.libdocpkg.robotbuilder import LibraryDocBuilder
 from robot.utils.importer import Importer
-from robot.libraries import STDLIBS
-from robot.output import LOGGER as ROBOT_LOGGER
-from robot.errors import DataError
-from os import path
-import xml.etree.ElementTree as ET
-from tempfile import mkdtemp
-import logging
-import inspect
-from parser_utils.util import normalise_path
-from db_json_settings import DBJsonSetting
+
+from dataparser import DBJsonSetting
+from dataparser.parser_utils.util import normalise_path
 
 logging.basicConfig(
     format='%(levelname)s:%(asctime)s: %(message)s',
@@ -46,7 +47,9 @@ class DataParser():
                 model = parsing.TestDataDirectory(source=folder).populate()
             else:
                 model = parsing.ResourceFile(file_path).populate()
-            return self._parse_robot_data(file_path, model)
+            data =  self._parse_robot_data(file_path, model)
+            data[DBJsonSetting.table_type] = DBJsonSetting.resource_file
+            return data
         else:
             logging.error('File %s could not be found', file_path)
             raise ValueError(
@@ -56,7 +59,9 @@ class DataParser():
         self.file_path = file_path
         if path.exists(file_path):
             model = parsing.TestCaseFile(source=file_path).populate()
-            return self._parse_robot_data(file_path, model)
+            data = self._parse_robot_data(file_path, model)
+            data[DBJsonSetting.table_type] = DBJsonSetting.suite
+            return data
         else:
             logging.error('File %s could not be found', file_path)
             raise ValueError(
@@ -78,6 +83,7 @@ class DataParser():
         for variable in variables:
             var_list.append(variable[0])
         data[DBJsonSetting.variables] = sorted(var_list)
+        data[DBJsonSetting.table_type] = DBJsonSetting.variable_file
         return data
 
     def parse_library(self, library, args=None):
@@ -116,6 +122,7 @@ class DataParser():
         if data[DBJsonSetting.keywords] is None:
             raise ValueError('Library did not contain keywords')
         else:
+            data[DBJsonSetting.table_type] = DBJsonSetting.library
             return data
 
     def register_console_logger(self):
@@ -133,15 +140,17 @@ class DataParser():
         try:
             lib = self.libdoc.build(lib_with_args)
         except DataError:
-            raise ValueError(
-                'Library does not exist: {0}'.format(library))
+            raise ValueError('Library does not exist: {0}'
+                             .format(library))
         if library in STDLIBS:
             import_name = 'robot.libraries.' + library
         else:
             import_name = library
         importer = Importer('test library')
+        lib_args = self._argument_strip(lib, args)
         libcode = importer.import_class_or_module(
-            import_name, return_source=False)
+            import_name, instantiate_with_args=lib_args,
+            return_source=False)
         kw_with_deco = self._get_keywords_with_robot_name(libcode)
         for keyword in lib.keywords:
             kw = {}
@@ -158,54 +167,52 @@ class DataParser():
             kws[strip_and_lower(keyword.name)] = kw
         return kws
 
-    def _get_keywords_with_robot_name(self, libcode):
+    def _argument_strip(self, lib, given_args):
+        formated_args = []
+        if not given_args:
+            return formated_args
+        try:
+            default_args = lib.inits[0].args
+        except IndexError:
+            default_args = []
+        for default_arg in default_args:
+            if '=' in default_arg:
+                default_parts = default_arg.split('=', 1)
+                formated_args.append(default_parts[1])
+            else:
+                formated_args.append(default_arg)
+        return formated_args
+
+    def _get_keywords_with_robot_name(self, lib_instance):
         """Returns keywords which uses Robot keyword decorator with robot_name
 
-        The keyword name can be chaned with Robot Framework keyword decorator
-        and by using the robot_name attribute. Return dictinionary which key is
-        the value of the robot_name attribute and the orinal function name.
+        The keyword name can be changed with Robot Framework keyword decorator
+        and by using the robot_name attribute. Return dictionary which key is
+        the value of the robot_name attribute and the original function name.
         """
         kw_deco = {}
-        for key in libcode.__dict__:
-            if callable(libcode.__dict__[key]):
-                try:
-                    if 'robot_name' in libcode.__dict__[key].__dict__:
-                        kw = libcode.__dict__[key].__dict__['robot_name']
-                        kw_deco[kw] = key
-                except AttributeError:
-                    pass
+        lib_class = type(lib_instance)
+        for name in dir(lib_instance):
+            owner = lib_class if hasattr(lib_class, name) else lib_instance
+            method_arrib = getattr(owner, name)
+            if hasattr(method_arrib, 'robot_name') and method_arrib.robot_name:
+                kw_deco[method_arrib.robot_name] = name
         return kw_deco
 
     def _get_library_kw_source(self, libcode, keyword):
-        kw_func = keyword.lower().replace(' ', '_')
-        func = None
-        func_file = None
+        kw_func = self._format_keyword_to_method(keyword)
         if hasattr(libcode, kw_func):
             func = getattr(libcode, kw_func)
+        else:
+            func = None
+            func_file = None
         if func:
-            kw_class = self.get_class_that_defined_method(func)
-            if kw_class:
-                func_file = self.get_function_file(kw_class)
-            else:
-                func_file = self.get_function_file(func)
+            return func.func_code.co_filename
         return func_file
 
-    def get_class_that_defined_method(self, meth):
-        try:
-            class_mro = inspect.getmro(meth.im_class)
-        except AttributeError:
-            return None
-        for cls in class_mro:
-            if meth.__name__ in cls.__dict__:
-                return cls
-        return None
-
-    def get_function_file(self, kw_class):
-        file_ = inspect.getsourcefile(kw_class)
-        if file_ and path.exists(file_):
-            return normalise_path(file_)
-        else:
-            return None
+    def _format_keyword_to_method(self, keyword):
+        snake_case = keyword.lower().replace(' ', '_')
+        return snake_case
 
     def _lib_arg_formatter(self, library, args):
         args = self._argument_path_formatter(library, args)

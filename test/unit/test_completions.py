@@ -22,12 +22,10 @@ class TestCompletions(unittest.TestCase):
     def setUpClass(cls):
         cls.test_a_index = path.join(
             env.RESOURCES_DIR,
-            'index-test_a.robot-c6b0faa0427a2cf861a1acad630765ea.json'
-        )
+            'index-test_a.robot-874795cab732d103f0b26c5926b17843.json')
         cls.test_b_index = path.join(
             env.RESOURCES_DIR,
-            'index-test_b.robot-28dc4d6e222a03bbc3db1fe62743ce94.json'
-        )
+            'index-test_b.robot-4fa2106cbefa24c4a8ca823c65601719.json')
 
     def test_get_completion_list(self):
         prefix = 'Runk'
@@ -51,7 +49,7 @@ class TestCompletions(unittest.TestCase):
             False,
             RF_CELL
         )
-        self.assertEqual(len(result), 23)
+        self.assertEqual(len(result), 24)
         builtin = 'BuiltIn'
         expected = (
             '{0}\t{0}'.format(builtin),
@@ -71,7 +69,7 @@ class TestCompletions(unittest.TestCase):
         prefix = 'Run'
         kw_tuple = get_kw_completion_list(self.test_a_index, prefix,
                                           RF_CELL, None, False)
-        self.assertEqual(len(kw_tuple), 40)
+        self.assertEqual(len(kw_tuple), 42)
         prefix = 'RunKeY'
         kw_tuple = get_kw_completion_list(self.test_a_index, prefix,
                                           RF_CELL, None, False)
@@ -156,7 +154,7 @@ class TestCompletions(unittest.TestCase):
         self.assertEqual(completion, expected)
         # kw not args
         kw = 'Unselect Frame'
-        lib = 'Selenium2Library'
+        lib = 'SeleniumLibrary'
         completion = create_kw_completion_item(kw, [], RF_CELL, lib, False)
         trigger = '{0}\t{1}'.format(kw, lib)
         expected = (trigger, kw)
@@ -175,7 +173,7 @@ class TestCompletions(unittest.TestCase):
         self.assertEqual(completion, expected)
         # kw not args
         kw = 'Unselect Frame'
-        lib = 'Selenium2Library'
+        lib = 'SeleniumLibrary'
         completion = create_kw_completion_item(kw, [], RF_CELL, lib, True)
         trigger = '{0}\t{1}'.format(kw, lib)
         expected = (trigger, kw)
@@ -293,7 +291,7 @@ class TestCompletions(unittest.TestCase):
             (
                 'Resource B Keyword 3 Many Args\n'
                 '...    arg1=${True}\n'
-                '...    arg2\n'
+                '...    arg2=Text_here\n'
                 '...    arg3=${False}'
             )
         )]
@@ -304,8 +302,8 @@ class TestCompletions(unittest.TestCase):
         result = get_completion_list(
             self.test_b_index, prefix, len(prefix), None, False, RF_CELL
         )
-        expected = [('OtherNameLib\tOtherNameLib', 'OtherNameLib.')]
-        self.assertEqual(result, expected)
+        expected = ('OtherNameLib\tOtherNameLib', 'OtherNameLib.')
+        self.assertIn(expected, result)
 
     def test_kw_from_lib_with_name(self):
         prefix = 'Keyword'

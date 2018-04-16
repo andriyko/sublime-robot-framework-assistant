@@ -3,6 +3,7 @@ from robot.api.deco import keyword
 
 class LibraryWithReallyTooLongName(object):
 
+    @keyword
     def long_name_keyword(self, *args):
         """Documentation goes here"""
         print args

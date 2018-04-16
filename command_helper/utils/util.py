@@ -3,10 +3,8 @@ from json import load as json_load
 
 
 def get_data_from_json(json_file):
-    f = open(json_file)
-    data = json_load(f)
-    f.close()
-    return data
+    with open(json_file) as f:
+        return json_load(f)
 
 
 def _keyword_with_embedded_arg(kw, kw_candite):
@@ -24,14 +22,14 @@ def _keyword_no_embedded_arg(kw, kw_candite):
 
 
 def kw_equals_kw_candite(kw, kw_candite):
-        """Returns True if kw == kw_canditate
+    """Returns True if kw == kw_canditate
 
-        Spaces, under score are removed and
-        strings are converted to lower before validation.
+    Spaces, under score are removed and
+    strings are converted to lower before validation.
 
-        Also support keyword conditate with emedded args
-        """
-        if '$' in kw_candite:
-            return _keyword_with_embedded_arg(kw, kw_candite)
-        else:
-            return _keyword_no_embedded_arg(kw, kw_candite)
+    Also support keyword conditate with emedded args
+    """
+    if '$' in kw_candite:
+        return _keyword_with_embedded_arg(kw, kw_candite)
+    else:
+        return _keyword_no_embedded_arg(kw, kw_candite)

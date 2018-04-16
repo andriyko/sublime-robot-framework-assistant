@@ -2,3 +2,4 @@
 Robot Framework is installed. These modules must not be run the from the
 Python included in the Sublime Text
 """
+from .db_json_settings import DBJsonSetting

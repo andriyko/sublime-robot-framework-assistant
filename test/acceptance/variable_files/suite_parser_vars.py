@@ -14,6 +14,7 @@ def get_variables():
 
 def create_simple_var(resource_dir):
     result = {}
+    result['table_type'] = 'variable_file'
     result['file_name'] = 'simple_variable_file.py'
     result['file_path'] = path.join(resource_dir, result['file_name'])
     result['variables'] = ['${VARIABLE_FILE_1}', '${VARIABLE_FILE_2}']
@@ -22,6 +23,7 @@ def create_simple_var(resource_dir):
 
 def create_other_simple_var(resource_dir):
     result = {}
+    result['table_type'] = 'variable_file'
     result['file_name'] = 'other_simple_variable_file.py'
     result['file_path'] = path.join(resource_dir, result['file_name'])
     result['variables'] = ['${VARIABLE_FILE_1}', '${VARIABLE_FILE_2}']
@@ -31,6 +33,7 @@ def create_other_simple_var(resource_dir):
 def create_simple_test(resource_dir):
     result = {}
     result['file_name'] = 'simple_test.robot'
+    result['table_type'] = 'suite'
     result['file_path'] = path.join(resource_dir, result['file_name'])
     result['libraries'] = [
         {'library_name': 'SeleniumLibrary',
@@ -54,6 +57,7 @@ def create_simple_test(resource_dir):
 def create_simple_resource(resource_dir):
     result = {}
     result['file_name'] = 'simple_resource.robot'
+    result['table_type'] = 'resource_file'
     result['file_path'] = path.join(resource_dir, result['file_name'])
     lib_path = path.abspath(path.join(resource_dir, '..', 'FooBar.py'))
     result['libraries'] = [

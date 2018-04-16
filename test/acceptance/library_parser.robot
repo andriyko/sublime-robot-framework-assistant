@@ -19,7 +19,7 @@ Parser Should Be Able To Parse External Library From Python Path
     ${result_keys} =    Get Dictionary Keys    ${result}
     Lists Should Be Equal
     ...    ${result_keys}
-    ...    ${SELENIUM2LIBRARY_KEYS_LIST}
+    ...    ${SELENIUMLIBRARY_KEYS_LIST}
     ${keywords} =    Get From Dictionary
     ...    ${result}
     ...    keywords
@@ -34,8 +34,9 @@ Parser Should Be Able To Parse External Library From Python Path
     ...    ${ADDCOOKIE_KEYS_LILST}
 
 Parser Should Be Able To Parse External Library From Module
-    ${result} =    Parse Library
+    ${lib_path} =    OperatingSystem.Normalize Path
     ...    ${CURDIR}${/}..${/}resource${/}test_data${/}suite_tree${/}LibNoClass.py
+    ${result} =    Parse Library    ${lib_path}
     Dictionaries Should Be Equal
     ...    ${result}
     ...    ${LIB_FROM_MODULE}
@@ -52,16 +53,19 @@ Parser Should Be Able To Parse Library With Robot API Keyword Decorator
     ...    ${lib_path}
 
 Parser Should Be Able To Parse External Library From Custom Location
-    ${result} =    Parse Library
+    ${lib_path} =    OperatingSystem.Normalize Path
     ...    ${CURDIR}${/}..${/}resource${/}library${/}MyLibrary.py
+    ${result} =    Parse Library    ${lib_path}
     Dictionaries Should Be Equal
     ...    ${result}
     ...    ${MYLIBRARY_KW}
 
 Parser Should Be Able To Parse External Library With Arguments From Custom Location
     @{args} =   Create List    arg111    arg222
-    ${result} =    Parse Library
+    ${lib_path} =    OperatingSystem.Normalize Path
     ...    ${CURDIR}${/}..${/}resource${/}library${/}OtherMyLibrary.py
+    ${result} =    Parse Library
+    ...    ${lib_path}
     ...    ${args}
     Dictionaries Should Be Equal
     ...    ${result}
@@ -75,10 +79,12 @@ Parser Should Be Able To Parse External Library From XML File
     ...    ${MYLIBRARY_XML}
 
 Parser Should Be Not Able To Parse Resource File From XML File
+    ${lib_path} =    OperatingSystem.Normalize Path
+    ...    ${CURDIR}${/}..${/}resource${/}library${/}simple_resource.xml
     Run Keyword And Expect Error
     ...    ValueError: XML file is not library: simple_resource
     ...    Parse Library
-    ...    ${CURDIR}${/}..${/}resource${/}library${/}simple_resource.xml
+    ...    ${lib_path}
 
 *** Keywords ***
 Simple Library Results Verifier

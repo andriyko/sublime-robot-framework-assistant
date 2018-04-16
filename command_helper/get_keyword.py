@@ -85,7 +85,9 @@ class GetKeyword(object):
         table_kw_object = data[DBJsonSetting.library_module]
         for table_kw_data in table_keywords:
             if kw_equals_kw_candite(keyword, table_kw_data):
-                if not object_name or object_name == table_kw_object:
+                if table_kw_object == object_name:
+                    return table_keywords[table_kw_data][DBJsonSetting.keyword_file]
+                elif not object_name:
                     return table_keywords[table_kw_data][DBJsonSetting.keyword_file]
 
     def get_regex_library(self, keyword):

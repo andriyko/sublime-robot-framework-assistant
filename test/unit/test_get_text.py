@@ -20,16 +20,16 @@ class TestCompletions(unittest.TestCase):
 
     def test_two_object_cursor_at_end(self):
         line = '{0}Run Keyword And Expect Error{1}no'.format(
-            '    BuiltIn.', '    Selenium2Library.')
+            '    BuiltIn.', '    SeleniumLibrary.')
         prefix = 'no'
         column = len(line)
         expected = get_object_from_line(line, prefix, column)
-        self.assertEqual(expected, 'Selenium2Library')
+        self.assertEqual(expected, 'SeleniumLibrary')
 
     def test_two_object_cursor_at_first(self):
         line = '{1}no{0}Run Keyword And Expect Error'.format(
-            '    BuiltIn.', '    Selenium2Library.')
+            '    BuiltIn.', '    SeleniumLibrary.')
         prefix = 'no'
-        column = 23
+        column = 22
         expected = get_object_from_line(line, prefix, column)
-        self.assertEqual(expected, 'Selenium2Library')
+        self.assertEqual(expected, 'SeleniumLibrary')

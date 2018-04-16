@@ -74,20 +74,17 @@ class TestScanner(unittest.TestCase):
         self.scanner.scan(
             self.real_suite,
             'robot',
-            self.db_dir
-        )
+            self.db_dir)
         self.assertEqual(len(self.scanner.queue.queue), 10)
         key = os.path.join(
             self.real_suite,
             'resource',
-            'reosurce2',
-            'real_suite_resource.robot'
-        )
+            'resource1',
+            'real_suite_resource.robot')
         key = os.path.normcase(key)
         self.assertEqual(
             self.scanner.queue.queue[key],
-            {'scanned': True, 'type': None, 'args': None}
-        )
+            {'scanned': True, 'type': None, 'args': None})
 
     def test_add_libraries_queue(self):
         libs = [{'library_name': u'OperatingSystem',
