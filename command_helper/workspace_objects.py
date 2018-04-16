@@ -1,10 +1,7 @@
 from os import listdir, path
-try:
-    from noralize_cell import get_data_from_json
-    from db_json_settings import DBJsonSetting
-except:
-    from ..command_helper.noralize_cell import get_data_from_json
-    from ..setting.db_json_settings import DBJsonSetting
+
+from .noralize_cell import get_data_from_json
+from dataparser import DBJsonSetting
 
 
 class WorkSpaceObjects(object):

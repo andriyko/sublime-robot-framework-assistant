@@ -1,16 +1,11 @@
 import re
 from os import path
 from sys import version_info
-try:
-    from get_documentation import GetKeywordDocumentation
-    from db_json_settings import DBJsonSetting
-    from noralize_cell import get_data_from_json
-    from utils.util import kw_equals_kw_candite
-except:
-    from .get_documentation import GetKeywordDocumentation
-    from ..setting.db_json_settings import DBJsonSetting
-    from ..command_helper.noralize_cell import get_data_from_json
-    from ..command_helper.utils.util import kw_equals_kw_candite
+
+from .get_documentation import GetKeywordDocumentation
+from .noralize_cell import get_data_from_json
+from .utils import kw_equals_kw_candite
+from dataparser import DBJsonSetting
 
 
 class GetKeyword(object):

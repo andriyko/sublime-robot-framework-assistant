@@ -1,14 +1,13 @@
-import sublime_plugin
-import sublime
 import subprocess
 from platform import system
 from os import path, makedirs
-from ..setting.setting import get_setting
-from ..setting.setting import SettingObject
-from ..dataparser.parser_utils.file_formatter import rf_table_name
-from ..dataparser.parser_utils.util import normalise_path
-from .scan_and_index import index_popen_arg_parser
-from .scan_and_index import add_builtin_vars
+
+import sublime_plugin
+import sublime
+
+from .scan_and_index import index_popen_arg_parser, add_builtin_vars
+from setting import get_setting, SettingObject
+from dataparser.parser_utils import rf_table_name, normalise_path
 
 
 class IndexOpenTabCommand(sublime_plugin.TextCommand):

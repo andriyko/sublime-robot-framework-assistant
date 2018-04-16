@@ -1,12 +1,9 @@
 import re
 import difflib
 from json import load as json_load
-try:
-    from db_json_settings import DBJsonSetting
-    from utils.get_text import get_prefix
-except:
-    from ..setting.db_json_settings import DBJsonSetting
-    from ..command_helper.utils.get_text import get_prefix
+
+from dataparser import DBJsonSetting
+from command_helper.utils import get_prefix
 
 
 def check_prefix(line, column, prefix):

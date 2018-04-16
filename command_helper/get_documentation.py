@@ -1,17 +1,10 @@
 import collections
 from os import path
-try:
-    from parser_utils.file_formatter import rf_table_name
-    from parser_utils.util import get_index_name, normalise_path
-    from noralize_cell import get_data_from_json
-    from db_json_settings import DBJsonSetting
-    from utils.util import kw_equals_kw_candite
-except:
-    from ..dataparser.parser_utils.file_formatter import rf_table_name
-    from ..dataparser.parser_utils.util import get_index_name, normalise_path
-    from ..command_helper.noralize_cell import get_data_from_json
-    from ..setting.db_json_settings import DBJsonSetting
-    from ..command_helper.utils.util import kw_equals_kw_candite
+
+from .noralize_cell import get_data_from_json
+from .utils import kw_equals_kw_candite
+from dataparser import DBJsonSetting
+from dataparser.parser_utils import rf_table_name, get_index_name, normalise_path
 
 
 class GetKeywordDocumentation(object):

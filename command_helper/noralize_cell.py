@@ -1,11 +1,8 @@
 import re
 import collections
-try:
-    from utils.util import get_data_from_json, kw_equals_kw_candite
-    from db_json_settings import DBJsonSetting
-except:
-    from .utils.util import get_data_from_json, kw_equals_kw_candite
-    from ..setting.db_json_settings import DBJsonSetting
+
+from .utils import get_data_from_json, kw_equals_kw_candite
+from dataparser import DBJsonSetting
 
 
 class ReturnKeywordAndObject(object):
