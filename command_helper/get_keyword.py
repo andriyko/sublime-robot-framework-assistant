@@ -2,9 +2,9 @@ import re
 from os import path
 from sys import version_info
 
-from .get_documentation import GetKeywordDocumentation
-from .noralize_cell import get_data_from_json
-from .utils import kw_equals_kw_candite
+from command_helper import GetKeywordDocumentation
+from command_helper.noralize_cell import get_data_from_json
+from command_helper.utils import kw_equals_kw_candite
 from dataparser import DBJsonSetting
 
 

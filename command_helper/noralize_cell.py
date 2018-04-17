@@ -1,7 +1,7 @@
 import re
 import collections
 
-from .utils import get_data_from_json, kw_equals_kw_candite
+from command_helper.utils import get_data_from_json, kw_equals_kw_candite
 from dataparser import DBJsonSetting
 
 

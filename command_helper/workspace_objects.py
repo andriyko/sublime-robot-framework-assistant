@@ -1,6 +1,6 @@
 from os import listdir, path
 
-from .noralize_cell import get_data_from_json
+from command_helper.noralize_cell import get_data_from_json
 from dataparser import DBJsonSetting
 
 

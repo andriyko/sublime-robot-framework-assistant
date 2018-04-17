@@ -1,7 +1,7 @@
 import os
 import re
 
-from .noralize_cell import get_data_from_json
+from command_helper.noralize_cell import get_data_from_json
 from dataparser.parser_utils import lib_table_name
 
 
