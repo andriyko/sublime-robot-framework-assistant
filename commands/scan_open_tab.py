@@ -5,7 +5,7 @@ from platform import system
 import sublime_plugin
 import sublime
 
-from setting import get_setting, SettingObject
+from ..setting import get_setting, SettingObject
 from .scan import scan_popen_arg_parser
 
 

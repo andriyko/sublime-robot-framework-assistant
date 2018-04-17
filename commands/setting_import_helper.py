@@ -4,10 +4,10 @@ from os import path
 import sublime_plugin
 import sublime
 
-from setting import get_setting, SettingObject
-from command_helper.utils import get_line
-from dataparser import DBJsonSetting
-from command_helper import WorkSpaceObjects
+from ..setting import get_setting, SettingObject
+from ..command_helper.utils import get_line
+from ..dataparser import DBJsonSetting
+from ..command_helper import WorkSpaceObjects
 
 
 class SettingImporter(sublime_plugin.TextCommand):

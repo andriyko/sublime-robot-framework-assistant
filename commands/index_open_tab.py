@@ -6,8 +6,8 @@ import sublime_plugin
 import sublime
 
 from .scan_and_index import index_popen_arg_parser, add_builtin_vars
-from setting import get_setting, SettingObject
-from dataparser.parser_utils import rf_table_name, normalise_path
+from ..setting import get_setting, SettingObject
+from ..dataparser.parser_utils import rf_table_name, normalise_path
 
 
 class IndexOpenTabCommand(sublime_plugin.TextCommand):

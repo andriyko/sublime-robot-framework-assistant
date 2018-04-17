@@ -1,12 +1,12 @@
 import sublime_plugin
 import sublime
 
-from setting import get_setting, SettingObject
+from ..setting import get_setting, SettingObject
 from .query_completions import get_index_file
-from command_helper.utils import get_line
-from command_helper import ReturnKeywordAndObject
-from command_helper import get_rf_table_separator
-from command_helper import GetKeywordDocumentation
+from ..command_helper.utils import get_line
+from ..command_helper import ReturnKeywordAndObject
+from ..command_helper import get_rf_table_separator
+from ..command_helper import GetKeywordDocumentation
 
 
 class ShowKeywordDocumentation(sublime_plugin.TextCommand):

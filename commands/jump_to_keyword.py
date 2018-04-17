@@ -3,13 +3,13 @@ import re
 import sublime_plugin
 import sublime
 
-from command_helper.get_keyword import GetKeyword
-from command_helper.get_metadata import get_rf_table_separator
-from command_helper.jump_to_file import JumpToFile
-from command_helper.noralize_cell import ReturnKeywordAndObject
-from command_helper.utils.get_text import get_line
-from setting.setting import get_setting
-from setting.setting import SettingObject
+from ..command_helper.get_keyword import GetKeyword
+from ..command_helper.get_metadata import get_rf_table_separator
+from ..command_helper.jump_to_file import JumpToFile
+from ..command_helper.noralize_cell import ReturnKeywordAndObject
+from ..command_helper.utils.get_text import get_line
+from ..setting.setting import get_setting
+from ..setting.setting import SettingObject
 from .query_completions import get_index_file
 
 

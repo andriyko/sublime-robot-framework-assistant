@@ -1,7 +1,7 @@
-import sublime_plugin
 import sublime
+import sublime_plugin
 
-from setting import get_setting, SettingObject
+from ..setting import get_setting, SettingObject
 
 
 class LogCommands(sublime_plugin.TextCommand):

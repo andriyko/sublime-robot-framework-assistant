@@ -5,7 +5,7 @@ from os import path, makedirs
 import sublime_plugin
 import sublime
 
-from setting import get_setting, SettingObject
+from ..setting import get_setting, SettingObject
 
 
 def scan_popen_arg_parser(mode):

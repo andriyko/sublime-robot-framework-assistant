@@ -1,7 +1,7 @@
 import sublime
 import sublime_plugin
 
-from setting.setting import get_log_file
+from ..setting import get_log_file
 
 
 class OpenLogFile(sublime_plugin.TextCommand):
