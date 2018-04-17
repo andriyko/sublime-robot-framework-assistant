@@ -1,10 +1,11 @@
+import subprocess
+from os import path, makedirs
+from platform import system
+
 import sublime_plugin
 import sublime
-import subprocess
-from platform import system
-from os import path, makedirs
-from ..setting.setting import get_setting
-from ..setting.setting import SettingObject
+
+from setting import get_setting, SettingObject
 from .scan import scan_popen_arg_parser
 
 

@@ -1,15 +1,14 @@
+from os import path
+
 import sublime_plugin
 import sublime
-from os import path
-from ..command_helper.completions import get_completion_list, check_prefix
-from ..setting.setting import get_setting
-from ..setting.setting import SettingObject
-from ..setting.db_json_settings import DBJsonSetting
-from ..dataparser.parser_utils.file_formatter import rf_table_name
-from ..dataparser.parser_utils.util import get_index_name, normalise_path
-from ..command_helper.utils.get_text import get_line
-from ..command_helper.utils.get_text import get_object_from_line
-from ..command_helper.get_metadata import get_rf_table_separator
+
+from command_helper.completions import get_completion_list, check_prefix
+from setting.setting import SettingObject, get_setting
+from dataparser import DBJsonSetting
+from dataparser.parser_utils import rf_table_name, get_index_name, normalise_path
+from command_helper.utils import get_line, get_object_from_line
+from command_helper import get_rf_table_separator
 
 SNIPPET_TRIGGER = [':f', '*', ':']
 

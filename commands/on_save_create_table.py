@@ -1,7 +1,8 @@
 import sublime_plugin
 import sublime
-from ..setting.setting import get_setting
-from ..setting.setting import SettingObject
+
+from setting.setting import get_setting
+from setting.setting import SettingObject
 
 
 class OnSaveCreateTable(sublime_plugin.EventListener):

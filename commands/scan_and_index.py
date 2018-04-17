@@ -1,13 +1,14 @@
-import sublime_plugin
-import sublime
+import json
 import subprocess
+from hashlib import md5
 from platform import system
 from os import path, makedirs
-from hashlib import md5
-import json
-from ..setting.setting import get_setting
-from ..setting.setting import SettingObject
-from ..setting.db_json_settings import DBJsonSetting
+
+import sublime_plugin
+import sublime
+
+from setting import get_setting, SettingObject
+from dataparser import DBJsonSetting
 
 
 def index_popen_arg_parser(mode):

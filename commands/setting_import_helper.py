@@ -1,12 +1,13 @@
-import sublime_plugin
-import sublime
 import re
 from os import path
-from ..setting.setting import get_setting
-from ..setting.setting import SettingObject
-from ..command_helper.utils.get_text import get_line
-from ..setting.db_json_settings import DBJsonSetting
-from ..command_helper.workspace_objects import WorkSpaceObjects
+
+import sublime_plugin
+import sublime
+
+from setting import get_setting, SettingObject
+from command_helper.utils import get_line
+from dataparser import DBJsonSetting
+from command_helper import WorkSpaceObjects
 
 
 class SettingImporter(sublime_plugin.TextCommand):
