@@ -1,7 +1,7 @@
 from os import listdir, path
 
-from command_helper.noralize_cell import get_data_from_json
-from dataparser import DBJsonSetting
+from RobotFrameworkAssistant.command_helper.noralize_cell import get_data_from_json
+from RobotFrameworkAssistant.dataparser import DBJsonSetting
 
 
 class WorkSpaceObjects(object):

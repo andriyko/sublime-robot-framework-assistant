@@ -1,8 +1,8 @@
 import os
 import re
 
-from command_helper.noralize_cell import get_data_from_json
-from dataparser.parser_utils import lib_table_name
+from RobotFrameworkAssistant.command_helper.noralize_cell import get_data_from_json
+from RobotFrameworkAssistant.dataparser.parser_utils import lib_table_name
 
 
 class JumpToFile(object):

@@ -1,4 +1,5 @@
 import logging
+import sys
 import xml.etree.ElementTree as ET
 from os import path
 from tempfile import mkdtemp
@@ -19,6 +20,8 @@ from dataparser.parser_utils.util import normalise_path
 logging.basicConfig(
     format='%(levelname)s:%(asctime)s: %(message)s',
     level=logging.DEBUG)
+
+PY2 = sys.version_info[0] < 3
 
 
 def strip_and_lower(text):
@@ -140,7 +143,7 @@ class DataParser():
         try:
             lib = self.libdoc.build(lib_with_args)
         except DataError:
-            raise ValueError('Library does not exist: {0}'
+            raise ValueError('Library does not exist: "{0}"'
                              .format(library))
         if library in STDLIBS:
             import_name = 'robot.libraries.' + library
@@ -204,10 +207,12 @@ class DataParser():
         if hasattr(libcode, kw_func):
             func = getattr(libcode, kw_func)
         else:
-            func = None
-            func_file = None
+            func_file, func = None, None
         if func:
-            return func.func_code.co_filename
+            if PY2:
+                return func.func_code.co_filename
+            else:
+                return func.__code__.co_filename
         return func_file
 
     def _format_keyword_to_method(self, keyword):

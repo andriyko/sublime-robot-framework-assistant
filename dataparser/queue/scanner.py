@@ -1,15 +1,17 @@
-import shutil
-import logging
 import json
+import logging
 import os
+import shutil
 import xml.etree.ElementTree as ET
+
 from robot.errors import DataError
-from finder import finder
-from dataparser.data_parser.data_parser import DataParser
-from queue import ParsingQueue
-from dataparser.parser_utils.file_formatter import rf_table_name, lib_table_name
-from dataparser.parser_utils.util import normalise_path
+
+from .finder import finder
+from .queue import ParsingQueue
+from dataparser.data_parser import DataParser
 from dataparser import DBJsonSetting
+from dataparser.parser_utils import (rf_table_name, lib_table_name,
+                                                             normalise_path)
 
 logging.basicConfig(
     format='%(levelname)s:%(asctime)s: %(message)s',
@@ -143,7 +145,7 @@ class Scanner(object):
 
     def add_var_files_queue(self, var_files):
         for var_file in var_files:
-            file_name = var_file.keys()[0]
+            file_name = list(var_file)[0]
             self.queue.add(
                 file_name,
                 'variable_file',

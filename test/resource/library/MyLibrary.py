@@ -1,11 +1,15 @@
-class MyLibrary():
+from robot.api import logger
+
+
+class MyLibrary(object):
 
     def keyword_1(self, arg1):
         """kw 1 doc
         Tags: tag1, tag2
         """
-        print arg1
+        logger.info(arg1)
 
     def keyword_2(self, arg2, arg3):
         """kw 2 doc"""
-        return arg2
+        logger.info(arg2)
+        logger.info(arg3)

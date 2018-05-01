@@ -2,8 +2,8 @@ import re
 import difflib
 from json import load as json_load
 
-from dataparser import DBJsonSetting
-from command_helper.utils import get_prefix
+from RobotFrameworkAssistant.dataparser import DBJsonSetting
+from RobotFrameworkAssistant.command_helper.utils import get_prefix
 
 
 def check_prefix(line, column, prefix):

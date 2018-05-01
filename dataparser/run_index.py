@@ -5,8 +5,8 @@ import multiprocessing
 from os import path, listdir, makedirs
 
 ROOT_DIR = path.dirname(path.abspath(__file__))
-SETTING_DIR = path.join(ROOT_DIR, '..', 'setting')
-sys.path.append(SETTING_DIR)
+RFA_DATAPARSER = path.join(ROOT_DIR, '..')
+sys.path.append(RFA_DATAPARSER)
 
 from index.index import index_a_table
 from index.index import Index

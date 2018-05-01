@@ -1,10 +1,12 @@
 import collections
 from os import path
 
-from command_helper.noralize_cell import get_data_from_json
-from command_helper.utils import kw_equals_kw_candite
-from dataparser import DBJsonSetting
-from dataparser.parser_utils import rf_table_name, get_index_name, normalise_path
+from RobotFrameworkAssistant.command_helper.noralize_cell import get_data_from_json
+from RobotFrameworkAssistant.command_helper.utils import kw_equals_kw_candite
+from RobotFrameworkAssistant.dataparser import DBJsonSetting
+from RobotFrameworkAssistant.dataparser.parser_utils import (rf_table_name,
+                                                             get_index_name,
+                                                             normalise_path)
 
 
 class GetKeywordDocumentation(object):

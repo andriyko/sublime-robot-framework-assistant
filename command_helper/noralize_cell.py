@@ -1,8 +1,9 @@
 import re
 import collections
 
-from command_helper.utils import get_data_from_json, kw_equals_kw_candite
-from dataparser import DBJsonSetting
+from RobotFrameworkAssistant.command_helper.utils import (get_data_from_json,
+                                                          kw_equals_kw_candite)
+from RobotFrameworkAssistant.dataparser import DBJsonSetting
 
 
 class ReturnKeywordAndObject(object):

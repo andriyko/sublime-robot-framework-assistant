@@ -1,5 +1,6 @@
 """
-Robot Framework from sublime is a autocompletion plugin for Sublime Text 3
+Robot Framework Assistant offers IDE features for editing Robot Framework test
+data in Sublime Text 3.
 """
 import sys
 import os

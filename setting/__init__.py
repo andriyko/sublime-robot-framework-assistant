@@ -1,1 +1,1 @@
-from .setting import get_setting, SettingObject
+from .setting import get_log_file, get_setting, SettingObject

@@ -45,6 +45,7 @@ class RobotCompletion(sublime_plugin.EventListener):
         # workspace = get_setting(SettingObject.workspace)
         open_tab = view.file_name()
         index_file = get_index_file(open_tab)
+        print(view, prefix, index_file)
         if index_file:
             return self.get_completions(view, prefix, index_file)
         else:

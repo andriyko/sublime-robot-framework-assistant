@@ -5,7 +5,7 @@ from os import path, makedirs
 import sublime_plugin
 import sublime
 
-from ..setting import get_setting, SettingObject
+from RobotFrameworkAssistant.setting import get_setting, SettingObject
 
 
 def scan_popen_arg_parser(mode):
@@ -49,6 +49,7 @@ class ScanCommand(sublime_plugin.TextCommand):
         p_args = scan_popen_arg_parser('all')
         p_args.append('--workspace')
         p_args.append(get_setting(SettingObject.workspace))
+        print(p_args)
         p = subprocess.Popen(
             p_args,
             stderr=subprocess.STDOUT,
