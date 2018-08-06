@@ -11,6 +11,8 @@ the Sublime Text 2 users. The documentation for Sublime Text 2 user
 can be found from st2-maintenance branch
 [README](https://github.com/andriyko/sublime-robot-framework-assistant/blob/st2-maintenance/README.md)
 
+This project is currently looking for a maintainer.
+
 # Installation
 The easiest way to install is to use
 [Package Control](https://packagecontrol.io/) and search for:
