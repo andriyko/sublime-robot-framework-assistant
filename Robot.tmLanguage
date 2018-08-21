@@ -28,7 +28,7 @@
 		</dict>
 		<dict>
 			<key>begin</key>
-			<string>((?&lt;!\\)([$&amp;]{)|(?&lt;=\\\\)([$&amp;]{))</string>
+			<string>((?&lt;!\\)|(?&lt;=\\\\))[$&amp;]{</string>
 			<key>comment</key>
 			<string>Robot Framework scalar and dictionary variables</string>
 			<key>end</key>
@@ -50,13 +50,13 @@
 			<key>comment</key>
 			<string>Robot Framework data tables</string>
 			<key>match</key>
-			<string>(?i)^(\*{1,3} ?)(settings?|variables?|keywords?|test cases?)( ?\*{1,3})?</string>
+			<string>(?i)^(\|\s*)?(\*{1,3} ?)(settings?|variables?|keywords?|test cases?)( ?\*{1,3})?(\s*\|)?</string>
 			<key>name</key>
 			<string>string.robot.header</string>
 		</dict>
 		<dict>
 			<key>begin</key>
-			<string>(?i)^\s*\[?Documentation\]?\s+</string>
+			<string>(?i)(^\|\s*)?\[?Documentation\]?\s+</string>
 			<key>comment</key>
 			<string>Test case, keyword and settings table documentation</string>
 			<key>end</key>
@@ -86,17 +86,17 @@
 			<key>comment</key>
 			<string>Settings table settings, like Library</string>
 			<key>match</key>
-			<string>(?i)^(Library|Resource|Test Timeout|Test Template|Test Teardown|Test Setup|Default Tags|Force Tags|Metadata|Variables|Suite Setup|Suite Teardown)(?:(  )|( \| ))</string>
+			<string>(?i)^(\|\s*)?(Library|Resource|Test Timeout|Test Template|Test Teardown|Test Setup|Default Tags|Force Tags|Metadata|Variables|Suite Setup|Suite Teardown)(?:(  )|( \| ))</string>
 			<key>name</key>
 			<string>constant.language</string>
 		</dict>
 		<dict>
 			<key>begin</key>
-			<string>^[^\.{3}]\S+</string>
+			<string>^(\|\s+)?(?!^\.{3})(?![\|$&amp;])\S+</string>
 			<key>comment</key>
 			<string>Keywords and test cases</string>
 			<key>end</key>
-			<string>$</string>
+			<string>($|\||\s{2,})</string>
 			<key>name</key>
 			<string>keyword.control.robot</string>
 		</dict>
