@@ -104,7 +104,7 @@
 			<key>comment</key>
 			<string>BDD keywords</string>
 			<key>match</key>
-			<string>^(?i)\s+(Given|When|and|but|Then)</string>
+			<string>(?i)^\s+(Given|When|and|but|Then)</string>
 			<key>name</key>
 			<string>string.robot.bdd</string>
 		</dict>	</array>
