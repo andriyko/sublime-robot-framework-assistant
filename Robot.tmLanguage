@@ -100,7 +100,14 @@
 			<key>name</key>
 			<string>keyword.control.robot</string>
 		</dict>
-	</array>
+		<dict>
+			<key>comment</key>
+			<string>BDD keywords</string>
+			<key>match</key>
+			<string>(?i)^\s+(Given|When|and|but|Then)</string>
+			<key>name</key>
+			<string>string.robot.bdd</string>
+		</dict>	</array>
 	<key>scopeName</key>
 	<string>source.robot</string>
 	<key>uuid</key>
