@@ -1,7 +1,8 @@
 <snippet>
         <content><![CDATA[
-:FOR${RF_CELL}\${${1:index}}${RF_CELL}\${${2:item}}${RF_CELL}IN ENUMERATE${RF_CELL}@{${3:list}}
-\\${RF_CELL}${4:Log Many}${RF_CELL}\${${1:index}}${RF_CELL}\${${2:item}}
+FOR${RF_CELL}\${${1:index}}${RF_CELL}\${${2:item}}${RF_CELL}IN ENUMERATE${RF_CELL}@{${3:list}}
+${RF_CELL}${4:Log Many}${RF_CELL}\${${1:index}}${RF_CELL}\${${2:item}}
+END
 ]]>
         </content>
         <!-- how to trigger the snippet -->

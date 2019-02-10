@@ -1,7 +1,8 @@
 <snippet>
         <content><![CDATA[
-:FOR${RF_CELL}\${${1:index}}${RF_CELL}IN RANGE${RF_CELL}\${${2:10}}
-\\${RF_CELL}${3:Log}${RF_CELL}\${${1:index}}
+FOR${RF_CELL}\${${1:index}}${RF_CELL}IN RANGE${RF_CELL}\${${2:10}}
+${RF_CELL}${3:Log}${RF_CELL}\${${1:index}}
+END
 ]]>
         </content>
         <!-- how to trigger the snippet -->
