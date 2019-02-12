@@ -8,8 +8,8 @@ ROOT_DIR = path.dirname(path.abspath(__file__))
 SETTING_DIR = path.join(ROOT_DIR, '..', 'setting')
 sys.path.append(SETTING_DIR)
 
-from .index.index import index_a_table
-from .index.index import Index
+from index.index import index_a_table
+from index.index import Index
 
 
 def index_all(db_path, index_path, module_search_path, libs_in_xml):

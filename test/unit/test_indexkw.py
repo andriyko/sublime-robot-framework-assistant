@@ -5,8 +5,8 @@ import shutil
 import json
 from time import sleep
 from collections import namedtuple
-from queue.scanner import Scanner
-from queue.scanner import rf_table_name, lib_table_name
+from data_queue.scanner import Scanner
+from data_queue.scanner import rf_table_name, lib_table_name
 from index.index import Index
 
 

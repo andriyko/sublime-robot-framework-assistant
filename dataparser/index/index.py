@@ -8,10 +8,10 @@ from json import dump as json_dump
 from collections import namedtuple
 from parser_utils.file_formatter import rf_table_name, lib_table_name
 from parser_utils.util import get_index_name
-from queue.queue import ParsingQueue
+from data_queue.queue import ParsingQueue
 from data_parser.data_parser import DataParser
 from db_json_settings import DBJsonSetting
-from queue.finder import finder
+from data_queue.finder import finder
 
 logging.basicConfig(
     format='%(levelname)s:%(asctime)s: %(message)s',

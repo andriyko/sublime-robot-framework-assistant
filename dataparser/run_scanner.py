@@ -6,7 +6,7 @@ ROOT_DIR = path.dirname(path.abspath(__file__))
 SETTING_DIR = path.join(ROOT_DIR, '..', 'setting')
 sys.path.append(SETTING_DIR)
 
-from .queue.scanner import Scanner
+from data_queue.scanner import Scanner
 
 
 def scan_all(workspace, extension, db_path,
