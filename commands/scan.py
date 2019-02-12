@@ -48,7 +48,6 @@ class ScanCommand(sublime_plugin.TextCommand):
         p_args = scan_popen_arg_parser('all')
         p_args.append('--workspace')
         p_args.append(get_setting(SettingObject.workspace))
-        print((" ".join(p_args)))
         p = subprocess.Popen(
             p_args,
             stderr=subprocess.STDOUT,

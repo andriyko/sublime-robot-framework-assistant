@@ -3,7 +3,7 @@ import re
 
 try:
     from parser_utils.file_formatter import lib_table_name
-    from .noralize_cell import get_data_from_json
+    from noralize_cell import get_data_from_json
 except ImportError:
     from ..dataparser.parser_utils.file_formatter import lib_table_name
     from .noralize_cell import get_data_from_json
