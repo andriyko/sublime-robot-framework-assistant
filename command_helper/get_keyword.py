@@ -2,10 +2,10 @@ import re
 from os import path
 from sys import version_info
 try:
-    from get_documentation import GetKeywordDocumentation
+    from .get_documentation import GetKeywordDocumentation
     from db_json_settings import DBJsonSetting
-    from noralize_cell import get_data_from_json
-    from utils.util import kw_equals_kw_candite
+    from .noralize_cell import get_data_from_json
+    from .utils.util import kw_equals_kw_candite
 except:
     from .get_documentation import GetKeywordDocumentation
     from ..setting.db_json_settings import DBJsonSetting
@@ -164,5 +164,5 @@ class GetKeyword(object):
         if version_info.major > 2:
             status = isinstance(str_, str)
         else:
-            status = isinstance(str_, basestring)
+            status = isinstance(str_, str)
         return status

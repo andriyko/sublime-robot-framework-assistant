@@ -90,11 +90,11 @@ class TestScanner(unittest.TestCase):
         )
 
     def test_add_libraries_queue(self):
-        libs = [{'library_name': u'OperatingSystem',
+        libs = [{'library_name': 'OperatingSystem',
                  'library_alias': None,
                  'library_arguments': None,
                  'library_path': None},
-                {'library_name': u'Process',
+                {'library_name': 'Process',
                  'library_alias': None,
                  'library_arguments': None,
                  'library_path': None}]

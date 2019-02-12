@@ -8,4 +8,4 @@ class LibraryNameWhichIsLongerThan100CharactersButItSeemsThatItRequiresQuiteAlot
     @keyword(name='Keyword Which Also Has Really Long Name But Not As Long The Class Name By ${argument} In Keyword')
     def function(self, argument):
         """Documentation is here"""
-        print argument
+        print(argument)

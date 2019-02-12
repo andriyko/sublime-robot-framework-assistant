@@ -175,7 +175,7 @@ class Index(object):
             result += self.get_library_imports(data)
         if DBJsonSetting.variable_files in data:
             for var in data[DBJsonSetting.variable_files]:
-                result.append(rf_table_name(var.keys()[0]))
+                result.append(rf_table_name(list(var.keys())[0]))
         if DBJsonSetting.resources in data:
             for resource in data[DBJsonSetting.resources]:
                 result.append(rf_table_name(resource))
@@ -221,7 +221,7 @@ class Index(object):
         arg_list = []
         if DBJsonSetting.keywords in data:
             kws = data[DBJsonSetting.keywords]
-            for kw in kws.iterkeys():
+            for kw in kws.keys():
                 kw_list.append(kws[kw][DBJsonSetting.keyword_name])
                 kw_args = self.get_kw_arguments(
                     kws[kw][DBJsonSetting.keyword_arguments])

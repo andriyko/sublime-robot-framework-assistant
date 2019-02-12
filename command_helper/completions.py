@@ -3,7 +3,7 @@ import difflib
 from json import load as json_load
 try:
     from db_json_settings import DBJsonSetting
-    from utils.get_text import get_prefix
+    from .utils.get_text import get_prefix
 except:
     from ..setting.db_json_settings import DBJsonSetting
     from ..command_helper.utils.get_text import get_prefix

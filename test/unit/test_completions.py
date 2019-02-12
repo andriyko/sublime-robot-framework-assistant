@@ -141,7 +141,7 @@ class TestCompletions(unittest.TestCase):
         kw_tuple = get_kw_completion_list(self.test_a_index, prefix,
                                           RF_CELL, object_name, False)
         for completion in kw_tuple:
-            self.assertRegexpMatches(completion[0], object_name)
+            self.assertRegex(completion[0], object_name)
 
     def test_kw_create_completion_item(self):
         # kw with args

@@ -3,7 +3,7 @@ import env
 import shutil
 import platform
 from os import path, mkdir
-from index_runner import index_all
+from .index_runner import index_all
 from queue.scanner import Scanner
 from get_keyword import GetKeyword
 

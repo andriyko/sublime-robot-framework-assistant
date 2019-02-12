@@ -2,7 +2,7 @@ import os
 import shutil
 import unittest
 
-from index_runner import index_all
+from .index_runner import index_all
 from jump_to_file import JumpToFile
 from queue.scanner import Scanner
 import env

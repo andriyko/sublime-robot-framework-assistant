@@ -2,7 +2,7 @@ import unittest
 import env
 import shutil
 from os import path, mkdir
-from index_runner import index_all
+from .index_runner import index_all
 from queue.scanner import Scanner
 from parser_utils.file_formatter import rf_table_name
 from get_keyword import GetKeyword

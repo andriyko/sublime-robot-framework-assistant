@@ -4,9 +4,9 @@ import json
 import os
 import xml.etree.ElementTree as ET
 from robot.errors import DataError
-from finder import finder
+from .finder import finder
 from data_parser.data_parser import DataParser
-from queue import ParsingQueue
+from .queue import ParsingQueue
 from parser_utils.file_formatter import rf_table_name, lib_table_name
 from parser_utils.util import normalise_path
 from db_json_settings import DBJsonSetting
@@ -146,7 +146,7 @@ class Scanner(object):
 
     def add_var_files_queue(self, var_files):
         for var_file in var_files:
-            file_name = var_file.keys()[0]
+            file_name = list(var_file.keys())[0]
             self.queue.add(
                 file_name,
                 'variable_file',

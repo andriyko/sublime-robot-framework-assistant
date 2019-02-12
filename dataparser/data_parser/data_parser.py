@@ -192,7 +192,7 @@ class DataParser():
 
     def get_class_that_defined_method(self, meth):
         try:
-            class_mro = inspect.getmro(meth.im_class)
+            class_mro = inspect.getmro(meth.__self__.__class__)
         except AttributeError:
             return None
         for cls in class_mro:
@@ -236,7 +236,7 @@ class DataParser():
 
     def _parse_xml_doc(self, library):
         root = ET.parse(library).getroot()
-        if ('type', DBJsonSetting.library) in root.items():
+        if ('type', DBJsonSetting.library) in list(root.items()):
             return root.attrib['name'], self._parse_xml_lib(root)
         else:
             raise ValueError('XML file is not library: {0}'.format(
@@ -323,8 +323,8 @@ class DataParser():
             c_dir = path.dirname(self.file_path)
             resource_path = normalise_path(path.join(c_dir, setting.name))
             if not path.isfile(resource_path):
-                print ('Import failure on file: {0},'.format(file_path),
-                       'could not locate: {0}'.format(setting.name))
+                print(('Import failure on file: {0},'.format(file_path),
+                       'could not locate: {0}'.format(setting.name)))
             return resource_path
 
     def _format_variable_file(self, setting):

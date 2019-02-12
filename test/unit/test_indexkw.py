@@ -57,7 +57,7 @@ class TestIndexing(unittest.TestCase):
         data, status = self.index.read_table(
             os.path.join(env.RESOURCES_DIR, t_name))
         var, kw_index = self.index.parse_table_data(data, t_name)
-        self.assertTrue(u'${/}' in var)
+        self.assertTrue('${/}' in var)
         self.assertTrue('${OUTPUT_FILE}' in var)
         self.assertTrue('@{TEST_TAGS}' in var)
 
@@ -169,10 +169,10 @@ class TestIndexing(unittest.TestCase):
         kw_list.extend(self.get_LibNoClass_kw_index(KeywordRecord)[0])
         kw_list.extend(self.get_LongName_kw_index(KeywordRecord)[0])
         var_list = [
-            u'${TEST_A}',
-            u'${RESOURCE_A}',
-            u'${COMMON_VARIABLE_1}',
-            u'${COMMON_VARIABLE_2}'
+            '${TEST_A}',
+            '${RESOURCE_A}',
+            '${COMMON_VARIABLE_1}',
+            '${COMMON_VARIABLE_2}'
         ]
         t_index = {
             'keywords': kw_list,
@@ -201,10 +201,10 @@ class TestIndexing(unittest.TestCase):
         kw_list.extend(self.get_LongName_kw_index(KeywordRecord)[0])
         kw_list.extend(self.get_OtherNameLib_kw_index(KeywordRecord)[0])
         var_list = [
-            u'${TEST_B}',
-            u'${RESOURCE_B}',
-            u'${COMMON_VARIABLE_1}',
-            u'${COMMON_VARIABLE_2}'
+            '${TEST_B}',
+            '${RESOURCE_B}',
+            '${COMMON_VARIABLE_1}',
+            '${COMMON_VARIABLE_2}'
         ]
         t_index = {
             'keywords': kw_list,
@@ -234,23 +234,23 @@ class TestIndexing(unittest.TestCase):
         )
 
     def test_get_kw_arguments(self):
-        kw_args = [u'item', u'msg=None']
+        kw_args = ['item', 'msg=None']
         result = self.index.get_kw_arguments(kw_args)
-        expected = [u'item', u'msg']
+        expected = ['item', 'msg']
         self.assertEqual(result, expected)
-        kw_args = [u'name', u'*args']
+        kw_args = ['name', '*args']
         result = self.index.get_kw_arguments(kw_args)
         self.assertEqual(result, kw_args)
         kw_args = []
         result = self.index.get_kw_arguments(kw_args)
         self.assertEqual(result, kw_args)
-        kw_args = [u'object=None', u'*args', u'**kwargs']
+        kw_args = ['object=None', '*args', '**kwargs']
         result = self.index.get_kw_arguments(kw_args)
-        expected = [u'object', u'*args', u'**kwargs']
+        expected = ['object', '*args', '**kwargs']
         self.assertEqual(result, expected)
-        kw_args = [u'${kwa1}', '@{list}', '&{kwargs}']
+        kw_args = ['${kwa1}', '@{list}', '&{kwargs}']
         result = self.index.get_kw_arguments(kw_args)
-        expected = [u'kwa1', '*list', '**kwargs']
+        expected = ['kwa1', '*list', '**kwargs']
         self.assertEqual(result, expected)
         kw_args = ['${arg1}=${True}', '${arg2}=Text_here', '${arg3}=${False}']
         result = self.index.get_kw_arguments(kw_args)
@@ -627,10 +627,10 @@ class TestIndexing(unittest.TestCase):
         return l, kw_list, arg_list, object_name, table_name
 
     def get_test_a_kw_index(self, keywordrecord):
-        kw_list = [u'Test A Keyword', u'Keyword']
+        kw_list = ['Test A Keyword', 'Keyword']
         arg_list = [None, None]
         table_name = self.test_a_table_name
-        object_name = u'test_a.robot'
+        object_name = 'test_a.robot'
         l = []
         for kw, arg in zip(kw_list, arg_list):
             l.append(
@@ -647,15 +647,15 @@ class TestIndexing(unittest.TestCase):
     def get_test_b_kw_index(self, keywordrecord):
         kw_list = []
         table_name = self.test_b_table_name
-        object_name = u'test_a.robot'
+        object_name = 'test_a.robot'
         l = []
         return l, kw_list, [None], object_name, table_name
 
     def get_resource_a_kw_index(self, keywordrecord):
-        kw_list = [u'Resource A Keyword 1', u'resource A Keyword 2']
+        kw_list = ['Resource A Keyword 1', 'resource A Keyword 2']
         arg_list = ['kwa1', None]
         table_name = self.resource_a_table_name
-        object_name = u'resource_a.robot'
+        object_name = 'resource_a.robot'
         l = []
         for kw, arg in zip(kw_list, arg_list):
             l.append(
@@ -671,13 +671,13 @@ class TestIndexing(unittest.TestCase):
 
     def get_resource_b_kw_index(self, keywordrecord):
         kw_list = [
-            u'Resource B Keyword 1',
-            u'resource B Keyword 2',
-            u'Embedding ${arg} To Keyword Name',
-            u'Resource B Keyword 3 Many Args']
+            'Resource B Keyword 1',
+            'resource B Keyword 2',
+            'Embedding ${arg} To Keyword Name',
+            'Resource B Keyword 3 Many Args']
         arg_list = ['kwb1', None, 'arg', ['arg1', 'arg2', 'arg3']]
         table_name = self.resource_b_table_name
-        object_name = u'resource_b.robot'
+        object_name = 'resource_b.robot'
         l = []
         for kw, arg in zip(kw_list, arg_list):
             l.append(
@@ -693,12 +693,12 @@ class TestIndexing(unittest.TestCase):
 
     def get_common_kw_index(self, keywordrecord):
         kw_list = [
-            u'Common Keyword 2',
-            u'common Keyword 1',
-            u'Really Long Keyword To Test With Jumping To Keyword Does Not Scroll The Visible Area To A Wrong Place Should There Be More Words'
+            'Common Keyword 2',
+            'common Keyword 1',
+            'Really Long Keyword To Test With Jumping To Keyword Does Not Scroll The Visible Area To A Wrong Place Should There Be More Words'
         ]
         table_name = self.common_table_name
-        object_name = u'common.robot'
+        object_name = 'common.robot'
         l = []
         for kw in kw_list:
             l.append(
@@ -715,7 +715,7 @@ class TestIndexing(unittest.TestCase):
     def get_kw_args(self, data):
         arg_list = []
         kws = data["keywords"]
-        for i in kws.iterkeys():
+        for i in kws.keys():
             args = kws[i]['keyword_arguments']
             for arg in args:
                 if '=' in arg:
