@@ -5,7 +5,7 @@ import shutil
 import hashlib
 from time import sleep
 import json
-from data_queue.scanner import Scanner
+from queue.scanner import Scanner
 
 
 class TestScanner(unittest.TestCase):
