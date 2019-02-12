@@ -1,5 +1,5 @@
 <snippet>
-        <content><![CDATA[Variables         ]]></content>
+        <content><![CDATA[${1:\$}{${2:Variables}}         ]]></content>
         <!-- how to trigger the snippet -->
         <tabTrigger>*s</tabTrigger>
         <!-- scope to limit where the snippet will trigger -->

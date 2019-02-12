@@ -1,7 +1,8 @@
 <snippet>
         <content><![CDATA[
-:FOR${RF_CELL}\${${1:number}}${RF_CELL}\${${2:name}}${RF_CELL}IN ZIP${RF_CELL}\${${3:numbers}}${RF_CELL}\${${4:names}}
-\\${RF_CELL}${5:Log Many}${RF_CELL}\${${1:number}}${RF_CELL}\${${2:name}}
+FOR${RF_CELL}\${${1:number}}${RF_CELL}\${${2:name}}${RF_CELL}IN ZIP${RF_CELL}\${${3:numbers}}${RF_CELL}\${${4:names}}
+${RF_CELL}${5:Log Many}${RF_CELL}\${${1:number}}${RF_CELL}\${${2:name}}
+END
 ]]>
         </content>
         <!-- how to trigger the snippet -->
