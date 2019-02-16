@@ -2,7 +2,7 @@ import shutil
 import multiprocessing
 from os import path, listdir, makedirs
 
-from dataparser.index.index import index_a_table
+from dataparser.index import index_a_table
 
 
 def index_all(db_path, index_path):

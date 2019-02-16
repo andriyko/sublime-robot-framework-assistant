@@ -14,7 +14,6 @@ def run_process(p_args):
         stdout=log_file
     )
     p.wait()
-    log_file.name
     log_file.close()
     return log_file.name
 

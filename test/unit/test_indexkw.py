@@ -715,7 +715,7 @@ class TestIndexing(unittest.TestCase):
     def get_kw_args(self, data):
         arg_list = []
         kws = data["keywords"]
-        for i in kws.iterkeys():
+        for i in kws:
             args = kws[i]['keyword_arguments']
             for arg in args:
                 if '=' in arg:

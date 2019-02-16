@@ -5,7 +5,7 @@ from os import path, mkdir
 
 import env
 from index_runner import index_all
-from queue.scanner import Scanner
+from dataparser.queue.scanner import Scanner
 from get_keyword import GetKeyword
 
 

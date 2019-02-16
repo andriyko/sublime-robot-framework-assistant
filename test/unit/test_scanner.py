@@ -1,11 +1,15 @@
-import unittest
-import env
+import hashlib
+import json
 import os
 import shutil
-import hashlib
+import sys
+import unittest
 from time import sleep
-import json
-from queue.scanner import Scanner
+
+import env
+from dataparser.queue.scanner import Scanner
+
+PY2 = sys.version_info[0] < 3
 
 
 class TestScanner(unittest.TestCase):
@@ -253,9 +257,14 @@ class TestScanner(unittest.TestCase):
             'robot',
             self.db_dir)
         files = os.listdir(self.db_dir)
-        builtin = '{0}-{1}.json'.format(
-            'BuiltIn',
-            hashlib.md5('BuiltIn').hexdigest())
+        if PY2:
+            builtin = '{0}-{1}.json'.format(
+                'BuiltIn',
+                hashlib.md5('BuiltIn').hexdigest())
+        else:
+            builtin = '{0}-{1}.json'.format(
+                'BuiltIn',
+                hashlib.md5('BuiltIn'.encode('utf-18')).hexdigest())
         self.assertTrue(builtin in files)
         operatingsystem = '{0}-{1}.json'.format(
             'OperatingSystem',
@@ -331,8 +340,12 @@ class TestScanner(unittest.TestCase):
         self.scanner.queue.add('resource.robot', 'resource', [])
 
     def f_name(self, data, db_dir):
+        if PY2:
+            md5_hex = hashlib.md5(data['file_path']).hexdigest()
+        else:
+            file_path = data['file_path']
+            md5_hex = hashlib.md5(file_path.encode('utf-16')).hexdigest()
         file_name = '{realname}-{md5}.json'.format(
             realname=os.path.basename(data['file_path']),
-            md5=hashlib.md5(data['file_path']).hexdigest()
-        )
+            md5=md5_hex)
         return os.path.join(db_dir, file_name)
